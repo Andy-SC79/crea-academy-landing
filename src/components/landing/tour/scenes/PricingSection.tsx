@@ -283,7 +283,7 @@ const PricingSection = () => {
                           asChild
                           size="lg"
                           variant="default"
-                          className="w-full rounded-full px-6 font-display text-sm font-semibold tracking-[0.01em] shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-brand-black hover:bg-brand-neon/90"
+                          className="w-full rounded-full px-6 font-display text-[0.95rem] font-extrabold tracking-[0.01em] shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-black hover:bg-brand-neon/90"
                         >
                           <a href={tier.ctaHref}>
                             {tier.ctaLabel}
