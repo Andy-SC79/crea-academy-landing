@@ -12,8 +12,8 @@ export default function TrustBand() {
   // For the logos, we want them to look sleek, so we'll use grayscale + opacity, and restore color on hover.
   const logos = [
     { src: resolvedTheme === "dark" ? i365LogoWhite : i365LogoBlack, alt: "Ingeniería 365", className: "h-6 md:h-8 w-auto" },
-    { src: cesdeLogo, alt: "CESDE", className: "h-7 md:h-10 w-auto" },
-    { src: comfamaLogo, alt: "Comfama", className: "h-6 md:h-8 w-auto" },
+    { src: cesdeLogo, alt: "CESDE", className: "h-7 md:h-10 w-auto dark:brightness-0 dark:invert brightness-0" },
+    { src: comfamaLogo, alt: "Comfama", className: "h-6 md:h-8 w-auto dark:brightness-0 dark:invert brightness-0" },
   ];
 
   return (
@@ -23,7 +23,7 @@ export default function TrustBand() {
           Respaldado por pioneros de la industria
         </p>
         
-        <div className="flex w-full flex-wrap items-center justify-center gap-8 md:gap-16 lg:gap-24 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
+        <div className="flex w-full flex-wrap items-center justify-center gap-8 md:gap-16 lg:gap-24 opacity-60 transition-all duration-500 hover:opacity-100">
           {logos.map((logo, i) => (
             <img 
               key={i} 
