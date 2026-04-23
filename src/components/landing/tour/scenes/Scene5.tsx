@@ -74,7 +74,7 @@ export default function Scene5(_: SceneComponentProps) {
                   {t("tour.scene5.card.dashboard_title")}
                 </h3>
               </div>
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-neon/20 bg-brand-neon/10 px-4 py-2 text-xs font-display font-bold text-brand-neon md:text-sm">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-display font-extrabold text-slate-900 shadow-sm backdrop-blur-md md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
                 <Users className="h-4 w-4" />
                 {t("tour.scene5.card.global_retention")}
               </div>
@@ -85,7 +85,7 @@ export default function Scene5(_: SceneComponentProps) {
                 <p className="text-3xl font-display font-black text-brand-neon drop-shadow-[0_0_15px_rgba(4,255,141,0.5)]">
                   {t("tour.scene5.card.retention_value")}
                 </p>
-                <p className="mt-1 text-xs uppercase tracking-widest text-brand-neon/80 flex items-center gap-1">
+                <p className="mt-1 text-xs font-extrabold uppercase tracking-widest text-slate-600 dark:text-brand-neon/80 flex items-center gap-1">
                   <TrendingUp className="h-3 w-3" /> Impacto Organizacional
                 </p>
               </div>

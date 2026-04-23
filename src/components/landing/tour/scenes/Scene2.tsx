@@ -124,7 +124,7 @@ export default function Scene2(_: SceneComponentProps) {
       <div className="relative z-10 order-2 my-8 flex w-full min-w-0 flex-col justify-center lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:my-0">
         <div className={TOUR_FRAME_CLASS}>
           <div className={cn(TOUR_SURFACE_CLASS, "flex h-[clamp(20rem,48svh,38rem)] w-full min-w-0 flex-col p-5 md:p-6 xl:h-[clamp(22rem,52svh,40rem)] xl:p-7")}>
-            <p className="mb-4 text-xs font-display uppercase tracking-[0.18em] text-slate-500 dark:text-white/50">
+            <p className="mb-4 text-xs font-display font-extrabold uppercase tracking-[0.18em] text-slate-500 dark:text-white/50">
               Simulacion
             </p>
 
