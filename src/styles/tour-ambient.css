@@ -1,0 +1,89 @@
+:root {
+  --tour-bg-start: #f8fafc;
+  --tour-bg-mid: #eef4fb;
+  --tour-bg-end: #f8fafc;
+  --tour-glow-neon: rgba(4, 255, 141, 0.1);
+  --tour-glow-cyan: rgba(0, 229, 255, 0.09);
+  --tour-glow-purple: rgba(157, 0, 255, 0.075);
+  --tour-vignette: rgba(255, 255, 255, 0.42);
+  --tour-header-bg: rgba(248, 250, 252, 0.72);
+  --tour-header-border: rgba(15, 23, 42, 0.06);
+}
+
+.dark {
+  --tour-bg-start: #02050d;
+  --tour-bg-mid: #050816;
+  --tour-bg-end: #02050d;
+  --tour-glow-neon: rgba(4, 255, 141, 0.14);
+  --tour-glow-cyan: rgba(0, 229, 255, 0.12);
+  --tour-glow-purple: rgba(157, 0, 255, 0.11);
+  --tour-vignette: rgba(0, 0, 0, 0.34);
+  --tour-header-bg: rgba(2, 5, 13, 0.62);
+  --tour-header-border: rgba(255, 255, 255, 0.08);
+}
+
+.tour-ambient-shell {
+  background-color: var(--tour-bg-start);
+}
+
+.tour-ambient-base {
+  background:
+    radial-gradient(circle at 16% 18%, var(--tour-glow-neon) 0%, transparent 34%),
+    radial-gradient(circle at 82% 14%, var(--tour-glow-cyan) 0%, transparent 30%),
+    radial-gradient(circle at 50% 78%, var(--tour-glow-purple) 0%, transparent 38%),
+    linear-gradient(180deg, var(--tour-bg-start) 0%, var(--tour-bg-mid) 48%, var(--tour-bg-end) 100%);
+}
+
+.tour-ambient-glow {
+  filter: blur(24px);
+  opacity: 0.85;
+}
+
+.tour-ambient-glow.neon {
+  background: radial-gradient(circle at center, var(--tour-glow-neon) 0%, transparent 68%);
+}
+
+.tour-ambient-glow.cyan {
+  background: radial-gradient(circle at center, var(--tour-glow-cyan) 0%, transparent 68%);
+}
+
+.tour-ambient-glow.purple {
+  background: radial-gradient(circle at center, var(--tour-glow-purple) 0%, transparent 68%);
+}
+
+.tour-ambient-vignette {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 18%, transparent 82%, var(--tour-vignette) 100%);
+}
+
+.dark .tour-ambient-vignette {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 18%, transparent 82%, var(--tour-vignette) 100%);
+}
+
+.tour-ambient-shell nav.safe-area-pt {
+  background: var(--tour-header-bg) !important;
+  border-color: var(--tour-header-border) !important;
+  backdrop-filter: blur(22px);
+}
+
+.tour-section-blend {
+  position: relative;
+  background: transparent;
+}
+
+.tour-section-blend::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.06) 100%);
+  mix-blend-mode: soft-light;
+  opacity: 0.48;
+}
+
+.dark .tour-section-blend::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, transparent 18%, transparent 82%, rgba(0, 0, 0, 0.16) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.42;
+}

@@ -1,0 +1,580 @@
+{
+  "hero": {
+    "title": "El futuro de la educación en IA",
+    "subtitle": "Plataforma de certificación con mentor IA personalizado",
+    "badge": "Acceso Anticipado — Cupos Limitados",
+    "typewriterLine1": "Deja de Aprender en ",
+    "typewriterStrikethrough": "Plataformas Muertas",
+    "typewriterLine2": "Aprende en una Plataforma Viva",
+    "descriptionPart1": "Deja de estudiar con cursos estáticos que ya quedaron viejos. Entra a una plataforma que se adapta a ti, te guía paso a paso",
+    "descriptionBold": "y se actualiza sola",
+    "descriptionPart2": ". Mientras otros repiten contenido del pasado, tú aprendes con lo último del momento.",
+    "cta": "Asegurar mi Acceso",
+    "freeRegistration": "Registro gratuito — Sin tarjeta de crédito"
+  },
+  "heroWithChat": {
+    "futureOf": "El futuro de la",
+    "isNow": "es ahora",
+    "description": "Aprende IA, Data Science y desarrollo de software con mentorías exclusivas, certificación internacional y bootcamps intensivos que transforman tu carrera. 🚀✨",
+    "viewBootcamps": "Ver Bootcamps",
+    "viewCourses": "Ver Cursos",
+    "students": "+5,000 estudiantes",
+    "certificationBadge": "Certificación I365"
+  },
+  "howItWorks": {
+    "title": "¿Cómo funciona?",
+    "certification": "certificación",
+    "subtitle": "Cuatro simples pasos para transformar tu carrera profesional",
+    "step1Title": "Regístrate y valida tu identidad",
+    "step1Desc": "Crea tu cuenta con Google y completa el proceso de validación de identidad según tu país.",
+    "step2Title": "Selecciona y paga tu curso",
+    "step2Desc": "Elige el curso que deseas tomar, aplica descuentos si los tienes y realiza el pago de forma segura.",
+    "step3Title": "Aprende y participa",
+    "step3Desc": "Accede al contenido, asiste a mentorías mensuales y consulta el notebook de Q&A exclusivo.",
+    "step4Title": "Certifícate",
+    "step4Desc": "Completa el examen de validación y obtén tu certificado avalado por I365.",
+    "startNow": "Comenzar Ahora"
+  },
+  "socialProof": {
+    "hallOfFame": "Salón de la Fama",
+    "firstToJoin": "Los primeros en unirse",
+    "upcomingTopics": "Próximos Temas",
+    "personsCount": "+{{count}} personas",
+    "securedSpot": "ya aseguraron su lugar en la lista de espera",
+    "youVote": "Tú votas, nosotros lo enseñamos",
+    "challenge1": "Cómo usar la IA para ahorrar tiempo en tu día a día",
+    "challenge1Tag": "Productividad",
+    "challenge2": "Crear tu propia página web sin saber programar",
+    "challenge2Tag": "Emprendimiento",
+    "challenge3": "Hacer que la IA escriba tus correos y reportes",
+    "challenge3Tag": "Trabajo + IA"
+  },
+  "waitlist": {
+    "title": "Únete a la Lista de Espera",
+    "namePlaceholder": "Tu Nombre Completo",
+    "emailPlaceholder": "tu@email.com",
+    "nameRequired": "El nombre es requerido",
+    "validEmail": "Ingresa un correo válido",
+    "labels": {
+      "start": "Inicio",
+      "modality": "Modalidad",
+      "certification": "Certificación",
+      "level": "Nivel"
+    },
+    "privacyPolicy": "Al registrarte aceptas nuestra política de privacidad",
+    "joinNow": "Unirme a la Lista de Espera",
+    "registering": "Registrando...",
+    "dataSecure": "🔒 Tus datos están 100% seguros.",
+    "domainTitle": "Domina la Tecnología con",
+    "brand": "Crea by i365",
+    "domainDescription": "Domina la Inteligencia Artificial y el Desarrollo de Software. Adapta tu perfil profesional a la nueva era y aumenta tu productividad.",
+    "startValue": "Próximamente",
+    "modalityValue": "100% Online",
+    "levelValue": "De 0 a Experto",
+    "policyAccept": "Acepto las",
+    "policyLink": "políticas de privacidad y tratamiento de datos",
+    "discountBanner": "Únete ahora para asegurar un {{percentage}}% de descuento",
+    "toasts": {
+      "success": "¡Te has registrado exitosamente!",
+      "error": "Error al registrar",
+      "alreadyRegistered": "Ya estás registrado",
+      "emailSent": "Correo de confirmación enviado",
+      "emailError": "Error al enviar correo",
+      "networkError": "Error de conexión",
+      "rateLimited": "Demasiados intentos. Por favor intenta más tarde.",
+      "unexpected": "Ocurrió un error inesperado.",
+      "linkSent": "¡Enlace enviado! Revisa tu correo para confirmar tu lugar.",
+      "policyRequired": "Debes aceptar las políticas de privacidad para continuar.",
+      "alreadyOnList": "¡Ya estás en la lista! No es necesario registrarte de nuevo."
+    }
+  },
+  "leadMagnet": {
+    "title": "Acceso Anticipado",
+    "onTheList": "en la lista",
+    "spotsAvailable": "Cupos disponibles",
+    "confirmationSent": "Enviamos un enlace de confirmación",
+    "priorityAccess": "Acceso Prioritario",
+    "secureYour": "Asegura tu",
+    "earlyAccessHighlight": "Acceso Anticipado",
+    "firstNDescription": "Los primeros {{cap}} inscritos reciben beneficios exclusivos irrepetibles. Una vez dentro, tu experiencia mejora con cada paso que das.",
+    "incentive1": "500 usos gratuitos de la IA al lanzamiento",
+    "incentive2": "Insignia exclusiva de Pionero",
+    "incentive3": "Acceso anticipado a experiencias exclusivas",
+    "dataProtected": "Tus datos están 100% protegidos y seguros",
+    "secureCta": "Asegurar mi Acceso",
+    "registering": "Registrando...",
+    "noSpam": "🔒 Sin spam. Solo notificaciones de lanzamiento y beneficios.",
+    "welcomeBack": "¡Hola de nuevo, {{name}}!",
+    "welcomeNew": "¡Bienvenido/a, {{name}}! 🎉",
+    "alreadyOnListMsg": "Ya estás en la lista de espera. ¡Tu lugar está asegurado!",
+    "checkEmailMsg": "Revisa tu correo para confirmar tu lugar. Ya eres parte del futuro.",
+    "benefitsUnlocked": "Beneficios desbloqueados",
+    "benefit1": "500 usos gratuitos de IA",
+    "benefit2": "Insignia de Pionero",
+    "benefit3": "Acceso Anticipado",
+    "confirmationSentEmail": "Enviamos un enlace de confirmación a tu correo",
+    "policyAccept": "Acepto el",
+    "privacyNotice": "aviso de privacidad",
+    "dataPolicy": "política de datos",
+    "termsLink": "términos y condiciones",
+    "remainingSpots": "¡Solo quedan {{remaining}} cupos!",
+    "joinDiscount": "Únete ahora — {{percentage}}% de descuento",
+    "toasts": {
+      "success": "¡Registro exitoso!",
+      "error": "Error al registrar",
+      "alreadyRegistered": "Ya estás registrado",
+      "policyRequired": "Debes aceptar las políticas de privacidad para continuar.",
+      "unexpected": "Ocurrió un error inesperado.",
+      "retryError": "Ocurrió un error. Intenta de nuevo."
+    }
+  },
+  "minimalFooter": {
+    "contact": "Contacto",
+    "location": "Ubicación",
+    "legal": "Legal",
+    "readyToLeave": "¿Listo para dejar las plataformas muertas?",
+    "joinFirst": "Únete ahora y sé de los primeros en vivir la evolución.",
+    "secureCta": "Asegurar mi Acceso",
+    "privacyNotice": "Aviso de Privacidad",
+    "dataPolicy": "Política de Datos",
+    "termsAndConditions": "Términos y Condiciones",
+    "backToTop": "Volver arriba"
+  },
+  "topBanner": {
+    "close": "Cerrar",
+    "lastDayMessage": "🔥 ¡Último día de la Maratón! No te lo pierdas.",
+    "goToMarathon": "Ir a la Maratón"
+  },
+  "benefits": {
+    "title": "Beneficios exclusivos para",
+    "titleHighlight": "nuestros estudiantes",
+    "description": "Al inscribirte en Crea by i365, no solo obtienes acceso a cursos de alta calidad, sino también a una serie de beneficios diseñados para maximizar tu experiencia de aprendizaje.",
+    "viewAll": "Ver Todos los Beneficios",
+    "continuousTitle": "Formación Continua",
+    "continuousDesc": "Nunca paramos de aprender. Nuevos cursos y actualizaciones para que siempre estés a la vanguardia.",
+    "lifetimeTitle": "Acceso Vitalicio",
+    "lifetimeDesc": "Paga una vez y accede para siempre. Tu educación es una inversión que te pertenece de por vida.",
+    "updatesTitle": "Actualizaciones Constantes",
+    "updatesDesc": "El mundo tech cambia rápido, y nosotros también. Contenido renovado sin costo adicional."
+  },
+  "benefitsCore": {
+    "valueProposition": "Propuesta de Valor",
+    "title": "No es otra plataforma de cursos más.",
+    "titleHighlight": "Es tu compañero de aprendizaje.",
+    "subtitle": "Todo lo que necesitas para aprender, crear y crecer — en un solo lugar que evoluciona contigo.",
+    "mentorTitle": "Tu mentor personal con IA",
+    "mentorSubtitle": "Tambo, Lora o Mico — elige tu guía",
+    "mentorDesc": "No estás solo. Tienes un acompañante que te conoce, sabe en qué necesitas mejorar y te sugiere el siguiente paso antes de que tú lo pidas.",
+    "mentorTag": "Hecho para ti",
+    "learnTitle": "Aprende creando",
+    "learnSubtitle": "Practica desde el primer día",
+    "learnDesc": "Nada de solo teoría. Aquí construyes proyectos reales desde el día uno y recibes correcciones al instante. Sin esperar a nadie.",
+    "learnTag": "100% Práctico",
+    "immersiveTitle": "Experiencias inmersivas",
+    "immersiveSubtitle": "Cada tema es un mundo nuevo",
+    "immersiveDesc": "Olvida las plataformas aburridas. Cada módulo tiene su propia estética, ambiente y estilo visual. Aprender se siente como explorar un lugar nuevo.",
+    "immersiveTag": "Experiencia Única",
+    "contentTitle": "Contenido que se Actualiza Solo",
+    "contentSubtitle": "Siempre al día, sin esfuerzo",
+    "contentDesc": "La plataforma nunca duerme. Busca automáticamente las últimas novedades del mundo tech y las convierte en contenido fresco. Nunca estudiarás algo desactualizado.",
+    "contentTag": "Siempre Actualizado",
+    "objection1": "\"No tengo tiempo\"",
+    "objection1Answer": "→ Aprende a tu ritmo, la IA se adapta",
+    "objection2": "\"Es muy difícil\"",
+    "objection2Answer": "→ Tu guía personal disponible 24/7",
+    "objection3": "\"Los cursos se desactualizan\"",
+    "objection3Answer": "→ Contenido que se renueva solo"
+  },
+  "cta": {
+    "badge": "Bootcamps 2026",
+    "title": "¿Listo para convertirte en un",
+    "titleHighlight": "Ciudadano Desarrollador",
+    "description": "Únete a nuestros bootcamps intensivos donde aprenderás a crear soluciones reales con IA Generativa, Low-Code y analítica de datos.",
+    "descriptionHighlight": "8 horas presenciales + Mentoría + Certificado firmado por COMFAMA, CESDE e I365",
+    "viewBootcamps": "Ver Bootcamps 2026",
+    "exploreCourses": "Explorar Cursos",
+    "participantsCount": "+5,000",
+    "participantsLabel": "Participantes transformados",
+    "satisfactionCount": "98%",
+    "satisfactionLabel": "Satisfacción (NPS: 87)",
+    "certificationCount": "100%",
+    "certificationLabel": "Certificación internacional"
+  },
+  "features": {
+    "title": "Todo lo que necesitas para",
+    "titleHighlight": "certificarte",
+    "subtitle": "Una plataforma completa diseñada para tu éxito profesional",
+    "cert": "Certificación internacional",
+    "certDesc": "Obtén certificados validados por I365 reconocidos en toda Latinoamérica.",
+    "mentoring": "Mentorías mensuales",
+    "mentoringDesc": "Acceso a sesiones exclusivas con expertos para resolver tus dudas.",
+    "content": "Contenido actualizado",
+    "contentDesc": "Material de estudio en constante actualización con las últimas tendencias.",
+    "schedule": "Cronograma flexible",
+    "scheduleDesc": "Organiza tu tiempo con nuestro sistema de programación de capacitaciones.",
+    "progress": "Progreso medible",
+    "progressDesc": "Realiza exámenes y valida tus conocimientos con nuestro sistema de evaluación.",
+    "validation": "Validación segura",
+    "validationDesc": "Sistema de validación de identidad para garantizar la autenticidad de certificados."
+  },
+  "countdown": {
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Min",
+    "seconds": "Seg"
+  },
+  "bannerCarousel": {
+    "seeMore": "Ver más"
+  },
+  "maraton": {
+    "worldMap": "Mapa de Mundos: Tu Aventura IA",
+    "whatIncludes": "¿Qué incluye?",
+    "forWhom": "¿Para quién es?",
+    "whyJoin": "¿Por qué unirte?",
+    "labels": {
+      "fullName": "Nombre Completo",
+      "whatsapp": "WhatsApp",
+      "email": "Correo Electrónico",
+      "document": "Documento de Identidad"
+    },
+    "privacyPolicy": "Al registrarte, aceptas nuestra política de tratamiento de datos.",
+    "badge": "Programa Intensivo 2026",
+    "defaultTitle": "Plan Intensivo Práctico de Inteligencia Artificial",
+    "defaultDescription": "5 días para nivelar tus conocimientos, dominar el estado actual de la IA (post-2025) y prepararte con herramientas reales.",
+    "datesComingSoon": "Fechas por confirmar",
+    "inscribeTitle": "Inscríbete a la Maratón",
+    "registrationSuccessTitle": "¡Registro Exitoso!",
+    "spotReserved": "Tu cupo está reservado. Explora el contenido abajo.",
+    "limitedSpots": "Cupos limitados. Acceso gratuito.",
+    "thankYouRegister": "¡Gracias por registrarte! Revisa tu correo para más detalles.",
+    "viewWorldMap": "Ver Mapa de Mundos",
+    "registerFree": "Inscribirme Gratuitamente",
+    "freeRegistration": "Registro gratuito — Sin tarjeta de crédito",
+    "learningRoute": "Ruta de Aprendizaje",
+    "navigateWorlds": "Navega por los {{count}} niveles de conocimiento. Haz clic en cada mundo para ver los detalles.",
+    "startLabel": "Inicio 🚩",
+    "endLabel": "Fin 🏁",
+    "theme": "Tema",
+    "day": "Día",
+    "valueProposition": "Propuesta de Valor",
+    "whyJoinTitle": "¿Por qué unirte a",
+    "whyJoinHighlight": "este plan",
+    "whyJoinDefault": "No es solo teoría. Es una inmersión práctica en las herramientas que definen el 2026.",
+    "securePlaceNow": "Asegurar mi lugar ahora",
+    "limitedSpotsInteractivity": "Cupos limitados para garantizar interactividad",
+    "supportedBy": "Con el respaldo de",
+    "liveSession": "Unirse a la sesión en vivo",
+    "previewBanner": "MODO PREVISUALIZACIÓN (Cambios no guardados)",
+    "placeholders": {
+      "fullName": "Tu nombre completo",
+      "email": "tu@correo.com",
+      "document": "Número de documento"
+    },
+    "policyAccept": "Acepto las",
+    "policyLinkText": "políticas de privacidad",
+    "toasts": {
+      "success": "¡Registro exitoso!",
+      "error": "Error al registrar",
+      "required": "Todos los campos son obligatorios",
+      "policyRequired": "Aceptación requerida",
+      "policyRequiredDesc": "Debes aceptar las políticas de privacidad para continuar.",
+      "alreadyRegistered": "¡Ya estás registrado!",
+      "alreadyRegisteredDesc": "Tu correo ya se encuentra inscrito en el evento.",
+      "registrationSuccess": "¡Registro Exitoso!",
+      "registrationSuccessDesc": "Bienvenido a la Semana Intensiva.",
+      "registrationError": "Error",
+      "registrationErrorDesc": "No pudimos completar el registro."
+    }
+  },
+  "maratonRegistro": {
+    "congratulations": "¡Felicitaciones!",
+    "officialRegistration": "Registro Oficial",
+    "youreIn": "¡Estás dentro!",
+    "confirmButton": "Confirmar Registro Gratuito",
+    "privacyPolicy": "Al confirmar, aceptas nuestra política de privacidad.",
+    "successMessage": "Ya tienes tu cupo asegurado para la Semana Intensiva de IA. Revisa tu bandeja de entrada (y spam) para confirmar tu asistencia.",
+    "backToSchedule": "Volver al Cronograma",
+    "planDescription": "Plan Intensivo Práctico de 5 Días",
+    "labels": {
+      "fullName": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "celular": "Celular / WhatsApp",
+      "country": "País",
+      "document": "Documento Identidad"
+    },
+    "placeholders": {
+      "fullName": "Ej. Juan Pérez",
+      "email": "tu@email.com",
+      "document": "123456789",
+      "country": "Selecciona la bandera en el celular"
+    },
+    "processing": "Procesando...",
+    "policyAccept": "Acepto las",
+    "policyLinkText": "políticas de privacidad y tratamiento de datos",
+    "toasts": {
+      "success": "¡Registro confirmado!",
+      "error": "Error al confirmar",
+      "emailSent": "Correo de confirmación enviado",
+      "alreadyConfirmed": "Ya estás confirmado",
+      "required": "Todos los campos son obligatorios",
+      "configError": "Error de configuración",
+      "configErrorDesc": "No se encontró el evento 'Semana Intensiva' en el sistema.",
+      "systemNotReady": "Error",
+      "systemNotReadyDesc": "El sistema no está listo para recibir registros (Falta ID del evento).",
+      "policyRequired": "Aceptación requerida",
+      "policyRequiredDesc": "Debes aceptar las políticas de privacidad para continuar.",
+      "alreadyRegistered": "Ya estás registrado",
+      "alreadyRegisteredDesc": "Este correo ya se encuentra inscrito en el evento.",
+      "registrationSuccess": "¡Registro Exitoso!",
+      "registrationSuccessDesc": "Tu cupo ha sido reservado correctamente.",
+      "registrationError": "Error en el registro",
+      "registrationErrorDesc": "Hubo un problema al guardar tus datos."
+    }
+  },
+  "waitlistSuccess": {
+    "backHome": "Volver al inicio",
+    "title": "¡Estás en la lista!",
+    "description": "Hemos guardado tu lugar. Te notificaremos tan pronto como la plataforma esté lista para ti.",
+    "discountSecured": "Tu descuento exclusivo ha sido asegurado."
+  },
+  "accessPending": {
+    "defaultName": "creador",
+    "badge": "Lista de espera",
+    "kicker": "Acceso pendiente",
+    "title": "{{name}}, ya tienes tu lugar reservado",
+    "description": "Tu cuenta ya quedó registrada, pero el acceso al producto todavía no está habilitado. Te avisaremos apenas abramos esta fase.",
+    "backHome": "Volver al inicio",
+    "signOut": "Cerrar sesión",
+    "statusLabel": "Estado actual",
+    "statusTitle": "Aún no puedes entrar al dashboard",
+    "statusDescription": "Mientras tu rol siga en lista de espera, bloquearemos onboarding, workspace y organizaciones para evitar accesos prematuros. Si prefieres entrar ahora, también puedes activar un plan pago desde esta pantalla.",
+    "nextStepsTitle": "Qué sigue",
+    "nextStepsDescription": "Mantente atento a tu correo. Cuando activemos tu acceso, te llevaremos directo a la plataforma sin que tengas que volver a registrarte.",
+    "purchaseBadge": "Entrada inmediata",
+    "purchaseTitle": "O si deseas comprar un plan, puedes activarlo ahora",
+    "purchaseDescription": "Abre el catálogo de planes pagos cuando quieras para entrar sin esperar la apertura general. Cuando el checkout se confirme, te llevaremos al onboarding o al dashboard según tu estado.",
+    "purchaseCatalogCta": "Ver catálogo completo",
+    "purchasePlanCta": "Comprar plan",
+    "purchaseOpening": "Abriendo...",
+    "purchaseLoadErrorTitle": "No pude cargar los planes",
+    "purchaseLoadError": "No pude consultar el catálogo de i365 en este momento.",
+    "purchaseOpenError": "No pude abrir el checkout del plan.",
+    "purchaseSyncError": "La compra se abrió, pero no pude refrescar tu acceso automáticamente todavía.",
+    "purchasePendingSync": "Estamos validando tu compra para habilitar tu acceso.",
+    "purchaseEmptyTitle": "No hay planes pagos disponibles ahora",
+    "purchaseEmptyDescription": "Cuando publiquemos nuevos planes en i365, aparecerán aquí automáticamente.",
+    "purchasePlanFallbackDescription": "Plan sincronizado desde la configuración central de i365.",
+    "purchasePlanFallbackNote": "Checkout seguro con el plan ya preseleccionado.",
+    "purchaseSinglePayment": "Pago",
+    "welcomeProcessing": "Estamos terminando de preparar tu correo de bienvenida.",
+    "welcomeReady": "Tu estado quedó guardado. Si ya verificaste tu correo, el mensaje de bienvenida se procesará una sola vez.",
+    "cards": {
+      "emailTitle": "Correo verificado",
+      "emailDescription": "Usa el enlace mágico para confirmar tu cuenta y dejar tu acceso listo para lanzamiento.",
+      "reviewTitle": "Acceso controlado",
+      "reviewDescription": "Solo los usuarios con permiso real de plataforma pueden entrar al producto en esta etapa.",
+      "launchTitle": "Aviso de apertura",
+      "launchDescription": "Cuando liberemos tu acceso, te notificaremos para que entres directo sin fricción."
+    }
+  },
+  "tour": {
+    "sceneHero": {
+      "headline": "Una singularidad educativa orquestada por inteligencia viva.",
+      "createAccount": "Crear cuenta"
+    },
+    "scene2": {
+      "eli_intro": "Hola, soy Eli, tu copiloto y mentora personal en Crea Academy...",
+      "consume_evolve": "Aquí no vienes a consumir videos por horas, vienes a evolucionar...",
+      "designed_adapt": "He sido diseñada para entender tus metas, y adaptarme a tu ritmo...",
+      "multimodal": "Con mi arquitectura multimodal, puedo ver exactamente lo que tú ves.",
+      "stuck_project": "¿Estancado en un proyecto? Comparte tu pantalla y lo resolveremos en tiempo real.",
+      "analyze_routes": "Analizo tu rendimiento, y estructuro rutas dinámicas al instante...",
+      "clear_friction": "Despejo la fricción del camino, para que tú te enfoques en dominar el reto...",
+      "forget_menus": "Olvida los menús complicados y las búsquedas interminables...",
+      "build_path": "Pídeme lo que necesitas dominar, y yo construiré el camino...",
+      "not_simple_chat": "No soy un simple chat... soy el sistema operativo de tu mente.",
+      "eyebrow": "Educación sin límites hecha a tu medida",
+      "headline": "Conoce a Eli, tu mentora personal.",
+      "headline_glow": "Simulación",
+      "promises": [
+        "Mentoría personalizada 1:1 impulsada por IA.",
+        "Adaptación dinámica al ritmo del usuario.",
+        "Integración fluida sin curvas de aprendizaje."
+      ]
+    },
+    "scene1": {
+      "eyebrow": "El fin de la educación como la conocemos",
+      "headline": "El modelo educativo está roto.",
+      "typewriter": "Crea Academy es una experiencia de aprendizaje personalizada, gamificada y centrada en proyectos reales.",
+      "card_tag": "Sistema Tradicional"
+    },
+    "scene3": {
+      "eyebrow": "Transforma tu equipo de trabajo",
+      "headline": "Rutas corporativas automáticas.",
+      "sequence": [
+        "¿Diriges un equipo? Olvida el gasto en capacitaciones inútiles.",
+        "Con un solo comando, estructuro rutas de aprendizaje hiper-personalizadas para cada rol de tu empresa.",
+        "Desde ventas hasta arquitectura en la nube.",
+        "Ahorras miles de dólares...",
+        "...y tu equipo aprende exactamente lo que necesita para ejecutar hoy mismo."
+      ],
+      "promises": [
+        "Ahorro radical en licencias de cursos externos.",
+        "Rutas de especialización generadas en segundos con IA.",
+        "Métricas de retención y ejecución en tiempo real."
+      ],
+      "card": {
+        "title": "Simulador B2B",
+        "desc": "[Inyectar componente de Rutas de Aprendizaje o Dashboard corporativo aquí]"
+      }
+    },
+    "scene4": {
+      "eyebrow": "Acción y Gamificación",
+      "headline_line1": "Cero consumo pasivo.",
+      "headline_line2": "Creación continua.",
+      "sequence": [
+        "En Crea, el estudiante no es pasivo: crea.",
+        "Transforma lo que aprendes en podcasts, resúmenes o videos al instante.",
+        "¿Te quedaste atascado en un proyecto o instalando un programa?",
+        "Comparte tu pantalla. Puedo ver exactamente lo que tú ves...",
+        "...y te guiaré con mi voz, en tiempo real, hasta que lo resolvamos juntos."
+      ],
+      "milestones": [
+        {
+          "label": "Módulo Base Completado",
+          "progress": "100%"
+        },
+        {
+          "label": "Ruta Activa de IA Aplicada",
+          "progress": "68%"
+        },
+        {
+          "label": "Certificación Ejecutiva",
+          "progress": "2 Retos"
+        }
+      ],
+      "metrics": [
+        {
+          "label": "Tasa de Retención",
+          "value": "94%"
+        },
+        {
+          "label": "Retos Completados",
+          "value": "142"
+        },
+        {
+          "label": "Generación Activa",
+          "value": "12x"
+        }
+      ],
+      "card": {
+        "tag": "Simulación en vivo",
+        "title": "Ruta de Especialización",
+        "level": "Nivel Ejecutivo",
+        "summary_title": "Resumen de progreso",
+        "summary_desc": "Mentoría, retos y generación activa."
+      }
+    },
+    "scene5": {
+      "eyebrow": "Resultados medibles y escalables",
+      "headline_line1": "El esfuerzo se mide.",
+      "headline_line2": "El avance se siente.",
+      "metrics": [
+        {
+          "label": "Progreso total",
+          "value": "68%"
+        },
+        {
+          "label": "Retos activos",
+          "value": "03"
+        },
+        {
+          "label": "Insignias listas",
+          "value": "01"
+        }
+      ],
+      "milestones": [
+        {
+          "label": "Onboarding completado",
+          "progress": "100%"
+        },
+        {
+          "label": "Ruta activa de IA aplicada",
+          "progress": "68%"
+        },
+        {
+          "label": "Insignia desbloqueable",
+          "progress": "2 retos"
+        }
+      ],
+      "card": {
+        "tag": "Dashboard interactivo",
+        "title": "Ruta de aprendizaje activa",
+        "level": "Nivel en ascenso",
+        "summary_title": "Resumen de progreso",
+        "summary_desc": "Mentoría, retos y certificación conectados.",
+        "completed": "Completado",
+        "next_objective": "Siguiente objetivo"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Elige el plan para ti",
+      "headline": "Bienvenido al futuro del aprendizaje.",
+      "description": "Selecciona la ruta que mejor se adapte a tus objetivos o a la escala de tu empresa. Empieza gratis, profundiza con herramientas pro, o transforma toda tu organización con nuestro ecosistema B2B.",
+      "safe_payment": "Pago seguro",
+      "no_card": "Registro sin tarjeta, acceso inmediato.",
+      "payment_methods": "PSE / MERCADO PAGO / TARJETAS",
+      "tiers": {
+        "free": {
+          "name": "FREE",
+          "kicker": "Explorador Crea",
+          "subtitle": "Experimenta el futuro del aprendizaje sin barreras.",
+          "ctaLabel": "Empieza Gratis Ahora",
+          "features": [
+            "Cuenta Gratis Forever: Comienza hoy mismo sin registrar tarjetas de credito.",
+            "Muestra de Rutas: Consume hasta el 30% de nuestras rutas globales.",
+            "Onboarding Inteligente: Adaptacion automatica del lenguaje a tu perfil.",
+            "Creditos de Interaccion IA: Chatea con Eli para probar la plataforma."
+          ]
+        },
+        "creadores": {
+          "name": "CREADORES",
+          "kicker": "Eleva tu Talento",
+          "subtitle": "Todo lo de Free, y ademas...",
+          "badge": "Recomendado",
+          "ctaLabel": "Eleva tu Talento",
+          "features": [
+            "Interaccion IA Sin Limites: Conversa y aprende sin restricciones.",
+            "Personalizacion Total: Disena avatar, voz y tono de tu mentor.",
+            "Autogeneracion Multimedia: Crea podcasts, videos e infografias al instante.",
+            "Screen Sharing en Vivo: Asistencia proactiva sobre tus herramientas.",
+            "Clonacion de Rutas: Duplica y adapta rutas globales a tu entorno."
+          ]
+        },
+        "enterprise": {
+          "name": "ENTERPRISE",
+          "kicker": "Ecosistema Corporativo",
+          "subtitle": "Todo lo de Creadores, y ademas...",
+          "ctaLabel": "Agendar Diagnostico",
+          "features": [
+            "Rutas Corporativas: Convierte manuales en rutas interactivas.",
+            "Dashboard de Analiticas: Mide adopcion, horas y progreso en tiempo real.",
+            "Integracion Segura: Conexion Single Sign-On (SSO).",
+            "Kit de Transformacion: Diagnostico y workshops para directivos.",
+            "Convenio Institucional: Precios preferenciales para toda la fuerza laboral."
+          ]
+        }
+      }
+    },
+    "countdown": {
+      "title": "Lanzamiento Oficial",
+      "days": "Días",
+      "hours": "Horas",
+      "minutes": "Minutos",
+      "seconds": "Segundos",
+      "live": "¡Ya estamos en vivo!",
+      "join_youtube": "Unirse al Lanzamiento",
+      "reminder_youtube": "Activar Recordatorio en YouTube"
+    }
+  }
+}

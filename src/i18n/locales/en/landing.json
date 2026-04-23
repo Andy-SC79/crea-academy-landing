@@ -1,0 +1,580 @@
+{
+  "hero": {
+    "title": "The future of AI education",
+    "subtitle": "Certification platform with personalized AI mentor",
+    "badge": "Early Access — Limited Spots",
+    "typewriterLine1": "Stop Learning on ",
+    "typewriterStrikethrough": "Dead Platforms",
+    "typewriterLine2": "Learn on a Living Platform",
+    "descriptionPart1": "Stop studying with static courses that are already outdated. Join a platform that adapts to you, guides you step by step",
+    "descriptionBold": "and updates itself",
+    "descriptionPart2": ". While others repeat content from the past, you learn with the latest from right now.",
+    "cta": "Secure my Access",
+    "freeRegistration": "Free registration — No credit card required"
+  },
+  "heroWithChat": {
+    "futureOf": "The future of",
+    "isNow": "is now",
+    "description": "Learn AI, Data Science and software development with exclusive mentorships, international certification and intensive bootcamps that transform your career. 🚀✨",
+    "viewBootcamps": "View Bootcamps",
+    "viewCourses": "View Courses",
+    "students": "+5,000 students",
+    "certificationBadge": "I365 Certification"
+  },
+  "howItWorks": {
+    "title": "How does it work?",
+    "certification": "certification",
+    "subtitle": "Four simple steps to transform your professional career",
+    "step1Title": "Register and validate your identity",
+    "step1Desc": "Create your account with Google and complete the identity validation process for your country.",
+    "step2Title": "Select and pay for your course",
+    "step2Desc": "Choose the course you want to take, apply discounts if you have them and make a secure payment.",
+    "step3Title": "Learn and participate",
+    "step3Desc": "Access the content, attend monthly mentorships and consult the exclusive Q&A notebook.",
+    "step4Title": "Get certified",
+    "step4Desc": "Complete the validation exam and get your I365-certified certificate.",
+    "startNow": "Start Now"
+  },
+  "socialProof": {
+    "hallOfFame": "Hall of Fame",
+    "firstToJoin": "The first to join",
+    "upcomingTopics": "Upcoming Topics",
+    "personsCount": "+{{count}} people",
+    "securedSpot": "already secured their spot on the waitlist",
+    "youVote": "You vote, we teach it",
+    "challenge1": "How to use AI to save time in your daily life",
+    "challenge1Tag": "Productivity",
+    "challenge2": "Create your own website without knowing how to code",
+    "challenge2Tag": "Entrepreneurship",
+    "challenge3": "Have AI write your emails and reports",
+    "challenge3Tag": "Work + AI"
+  },
+  "waitlist": {
+    "title": "Join the Waitlist",
+    "namePlaceholder": "Your Full Name",
+    "emailPlaceholder": "you@email.com",
+    "nameRequired": "Name is required",
+    "validEmail": "Enter a valid email",
+    "labels": {
+      "start": "Start",
+      "modality": "Modality",
+      "certification": "Certification",
+      "level": "Level"
+    },
+    "privacyPolicy": "By registering you accept our privacy policy",
+    "joinNow": "Join the Waitlist",
+    "registering": "Registering...",
+    "dataSecure": "🔒 Your data is 100% secure.",
+    "domainTitle": "Master Technology with",
+    "brand": "Crea by i365",
+    "domainDescription": "Master Artificial Intelligence and Software Development. Adapt your professional profile to the new era and increase your productivity.",
+    "startValue": "Coming Soon",
+    "modalityValue": "100% Online",
+    "levelValue": "From Zero to Expert",
+    "policyAccept": "I accept the",
+    "policyLink": "privacy and data processing policies",
+    "discountBanner": "Join now to secure a {{percentage}}% discount",
+    "toasts": {
+      "success": "You've registered successfully!",
+      "error": "Registration error",
+      "alreadyRegistered": "You're already registered",
+      "emailSent": "Confirmation email sent",
+      "emailError": "Error sending email",
+      "networkError": "Connection error",
+      "rateLimited": "Too many attempts. Please try again later.",
+      "unexpected": "An unexpected error occurred.",
+      "linkSent": "Link sent! Check your email to confirm your spot.",
+      "policyRequired": "You must accept the privacy policies to continue.",
+      "alreadyOnList": "You're already on the list! No need to register again."
+    }
+  },
+  "leadMagnet": {
+    "title": "Early Access",
+    "onTheList": "on the list",
+    "spotsAvailable": "Spots available",
+    "confirmationSent": "We've sent a confirmation link",
+    "priorityAccess": "Priority Access",
+    "secureYour": "Secure your",
+    "earlyAccessHighlight": "Early Access",
+    "firstNDescription": "The first {{cap}} subscribers receive exclusive, unrepeatable benefits. Once inside, your experience improves with every step you take.",
+    "incentive1": "500 free AI uses at launch",
+    "incentive2": "Exclusive Pioneer badge",
+    "incentive3": "Early access to exclusive experiences",
+    "dataProtected": "Your data is 100% protected and secure",
+    "secureCta": "Secure my Access",
+    "registering": "Registering...",
+    "noSpam": "🔒 No spam. Only launch notifications and benefits.",
+    "welcomeBack": "Welcome back, {{name}}!",
+    "welcomeNew": "Welcome, {{name}}! 🎉",
+    "alreadyOnListMsg": "You're already on the waitlist. Your spot is secured!",
+    "checkEmailMsg": "Check your email to confirm your spot. You're already part of the future.",
+    "benefitsUnlocked": "Benefits unlocked",
+    "benefit1": "500 free AI uses",
+    "benefit2": "Pioneer Badge",
+    "benefit3": "Early Access",
+    "confirmationSentEmail": "We sent a confirmation link to your email",
+    "policyAccept": "I accept the",
+    "privacyNotice": "privacy notice",
+    "dataPolicy": "data policy",
+    "termsLink": "terms and conditions",
+    "remainingSpots": "Only {{remaining}} spots left!",
+    "joinDiscount": "Join now — {{percentage}}% discount",
+    "toasts": {
+      "success": "Registration successful!",
+      "error": "Registration error",
+      "alreadyRegistered": "You're already registered",
+      "policyRequired": "You must accept the privacy policies to continue.",
+      "unexpected": "An unexpected error occurred.",
+      "retryError": "An error occurred. Please try again."
+    }
+  },
+  "minimalFooter": {
+    "contact": "Contact",
+    "location": "Location",
+    "legal": "Legal",
+    "readyToLeave": "Ready to leave dead platforms?",
+    "joinFirst": "Join now and be among the first to experience the evolution.",
+    "secureCta": "Secure my Access",
+    "privacyNotice": "Privacy Notice",
+    "dataPolicy": "Data Policy",
+    "termsAndConditions": "Terms and Conditions",
+    "backToTop": "Back to top"
+  },
+  "topBanner": {
+    "close": "Close",
+    "lastDayMessage": "🔥 Last day of the Marathon! Don't miss it.",
+    "goToMarathon": "Go to the Marathon"
+  },
+  "benefits": {
+    "title": "Exclusive benefits for",
+    "titleHighlight": "our students",
+    "description": "By enrolling in Crea by i365, you not only get access to high-quality courses, but also a series of benefits designed to maximize your learning experience.",
+    "viewAll": "View All Benefits",
+    "continuousTitle": "Continuous Training",
+    "continuousDesc": "We never stop learning. New courses and updates so you're always at the forefront.",
+    "lifetimeTitle": "Lifetime Access",
+    "lifetimeDesc": "Pay once and access forever. Your education is an investment that belongs to you for life.",
+    "updatesTitle": "Constant Updates",
+    "updatesDesc": "The tech world moves fast, and so do we. Renewed content at no additional cost."
+  },
+  "benefitsCore": {
+    "valueProposition": "Value Proposition",
+    "title": "It's not just another course platform.",
+    "titleHighlight": "It's your learning companion.",
+    "subtitle": "Everything you need to learn, create and grow — in one place that evolves with you.",
+    "mentorTitle": "Your personal AI mentor",
+    "mentorSubtitle": "Tambo, Lora or Mico — choose your guide",
+    "mentorDesc": "You're not alone. You have a companion who knows you, understands what you need to improve and suggests the next step before you even ask.",
+    "mentorTag": "Made for you",
+    "learnTitle": "Learn by creating",
+    "learnSubtitle": "Practice from day one",
+    "learnDesc": "No theory only. Here you build real projects from day one and receive instant corrections. No waiting for anyone.",
+    "learnTag": "100% Practical",
+    "immersiveTitle": "Immersive experiences",
+    "immersiveSubtitle": "Each topic is a new world",
+    "immersiveDesc": "Forget boring platforms. Each module has its own aesthetic, atmosphere and visual style. Learning feels like exploring a new place.",
+    "immersiveTag": "Unique Experience",
+    "contentTitle": "Self-Updating Content",
+    "contentSubtitle": "Always up to date, effortlessly",
+    "contentDesc": "The platform never sleeps. It automatically searches for the latest tech news and turns it into fresh content. You'll never study outdated material.",
+    "contentTag": "Always Updated",
+    "objection1": "\"I don't have time\"",
+    "objection1Answer": "→ Learn at your own pace, AI adapts",
+    "objection2": "\"It's too hard\"",
+    "objection2Answer": "→ Your personal guide available 24/7",
+    "objection3": "\"Courses get outdated\"",
+    "objection3Answer": "→ Content that renews itself"
+  },
+  "cta": {
+    "badge": "Bootcamps 2026",
+    "title": "Ready to become a",
+    "titleHighlight": "Citizen Developer",
+    "description": "Join our intensive bootcamps where you'll learn to create real solutions with Generative AI, Low-Code and data analytics.",
+    "descriptionHighlight": "8 in-person hours + Mentoring + Certificate signed by COMFAMA, CESDE and I365",
+    "viewBootcamps": "View Bootcamps 2026",
+    "exploreCourses": "Explore Courses",
+    "participantsCount": "+5,000",
+    "participantsLabel": "Participants transformed",
+    "satisfactionCount": "98%",
+    "satisfactionLabel": "Satisfaction (NPS: 87)",
+    "certificationCount": "100%",
+    "certificationLabel": "International certification"
+  },
+  "features": {
+    "title": "Everything you need to",
+    "titleHighlight": "get certified",
+    "subtitle": "A complete platform designed for your professional success",
+    "cert": "International certification",
+    "certDesc": "Get certificates validated by I365 recognized throughout Latin America.",
+    "mentoring": "Monthly mentorships",
+    "mentoringDesc": "Access to exclusive sessions with experts to answer your questions.",
+    "content": "Updated content",
+    "contentDesc": "Study material constantly updated with the latest trends.",
+    "schedule": "Flexible schedule",
+    "scheduleDesc": "Organize your time with our training scheduling system.",
+    "progress": "Measurable progress",
+    "progressDesc": "Take exams and validate your knowledge with our evaluation system.",
+    "validation": "Secure validation",
+    "validationDesc": "Identity validation system to guarantee certificate authenticity."
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Min",
+    "seconds": "Sec"
+  },
+  "bannerCarousel": {
+    "seeMore": "See more"
+  },
+  "maraton": {
+    "worldMap": "World Map: Your AI Adventure",
+    "whatIncludes": "What's included?",
+    "forWhom": "Who is it for?",
+    "whyJoin": "Why join?",
+    "labels": {
+      "fullName": "Full Name",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "document": "ID Document"
+    },
+    "privacyPolicy": "By registering, you accept our data processing policy.",
+    "badge": "Intensive Program 2026",
+    "defaultTitle": "Practical Intensive AI Plan",
+    "defaultDescription": "5 days to level up your knowledge, master the current state of AI (post-2025) and prepare with real tools.",
+    "datesComingSoon": "Dates to be confirmed",
+    "inscribeTitle": "Register for the Marathon",
+    "registrationSuccessTitle": "Registration Successful!",
+    "spotReserved": "Your spot is reserved. Explore the content below.",
+    "limitedSpots": "Limited spots. Free access.",
+    "thankYouRegister": "Thank you for registering! Check your email for more details.",
+    "viewWorldMap": "View World Map",
+    "registerFree": "Register for Free",
+    "freeRegistration": "Free registration — No credit card required",
+    "learningRoute": "Learning Route",
+    "navigateWorlds": "Navigate through the {{count}} knowledge levels. Click each world for details.",
+    "startLabel": "Start 🚩",
+    "endLabel": "End 🏁",
+    "theme": "Theme",
+    "day": "Day",
+    "valueProposition": "Value Proposition",
+    "whyJoinTitle": "Why join",
+    "whyJoinHighlight": "this plan",
+    "whyJoinDefault": "It's not just theory. It's a practical immersion in the tools that define 2026.",
+    "securePlaceNow": "Secure my place now",
+    "limitedSpotsInteractivity": "Limited spots to guarantee interactivity",
+    "supportedBy": "Supported by",
+    "liveSession": "Join the live session",
+    "previewBanner": "PREVIEW MODE (Unsaved changes)",
+    "placeholders": {
+      "fullName": "Your full name",
+      "email": "you@email.com",
+      "document": "Document number"
+    },
+    "policyAccept": "I accept the",
+    "policyLinkText": "privacy policies",
+    "toasts": {
+      "success": "Registration successful!",
+      "error": "Registration error",
+      "required": "All fields are required",
+      "policyRequired": "Acceptance required",
+      "policyRequiredDesc": "You must accept the privacy policies to continue.",
+      "alreadyRegistered": "You're already registered!",
+      "alreadyRegisteredDesc": "This email is already registered for the event.",
+      "registrationSuccess": "Registration Successful!",
+      "registrationSuccessDesc": "Welcome to the Intensive Week.",
+      "registrationError": "Error",
+      "registrationErrorDesc": "We couldn't complete the registration."
+    }
+  },
+  "maratonRegistro": {
+    "congratulations": "Congratulations!",
+    "officialRegistration": "Official Registration",
+    "youreIn": "You're in!",
+    "confirmButton": "Confirm Free Registration",
+    "privacyPolicy": "By confirming, you accept our privacy policy.",
+    "successMessage": "Your spot is secured for the AI Intensive Week. Check your inbox (and spam) to confirm your attendance.",
+    "backToSchedule": "Back to Schedule",
+    "planDescription": "5-Day Practical Intensive Plan",
+    "labels": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "celular": "Mobile / WhatsApp",
+      "country": "Country",
+      "document": "ID Document"
+    },
+    "placeholders": {
+      "fullName": "E.g. John Doe",
+      "email": "you@email.com",
+      "document": "123456789",
+      "country": "Select the flag on the phone field"
+    },
+    "processing": "Processing...",
+    "policyAccept": "I accept the",
+    "policyLinkText": "privacy and data processing policies",
+    "toasts": {
+      "success": "Registration confirmed!",
+      "error": "Confirmation error",
+      "emailSent": "Confirmation email sent",
+      "alreadyConfirmed": "Already confirmed",
+      "required": "All fields are required",
+      "configError": "Configuration error",
+      "configErrorDesc": "The 'Intensive Week' event was not found in the system.",
+      "systemNotReady": "Error",
+      "systemNotReadyDesc": "The system is not ready to receive registrations (Missing event ID).",
+      "policyRequired": "Acceptance required",
+      "policyRequiredDesc": "You must accept the privacy policies to continue.",
+      "alreadyRegistered": "Already registered",
+      "alreadyRegisteredDesc": "This email is already registered for the event.",
+      "registrationSuccess": "Registration Successful!",
+      "registrationSuccessDesc": "Your spot has been reserved successfully.",
+      "registrationError": "Registration error",
+      "registrationErrorDesc": "There was a problem saving your data."
+    }
+  },
+  "waitlistSuccess": {
+    "backHome": "Back to home",
+    "title": "You're on the list!",
+    "description": "We've saved your spot. We'll notify you as soon as the platform is ready for you.",
+    "discountSecured": "Your exclusive discount has been secured."
+  },
+  "accessPending": {
+    "defaultName": "creator",
+    "badge": "Waiting list",
+    "kicker": "Access pending",
+    "title": "{{name}}, your spot is already reserved",
+    "description": "Your account is registered, but product access is not enabled yet. We'll notify you as soon as this phase opens.",
+    "backHome": "Back to home",
+    "signOut": "Sign out",
+    "statusLabel": "Current status",
+    "statusTitle": "You still can't enter the dashboard",
+    "statusDescription": "While your role stays on the waiting list, onboarding, workspace, and organization routes remain blocked to prevent early access. If you prefer to enter now, you can also activate a paid plan from this screen.",
+    "nextStepsTitle": "What's next",
+    "nextStepsDescription": "Keep an eye on your email. Once your access is enabled, we'll take you straight into the platform without requiring a new signup.",
+    "purchaseBadge": "Immediate access",
+    "purchaseTitle": "Or, if you want to buy a plan, you can activate it right now",
+    "purchaseDescription": "Open the paid plans catalog whenever you want so you can enter without waiting for the general opening. Once checkout is confirmed, we'll send you to onboarding or the dashboard depending on your status.",
+    "purchaseCatalogCta": "View full catalog",
+    "purchasePlanCta": "Buy plan",
+    "purchaseOpening": "Opening...",
+    "purchaseLoadErrorTitle": "I couldn't load the plans",
+    "purchaseLoadError": "I couldn't fetch the i365 catalog right now.",
+    "purchaseOpenError": "I couldn't open the plan checkout.",
+    "purchaseSyncError": "The purchase opened, but I couldn't refresh your access automatically yet.",
+    "purchasePendingSync": "We're validating your purchase to enable access.",
+    "purchaseEmptyTitle": "There are no paid plans available right now",
+    "purchaseEmptyDescription": "When new plans are published in i365, they'll appear here automatically.",
+    "purchasePlanFallbackDescription": "Plan synced from the central i365 configuration.",
+    "purchasePlanFallbackNote": "Secure checkout with the plan already preselected.",
+    "purchaseSinglePayment": "Payment",
+    "welcomeProcessing": "We're finishing your welcome email.",
+    "welcomeReady": "Your status is saved. If your email is already verified, the welcome message will only be processed once.",
+    "cards": {
+      "emailTitle": "Verified email",
+      "emailDescription": "Use the magic link to confirm your account and leave your access ready for launch.",
+      "reviewTitle": "Controlled access",
+      "reviewDescription": "Only users with the real platform permission can enter the product at this stage.",
+      "launchTitle": "Launch notice",
+      "launchDescription": "When we unlock your access, we'll notify you so you can enter directly without friction."
+    }
+  },
+  "tour": {
+    "sceneHero": {
+      "headline": "An educational singularity orchestrated by living intelligence.",
+      "createAccount": "Create account"
+    },
+    "scene2": {
+      "eli_intro": "Hi, I'm Eli, your personal co-pilot and mentor at Crea Academy...",
+      "consume_evolve": "You're not here to passively consume hours of video, you're here to evolve...",
+      "designed_adapt": "I've been designed to understand your goals, and adapt to your pace...",
+      "multimodal": "With my multimodal architecture, I can see exactly what you see.",
+      "stuck_project": "Stuck on a project? Share your screen and we'll solve it in real time.",
+      "analyze_routes": "I analyze your performance, and structure dynamic paths instantly...",
+      "clear_friction": "I clear the friction from your path, so you can focus on mastering the challenge...",
+      "forget_menus": "Forget complicated menus and endless searches...",
+      "build_path": "Tell me what you need to master, and I will build the path...",
+      "not_simple_chat": "I'm not a simple chat... I am the operating system of your mind.",
+      "eyebrow": "Limitless education tailored to you",
+      "headline": "Meet Eli, your personal mentor.",
+      "headline_glow": "Simulation",
+      "promises": [
+        "1:1 personalized mentoring driven by AI.",
+        "Dynamic adaptation to the user's pace.",
+        "Seamless integration with zero learning curve."
+      ]
+    },
+    "scene1": {
+      "eyebrow": "The end of education as we know it",
+      "headline": "The educational model is broken.",
+      "typewriter": "Crea Academy is a personalized, gamified learning experience focused on real-world projects.",
+      "card_tag": "Traditional System"
+    },
+    "scene3": {
+      "eyebrow": "Transform your workforce",
+      "headline": "Automated corporate learning paths.",
+      "sequence": [
+        "Running a team? Forget wasting budget on useless training.",
+        "With a single command, I structure hyper-personalized learning paths for every role in your company.",
+        "From enterprise sales to cloud architecture.",
+        "You save thousands of dollars...",
+        "...and your team learns exactly what they need to execute today."
+      ],
+      "promises": [
+        "Radical savings on external course licenses.",
+        "Specialization paths generated in seconds with AI.",
+        "Real-time retention and execution metrics."
+      ],
+      "card": {
+        "title": "B2B Simulator",
+        "desc": "[Inject Learning Paths or Corporate Dashboard component here]"
+      }
+    },
+    "scene4": {
+      "eyebrow": "Action & Gamification",
+      "headline_line1": "Zero passive consumption.",
+      "headline_line2": "Continuous creation.",
+      "sequence": [
+        "At Crea, the student is never passive: they create.",
+        "Transform what you learn into podcasts, summaries, or videos instantly.",
+        "Stuck on a project or installing software?",
+        "Share your screen. I can see exactly what you see...",
+        "...and I will guide you with my voice, in real-time, until we solve it together."
+      ],
+      "milestones": [
+        {
+          "label": "Core Module Completed",
+          "progress": "100%"
+        },
+        {
+          "label": "Applied AI Path Active",
+          "progress": "68%"
+        },
+        {
+          "label": "Executive Certification",
+          "progress": "2 Challenges"
+        }
+      ],
+      "metrics": [
+        {
+          "label": "Retention Rate",
+          "value": "94%"
+        },
+        {
+          "label": "Challenges Completed",
+          "value": "142"
+        },
+        {
+          "label": "Active Generation",
+          "value": "12x"
+        }
+      ],
+      "card": {
+        "tag": "Live Simulation",
+        "title": "Specialization Path",
+        "level": "Executive Level",
+        "summary_title": "Progress summary",
+        "summary_desc": "Mentoring, challenges, and active generation."
+      }
+    },
+    "scene5": {
+      "eyebrow": "Measurable and scalable results",
+      "headline_line1": "Effort is measured.",
+      "headline_line2": "Progress is felt.",
+      "metrics": [
+        {
+          "label": "Total progress",
+          "value": "68%"
+        },
+        {
+          "label": "Active challenges",
+          "value": "03"
+        },
+        {
+          "label": "Badges ready",
+          "value": "01"
+        }
+      ],
+      "milestones": [
+        {
+          "label": "Onboarding completed",
+          "progress": "100%"
+        },
+        {
+          "label": "Applied AI path active",
+          "progress": "68%"
+        },
+        {
+          "label": "Unlockable badge",
+          "progress": "2 challenges"
+        }
+      ],
+      "card": {
+        "tag": "Interactive Dashboard",
+        "title": "Active learning path",
+        "level": "Rising level",
+        "summary_title": "Progress summary",
+        "summary_desc": "Mentoring, challenges, and certification connected.",
+        "completed": "Completed",
+        "next_objective": "Next objective"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Choose your plan",
+      "headline": "Welcome to the future of learning.",
+      "description": "Select the path that best fits your goals or your company's scale. Start for free, go deep with pro tools, or transform your entire organization with our B2B ecosystem.",
+      "safe_payment": "Secure payment",
+      "no_card": "No credit card required, instant access.",
+      "payment_methods": "CREDIT CARDS / PAYPAL / WIRE",
+      "tiers": {
+        "free": {
+          "name": "FREE",
+          "kicker": "Crea Explorer",
+          "subtitle": "Experience the future of learning without barriers.",
+          "ctaLabel": "Start For Free Now",
+          "features": [
+            "Free Forever Account: Start today without registering credit cards.",
+            "Path Previews: Consume up to 30% of our global learning paths.",
+            "Smart Onboarding: Automatic language adaptation to your profile.",
+            "AI Interaction Credits: Chat with Eli to test the platform."
+          ]
+        },
+        "creadores": {
+          "name": "CREATORS",
+          "kicker": "Elevate your Talent",
+          "subtitle": "Everything in Free, plus...",
+          "badge": "Recommended",
+          "ctaLabel": "Elevate your Talent",
+          "features": [
+            "Unlimited AI Interaction: Converse and learn without restrictions.",
+            "Total Customization: Design your mentor's avatar, voice, and tone.",
+            "Multimedia Autogeneration: Create podcasts, videos, and infographics instantly.",
+            "Live Screen Sharing: Proactive assistance on your active tools.",
+            "Path Cloning: Duplicate and adapt global paths to your context."
+          ]
+        },
+        "enterprise": {
+          "name": "ENTERPRISE",
+          "kicker": "Corporate Ecosystem",
+          "subtitle": "Everything in Creators, plus...",
+          "ctaLabel": "Schedule Diagnostics",
+          "features": [
+            "Corporate Paths: Convert flat manuals into interactive learning paths.",
+            "Analytics Dashboard: Measure adoption, hours, and progress in real time.",
+            "Secure Integration: Single Sign-On (SSO) connection.",
+            "Transformation Kit: Diagnostics and workshops for executives.",
+            "Institutional Agreement: Preferential pricing for the entire workforce."
+          ]
+        }
+      }
+    },
+    "countdown": {
+      "title": "Official Launch",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "live": "We are live!",
+      "join_youtube": "Join the Launch Event",
+      "reminder_youtube": "Set YouTube Reminder"
+    }
+  }
+}
