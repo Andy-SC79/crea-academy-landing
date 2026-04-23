@@ -427,7 +427,10 @@
       "card": {
         "title": "B2B Simulator",
         "desc": "[Inject Learning Paths or Corporate Dashboard component here]"
-      }
+      },
+      "headline_1": "Automated",
+      "headline_2": " corporate learning ",
+      "headline_3": "paths."
     },
     "scene4": {
       "eyebrow": "Action & Gamification",

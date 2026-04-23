@@ -427,7 +427,10 @@
       "card": {
         "title": "Simulador B2B",
         "desc": "[Injetar componente de Trilhas de Aprendizado ou Dashboard corporativo aqui]"
-      }
+      },
+      "headline_1": "Trilhas",
+      "headline_2": " corporativas ",
+      "headline_3": "automáticas."
     },
     "scene4": {
       "eyebrow": "Ação e Gamificação",

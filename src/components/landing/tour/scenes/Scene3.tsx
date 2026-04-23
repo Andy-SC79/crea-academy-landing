@@ -37,7 +37,13 @@ export default function Scene3({ integrationSlot }: SceneComponentProps) {
         </SceneEyebrow>
 
         <div className="space-y-5 xl:space-y-6">
-          <SceneHeadline parts={[{ text: t("tour.scene3.headline") }]} />
+          <SceneHeadline 
+            parts={[
+              { text: t("tour.scene3.headline_1"), accent: "prisma" },
+              { text: t("tour.scene3.headline_2") },
+              { text: t("tour.scene3.headline_3"), accent: "neon" }
+            ]} 
+          />
 
           <div className={LEAD_COPY_CLASS}>
             <TextSequence sequenceData={textoEscena3} className={LEAD_COPY_CLASS} />
@@ -59,24 +65,25 @@ export default function Scene3({ integrationSlot }: SceneComponentProps) {
         </div>
       </div>
 
-      <div className="flex min-h-[18rem] min-w-0 items-center lg:min-h-0">
-        <div className={TOUR_FRAME_CLASS}>
-          <div className={cn(TOUR_SURFACE_CLASS, "flex h-[clamp(20rem,48svh,38rem)] w-full min-w-0 flex-col p-2 xl:h-[clamp(22rem,52svh,40rem)] xl:p-3")}>
+      <div className="relative flex w-full min-w-0 items-center justify-center lg:h-full">
+        <div className={cn(TOUR_FRAME_CLASS, "w-full p-[1px] aspect-video")}>
+          <div className="relative h-full w-full overflow-hidden rounded-[31px] bg-slate-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
             {integrationSlot ? (
               integrationSlot
             ) : (
-              <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[24px] bg-slate-950">
-                <video
-                  src="https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/6255db2c-1539-f111-88b3-000d3ac0461d?ts=639118866570000000"
-                  className="absolute inset-0 h-full w-full object-cover opacity-92"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
-                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]" />
-              </div>
+              <video
+                src="https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/6255db2c-1539-f111-88b3-000d3ac0461d?ts=639118866570000000"
+                className="absolute inset-0 h-full w-full object-cover scale-105 pointer-events-none opacity-90"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls={false}
+                preload="metadata"
+                disablePictureInPicture
+              />
             )}
+            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(4,255,141,0.15)] rounded-[31px]" />
           </div>
         </div>
       </div>
