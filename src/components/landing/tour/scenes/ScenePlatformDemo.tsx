@@ -37,6 +37,12 @@ const DEMOS = [
     description: "Sincroniza tu LinkedIn y hoja de vida para adaptar la IA a tu perfil exacto.",
     url: "https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/81c67eea-5134-f111-88b4-000d3ac04e45?ts=639113629940000000" 
   },
+  { 
+    id: 4, 
+    title: "Contexto Inteligente",
+    description: "Sincroniza tu LinkedIn y hoja de vida para adaptar la IA a tu perfil exacto.",
+    url: "https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/81c67eea-5134-f111-88b4-000d3ac04e45?ts=639113629940000000" 
+  },
 ];
 
 const DemoCard = ({ demo }: { demo: typeof DEMOS[0] }) => {

@@ -1,11 +1,10 @@
-import { CheckCircle2 } from "lucide-react";
+import { Mic, Sparkles, Wand2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
-import infinitePrism from "@/assets/infinite-prism-dark.webp";
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import TextSequence from "@/components/landing/tour/TextSequence";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 import SceneTemplate from "./SceneTemplate";
@@ -27,11 +26,6 @@ export default function Scene4(_: SceneComponentProps) {
     { text: t("tour.scene4.sequence.2"), durationMs: 4500 },
     { text: t("tour.scene4.sequence.3"), durationMs: 4500 },
     { text: t("tour.scene4.sequence.4"), durationMs: 5500 },
-  ];
-  const milestones = [
-    { done: true, label: t("tour.scene4.milestones.0.label"), progress: t("tour.scene4.milestones.0.progress") },
-    { done: true, label: t("tour.scene4.milestones.1.label"), progress: t("tour.scene4.milestones.1.progress") },
-    { done: false, label: t("tour.scene4.milestones.2.label"), progress: t("tour.scene4.milestones.2.progress") },
   ];
 
   return (
@@ -85,70 +79,70 @@ export default function Scene4(_: SceneComponentProps) {
             <div className="relative z-10 flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-display uppercase tracking-[0.18em] text-brand-orange/80">
-                  {t("tour.scene4.card.tag")}
+                  {t("tour.scene4.card.workspace_tag")}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-slate-900 dark:text-white md:text-2xl lg:text-3xl">
-                  {t("tour.scene4.card.title")}
+                  {t("tour.scene4.card.workspace_title")}
                 </h3>
               </div>
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-purple/30 bg-brand-purple/10 px-4 py-2 text-xs font-display font-bold text-brand-purple md:text-sm">
-                <img src={infinitePrism} alt="Infinite loop" className="h-4 w-4 object-contain brightness-150" />
-                {t("tour.scene4.card.level")}
+                <Wand2 className="h-4 w-4" />
+                {t("tour.scene4.card.active_tool")}
               </div>
             </div>
 
             <div className="relative z-10 p-5 sm:p-2">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-lg font-display font-semibold text-slate-900 dark:text-white">
-                    {t("tour.scene4.card.summary_title")}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-600 dark:text-white/60 md:text-sm">
-                    {t("tour.scene4.card.summary_desc")}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center rounded-2xl border border-brand-cyan/30 bg-brand-cyan/10 p-3 animate-[pulse_3s_ease-in-out_infinite]">
-                  <img src={infinitePrism} alt="Infinite Prism" className="h-6 w-6 object-contain" />
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+                    <Mic className="h-5 w-5 animate-pulse" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-display font-semibold text-slate-900 dark:text-white">
+                      {t("tour.scene4.card.status_generating")}
+                    </p>
+                    <p className="mt-0.5 text-xs text-slate-600 dark:text-white/60">
+                      00:14 / 02:30
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <Progress value={68} className="mt-5 h-3 bg-white/10 [&>div]:bg-brand-cyan" />
-
-              <div className="mt-6 flex flex-col divide-y divide-black/5 dark:divide-white/5">
-                {milestones.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center justify-between py-3.5 opacity-90 transition-opacity hover:opacity-100 sm:flex-nowrap"
-                  >
-                    <div className="flex min-w-0 items-center gap-4">
-                      <div
-                        className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center transition-transform",
-                          item.done
-                            ? "scale-110 text-brand-neon drop-shadow-[0_0_15px_rgba(4,255,141,0.5)]"
-                            : "text-slate-600 opacity-70 dark:text-white/30",
-                        )}
-                      >
-                        {item.done ? (
-                          <CheckCircle2 className="h-5 w-5" />
-                        ) : (
-                          <img src={infinitePrism} className="h-5 w-5 object-contain" alt="Pending" />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-display font-bold text-slate-900 dark:text-white md:text-sm">
-                          {item.label}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.16em] text-slate-600 dark:text-white/40">
-                          {item.done ? "Completado" : "Siguiente objetivo"}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-xs font-display font-bold text-brand-cyan/90 md:text-sm">
-                      {item.progress}
-                    </span>
-                  </div>
+              {/* Simulación de ondas de audio */}
+              <div className="mt-5 flex items-center justify-center gap-1 h-12 w-full overflow-hidden">
+                {[...Array(24)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1.5 rounded-full bg-brand-cyan/80"
+                    animate={{
+                      height: ["20%", "80%", "30%", "100%", "20%"],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.1,
+                    }}
+                  />
                 ))}
+              </div>
+
+              <div className="mt-6 flex flex-col pt-4 border-t border-black/5 dark:border-white/5">
+                <div className="flex items-center justify-between opacity-90 hover:opacity-100">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-neon/20 text-brand-neon">
+                      <Sparkles className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
+                        {t("tour.scene4.card.reward_label")}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="shrink-0 text-sm font-display font-bold text-brand-neon drop-shadow-[0_0_10px_rgba(4,255,141,0.5)]">
+                    {t("tour.scene4.card.xp_earned")}
+                  </span>
+                </div>
               </div>
             </div>
           </CardContent>

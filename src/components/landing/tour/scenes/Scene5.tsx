@@ -1,9 +1,8 @@
-import { CheckCircle2, Star, Trophy } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Trophy, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 import SceneTemplate from "./SceneTemplate";
@@ -23,11 +22,6 @@ export default function Scene5(_: SceneComponentProps) {
     { label: t("tour.scene5.metrics.0.label"), value: t("tour.scene5.metrics.0.value") },
     { label: t("tour.scene5.metrics.1.label"), value: t("tour.scene5.metrics.1.value") },
     { label: t("tour.scene5.metrics.2.label"), value: t("tour.scene5.metrics.2.value") },
-  ];
-  const milestones = [
-    { done: true, label: t("tour.scene5.milestones.0.label"), progress: t("tour.scene5.milestones.0.progress") },
-    { done: true, label: t("tour.scene5.milestones.1.label"), progress: t("tour.scene5.milestones.1.progress") },
-    { done: false, label: t("tour.scene5.milestones.2.label"), progress: t("tour.scene5.milestones.2.progress") },
   ];
 
   return (
@@ -49,7 +43,7 @@ export default function Scene5(_: SceneComponentProps) {
             ]}
           />
           <p className={LEAD_COPY_CLASS}>
-            Eleva las capacidades de tu equipo y empoderalos para multiplicar los resultados al aplicar procesos de automatizacion impulsados por IA. Monitorea los resultados en tiempo real y motivalos en un ambiente competitivo.
+            Eleva las capacidades de tu equipo y empodéralos para multiplicar los resultados al aplicar procesos de automatización impulsados por IA. Monitorea los resultados en tiempo real y motívalos en un ambiente competitivo.
           </p>
         </div>
 
@@ -74,64 +68,49 @@ export default function Scene5(_: SceneComponentProps) {
             <div className="flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-display uppercase tracking-[0.18em] text-slate-600 dark:text-white/50">
-                  {t("tour.scene5.card.tag")}
+                  {t("tour.scene5.card.dashboard_tag")}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-slate-900 dark:text-white md:text-2xl lg:text-3xl">
-                  {t("tour.scene5.card.title")}
+                  {t("tour.scene5.card.dashboard_title")}
                 </h3>
               </div>
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-neon/20 bg-brand-neon/10 px-4 py-2 text-xs font-display font-bold text-brand-neon md:text-sm">
-                <Trophy className="h-4 w-4" />
-                {t("tour.scene5.card.level")}
+                <Users className="h-4 w-4" />
+                {t("tour.scene5.card.global_retention")}
               </div>
             </div>
 
-            <div className="pt-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-lg font-display font-semibold text-slate-900 dark:text-white">
-                    {t("tour.scene5.card.summary_title")}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-600 dark:text-white/60 md:text-sm">
-                    {t("tour.scene5.card.summary_desc")}
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-brand-neon/20 bg-brand-neon/10 p-3 text-brand-neon">
-                  <Trophy className="h-5 w-5" />
-                </div>
+            <div className="pt-2">
+              <div className="flex flex-col items-center justify-center p-4 mb-6 rounded-2xl border border-brand-neon/20 bg-gradient-to-b from-brand-neon/10 to-transparent">
+                <p className="text-3xl font-display font-black text-brand-neon drop-shadow-[0_0_15px_rgba(4,255,141,0.5)]">
+                  {t("tour.scene5.card.retention_value")}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-widest text-brand-neon/80 flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3" /> Impacto Organizacional
+                </p>
               </div>
 
-              <Progress value={68} className="mt-5 h-3 bg-white/10 [&>div]:bg-brand-neon" />
-
-              <div className="mt-6 flex flex-col divide-y divide-black/5 dark:divide-white/5">
-                {milestones.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center justify-between py-3.5 opacity-90 transition-opacity hover:opacity-100 sm:flex-nowrap"
-                  >
-                    <div className="flex min-w-0 items-center gap-4">
-                      <div
-                        className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center transition-transform",
-                          item.done
-                            ? "scale-110 text-brand-neon drop-shadow-[0_0_15px_rgba(4,255,141,0.5)]"
-                            : "text-slate-600 opacity-70 dark:text-white/30",
-                        )}
-                      >
-                        {item.done ? <CheckCircle2 className="h-5 w-5" /> : <Star className="h-5 w-5" />}
+              <div className="flex flex-col divide-y divide-black/5 dark:divide-white/5">
+                <p className="pb-3 text-xs font-display uppercase tracking-[0.18em] text-slate-600 dark:text-white/50">
+                  {t("tour.scene5.card.top_students")}
+                </p>
+                {[
+                  { name: t("tour.scene5.card.student_1"), score: t("tour.scene5.card.student_1_score"), color: "text-yellow-400" },
+                  { name: t("tour.scene5.card.student_2"), score: t("tour.scene5.card.student_2_score"), color: "text-slate-300" },
+                  { name: t("tour.scene5.card.student_3"), score: t("tour.scene5.card.student_3_score"), color: "text-amber-600" },
+                ].map((student, i) => (
+                  <div key={student.name} className="flex items-center justify-between py-3 opacity-90 transition-opacity hover:opacity-100">
+                    <div className="flex items-center gap-3">
+                      <span className={cn("font-display font-bold text-lg", student.color)}>#{i + 1}</span>
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 dark:bg-white/10 text-xs font-bold text-slate-700 dark:text-white">
+                        {student.name.charAt(0)}
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-display font-bold text-slate-900 dark:text-white md:text-sm">
-                          {item.label}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-brand-neon">
-                          {item.done ? t("tour.scene5.card.completed") : t("tour.scene5.card.next_objective")}
-                        </p>
-                      </div>
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">{student.name}</span>
                     </div>
-                    <span className="shrink-0 text-xs font-display font-bold text-slate-600 dark:text-white/70 md:text-sm">
-                      {item.progress}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-display font-bold text-brand-neon">{student.score}</span>
+                      <ArrowUpRight className="h-3 w-3 text-brand-neon/70" />
+                    </div>
                   </div>
                 ))}
               </div>

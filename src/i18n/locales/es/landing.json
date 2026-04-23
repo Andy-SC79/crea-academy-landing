@@ -468,11 +468,12 @@
         }
       ],
       "card": {
-        "tag": "Simulación en vivo",
-        "title": "Ruta de Especialización",
-        "level": "Nivel Ejecutivo",
-        "summary_title": "Resumen de progreso",
-        "summary_desc": "Mentoría, retos y generación activa."
+        "workspace_tag": "Espacio de trabajo AI",
+        "workspace_title": "Generador Multimodal",
+        "status_generating": "Generando podcast resumen...",
+        "active_tool": "Modelo: Sonnet 3.5 + TTS",
+        "xp_earned": "+150 XP",
+        "reward_label": "Creación activa"
       }
     },
     "scene5": {
@@ -508,13 +509,17 @@
         }
       ],
       "card": {
-        "tag": "Dashboard interactivo",
-        "title": "Ruta de aprendizaje activa",
-        "level": "Nivel en ascenso",
-        "summary_title": "Resumen de progreso",
-        "summary_desc": "Mentoría, retos y certificación conectados.",
-        "completed": "Completado",
-        "next_objective": "Siguiente objetivo"
+        "dashboard_tag": "Métricas de equipo",
+        "dashboard_title": "Ranking Corporativo",
+        "global_retention": "Retención Global",
+        "retention_value": "94%",
+        "top_students": "Top Estudiantes Semanal",
+        "student_1": "Carlos M.",
+        "student_1_score": "1.2k XP",
+        "student_2": "Laura G.",
+        "student_2_score": "980 XP",
+        "student_3": "Andrés S.",
+        "student_3_score": "850 XP"
       }
     },
     "pricing": {
@@ -528,40 +533,46 @@
         "free": {
           "name": "FREE",
           "kicker": "Explorador Crea",
-          "subtitle": "Experimenta el futuro del aprendizaje sin barreras.",
+          "subtitle": "Ideal para explorar antes de comprometerte. Sin fricciones, sin sorpresas.",
           "ctaLabel": "Empieza Gratis Ahora",
           "features": [
-            "Cuenta Gratis Forever: Comienza hoy mismo sin registrar tarjetas de credito.",
-            "Muestra de Rutas: Consume hasta el 30% de nuestras rutas globales.",
-            "Onboarding Inteligente: Adaptacion automatica del lenguaje a tu perfil.",
-            "Creditos de Interaccion IA: Chatea con Eli para probar la plataforma."
+            "Acceso incluido — 500 créditos / mes.",
+            "Ruta 1 completa (4 horas de contenido práctico).",
+            "3 sesiones de muestra de cada ruta restante.",
+            "Evaluación por IA en todas las sesiones incluidas.",
+            "Certificado digital de la Ruta 1 al completarla.",
+            "Acceso a noticias y tendencias de IA semanal."
           ]
         },
         "creadores": {
           "name": "CREADORES",
           "kicker": "Eleva tu Talento",
-          "subtitle": "Todo lo de Free, y ademas...",
+          "subtitle": "Todo lo del plan Free, más:",
           "badge": "Recomendado",
           "ctaLabel": "Eleva tu Talento",
           "features": [
-            "Interaccion IA Sin Limites: Conversa y aprende sin restricciones.",
-            "Personalizacion Total: Disena avatar, voz y tono de tu mentor.",
-            "Autogeneracion Multimedia: Crea podcasts, videos e infografias al instante.",
-            "Screen Sharing en Vivo: Asistencia proactiva sobre tus herramientas.",
-            "Clonacion de Rutas: Duplica y adapta rutas globales a tu entorno."
+            "Rutas ilimitadas con acceso a todo el catálogo.",
+            "Clonación de rutas pre-diseñadas a tu contexto.",
+            "Evaluación por IA con feedback real por cada entregable.",
+            "Mentor IA 24/7 de última generación y multimodal.",
+            "Certificados digitales, insignias y rankings.",
+            "Talleres en vivo mensuales con expertos en IA aplicada.",
+            "Comunidad privada de aprendizaje colaborativo."
           ]
         },
         "enterprise": {
           "name": "ENTERPRISE",
           "kicker": "Ecosistema Corporativo",
-          "subtitle": "Todo lo de Creadores, y ademas...",
+          "subtitle": "Todo lo del plan Creadores, más:",
           "ctaLabel": "Agendar Diagnostico",
           "features": [
-            "Rutas Corporativas: Convierte manuales en rutas interactivas.",
-            "Dashboard de Analiticas: Mide adopcion, horas y progreso en tiempo real.",
-            "Integracion Segura: Conexion Single Sign-On (SSO).",
-            "Kit de Transformacion: Diagnostico y workshops para directivos.",
-            "Convenio Institucional: Precios preferenciales para toda la fuerza laboral."
+            "Whitelabel (logos, marca, dominio propio).",
+            "Integración Live IA con pantalla compartida, audio y video en tiempo real.",
+            "Generación de contenido multimedia (video, podcast, infografías).",
+            "Rutas personalizadas por rol y evaluaciones dinámicas.",
+            "Implementación de ATLAS — Control de gobernanza IA.",
+            "Analítica avanzada con ROI medible por empleado y equipo.",
+            "Ciberseguridad corporativa con inicio de sesión seguro y soporte ejecutivo dedicado."
           ]
         }
       }
