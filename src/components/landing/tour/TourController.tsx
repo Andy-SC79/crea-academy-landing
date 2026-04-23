@@ -57,6 +57,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
           );
         })}
       </div>
+      <Footer />
       <WhatsAppWidget phoneNumber="573106014893" message="Hola, vengo del sitio web de Crea Academy y quiero más información." />
     </div>
   );

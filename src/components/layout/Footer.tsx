@@ -23,11 +23,18 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="mb-4">
-              <img 
-                src={mounted && resolvedTheme === 'light' ? creaLogoBlack : creaLogoWhite} 
-                alt="Crea Academy" 
-                className="h-12 transition-opacity duration-300" 
-              />
+              <div className="flex items-center">
+                <img 
+                  src={creaLogoBlack} 
+                  alt="Crea Academy" 
+                  className="h-12 w-auto object-contain block dark:hidden transition-opacity duration-300" 
+                />
+                <img 
+                  src={creaLogoWhite} 
+                  alt="Crea Academy" 
+                  className="h-12 w-auto object-contain hidden dark:block transition-opacity duration-300" 
+                />
+              </div>
             </div>
             <p className="text-black/60 dark:text-white/60 mb-4">
               {t('footer.tagline')}
