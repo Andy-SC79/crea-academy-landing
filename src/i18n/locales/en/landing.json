@@ -485,7 +485,12 @@
         "title": "Specialization Path",
         "level": "Executive Level",
         "summary_title": "Progress summary",
-        "summary_desc": "Mentoring, challenges, and active generation."
+        "summary_desc": "Mentoring, challenges, and active generation.",
+        "status_idle": "Detecting compilation error...",
+        "action_btn": "Activate Multimodal Vision",
+        "status_generating": "Analyzing screen and searching for a solution...",
+        "status_done": "Challenge Completed",
+        "reward_label": "98% Accuracy"
       },
       "status_generating": "Generating summary podcast...",
       "active_tool": "Model: Sonnet 3.5 + TTS",

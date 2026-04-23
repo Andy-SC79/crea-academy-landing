@@ -484,10 +484,13 @@
       "card": {
         "workspace_tag": "Espacio de trabajo AI",
         "workspace_title": "Generador Multimodal",
-        "status_generating": "Generando podcast resumen...",
+        "status_generating": "Analizando pantalla y buscando solución...",
         "active_tool": "Modelo: Sonnet 3.5 + TTS",
         "xp_earned": "+150 XP",
-        "reward_label": "Creación activa"
+        "reward_label": "Precisión 98%",
+        "status_idle": "Detectando error de compilación...",
+        "action_btn": "Activar Visión Multimodal",
+        "status_done": "Reto Superado"
       },
       "status_generating": "Generando podcast resumen...",
       "active_tool": "Modelo: Sonnet 3.5 + TTS",
