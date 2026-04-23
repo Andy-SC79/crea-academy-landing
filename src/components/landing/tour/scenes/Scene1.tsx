@@ -12,7 +12,7 @@ import {
   LEAD_COPY_CLASS,
   SceneHeadline,
   SceneEyebrow,
-  TOUR_GLASS_PANEL_CLASS,
+  TOUR_FRAME_CLASS,
   type SceneComponentProps,
 } from "./shared";
 
@@ -43,7 +43,10 @@ export default function Scene1(_: SceneComponentProps) {
             as="h1"
             variant="hero"
             className="max-w-[15ch]"
-            parts={[{ text: t("tour.scene1.headline") }]}
+            parts={[
+              { text: t("tour.scene1.headline_line1") },
+              { text: t("tour.scene1.headline_line2"), accent: "neon", breakBefore: true },
+            ]}
           />
 
           <div className={cn(LEAD_COPY_CLASS, "mt-12")}>
@@ -53,8 +56,8 @@ export default function Scene1(_: SceneComponentProps) {
       </div>
 
       <div className="relative flex w-full min-w-0 items-center justify-center lg:h-full">
-        <div className={cn(TOUR_GLASS_PANEL_CLASS, "w-full max-w-[42rem] p-3 md:p-4")}>
-          <div ref={videoRef} className="aspect-video w-full overflow-hidden rounded-[24px] bg-slate-950">
+        <div className={cn(TOUR_FRAME_CLASS, "w-full max-w-[48rem] p-[1px] aspect-video")}>
+          <div ref={videoRef} className="relative h-full w-full overflow-hidden rounded-[31px] bg-slate-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
             {isInView ? (
               <video
                 src={creaLogoVideo}
@@ -65,9 +68,10 @@ export default function Scene1(_: SceneComponentProps) {
                 controls={false}
                 preload="metadata"
                 disablePictureInPicture
-                className="h-full w-full object-contain pointer-events-none"
+                className="absolute inset-0 h-full w-full object-cover scale-105 pointer-events-none opacity-90"
               />
             ) : null}
+            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(4,255,141,0.15)] rounded-[31px]" />
           </div>
         </div>
       </div>
