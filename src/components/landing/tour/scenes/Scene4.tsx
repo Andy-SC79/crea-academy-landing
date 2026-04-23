@@ -78,14 +78,14 @@ export default function Scene4(_: SceneComponentProps) {
 
             <div className="relative z-10 flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-display font-extrabold uppercase tracking-[0.18em] text-slate-500 dark:text-brand-orange/80">
+                <p className="text-xs font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-orange/80">
                   {t("tour.scene4.card.workspace_tag")}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-slate-900 dark:text-white md:text-2xl lg:text-3xl">
                   {t("tour.scene4.card.workspace_title")}
                 </h3>
               </div>
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-display font-extrabold text-slate-900 shadow-sm backdrop-blur-md md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-display font-black text-[#00A859] shadow-sm backdrop-blur-md md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
                 <Wand2 className="h-4 w-4" />
                 {t("tour.scene4.card.active_tool")}
               </div>

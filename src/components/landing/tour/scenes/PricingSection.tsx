@@ -153,7 +153,7 @@ const PricingSection = () => {
                 "p-5 lg:max-w-sm",
               )}
             >
-              <p className="text-[11px] font-display font-extrabold uppercase tracking-[0.18em] text-slate-500 dark:text-brand-neon/80">
+              <p className="text-[11px] font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-neon/80">
                 {t("tour.pricing.safe_payment")}
               </p>
               <p className="mt-2 text-sm font-bold leading-6 text-slate-900 dark:font-medium dark:text-white/90">
@@ -238,7 +238,7 @@ const PricingSection = () => {
 
                       {tier.badge ? (
                         <div className="absolute right-4 top-4 z-20">
-                          <span className="inline-flex whitespace-nowrap rounded-full border border-slate-200/80 bg-white/90 px-3 py-1 text-[10px] font-display font-extrabold uppercase tracking-[0.16em] text-slate-900 shadow-sm backdrop-blur-md md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
+                          <span className="inline-flex whitespace-nowrap rounded-full border border-slate-200/80 bg-white/90 px-3 py-1 text-[10px] font-display font-black uppercase tracking-[0.16em] text-[#00A859] shadow-sm backdrop-blur-md md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
                             {tier.badge}
                           </span>
                         </div>
