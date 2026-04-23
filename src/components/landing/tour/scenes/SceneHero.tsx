@@ -94,8 +94,8 @@ export default function SceneHero(_: SceneComponentProps) {
                     className="!text-brand-neon !border-brand-neon/20 dark:!bg-brand-neon/10"
                     icon={
                       <div className="flex items-center">
-                        <img src={creaLogoBlack} alt="Crea Logo" className="h-3 w-auto object-contain block dark:hidden" />
-                        <img src={creaLogoWhite} alt="Crea Logo" className="h-3 w-auto object-contain hidden dark:block" />
+                        <img src={creaLogoBlack} alt="Crea Logo" className="h-4 sm:h-5 w-auto object-contain block dark:hidden" />
+                        <img src={creaLogoWhite} alt="Crea Logo" className="h-4 sm:h-5 w-auto object-contain hidden dark:block" />
                       </div>
                     }
                   >
