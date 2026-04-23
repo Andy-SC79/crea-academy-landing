@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import "@/styles/singularity.css";
 
 import SceneTemplate from "./SceneTemplate";
-import { SceneHeadline, type SceneComponentProps, type SceneHeadlinePart } from "./shared";
+import { SceneHeadline, SceneEyebrow, type SceneComponentProps, type SceneHeadlinePart } from "./shared";
 
 const HERO_KEYWORDS = {
   en: { neon: "living", prisma: "singularity" },
@@ -87,6 +87,9 @@ export default function SceneHero(_: SceneComponentProps) {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="flex w-full flex-col items-center"
               >
+                <div className="mb-4 flex justify-center">
+                  <SceneEyebrow>Crea Academy</SceneEyebrow>
+                </div>
                 <SceneHeadline
                   as="h1"
                   variant="hero"
