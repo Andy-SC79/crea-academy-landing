@@ -14,10 +14,10 @@ export const SCENE_CONTAINER_CLASS =
   "mx-auto grid w-full min-w-0 max-w-[min(100%,104rem)] content-start items-center gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-8 md:gap-8 md:px-10 md:py-10 mt-0 lg:mt-4 xl:gap-10 xl:px-14 2xl:px-16 2xl:py-12";
 
 export const HERO_HEADLINE_CLASS =
-  "max-w-[14ch] font-display text-[clamp(1.35rem,5vw,6.25rem)] font-extrabold dark:font-bold leading-[0.96] tracking-[-0.045em] text-slate-900 pb-3";
+  "max-w-[14ch] font-display text-[clamp(1.35rem,5vw,6.25rem)] font-extrabold dark:font-bold leading-[0.96] tracking-[-0.045em] text-slate-900 dark:text-white pb-3";
 
 export const SCENE_HEADING_CLASS =
-  "max-w-[16ch] font-display text-[clamp(2rem,6vw,4rem)] font-extrabold dark:font-bold leading-[0.98] tracking-[-0.04em] text-slate-900 pb-3";
+  "max-w-[16ch] font-display text-[clamp(2rem,6vw,4rem)] font-extrabold dark:font-bold leading-[0.98] tracking-[-0.04em] text-slate-900 dark:text-white pb-3";
 
 export const LEAD_COPY_CLASS =
   "max-w-[42rem] text-[clamp(0.85rem,0.92rem+0.4vw,1.22rem)] leading-[1.8] font-medium dark:font-normal text-slate-700 dark:text-white/70";
