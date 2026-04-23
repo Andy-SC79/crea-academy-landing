@@ -43,7 +43,7 @@ export default function Scene5(_: SceneComponentProps) {
             ]}
           />
           <p className={LEAD_COPY_CLASS}>
-            Eleva las capacidades de tu equipo y empodéralos para multiplicar los resultados al aplicar procesos de automatización impulsados por IA. Monitorea los resultados en tiempo real y motívalos en un ambiente competitivo.
+            Eleva las capacidades de tu equipo y empodéralos para multiplicar los resultados integrando flujos de trabajo impulsados por IA.
           </p>
         </div>
 
