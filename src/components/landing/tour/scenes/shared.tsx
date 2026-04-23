@@ -20,7 +20,7 @@ export const SCENE_HEADING_CLASS =
   "max-w-[16ch] font-display text-[clamp(2rem,6vw,4rem)] font-extrabold dark:font-bold leading-[0.98] tracking-[-0.04em] text-slate-900 dark:text-white pb-3";
 
 export const LEAD_COPY_CLASS =
-  "max-w-[42rem] text-[clamp(0.85rem,0.92rem+0.4vw,1.22rem)] leading-[1.8] font-medium dark:font-normal text-slate-700 dark:text-white/70";
+  "max-w-[44rem] font-display text-[clamp(1.15rem,1.5vw+1rem,1.65rem)] leading-[1.6] text-slate-800 dark:text-slate-100 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]";
 
 export const SURFACE_TITLE_CLASS =
   "mt-4 font-display text-[clamp(1.45rem,1.08rem+1.45vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white pb-3";
