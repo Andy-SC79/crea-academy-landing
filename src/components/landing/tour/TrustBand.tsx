@@ -23,8 +23,8 @@ export default function TrustBand() {
             <img src={i365LogoBlack} alt="Ingeniería 365" className="h-6 md:h-8 w-auto block dark:hidden" />
             <img src={i365LogoWhite} alt="Ingeniería 365" className="h-6 md:h-8 w-auto hidden dark:block" />
           </div>
-          <img src={cesdeLogo} alt="CESDE" className="h-7 md:h-10 w-auto" />
-          <img src={comfamaLogo} alt="Comfama" className="h-6 md:h-8 w-auto" />
+          <img src={cesdeLogo} alt="CESDE" className="h-7 md:h-10 w-auto mix-blend-multiply dark:mix-blend-screen dark:invert" />
+          <img src={comfamaLogo} alt="Comfama" className="h-6 md:h-8 w-auto mix-blend-multiply dark:mix-blend-screen dark:invert" />
         </div>
       </div>
     </section>
