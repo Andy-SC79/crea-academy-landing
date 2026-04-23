@@ -12,7 +12,7 @@ export default function TrustBand() {
   }, []);
 
   return (
-    <section className="relative z-20 w-full overflow-hidden border-y border-slate-200/50 bg-white/40 py-8 backdrop-blur-md dark:border-white/5 dark:bg-black/20">
+    <section className="relative z-20 w-full overflow-hidden border-y border-slate-200/50 bg-white py-8 dark:border-white/5 dark:bg-black/20 dark:backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-6 px-4">
         <p className="font-display text-xs font-extrabold uppercase tracking-[0.2em] text-slate-500 dark:text-white/40 text-center">
           Respaldado por pioneros de la industria
@@ -23,8 +23,8 @@ export default function TrustBand() {
             <img src={i365LogoBlack} alt="Ingeniería 365" className="h-6 md:h-8 w-auto block dark:hidden" />
             <img src={i365LogoWhite} alt="Ingeniería 365" className="h-6 md:h-8 w-auto hidden dark:block" />
           </div>
-          <img src={cesdeLogo} alt="CESDE" className="h-7 md:h-10 w-auto mix-blend-multiply dark:mix-blend-screen dark:invert" />
-          <img src={comfamaLogo} alt="Comfama" className="h-6 md:h-8 w-auto mix-blend-multiply dark:mix-blend-screen dark:invert" />
+          <img src={cesdeLogo} alt="CESDE" className="h-7 md:h-10 w-auto dark:mix-blend-screen dark:invert" />
+          <img src={comfamaLogo} alt="Comfama" className="h-6 md:h-8 w-auto dark:mix-blend-screen dark:invert" />
         </div>
       </div>
     </section>
