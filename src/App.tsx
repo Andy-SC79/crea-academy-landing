@@ -1,24 +1,8 @@
-import { Suspense, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
-import TourController from "@/components/landing/tour/TourController";
-
-function App() {
+import React from "react";
+export default function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem={false}>
-      <BrowserRouter>
-        <Suspense fallback={
-          <div className="flex h-screen w-full items-center justify-center bg-black">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-neon border-t-transparent"></div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<TourController />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </ThemeProvider>
+    <div className="p-10 font-display text-4xl text-brand-neon bg-black min-h-screen flex items-center justify-center">
+      <h1>Sprint 1: Cimientos y Configuración OK</h1>
+    </div>
   );
 }
-
-export default App;
