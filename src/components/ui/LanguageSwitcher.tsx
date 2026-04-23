@@ -9,6 +9,8 @@ export function LanguageSwitcher({ compact }: { compact?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const currentLang = i18n.language || "es";
+
   const languages = [
     { code: "es", label: "ES" },
     { code: "en", label: "EN" },
@@ -35,7 +37,7 @@ export function LanguageSwitcher({ compact }: { compact?: boolean }) {
       >
         <Globe className="h-4 w-4 sm:mr-1" />
         <span className="hidden sm:inline-block font-bold">
-          {i18n.language.toUpperCase().substring(0, 2)}
+          {currentLang.toUpperCase().substring(0, 2)}
         </span>
       </Button>
       
@@ -50,7 +52,7 @@ export function LanguageSwitcher({ compact }: { compact?: boolean }) {
               }}
               className={cn(
                 "block w-full rounded-xl px-3 py-2 text-center text-sm font-bold transition-colors",
-                i18n.language.startsWith(lang.code)
+                currentLang.startsWith(lang.code)
                   ? "bg-brand-neon/20 text-brand-neon dark:bg-brand-neon/15"
                   : "hover:bg-slate-100 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200"
               )}
