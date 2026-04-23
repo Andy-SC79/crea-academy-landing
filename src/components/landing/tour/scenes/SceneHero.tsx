@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
+import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
+import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import { Button } from "@/components/ui/button";
 import "@/styles/singularity.css";
 
@@ -88,7 +90,17 @@ export default function SceneHero(_: SceneComponentProps) {
                 className="flex w-full flex-col items-center"
               >
                 <div className="mb-4 flex justify-center">
-                  <SceneEyebrow>Crea Academy</SceneEyebrow>
+                  <SceneEyebrow 
+                    className="!text-brand-neon !border-brand-neon/20 dark:!bg-brand-neon/10"
+                    icon={
+                      <div className="flex items-center">
+                        <img src={creaLogoBlack} alt="Crea Logo" className="h-3 w-auto object-contain block dark:hidden" />
+                        <img src={creaLogoWhite} alt="Crea Logo" className="h-3 w-auto object-contain hidden dark:block" />
+                      </div>
+                    }
+                  >
+                    Crea Academy
+                  </SceneEyebrow>
                 </div>
                 <SceneHeadline
                   as="h1"
