@@ -32,10 +32,10 @@ export const METRIC_VALUE_CLASS =
   "mt-3 font-display text-[clamp(1.25rem,1.5rem+1.5vw,3.5rem)] font-semibold leading-none text-slate-900 dark:text-white pb-3";
 
 export const TOUR_FRAME_CLASS =
-  "relative w-full rounded-[32px] p-[1px] bg-gradient-to-br from-brand-cyan/60 via-brand-purple/45 to-brand-orange/55 shadow-xl shadow-black/5 dark:shadow-[0_0_40px_rgba(123,44,191,0.05)]";
+  "relative w-full rounded-[32px] p-[1px] bg-gradient-to-br from-slate-200/50 via-slate-100/50 to-slate-200/50 shadow-[0_20px_40px_rgba(0,0,0,0.04)] dark:from-brand-cyan/60 dark:via-brand-purple/45 dark:to-brand-orange/55 dark:shadow-[0_0_40px_rgba(123,44,191,0.05)]";
 
 export const TOUR_SURFACE_CLASS =
-  "relative overflow-hidden rounded-[31px] border border-slate-200/75 bg-slate-50/85 text-slate-900 shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:!border-[#16243C] dark:!bg-[linear-gradient(180deg,rgba(9,18,35,0.96)_0%,rgba(7,13,27,0.94)_100%)] dark:text-white dark:shadow-[0_24px_70px_rgba(0,0,0,0.24)]";
+  "relative overflow-hidden rounded-[31px] border border-white/60 bg-white/60 text-slate-900 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-2xl dark:!border-[#16243C] dark:!bg-[linear-gradient(180deg,rgba(9,18,35,0.96)_0%,rgba(7,13,27,0.94)_100%)] dark:text-white dark:shadow-[0_24px_70px_rgba(0,0,0,0.24)]";
 
 export const TOUR_GLASS_PANEL_CLASS =
   "rounded-[30px] border border-slate-200/80 bg-white/80 text-slate-900 shadow-[0_20px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:shadow-[0_24px_70px_rgba(0,0,0,0.28)]";

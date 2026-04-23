@@ -1,14 +1,14 @@
 :root {
-    --tour-bg-start: #f8fafc;
-  --tour-bg-mid: #eef4fb;
-  --tour-bg-end: #f8fafc;
-  --tour-glow-neon: rgba(4, 255, 141, 0.28);
-  --tour-glow-cyan: rgba(0, 229, 255, 0.25);
-  --tour-glow-purple: rgba(157, 0, 255, 0.22);
-  --tour-glow-orange: rgba(255, 107, 0, 0.20);
-  --tour-vignette: rgba(255, 255, 255, 0.42);
-  --tour-header-bg: rgba(248, 250, 252, 0.72);
-  --tour-header-border: rgba(15, 23, 42, 0.06);
+      --tour-bg-start: #ffffff;
+  --tour-bg-mid: #f1f5f9;
+  --tour-bg-end: #ffffff;
+  --tour-glow-neon: rgba(4, 255, 141, 0.15);
+  --tour-glow-cyan: rgba(0, 229, 255, 0.12);
+  --tour-glow-purple: rgba(157, 0, 255, 0.10);
+  --tour-glow-orange: rgba(255, 107, 0, 0.08);
+  --tour-vignette: rgba(255, 255, 255, 0.7);
+  --tour-header-bg: rgba(255, 255, 255, 0.85);
+  --tour-header-border: rgba(15, 23, 42, 0.04);
 }
 
 .dark {
@@ -38,6 +38,10 @@
 }
 
 .tour-ambient-glow {
+  filter: blur(80px); /* Massive blur for mesh gradient effect */
+  opacity: 1;
+}
+.dark .tour-ambient-glow {
   filter: blur(24px);
   opacity: 0.85;
 }
