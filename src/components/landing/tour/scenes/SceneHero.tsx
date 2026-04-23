@@ -89,23 +89,25 @@ export default function SceneHero(_: SceneComponentProps) {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="flex w-full flex-col items-center"
               >
-                <div className="mb-4 flex justify-center">
-                  <SceneEyebrow 
-                    className="!text-brand-neon !border-brand-neon/20 dark:!bg-brand-neon/10"
-                    icon={
+                <div className="mb-8 flex justify-center">
+                  <div className="group relative inline-flex items-center justify-center gap-4 rounded-full border border-slate-200/50 bg-white/40 px-5 py-2.5 shadow-2xl shadow-black/5 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:border-white/10 dark:bg-black/40 dark:shadow-brand-neon/5 dark:hover:bg-black/60">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="relative flex items-center gap-3 sm:gap-4">
                       <div className="flex items-center">
-                        <img src={creaLogoBlack} alt="Crea Logo" className="h-4 sm:h-5 w-auto object-contain block dark:hidden" />
-                        <img src={creaLogoWhite} alt="Crea Logo" className="h-4 sm:h-5 w-auto object-contain hidden dark:block" />
+                        <img src={creaLogoBlack} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain block dark:hidden" />
+                        <img src={creaLogoWhite} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
                       </div>
-                    }
-                  >
-                    Crea Academy
-                  </SceneEyebrow>
+                      <div className="h-5 sm:h-6 w-[2px] rounded-full bg-slate-300 dark:bg-white/20" />
+                      <span className="font-display text-[0.8rem] sm:text-[0.95rem] font-black tracking-[0.25em] text-slate-900 dark:text-white uppercase drop-shadow-sm pt-1">
+                        Academy
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <SceneHeadline
                   as="h1"
                   variant="hero"
-                  className="mx-auto max-w-[16ch] text-center text-[clamp(2rem,6.9vw,5.9rem)] leading-[0.95] tracking-[-0.05em]"
+                  className="mx-auto max-w-[18ch] text-center text-[clamp(2.5rem,8.5vw,7.5rem)] leading-[0.95] tracking-[-0.05em]"
                   delay={34}
                   parts={headlineParts}
                 />
