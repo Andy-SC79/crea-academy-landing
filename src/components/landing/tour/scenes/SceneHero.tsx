@@ -59,7 +59,7 @@ export default function SceneHero(_: SceneComponentProps) {
   return (
     <SceneTemplate className="grid-cols-1 !max-w-none !gap-0 !px-0 !py-0" flush>
       <div className="col-span-full">
-        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 pb-12 pt-0 sm:px-8 md:px-12 md:pb-16 md:pt-0">
+        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 sm:px-8 md:px-12">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.12),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.08),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
           <div className="absolute inset-0 opacity-70 dark:opacity-90">
             <VolumetricBrandField
@@ -78,39 +78,47 @@ export default function SceneHero(_: SceneComponentProps) {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-white/28 via-white/6 to-transparent dark:from-black/30 dark:via-black/8" />
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/10 blur-[140px] dark:bg-brand-cyan/12" />
 
-          <div className="relative z-10 mx-auto flex w-full max-w-[72rem] flex-col items-center justify-center text-center">
+          <div className="relative z-10 mx-auto flex h-[100dvh] w-full max-w-[72rem] flex-col items-center justify-between pb-10 pt-[5.5rem] text-center sm:pb-16 sm:pt-28">
+            <div className="flex flex-1 w-full flex-col items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.7 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="flex w-full flex-col items-center"
+              >
+                <SceneHeadline
+                  as="h1"
+                  variant="hero"
+                  className="mx-auto max-w-[16ch] text-center text-[clamp(2rem,6.9vw,5.9rem)] leading-[0.95] tracking-[-0.05em]"
+                  delay={34}
+                  parts={headlineParts}
+                />
+              </motion.div>
+            </div>
+
             <motion.div
               initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.7 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex w-full flex-col items-center gap-8"
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row pb-safe"
             >
-              <SceneHeadline
-                as="h1"
-                variant="hero"
-                className="mx-auto max-w-[16ch] text-center text-[clamp(2rem,6.9vw,5.9rem)] leading-[0.95] tracking-[-0.05em]"
-                delay={34}
-                parts={headlineParts}
-              />
-
-              <div className="flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row">
-                <Button
-                  asChild
-                  size="xl"
-                  variant="outline"
-                  className="min-h-[3.5rem] w-full rounded-full border-slate-300/80 bg-white/78 px-8 text-base font-bold text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
-                >
-                  <Link to="/auth">{t("nav.signIn", { ns: "common" })}</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="xl"
-                  className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-8 text-base font-bold text-black hover:bg-brand-neon/90"
-                >
-                  <Link to="/tour#tour-pricing">{t("tour.sceneHero.createAccount", { ns: "landing" })}</Link>
-                </Button>
-              </div>
+              <Button
+                asChild
+                size="xl"
+                variant="outline"
+                className="min-h-[3.5rem] w-full rounded-full border-slate-300/80 bg-white/78 px-8 text-base font-bold text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+              >
+                <a href="https://crea.academy/auth">{t("nav.signIn", { ns: "common" })}</a>
+              </Button>
+              <Button
+                asChild
+                size="xl"
+                className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-8 text-base font-bold text-black hover:bg-brand-neon/90"
+              >
+                <a href="https://crea.academy/auth?signup=true">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
+              </Button>
             </motion.div>
           </div>
         </section>
