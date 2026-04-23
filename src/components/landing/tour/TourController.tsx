@@ -27,7 +27,8 @@ export default function TourController({ integrationSlot }: TourControllerProps)
         <div className="tour-ambient-base absolute inset-0" />
         <div className="tour-ambient-glow neon absolute left-[10%] top-[8%] h-[28rem] w-[28rem]" />
         <div className="tour-ambient-glow cyan absolute right-[8%] top-[12%] h-[24rem] w-[24rem]" />
-        <div className="tour-ambient-glow purple absolute left-1/2 top-[62%] h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2" />
+        <div className="tour-ambient-glow orange absolute left-[20%] top-[45%] h-[30rem] w-[30rem]" />
+        <div className="tour-ambient-glow purple absolute right-[15%] top-[70%] h-[36rem] w-[36rem]" />
         <div className="tour-ambient-vignette absolute inset-0" />
       </div>
 
