@@ -32,6 +32,9 @@ type PricingTier = {
   ctaStyle: "ghost" | "solid";
   featureTone: "muted" | "brand";
   features: string[];
+  priceAmount: string;
+  pricePeriod: string;
+  priceSubtext: string;
 };
 
 const cardVariants = {
@@ -69,6 +72,9 @@ const PricingSection = () => {
       ctaIcon: ArrowRight,
       ctaStyle: "ghost",
       featureTone: "brand",
+      priceAmount: t("tour.pricing.tiers.free.price_amount"),
+      pricePeriod: t("tour.pricing.tiers.free.price_period"),
+      priceSubtext: t("tour.pricing.tiers.free.price_subtext"),
       features: [
         t("tour.pricing.tiers.free.features.0"),
         t("tour.pricing.tiers.free.features.1"),
@@ -89,6 +95,9 @@ const PricingSection = () => {
       ctaIcon: Zap,
       ctaStyle: "solid",
       featureTone: "brand",
+      priceAmount: t("tour.pricing.tiers.creadores.price_amount"),
+      pricePeriod: t("tour.pricing.tiers.creadores.price_period"),
+      priceSubtext: t("tour.pricing.tiers.creadores.price_subtext"),
       features: [
         t("tour.pricing.tiers.creadores.features.0"),
         t("tour.pricing.tiers.creadores.features.1"),
@@ -108,6 +117,9 @@ const PricingSection = () => {
       ctaIcon: CalendarDays,
       ctaStyle: "solid",
       featureTone: "brand",
+      priceAmount: t("tour.pricing.tiers.creadores.price_amount"),
+      pricePeriod: t("tour.pricing.tiers.creadores.price_period"),
+      priceSubtext: t("tour.pricing.tiers.creadores.price_subtext"),
       features: [
         t("tour.pricing.tiers.enterprise.features.0"),
         t("tour.pricing.tiers.enterprise.features.1"),
@@ -248,8 +260,24 @@ const PricingSection = () => {
                     <p className="mt-6 min-h-[56px] text-sm leading-6 text-slate-700 dark:text-white/70">
                       {tier.subtitle}
                     </p>
+                    
+                    <div className="my-6">
+                      <div className="flex items-baseline gap-1">
+                        <span className="font-display text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+                          {tier.priceAmount}
+                        </span>
+                        {tier.pricePeriod && (
+                          <span className="text-sm font-semibold text-slate-500 dark:text-white/50">
+                            {tier.pricePeriod}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-[13px] text-slate-500 dark:text-white/50">
+                        {tier.priceSubtext}
+                      </p>
+                    </div>
 
-                    <div className="mt-8 flex-1">
+                    <div className="mt-4 flex-1 border-t border-slate-200/50 dark:border-white/10 pt-6">
                       <ul className="space-y-4">
                         {tier.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-3">

@@ -552,7 +552,10 @@
             "Amostra de Trilhas: Consuma até 30% de nossas trilhas globais.",
             "Onboarding Inteligente: Adaptação automática da linguagem ao seu perfil.",
             "Créditos de Interação IA: Converse com a Eli para testar a plataforma."
-          ]
+          ],
+          "price_amount": "$0",
+          "price_period": "",
+          "price_subtext": "Para sempre. Sem compromissos."
         },
         "creadores": {
           "name": "CRIADORES",
@@ -566,7 +569,13 @@
             "Autogeração Multimídia: Crie podcasts, vídeos e infográficos instantaneamente.",
             "Screen Sharing ao Vivo: Assistência proativa sobre suas ferramentas.",
             "Clonagem de Trilhas: Duplique e adapte trilhas globais ao seu contexto."
-          ]
+          ],
+          "price_currency": "USD",
+          "price_amount": "$50",
+          "price_period": "/mês",
+          "price_subtext": "Faturado anualmente ou $55 mensalmente",
+          "free_price": "Grátis",
+          "free_subtext": "Para sempre. Sem cartão de crédito."
         },
         "enterprise": {
           "name": "ENTERPRISE",
@@ -579,7 +588,10 @@
             "Integração Segura: Conexão Single Sign-On (SSO).",
             "Kit de Transformação: Diagnóstico e workshops para diretoria.",
             "Convênio Institucional: Preços preferenciais para toda a força de trabalho."
-          ]
+          ],
+          "price_amount": "Sob medida",
+          "price_period": "",
+          "price_subtext": "Projetado para a escala da sua empresa."
         }
       },
       "headline_1": "Bem-vindo ao ",

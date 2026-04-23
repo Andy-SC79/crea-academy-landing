@@ -561,7 +561,10 @@
             "Evaluación por IA en todas las sesiones incluidas.",
             "Certificado digital de la Ruta 1 al completarla.",
             "Acceso a noticias y tendencias de IA semanal."
-          ]
+          ],
+          "price_amount": "$0",
+          "price_period": "",
+          "price_subtext": "Para siempre. Sin compromisos."
         },
         "creadores": {
           "name": "CREADORES",
@@ -577,7 +580,13 @@
             "Certificados digitales, insignias y rankings.",
             "Talleres en vivo mensuales con expertos en IA aplicada.",
             "Comunidad privada de aprendizaje colaborativo."
-          ]
+          ],
+          "price_currency": "USD",
+          "price_amount": "$50",
+          "price_period": "/mes",
+          "price_subtext": "Facturado anualmente o $55 mes a mes",
+          "free_price": "Gratis",
+          "free_subtext": "Para siempre. Sin tarjeta de crédito."
         },
         "enterprise": {
           "name": "ENTERPRISE",
@@ -592,7 +601,10 @@
             "Implementación de ATLAS — Control de gobernanza IA.",
             "Analítica avanzada con ROI medible por empleado y equipo.",
             "Ciberseguridad corporativa con inicio de sesión seguro y soporte ejecutivo dedicado."
-          ]
+          ],
+          "price_amount": "A medida",
+          "price_period": "",
+          "price_subtext": "Diseñado para la escala de tu empresa."
         }
       },
       "headline_1": "Bienvenido al ",

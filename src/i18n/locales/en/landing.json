@@ -553,7 +553,10 @@
             "Path Previews: Consume up to 30% of our global learning paths.",
             "Smart Onboarding: Automatic language adaptation to your profile.",
             "AI Interaction Credits: Chat with Eli to test the platform."
-          ]
+          ],
+          "price_amount": "$0",
+          "price_period": "",
+          "price_subtext": "Forever. No commitments."
         },
         "creadores": {
           "name": "CREATORS",
@@ -567,7 +570,13 @@
             "Multimedia Autogeneration: Create podcasts, videos, and infographics instantly.",
             "Live Screen Sharing: Proactive assistance on your active tools.",
             "Path Cloning: Duplicate and adapt global paths to your context."
-          ]
+          ],
+          "price_currency": "USD",
+          "price_amount": "$50",
+          "price_period": "/mo",
+          "price_subtext": "Billed annually or $55 month-to-month",
+          "free_price": "Free",
+          "free_subtext": "Forever. No credit card required."
         },
         "enterprise": {
           "name": "ENTERPRISE",
@@ -580,7 +589,10 @@
             "Secure Integration: Single Sign-On (SSO) connection.",
             "Transformation Kit: Diagnostics and workshops for executives.",
             "Institutional Agreement: Preferential pricing for the entire workforce."
-          ]
+          ],
+          "price_amount": "Custom",
+          "price_period": "",
+          "price_subtext": "Designed for your company's scale."
         }
       },
       "headline_1": "Welcome to the ",
