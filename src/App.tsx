@@ -1,8 +1,15 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TourController from "@/components/landing/tour/TourController";
+
 export default function App() {
   return (
-    <div className="p-10 font-display text-4xl text-brand-neon bg-black min-h-screen flex items-center justify-center">
-      <h1>Sprint 1: Cimientos y Configuración OK</h1>
-    </div>
+    <BrowserRouter>
+      <Suspense fallback={<div className="bg-black min-h-screen text-white flex justify-center items-center">Cargando...</div>}>
+        <Routes>
+          <Route path="/" element={<TourController />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
