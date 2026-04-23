@@ -39,10 +39,10 @@ export default function Header() {
             <ThemeToggle />
             
             <div className="flex items-center gap-2 md:gap-4 ml-1">
-              <a href="https://app.crea-academy.com/auth" className="hidden text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors md:inline-block">
+              <a href="https://crea.academy/auth" className="hidden text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors md:inline-block">
                 Iniciar sesión
               </a>
-              <a href="https://app.crea-academy.com/auth?signup=true" className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-xs font-bold text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-sm">
+              <a href="https://crea.academy/auth?signup=true" className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-xs font-bold text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-sm">
                 Crear cuenta
               </a>
             </div>
