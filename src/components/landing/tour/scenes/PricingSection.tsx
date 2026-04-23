@@ -133,7 +133,14 @@ const PricingSection = () => {
                 <AnimatedText text={t("tour.pricing.eyebrow")} className="" />
               </SceneEyebrow>
               <div className="space-y-3">
-                <SceneHeadline parts={[{ text: t("tour.pricing.headline") }]} />
+                <SceneHeadline
+                  parts={[
+                    { text: t("tour.pricing.headline_1") },
+                    { text: t("tour.pricing.headline_2"), accent: "prisma" },
+                    { text: t("tour.pricing.headline_3") },
+                    { text: t("tour.pricing.headline_4"), accent: "neon" },
+                  ]}
+                />
                 <p className="max-w-2xl text-base leading-7 text-slate-700 dark:text-white/70 sm:text-[1.05rem]">
                   {t("tour.pricing.description")}
                 </p>
