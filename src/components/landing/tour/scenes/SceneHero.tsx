@@ -13,9 +13,9 @@ import SceneTemplate from "./SceneTemplate";
 import { SceneHeadline, SceneEyebrow, type SceneComponentProps, type SceneHeadlinePart } from "./shared";
 
 const HERO_KEYWORDS = {
-  en: { neon: "infinite", prisma: "creation" },
-  es: { neon: "infinita", prisma: "creación" },
-  pt: { neon: "infinita", prisma: "criação" },
+  en: { neon: "living", prisma: "singularity" },
+  es: { neon: "viva", prisma: "singularidad" },
+  pt: { neon: "viva", prisma: "singularidade" },
 } as const;
 
 function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: string): any[] {

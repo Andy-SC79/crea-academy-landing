@@ -379,7 +379,7 @@
   },
   "tour": {
     "sceneHero": {
-      "headline": "Unlock your power of infinite creation",
+      "headline": "An educational singularity orchestrated by living intelligence",
       "createAccount": "Create account"
     },
     "scene2": {
@@ -413,10 +413,10 @@
       "headline": "The educational model is broken.",
       "typewriter": "Crea Academy is a personalized, gamified learning experience focused on real-world projects.",
       "card_tag": "Traditional System",
-      "headline_1": "The educational ",
-      "headline_2": "model",
-      "headline_3": " is",
-      "headline_4": "broken."
+      "headline_1": "Unlock your power of ",
+      "headline_2": "infinite",
+      "headline_3": " ",
+      "headline_4": "creation."
     },
     "scene3": {
       "eyebrow": "Transform your workforce",

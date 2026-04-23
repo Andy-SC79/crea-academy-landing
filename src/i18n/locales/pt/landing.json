@@ -379,7 +379,7 @@
   },
   "tour": {
     "sceneHero": {
-      "headline": "Desbloqueie seu poder de criação infinita",
+      "headline": "Uma singularidade educacional orquestrada por inteligência viva",
       "createAccount": "Criar conta"
     },
     "scene2": {
@@ -412,10 +412,10 @@
       "headline": "O modelo educacional está quebrado.",
       "typewriter": "Crea Academy é uma experiência de aprendizado personalizada, gamificada e focada em projetos reais.",
       "card_tag": "Sistema Tradicional",
-      "headline_1": "O ",
-      "headline_2": "modelo",
-      "headline_3": " educacional está",
-      "headline_4": "quebrado."
+      "headline_1": "Desbloqueie seu poder de ",
+      "headline_2": "criação",
+      "headline_3": " ",
+      "headline_4": "infinita."
     },
     "scene3": {
       "eyebrow": "Transforme sua equipe de trabalho",
