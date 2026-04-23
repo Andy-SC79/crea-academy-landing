@@ -138,9 +138,17 @@ export default function Scene2(_: SceneComponentProps) {
       </div>
 
       <div className="relative z-20 order-3 flex min-h-[5rem] w-full flex-col justify-center lg:col-start-1 lg:row-start-2 lg:mt-4 lg:pr-8">
-        <div className="relative w-full max-w-[44rem] rounded-[2.5rem] rounded-tr-sm border border-slate-200/80 bg-white/80 p-6 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-brand-cyan/20 dark:bg-brand-cyan/10 dark:shadow-[0_8px_32px_rgba(0,229,255,0.08)] sm:p-8">
-          {/* Cola de la burbuja de chat */}
-          <div className="absolute -right-3 top-4 h-6 w-6 -rotate-45 border-r border-t border-slate-200/80 bg-white dark:border-brand-cyan/20 dark:bg-[#081b26] sm:top-8" />
+        <div className="relative w-full max-w-[44rem] rounded-[2rem] border border-slate-200/80 bg-white/95 p-6 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-brand-cyan/30 dark:bg-[#0A1628]/95 dark:shadow-[0_8px_32px_rgba(0,229,255,0.08)] sm:p-8 lg:rounded-[2.5rem] lg:rounded-tr-2xl">
+          
+          {/* Cola apuntando hacia ARRIBA (Mobile) */}
+          <div className="absolute -top-[10px] right-[40px] h-[10px] w-[20px] overflow-hidden lg:hidden">
+            <div className="absolute bottom-0 left-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 translate-y-1/2 rotate-45 border-l border-t border-slate-200/80 bg-white dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
+          </div>
+
+          {/* Cola apuntando hacia la DERECHA (Desktop) */}
+          <div className="absolute -right-[10px] top-[32px] hidden h-[20px] w-[10px] overflow-hidden lg:block">
+            <div className="absolute left-0 top-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 border-r border-t border-slate-200/80 bg-white dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
+          </div>
           
           <div className={LEAD_COPY_CLASS}>
             <TextSequence sequenceData={currentSequence} activeIndex={activeIndex} />
