@@ -109,7 +109,7 @@ export function SceneHeadline<T extends ElementType = "h2">({
     <Component
       className={cn(
         variant === "hero" ? HERO_HEADLINE_CLASS : SCENE_HEADING_CLASS,
-        "pb-3 text-balance [&_.Typewriter__cursor]:text-brand-neon [&_.Typewriter__cursor]:font-light",
+        "pb-3 text-balance [&_.Typewriter__cursor]:text-brand-neon [&_.Typewriter__cursor]:font-light [&_.Typewriter__cursor]:ml-2",
         className,
       )}
     >

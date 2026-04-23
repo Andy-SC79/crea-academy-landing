@@ -42,7 +42,7 @@ export default function Scene1(_: SceneComponentProps) {
           <SceneHeadline
             as="h1"
             variant="hero"
-            className="max-w-[15ch]"
+            className="max-w-[18ch]"
             parts={[
               { text: t("tour.scene1.headline_line1") },
               { text: t("tour.scene1.headline_line2"), accent: "neon", breakBefore: true },
