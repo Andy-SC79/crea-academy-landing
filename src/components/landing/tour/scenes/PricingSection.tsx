@@ -117,9 +117,9 @@ const PricingSection = () => {
       ctaIcon: CalendarDays,
       ctaStyle: "solid",
       featureTone: "brand",
-      priceAmount: t("tour.pricing.tiers.creadores.price_amount"),
-      pricePeriod: t("tour.pricing.tiers.creadores.price_period"),
-      priceSubtext: t("tour.pricing.tiers.creadores.price_subtext"),
+      priceAmount: t("tour.pricing.tiers.enterprise.price_amount"),
+      pricePeriod: t("tour.pricing.tiers.enterprise.price_period"),
+      priceSubtext: t("tour.pricing.tiers.enterprise.price_subtext"),
       features: [
         t("tour.pricing.tiers.enterprise.features.0"),
         t("tour.pricing.tiers.enterprise.features.1"),
@@ -263,7 +263,7 @@ const PricingSection = () => {
                     
                     <div className="my-6">
                       <div className="flex items-baseline gap-1">
-                        <span className="font-display text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        <span className="font-display text-[clamp(1.8rem,4vw,2.25rem)] font-bold tracking-tight text-slate-900 dark:text-white">
                           {tier.priceAmount}
                         </span>
                         {tier.pricePeriod && (
