@@ -211,7 +211,7 @@ export default function SceneTestimonies(_: SceneComponentProps) {
             { text: t("tour.testimonies.headline_1") },
             { text: t("tour.testimonies.headline_2"), accent: "prisma" },
             { text: t("tour.testimonies.headline_3") },
-            { text: t("tour.testimonies.headline_4"), accent: "prisma", breakBefore: true },
+            { text: t("tour.testimonies.headline_4"), breakBefore: true },
             { text: t("tour.testimonies.headline_5") },
             { text: t("tour.testimonies.headline_6"), accent: "neon" },
           ]}
