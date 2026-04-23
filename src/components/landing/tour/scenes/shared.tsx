@@ -1,5 +1,9 @@
-import type { ReactNode } from "react";
+
+import React, { ElementType, Fragment, ReactNode } from "react";
 import { Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
+import TypewriterComponent from "typewriter-effect";
+import { useReducedMotion } from "framer-motion";
 
 export type SceneComponentProps = {
   integrationSlot?: ReactNode;

@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { motion } from "framer-motion";
 
-import Footer from "@/components/layout/Footer";
+
 import { cn } from "@/lib/utils";
 
 import { SCENE_CONTAINER_CLASS } from "./shared";
@@ -67,7 +67,6 @@ export default function SceneTemplate({
       </div>
       {showFooter ? (
         <div className="mt-auto w-full pt-16">
-          <Footer />
         </div>
       ) : null}
     </motion.section>

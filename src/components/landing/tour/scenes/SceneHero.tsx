@@ -16,7 +16,7 @@ const HERO_KEYWORDS = {
   pt: { neon: "viva", prisma: "singularidade" },
 } as const;
 
-function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: string): SceneHeadlinePart[] {
+function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: string): any[] {
   const lowerHeadline = headline.toLowerCase();
   const prismaIndex = lowerHeadline.indexOf(prismaWord);
 
