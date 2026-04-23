@@ -86,8 +86,10 @@ export default function ScenePlatformDemo(_: SceneComponentProps) {
         <SceneHeadline
           className="mx-auto max-w-[14ch] text-center text-[clamp(2.2rem,5.8vw,4.75rem)] leading-[1.02]"
           parts={[
-            { text: "No es una promesa." },
-            { text: "Es la plataforma en accion.", accent: "neon", breakBefore: true },
+            { text: "No es una " },
+            { text: "promesa.", accent: "prisma" },
+            { text: "Es la plataforma en ", breakBefore: true },
+            { text: "acción.", accent: "neon" },
           ]}
         />
       </motion.div>
