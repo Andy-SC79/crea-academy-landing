@@ -117,20 +117,20 @@ export default function SceneHero(_: SceneComponentProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.7 }}
               transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row pb-safe"
+              className="flex w-full max-w-[26rem] flex-col items-center justify-center gap-3 min-[400px]:flex-row pb-safe"
             >
               <Button
                 asChild
                 size="xl"
                 variant="outline"
-                className="min-h-[3.5rem] w-full rounded-full border-slate-300/80 bg-white/78 px-8 text-[1.1rem] font-display font-extrabold text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                className="min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full border-slate-300/80 bg-white/78 px-4 sm:px-8 text-[1rem] sm:text-[1.1rem] font-display font-extrabold text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
               >
                 <a href="https://crea.academy/auth">{t("nav.signIn", { ns: "common" })}</a>
               </Button>
               <Button
                 asChild
                 size="xl"
-                className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-8 text-[1.1rem] font-display font-extrabold text-black hover:bg-brand-neon/90"
+                className="singularity-cta min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full bg-brand-neon px-4 sm:px-8 text-[1rem] sm:text-[1.1rem] font-display font-extrabold text-black hover:bg-brand-neon/90"
               >
                 <a href="https://crea.academy/auth?signup=true">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
               </Button>
