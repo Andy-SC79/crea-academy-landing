@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const Footer = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     setMounted(true);
