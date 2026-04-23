@@ -140,10 +140,10 @@ const PricingSection = () => {
         </div>
         <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl space-y-4">
-              <SceneEyebrow className="dark:text-brand-neon">
+            <div className="max-w-3xl flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
+              <div className="flex justify-center lg:justify-start mb-4"><SceneEyebrow className="dark:text-brand-neon">
                 <AnimatedText text={t("tour.pricing.eyebrow")} className="" />
-              </SceneEyebrow>
+              </SceneEyebrow></div>
               <div className="space-y-3">
                 <SceneHeadline
                   parts={[

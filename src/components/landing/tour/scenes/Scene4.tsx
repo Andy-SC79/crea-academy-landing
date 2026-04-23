@@ -34,10 +34,10 @@ export default function Scene4(_: SceneComponentProps) {
         "lg:grid-cols-[minmax(0,0.9fr)_minmax(20rem,1.1fr)] 2xl:grid-cols-[minmax(0,0.86fr)_minmax(26rem,1.14fr)]",
       )}
     >
-      <div className="relative z-10 flex min-w-0 flex-col justify-center space-y-6 xl:space-y-8">
-        <SceneEyebrow>
+      <div className="relative z-10 flex min-w-0 flex-col items-center lg:items-start text-center lg:text-left justify-center space-y-6 xl:space-y-8">
+        <div className="flex justify-center lg:justify-start w-full mb-4"><SceneEyebrow>
           <AnimatedText text={t("tour.scene4.eyebrow")} className="" />
-        </SceneEyebrow>
+        </SceneEyebrow></div>
 
         <div className="space-y-5 xl:space-y-6">
           <SceneHeadline

@@ -76,10 +76,10 @@ export default function Scene5(_: SceneComponentProps) {
         "lg:grid-cols-[minmax(0,0.9fr)_minmax(20rem,1.1fr)] 2xl:grid-cols-[minmax(0,0.86fr)_minmax(26rem,1.14fr)]",
       )}
     >
-      <div className="min-w-0 space-y-6 xl:space-y-8">
-        <SceneEyebrow>
+      <div className="min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 xl:space-y-8">
+        <div className="flex justify-center lg:justify-start w-full mb-4"><SceneEyebrow>
           <AnimatedText text={t("tour.scene5.eyebrow")} className="" />
-        </SceneEyebrow>
+        </SceneEyebrow></div>
 
         <div className="space-y-5 xl:space-y-6">
           <SceneHeadline

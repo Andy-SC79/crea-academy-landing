@@ -114,10 +114,10 @@ export default function Scene2(_: SceneComponentProps) {
         "lg:grid-cols-[minmax(0,0.84fr)_minmax(20rem,1.16fr)] 2xl:grid-cols-[minmax(0,0.78fr)_minmax(28rem,1.22fr)] items-start lg:items-center",
       )}
     >
-      <div className="relative z-20 order-1 flex w-full flex-col justify-end space-y-5 lg:col-start-1 lg:row-start-1 xl:space-y-6">
-        <SceneEyebrow>
+      <div className="relative z-20 order-1 flex w-full flex-col items-center lg:items-start text-center lg:text-left justify-end space-y-5 lg:col-start-1 lg:row-start-1 xl:space-y-6">
+        <div className="flex justify-center lg:justify-start w-full mb-4"><SceneEyebrow>
           <AnimatedText text={t("tour.scene2.eyebrow")} className="" />
-        </SceneEyebrow>
+        </SceneEyebrow></div>
         <SceneHeadline 
           parts={[
             { text: t("tour.scene2.headline_1") },

@@ -33,10 +33,10 @@ export default function Scene1(_: SceneComponentProps) {
         "lg:grid-cols-[minmax(0,1.08fr)_minmax(24rem,0.92fr)] 2xl:grid-cols-[minmax(0,1.14fr)_minmax(28rem,0.86fr)]",
       )}
     >
-      <div className="relative z-10 flex min-w-0 flex-col justify-center space-y-6 xl:space-y-8">
-        <SceneEyebrow>
+      <div className="relative z-10 flex min-w-0 flex-col items-center lg:items-start text-center lg:text-left justify-center space-y-6 xl:space-y-8">
+        <div className="flex justify-center lg:justify-start w-full mb-4"><SceneEyebrow>
           <AnimatedText text={t("tour.scene1.eyebrow")} className="" />
-        </SceneEyebrow>
+        </SceneEyebrow></div>
 
         <div className="mt-4 space-y-5 xl:space-y-6">
           <SceneHeadline
