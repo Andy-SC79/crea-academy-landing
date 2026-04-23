@@ -7,12 +7,10 @@ const TextSequence = ({ sequenceData = [], activeIndex = null }) => {
   useEffect(() => {
     if (!sequenceData || sequenceData.length === 0) return;
 
-    if (currentIndex >= sequenceData.length - 1) return;
-
-    const currentDuration = sequenceData[currentIndex].durationMs || 4000;
+    const currentDuration = sequenceData[currentIndex]?.durationMs || 4000;
 
     const timer = setTimeout(() => {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prev) => (prev >= sequenceData.length - 1 ? 0 : prev + 1));
     }, currentDuration);
 
     return () => clearTimeout(timer);
