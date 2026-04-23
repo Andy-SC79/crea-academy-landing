@@ -22,7 +22,7 @@ export default function Header() {
     <nav className="safe-area-pt fixed left-0 right-0 z-50 border-b border-[#04FF8D]/10 bg-white/80 backdrop-blur-xl transition-[top] duration-300 dark:bg-background/80" style={{ top: "var(--banner-height, 0px)" }}>
       <div className="container mx-auto px-3 sm:px-4">
         <div className="flex min-h-[64px] items-center justify-between gap-2 py-1">
-          <Link to="/" className="flex items-center gap-3">
+          <a href="https://crea.academy/" className="flex items-center gap-3">
             <img
               src={creaLogoWhite}
               alt="Crea Academy"
@@ -33,7 +33,7 @@ export default function Header() {
               alt="Crea Academy"
               className="h-10 w-auto transition-opacity duration-300 sm:h-14 block dark:hidden"
             />
-          </Link>
+          </a>
 
           <div className="hidden md:flex items-center gap-8">
             {/* Los links del dashboard están comentados en la app principal. Replicamos lo visible */}

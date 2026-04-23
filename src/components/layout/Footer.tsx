@@ -52,10 +52,10 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4 text-black dark:text-white">{t('footer.courses')}</h3>
             <ul className="space-y-2 text-black/60 dark:text-white/60">
-              <li><Link to="/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.ai')}</Link></li>
-              <li><Link to="/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.dataScience')}</Link></li>
-              <li><Link to="/bootcamps" className="hover:text-[#04FF8D] transition-colors">{t('nav.bootcamps')}</Link></li>
-              <li><Link to="/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.certification')}</Link></li>
+              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.ai')}</a></li>
+              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.dataScience')}</a></li>
+              <li><a href="https://crea.academy/bootcamps" className="hover:text-[#04FF8D] transition-colors">{t('nav.bootcamps')}</a></li>
+              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.certification')}</a></li>
             </ul>
           </div>
 
