@@ -607,10 +607,6 @@
       "headline_4": "ação.",
       "demos": [
         {
-          "title": "Criação de Trilhas com IA",
-          "desc": "Geração de trilhas de aprendizagem automáticas."
-        },
-        {
           "title": "Geração de Avatares",
           "desc": "Personalize seu gêmeo digital educacional."
         },
@@ -621,10 +617,6 @@
         {
           "title": "Contexto Inteligente",
           "desc": "Sincronize seu LinkedIn e currículo para adaptar a IA ao seu perfil exato."
-        },
-        {
-          "title": "Execução Ativa",
-          "desc": "Interaja com assistentes avançados em tempo real."
         }
       ]
     }

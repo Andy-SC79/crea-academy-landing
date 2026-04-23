@@ -607,10 +607,6 @@
       "headline_4": "action.",
       "demos": [
         {
-          "title": "AI Learning Paths",
-          "desc": "Automatic generation of customized learning routes."
-        },
-        {
           "title": "Avatar Generation",
           "desc": "Personalize your educational digital twin."
         },
@@ -621,10 +617,6 @@
         {
           "title": "Smart Context",
           "desc": "Sync your LinkedIn and CV to adapt the AI to your exact profile."
-        },
-        {
-          "title": "Active Execution",
-          "desc": "Interact with advanced assistants in real-time."
         }
       ]
     }

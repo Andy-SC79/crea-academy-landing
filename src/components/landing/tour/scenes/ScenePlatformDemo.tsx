@@ -15,12 +15,6 @@ import {
 
 const DEMOS = [
   {
-    id: 1,
-    title: "Creacion de Rutas con IA",
-    description: "Generacion de rutas de aprendizaje automaticas.",
-    url: "https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/6255db2c-1539-f111-88b3-000d3ac0461d?ts=639118866570000000",
-  },
-  {
     id: 2,
     title: "Generacion de Avatares",
     description: "Personaliza tu gemelo digital educativo.",
@@ -37,13 +31,7 @@ const DEMOS = [
     title: "Contexto Inteligente",
     description: "Sincroniza tu LinkedIn y hoja de vida para adaptar la IA a tu perfil exacto.",
     url: "https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/81c67eea-5134-f111-88b4-000d3ac04e45?ts=639113629940000000" 
-  },
-  { 
-    id: 4, 
-    title: "Contexto Inteligente",
-    description: "Sincroniza tu LinkedIn y hoja de vida para adaptar la IA a tu perfil exacto.",
-    url: "https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/81c67eea-5134-f111-88b4-000d3ac04e45?ts=639113629940000000" 
-  },
+  }
 ];
 
 const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: any, index: number }) => {

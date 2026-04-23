@@ -620,10 +620,6 @@
       "headline_4": "acción.",
       "demos": [
         {
-          "title": "Creación de Rutas con IA",
-          "desc": "Generación de rutas de aprendizaje automáticas."
-        },
-        {
           "title": "Generación de Avatares",
           "desc": "Personaliza tu gemelo digital educativo."
         },
@@ -634,10 +630,6 @@
         {
           "title": "Contexto Inteligente",
           "desc": "Sincroniza tu LinkedIn y CV para adaptar la IA a tu perfil exacto."
-        },
-        {
-          "title": "Ejecución Activa",
-          "desc": "Interactúa con asistentes avanzados en tiempo real."
         }
       ]
     }
