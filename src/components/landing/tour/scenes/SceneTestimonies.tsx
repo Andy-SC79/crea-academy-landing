@@ -202,6 +202,7 @@ export default function SceneTestimonies(_: SceneComponentProps) {
           </SceneEyebrow>
         </div>
         <SceneHeadline
+          typewriter={false}
           className="mx-auto max-w-[14ch] text-center text-[clamp(2.3rem,6vw,4.9rem)] leading-[1.02]"
           parts={[
             { text: "No somos una teoria." },
