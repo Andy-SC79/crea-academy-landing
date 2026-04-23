@@ -1,5 +1,6 @@
-import { Mic, Sparkles, Wand2 } from "lucide-react";
+import { Mic, Sparkles, Wand2, Activity, CheckCircle2, Bot } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
@@ -17,6 +18,114 @@ import {
   TOUR_SURFACE_CLASS,
   type SceneComponentProps,
 } from "./shared";
+
+
+function InteractiveGenerator() {
+  const { t } = useTranslation("landing");
+  const [stage, setStage] = useState<"idle" | "generating" | "done">("idle");
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (stage === "generating") {
+      let val = 0;
+      const interval = setInterval(() => {
+        val += 5;
+        setProgress(val);
+        if (val >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setStage("done"), 300);
+        }
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [stage]);
+
+  return (
+    <div className="relative z-10 p-5 sm:p-2">
+      {stage === "idle" && (
+        <div className="flex flex-col items-center justify-center py-6">
+          <div className="mb-6 w-full rounded-xl border border-slate-200/50 bg-slate-950 p-4 font-mono text-sm text-brand-neon/80 shadow-inner dark:border-white/10 dark:bg-black/40 text-left">
+            <p className="text-brand-orange">Error: Module not found</p>
+            <p className="text-slate-400">Can't resolve './Dashboard' in '/src/pages'</p>
+          </div>
+          <button 
+            onClick={() => setStage("generating")}
+            className="group relative flex items-center justify-center gap-2 rounded-full bg-brand-neon px-6 py-3 font-display text-sm font-black text-black transition-all hover:scale-105 hover:bg-brand-neon/90 shadow-lg shadow-brand-neon/20"
+          >
+            <Activity className="h-4 w-4" />
+            {t("tour.scene4.card.action_btn")}
+          </button>
+        </div>
+      )}
+
+      {stage === "generating" && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center py-4">
+          <div className="flex items-center gap-3 w-full mb-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+              <Bot className="h-5 w-5 animate-pulse" />
+            </div>
+            <div className="w-full text-left">
+              <p className="text-sm font-display font-semibold text-slate-900 dark:text-white">
+                {t("tour.scene4.card.status_generating")}
+              </p>
+              <div className="h-1.5 w-full bg-slate-200 dark:bg-white/10 rounded-full mt-2 overflow-hidden">
+                <div className="h-full bg-brand-cyan transition-all duration-100" style={{ width: `${progress}%` }} />
+              </div>
+            </div>
+          </div>
+          <div className="mb-2 w-full rounded-xl border border-brand-cyan/30 bg-slate-950 p-3 font-mono text-[11px] text-brand-cyan/80 shadow-inner dark:bg-black/60 text-left">
+            <p className="animate-pulse">{"// Analizando estructura de carpetas..."}</p>
+            <p className="mt-1 opacity-70">{"import Dashboard from '@/pages/Dashboard';"}</p>
+          </div>
+          <div className="flex items-center justify-center gap-1 h-6 w-full overflow-hidden">
+            {[...Array(12)].map((e, t) => (
+              <motion.div 
+                key={t}
+                className="w-1.5 rounded-full bg-brand-cyan/80" 
+                animate={{ height: ["20%", "80%", "30%", "100%", "20%"] }} 
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: t * 0.1 }} 
+              />
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {stage === "done" && (
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center py-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-neon/20 text-brand-neon mb-3 shadow-[0_0_20px_rgba(4,255,141,0.2)]">
+            <CheckCircle2 className="h-6 w-6" />
+          </div>
+          <p className="text-lg font-display font-bold text-slate-900 dark:text-white text-center">
+            {t("tour.scene4.card.status_done")}
+          </p>
+          
+          <div className="my-3 w-full rounded-xl border border-brand-neon/30 bg-brand-neon/5 p-3 text-center">
+            <p className="text-xs font-medium text-slate-700 dark:text-white/80">
+              "El componente estaba en mayúsculas. Lo he corregido por ti."
+            </p>
+          </div>
+
+          <div className="mt-2 flex w-full items-center justify-between border-t border-slate-200 dark:border-white/10 pt-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-white/50">
+                {t("tour.scene4.card.reward_label")}
+              </span>
+            </div>
+            <span className="shrink-0 text-sm font-display font-bold text-brand-neon drop-shadow-[0_0_10px_rgba(4,255,141,0.5)]">
+              {t("tour.scene4.card.xp_earned")}
+            </span>
+          </div>
+          <button 
+            onClick={() => setStage("idle")}
+            className="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-brand-neon transition-colors"
+          >
+            Resetear Simulación
+          </button>
+        </motion.div>
+      )}
+    </div>
+  );
+}
 
 export default function Scene4(_: SceneComponentProps) {
   const { t } = useTranslation("landing");
@@ -91,60 +200,7 @@ export default function Scene4(_: SceneComponentProps) {
               </div>
             </div>
 
-            <div className="relative z-10 p-5 sm:p-2">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
-                    <Mic className="h-5 w-5 animate-pulse" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-display font-semibold text-slate-900 dark:text-white">
-                      {t("tour.scene4.card.status_generating")}
-                    </p>
-                    <p className="mt-0.5 text-xs text-slate-600 dark:text-white/60">
-                      00:14 / 02:30
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Simulación de ondas de audio */}
-              <div className="mt-5 flex items-center justify-center gap-1 h-12 w-full overflow-hidden">
-                {[...Array(24)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-1.5 rounded-full bg-brand-cyan/80"
-                    animate={{
-                      height: ["20%", "80%", "30%", "100%", "20%"],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: i * 0.1,
-                    }}
-                  />
-                ))}
-              </div>
-
-              <div className="mt-6 flex flex-col pt-4 border-t border-black/5 dark:border-white/5">
-                <div className="flex items-center justify-between opacity-90 hover:opacity-100">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-neon/20 text-brand-neon">
-                      <Sparkles className="h-4 w-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
-                        {t("tour.scene4.card.reward_label")}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="shrink-0 text-sm font-display font-bold text-brand-neon drop-shadow-[0_0_10px_rgba(4,255,141,0.5)]">
-                    {t("tour.scene4.card.xp_earned")}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <InteractiveGenerator />
           </CardContent>
         </Card>
       </div>
