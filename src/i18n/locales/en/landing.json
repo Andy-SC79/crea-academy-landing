@@ -378,10 +378,6 @@
     }
   },
   "tour": {
-    "sceneHero": {
-      "headline": "An educational singularity orchestrated by living intelligence.",
-      "createAccount": "Create account"
-    },
     "scene2": {
       "eli_intro": "Hi, I'm Eli, your personal co-pilot and mentor at Crea Academy...",
       "consume_evolve": "You're not here to passively consume hours of video, you're here to evolve...",
@@ -576,5 +572,205 @@
       "join_youtube": "Join the Launch Event",
       "reminder_youtube": "Set YouTube Reminder"
     }
+  },
+  "tour": {
+    "scene2": {
+      "eli_intro": "Hi, I'm Eli, your personal co-pilot and mentor at Crea Academy...",
+      "consume_evolve": "You're not here to passively consume hours of video, you're here to evolve...",
+      "designed_adapt": "I've been designed to understand your goals, and adapt to your pace...",
+      "multimodal": "With my multimodal architecture, I can see exactly what you see.",
+      "stuck_project": "Stuck on a project? Share your screen and we'll solve it in real time.",
+      "analyze_routes": "I analyze your performance, and structure dynamic paths instantly...",
+      "clear_friction": "I clear the friction from your path, so you can focus on mastering the challenge...",
+      "forget_menus": "Forget complicated menus and endless searches...",
+      "build_path": "Tell me what you need to master, and I will build the path...",
+      "not_simple_chat": "I'm not a simple chat... I am the operating system of your mind.",
+      "eyebrow": "Limitless education tailored to you",
+      "headline": "Meet Eli, your personal mentor.",
+      "headline_glow": "Simulation",
+      "promises": [
+        "1:1 personalized mentoring driven by AI.",
+        "Dynamic adaptation to the user's pace.",
+        "Seamless integration with zero learning curve."
+      ]
+    },
+    "scene1": {
+      "eyebrow": "The end of education as we know it",
+      "headline": "The educational model is broken.",
+      "typewriter": "Crea Academy is a personalized, gamified learning experience focused on real-world projects.",
+      "card_tag": "Traditional System"
+    },
+    "scene3": {
+      "eyebrow": "Transform your workforce",
+      "headline": "Automated corporate learning paths.",
+      "sequence": [
+        "Running a team? Forget wasting budget on useless training.",
+        "With a single command, I structure hyper-personalized learning paths for every role in your company.",
+        "From enterprise sales to cloud architecture.",
+        "You save thousands of dollars...",
+        "...and your team learns exactly what they need to execute today."
+      ],
+      "promises": [
+        "Radical savings on external course licenses.",
+        "Specialization paths generated in seconds with AI.",
+        "Real-time retention and execution metrics."
+      ],
+      "card": {
+        "title": "B2B Simulator",
+        "desc": "[Inject Learning Paths or Corporate Dashboard component here]"
+      }
+    },
+    "scene4": {
+      "eyebrow": "Action & Gamification",
+      "headline_line1": "Zero passive consumption.",
+      "headline_line2": "Continuous creation.",
+      "sequence": [
+        "At Crea, the student is never passive: they create.",
+        "Transform what you learn into podcasts, summaries, or videos instantly.",
+        "Stuck on a project or installing software?",
+        "Share your screen. I can see exactly what you see...",
+        "...and I will guide you with my voice, in real-time, until we solve it together."
+      ],
+      "milestones": [
+        {
+          "label": "Core Module Completed",
+          "progress": "100%"
+        },
+        {
+          "label": "Applied AI Path Active",
+          "progress": "68%"
+        },
+        {
+          "label": "Executive Certification",
+          "progress": "2 Challenges"
+        }
+      ],
+      "metrics": [
+        {
+          "label": "Retention Rate",
+          "value": "94%"
+        },
+        {
+          "label": "Challenges Completed",
+          "value": "142"
+        },
+        {
+          "label": "Active Generation",
+          "value": "12x"
+        }
+      ],
+      "card": {
+        "tag": "Live Simulation",
+        "title": "Specialization Path",
+        "level": "Executive Level",
+        "summary_title": "Progress summary",
+        "summary_desc": "Mentoring, challenges, and active generation."
+      }
+    },
+    "scene5": {
+      "eyebrow": "Measurable and scalable results",
+      "headline_line1": "Effort is measured.",
+      "headline_line2": "Progress is felt.",
+      "metrics": [
+        {
+          "label": "Total progress",
+          "value": "68%"
+        },
+        {
+          "label": "Active challenges",
+          "value": "03"
+        },
+        {
+          "label": "Badges ready",
+          "value": "01"
+        }
+      ],
+      "milestones": [
+        {
+          "label": "Onboarding completed",
+          "progress": "100%"
+        },
+        {
+          "label": "Applied AI path active",
+          "progress": "68%"
+        },
+        {
+          "label": "Unlockable badge",
+          "progress": "2 challenges"
+        }
+      ],
+      "card": {
+        "tag": "Interactive Dashboard",
+        "title": "Active learning path",
+        "level": "Rising level",
+        "summary_title": "Progress summary",
+        "summary_desc": "Mentoring, challenges, and certification connected.",
+        "completed": "Completed",
+        "next_objective": "Next objective"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Choose your plan",
+      "headline": "Welcome to the future of learning.",
+      "description": "Select the path that best fits your goals or your company's scale. Start for free, go deep with pro tools, or transform your entire organization with our B2B ecosystem.",
+      "safe_payment": "Secure payment",
+      "no_card": "No credit card required, instant access.",
+      "payment_methods": "CREDIT CARDS / PAYPAL / WIRE",
+      "tiers": {
+        "free": {
+          "name": "FREE",
+          "kicker": "Crea Explorer",
+          "subtitle": "Experience the future of learning without barriers.",
+          "ctaLabel": "Start For Free Now",
+          "features": [
+            "Free Forever Account: Start today without registering credit cards.",
+            "Path Previews: Consume up to 30% of our global learning paths.",
+            "Smart Onboarding: Automatic language adaptation to your profile.",
+            "AI Interaction Credits: Chat with Eli to test the platform."
+          ]
+        },
+        "creadores": {
+          "name": "CREATORS",
+          "kicker": "Elevate your Talent",
+          "subtitle": "Everything in Free, plus...",
+          "badge": "Recommended",
+          "ctaLabel": "Elevate your Talent",
+          "features": [
+            "Unlimited AI Interaction: Converse and learn without restrictions.",
+            "Total Customization: Design your mentor's avatar, voice, and tone.",
+            "Multimedia Autogeneration: Create podcasts, videos, and infographics instantly.",
+            "Live Screen Sharing: Proactive assistance on your active tools.",
+            "Path Cloning: Duplicate and adapt global paths to your context."
+          ]
+        },
+        "enterprise": {
+          "name": "ENTERPRISE",
+          "kicker": "Corporate Ecosystem",
+          "subtitle": "Everything in Creators, plus...",
+          "ctaLabel": "Schedule Diagnostics",
+          "features": [
+            "Corporate Paths: Convert flat manuals into interactive learning paths.",
+            "Analytics Dashboard: Measure adoption, hours, and progress in real time.",
+            "Secure Integration: Single Sign-On (SSO) connection.",
+            "Transformation Kit: Diagnostics and workshops for executives.",
+            "Institutional Agreement: Preferential pricing for the entire workforce."
+          ]
+        }
+      }
+    },
+    "countdown": {
+      "title": "Official Launch",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "live": "We are live!",
+      "join_youtube": "Join the Launch Event",
+      "reminder_youtube": "Set YouTube Reminder"
+    }
+  },
+  "sceneHero": {
+    "headline": "The educational singularity is now.",
+    "createAccount": "View pricing"
   }
 }

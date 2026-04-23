@@ -101,14 +101,14 @@ export default function SceneHero(_: SceneComponentProps) {
                   variant="outline"
                   className="min-h-[3.5rem] w-full rounded-full border-slate-300/80 bg-white/78 px-8 text-base font-bold text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
                 >
-                  <Link to="/auth">{t("nav.signIn", { ns: "common" })}</Link>
+                  <a href="mailto:contact@crea-academy.com">Contacto</a>
                 </Button>
                 <Button
                   asChild
                   size="xl"
                   className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-8 text-base font-bold text-black hover:bg-brand-neon/90"
                 >
-                  <Link to="/tour#tour-pricing">{t("tour.sceneHero.createAccount", { ns: "landing" })}</Link>
+                  <Link to="#tour-pricing">{t("tour.sceneHero.createAccount", { ns: "landing" })}</Link>
                 </Button>
               </div>
             </motion.div>

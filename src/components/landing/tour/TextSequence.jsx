@@ -23,15 +23,15 @@ const TextSequence = ({ sequenceData = [], activeIndex = null }) => {
   return (
     <div className="relative flex flex-col justify-start w-full pt-2">
       <AnimatePresence mode="wait">
-        <motion.div 
-          key={activeIndex !== null ? activeIndex : currentIndex} 
+        <motion.div
+          key={activeIndex !== null ? activeIndex : currentIndex}
           // Kinetic physics: Soft vertical fade to prevent bounds clipping in mobile viewports
-          initial={{ opacity: 0, y: 15, filter: "blur(8px)" }} 
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}    
-          exit={{ opacity: 0, y: -15, filter: "blur(12px)" }}    
-          transition={{ 
-            duration: 0.6, 
-            ease: [0.16, 1, 0.3, 1] 
+          initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -15, filter: "blur(12px)" }}
+          transition={{
+            duration: 0.6,
+            ease: [0.16, 1, 0.3, 1]
           }}
           className="relative w-full"
         >

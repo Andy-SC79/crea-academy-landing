@@ -2,7 +2,7 @@ import { startTransition, type ReactNode, useEffect, useRef, useState } from "re
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { TOUR_SCENES } from "./scenes";
-import Header from "@/components/landing/tour/HeaderSimple";
+import Header from "@/components/landing/tour/Header";
 
 const WHEEL_GESTURE_THRESHOLD = 180;
 const TOUCH_GESTURE_THRESHOLD = 160;
@@ -23,7 +23,7 @@ function clampScene(nextScene: number) {
 
 function SceneShell({ children, prefersReducedMotion }: SceneShellProps) {
   return (
-    <motion.section
+        <motion.section
       initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 40, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -40, scale: 0.98 }}
@@ -39,6 +39,8 @@ function SceneShell({ children, prefersReducedMotion }: SceneShellProps) {
       {/* Using margin-auto in flex breaks scrolling for tall content. Using a min-height flex container fixes it */}
       <div className={cn("w-full min-h-full flex flex-col justify-start md:py-8", TOUR_WIDTH_CLASS)}>
         {children}
+        
+        
       </div>
     </motion.section>
   );
@@ -80,7 +82,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-
+    
     // Check if scrolling inside content
     const target = event.target as HTMLElement;
     const scrollableContainer = target.closest('.overflow-y-auto');
@@ -127,6 +129,8 @@ export default function TourController({ integrationSlot }: TourControllerProps)
     if (event.touches.length !== 1 || !touchStartRef.current) return;
     const touch = event.touches[0];
     touchCurrentRef.current = { x: touch.clientX, y: touch.clientY };
+    
+
   };
 
   const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -207,8 +211,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
         onTouchEnd={handleTouchEnd}
         onTouchCancel={resetTouchGesture}
       >
-               
-        <AnimatePresence>
+                <AnimatePresence>
           <CurrentSceneComponent key={currentSceneMeta.id} integrationSlot={integrationSlot} onNextScene={() => navigateByDirection(1)} />
         </AnimatePresence>
       </div>

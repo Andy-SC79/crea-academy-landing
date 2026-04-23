@@ -84,8 +84,6 @@ const Header = ({
       { label: t('adminMenu.adminNoticias', { defaultValue: 'Admin Noticias' }), path: "/super-admin/noticias", icon: Newspaper },
       { label: t('adminMenu.adminBanners'), path: "/super-admin/banners", icon: ImageIcon },
       { label: t('adminMenu.adminInsignias'), path: "/super-admin/insignias", icon: Award },
-      { label: t('adminMenu.adminUsuarios'), path: "/super-admin/usuarios", icon: Settings },
-      { label: t('adminMenu.adminPagos'), path: "/super-admin/pagos", icon: Settings },
       { label: t('adminMenu.forms', { defaultValue: 'Formularios' }), path: "/super-admin/forms", icon: Tags },
       { label: t('adminMenu.generalConfig'), path: "/super-admin/configuracion", icon: Settings },
       { label: t('adminMenu.media'), path: "/super-admin/media", icon: ImageIcon },
@@ -141,39 +139,39 @@ const Header = ({
             ) : null}
             {user && (
               <>
-                {/* Comentado temporalmente — se habilita después del lanzamiento */}
-                <Link
+                Comentado temporalmente — se habilita después del lanzamiento
+                <Link 
                   to="/cursos"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors"
                 >
                   Cursos
                 </Link>
-                <Link
+                <Link 
                   to="/maraton"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors flex items-center gap-1"
                 >
                   <Sparkles className="w-4 h-4" />
                   Maratón
                 </Link>
-                <Link
+                <Link 
                   to="/bootcamps"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors"
                 >
                   Bootcamps
                 </Link>
-                <Link
+                <Link 
                   to="/dashboard"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors"
                 >
                   Dashboard
                 </Link>
-                <Link
+                <Link 
                   to="/badges"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors"
                 >
                   Insignias
                 </Link>
-
+               
                 {isSuperAdmin && (
                   <>
                     {adminMode && (
@@ -204,19 +202,19 @@ const Header = ({
               </>
             )}
             {/* Comentado temporalmente — se habilita después del lanzamiento
-          {!user && (
+            {!user && (
               <>
                 <Link to="/cursos" className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors">
                   Cursos
                 </Link>
-                <Link
+                <Link 
                   to="/maraton"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors flex items-center gap-1"
                 >
                   <Sparkles className="w-4 h-4" />
                   Maratón
                 </Link>
-                <Link
+                <Link 
                   to="/bootcamps"
                   className="text-sm font-bold text-black dark:text-white hover:text-[#04FF8D] transition-colors"
                 >
@@ -249,50 +247,50 @@ const Header = ({
             )}
             {user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar className="h-10 w-10 border-2 border-[#04FF8D]/30">
-                      <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.full_name || user.email} />
-                      <AvatarFallback className="bg-[#04FF8D]/10 text-black font-bold">
-                        {user.user_metadata?.full_name?.[0] || user.email?.[0] || "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user.user_metadata?.full_name || "Usuario"}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate('/')}>
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>{t('nav.home')}</span>
-                  </DropdownMenuItem>
-                  {canAccessPlatform ? (
-                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-                      <Rocket className="mr-2 h-4 w-4" />
-                      <span>{t('nav.platform')}</span>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <Avatar className="h-10 w-10 border-2 border-[#04FF8D]/30">
+                        <AvatarImage src={user.user_metadata?.avatar_url} alt={user.user_metadata?.full_name || user.email} />
+                        <AvatarFallback className="bg-[#04FF8D]/10 text-black font-bold">
+                          {user.user_metadata?.full_name?.[0] || user.email?.[0] || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user.user_metadata?.full_name || "Usuario"}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/')}>
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>{t('nav.home')}</span>
                     </DropdownMenuItem>
-                  ) : null}
-                  {canAccessPlatform ? (
-                    <DropdownMenuItem onClick={() => navigate('/invite')}>
-                      <Building2 className="mr-2 h-4 w-4" />
-                      <span>{t('nav.acceptOrgInvite', { defaultValue: 'Ingresar código de organización' })}</span>
-                    </DropdownMenuItem>
-                  ) : null}
-                  {isWaitingListOnly ? (
-                    <DropdownMenuItem onClick={() => navigate('/access-pending')}>
-                      <ListChecks className="mr-2 h-4 w-4" />
-                      <span>{t('nav.waitlistStatus', { defaultValue: 'Estado de acceso' })}</span>
-                    </DropdownMenuItem>
-                  ) : null}
+                    {canAccessPlatform ? (
+                      <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                        <Rocket className="mr-2 h-4 w-4" />
+                        <span>{t('nav.platform')}</span>
+                      </DropdownMenuItem>
+                    ) : null}
+                    {canAccessPlatform ? (
+                      <DropdownMenuItem onClick={() => navigate('/invite')}>
+                        <Building2 className="mr-2 h-4 w-4" />
+                        <span>{t('nav.acceptOrgInvite', { defaultValue: 'Ingresar código de organización' })}</span>
+                      </DropdownMenuItem>
+                    ) : null}
+                    {isWaitingListOnly ? (
+                      <DropdownMenuItem onClick={() => navigate('/access-pending')}>
+                        <ListChecks className="mr-2 h-4 w-4" />
+                        <span>{t('nav.waitlistStatus', { defaultValue: 'Estado de acceso' })}</span>
+                      </DropdownMenuItem>
+                    ) : null}
                   {/* Comentado temporalmente — se habilita después del lanzamiento
                   <DropdownMenuItem onClick={() => navigate('/dashboard')}>
                     <BarChart3 className="mr-2 h-4 w-4" />
@@ -302,6 +300,7 @@ const Header = ({
                     <User className="mr-2 h-4 w-4" />
                     <span>Cursos</span>
                   </DropdownMenuItem>
+
                   <DropdownMenuItem onClick={() => navigate('/bootcamps')}>
                     <User className="mr-2 h-4 w-4" />
                     <span>Bootcamps</span>
@@ -311,41 +310,41 @@ const Header = ({
                     <span>Insignias Digitales</span>
                   </DropdownMenuItem>
                   */}
-                  {isSuperAdmin && (
-                    <>
-                      {adminMode && (
-                        <>
-                          <DropdownMenuSub>
-                            <DropdownMenuSubTrigger>
-                              <Settings className="mr-2 h-4 w-4" />
-                              <span>{t('nav.administration')}</span>
-                            </DropdownMenuSubTrigger>
-                            <DropdownMenuSubContent>
-                              {superAdminMenuItems.map((item) => (
-                                <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
-                                  <item.icon className="mr-2 h-4 w-4" />
-                                  <span>{item.label}</span>
-                                </DropdownMenuItem>
-                              ))}
-                            </DropdownMenuSubContent>
-                          </DropdownMenuSub>
-                        </>
-                      )}
-                    </>
-                  )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>{t('nav.signOut')}</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    {isSuperAdmin && (
+                      <>
+                        {adminMode && (
+                          <>
+                            <DropdownMenuSub>
+                              <DropdownMenuSubTrigger>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>{t('nav.administration')}</span>
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuSubContent>
+                                {superAdminMenuItems.map((item) => (
+                                  <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
+                                    <item.icon className="mr-2 h-4 w-4" />
+                                    <span>{item.label}</span>
+                                  </DropdownMenuItem>
+                                ))}
+                              </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                          </>
+                        )}
+                      </>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>{t('nav.signOut')}</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
             ) : (
               <>
                 <div className="flex items-center gap-2 md:gap-4">
-                  <Link to="/auth" className="hidden text-sm font-semibold text-foreground/70 transition-colors hover:text-foreground md:inline-block">Iniciar sesión</Link>
-                  <Link to="/auth" className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-xs font-bold text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-sm">Crear cuenta</Link>
-                </div>
+<Link to="/auth" className="hidden text-sm font-semibold text-foreground/70 transition-colors hover:text-foreground md:inline-block">Iniciar sesión</Link>
+<Link to="/auth" className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-xs font-bold text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-sm">Crear cuenta</Link>
+</div>
               </>
             )}
           </div>

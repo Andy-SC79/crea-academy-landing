@@ -378,10 +378,6 @@
     }
   },
   "tour": {
-    "sceneHero": {
-      "headline": "Uma singularidade educacional orquestrada por inteligência viva.",
-      "createAccount": "Criar conta"
-    },
     "scene2": {
       "eli_intro": "Olá, sou a Eli, sua copiloto e mentora pessoal na Crea Academy...",
       "consume_evolve": "Você não está aqui para consumir horas de vídeos, está aqui para evoluir...",
@@ -576,5 +572,205 @@
       "join_youtube": "Entrar no Lançamento",
       "reminder_youtube": "Ativar Lembrete no YouTube"
     }
+  },
+  "tour": {
+    "scene2": {
+      "eli_intro": "Olá, sou a Eli, sua copiloto e mentora pessoal na Crea Academy...",
+      "consume_evolve": "Você não está aqui para consumir vídeos por horas, está aqui para evoluir...",
+      "designed_adapt": "Fui projetada para entender seus objetivos, e me adaptar ao seu ritmo...",
+      "multimodal": "Com minha arquitetura multimodal, posso ver exatamente o que você vê.",
+      "stuck_project": "Travado em um projeto? Compartilhe sua tela e resolveremos em tempo real.",
+      "analyze_routes": "Analiso seu desempenho, e estruturo rotas dinâmicas instantaneamente...",
+      "clear_friction": "Removo o atrito do caminho, para que você foque em dominar o desafio...",
+      "forget_menus": "Esqueça menus complicados e buscas intermináveis...",
+      "build_path": "Diga-me o que precisa dominar, e eu construirei o caminho...",
+      "not_simple_chat": "Não sou um simples chat... sou o sistema operacional da sua mente.",
+      "eyebrow": "Educação sem limites feita sob medida",
+      "headline": "Conheça a Eli, sua mentora pessoal.",
+      "headline_glow": "Simulação",
+      "promises": [
+        "Mentoria 1:1 personalizada impulsionada por IA.",
+        "Adaptação dinâmica ao ritmo do usuário.",
+        "Integração fluida sem curva de aprendizado."
+      ]
+    },
+    "scene1": {
+      "eyebrow": "O fim da educação como a conhecemos",
+      "headline": "O modelo educacional está quebrado.",
+      "typewriter": "Crea Academy é uma experiência de aprendizado personalizada, gamificada e focada em projetos reais.",
+      "card_tag": "Sistema Tradicional"
+    },
+    "scene3": {
+      "eyebrow": "Transforme sua equipe de trabalho",
+      "headline": "Trilhas corporativas automáticas.",
+      "sequence": [
+        "Lidera uma equipe? Esqueça o gasto em treinamentos inúteis.",
+        "Com um único comando, estruturo trilhas de aprendizado hiper-personalizadas para cada cargo na sua empresa.",
+        "Desde vendas até arquitetura em nuvem.",
+        "Você economiza milhares de dólares...",
+        "...e sua equipe aprende exatamente o que precisa para executar hoje mesmo."
+      ],
+      "promises": [
+        "Economia radical em licenças de cursos externos.",
+        "Trilhas de especialização geradas em segundos com IA.",
+        "Métricas de retenção e execução em tempo real."
+      ],
+      "card": {
+        "title": "Simulador B2B",
+        "desc": "[Injetar componente de Trilhas de Aprendizado ou Dashboard corporativo aqui]"
+      }
+    },
+    "scene4": {
+      "eyebrow": "Ação e Gamificação",
+      "headline_line1": "Zero consumo passivo.",
+      "headline_line2": "Criação contínua.",
+      "sequence": [
+        "Na Crea, o aluno não é passivo: ele cria.",
+        "Transforme o que aprende em podcasts, resumos ou vídeos instantaneamente.",
+        "Ficou travado em um projeto ou instalando um programa?",
+        "Compartilhe sua tela. Posso ver exatamente o que você vê...",
+        "...e guiarei você com minha voz, em tempo real, até resolvermos juntos."
+      ],
+      "milestones": [
+        {
+          "label": "Módulo Base Concluído",
+          "progress": "100%"
+        },
+        {
+          "label": "Trilha de IA Aplicada Ativa",
+          "progress": "68%"
+        },
+        {
+          "label": "Certificação Executiva",
+          "progress": "2 Desafios"
+        }
+      ],
+      "metrics": [
+        {
+          "label": "Taxa de Retenção",
+          "value": "94%"
+        },
+        {
+          "label": "Desafios Concluídos",
+          "value": "142"
+        },
+        {
+          "label": "Geração Ativa",
+          "value": "12x"
+        }
+      ],
+      "card": {
+        "tag": "Simulação ao vivo",
+        "title": "Trilha de Especialização",
+        "level": "Nível Executivo",
+        "summary_title": "Resumo do progresso",
+        "summary_desc": "Mentoria, desafios e geração ativa."
+      }
+    },
+    "scene5": {
+      "eyebrow": "Resultados mensuráveis e escaláveis",
+      "headline_line1": "O esforço é medido.",
+      "headline_line2": "O avanço é sentido.",
+      "metrics": [
+        {
+          "label": "Progresso total",
+          "value": "68%"
+        },
+        {
+          "label": "Desafios ativos",
+          "value": "03"
+        },
+        {
+          "label": "Emblemas prontos",
+          "value": "01"
+        }
+      ],
+      "milestones": [
+        {
+          "label": "Integração concluída",
+          "progress": "100%"
+        },
+        {
+          "label": "Trilha de IA aplicada ativa",
+          "progress": "68%"
+        },
+        {
+          "label": "Emblema desbloqueável",
+          "progress": "2 desafios"
+        }
+      ],
+      "card": {
+        "tag": "Dashboard interativo",
+        "title": "Trilha de aprendizado ativa",
+        "level": "Nível em ascensão",
+        "summary_title": "Resumo do progresso",
+        "summary_desc": "Mentoria, desafios e certificação conectados.",
+        "completed": "Concluído",
+        "next_objective": "Próximo objetivo"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Escolha o seu plano",
+      "headline": "Bem-vindo ao futuro do aprendizado.",
+      "description": "Selecione o caminho que melhor se adapta aos seus objetivos ou à escala da sua empresa. Comece grátis, aprofunde-se com ferramentas pro ou transforme toda a sua organização com nosso ecossistema B2B.",
+      "safe_payment": "Pagamento seguro",
+      "no_card": "Registro sem cartão, acesso imediato.",
+      "payment_methods": "CARTÕES / PIX / MERCADO PAGO",
+      "tiers": {
+        "free": {
+          "name": "FREE",
+          "kicker": "Explorador Crea",
+          "subtitle": "Experimente o futuro do aprendizado sem barreiras.",
+          "ctaLabel": "Comece Grátis Agora",
+          "features": [
+            "Conta Grátis Forever: Comece hoje mesmo sem registrar cartões de crédito.",
+            "Amostra de Trilhas: Consuma até 30% de nossas trilhas globais.",
+            "Onboarding Inteligente: Adaptação automática da linguagem ao seu perfil.",
+            "Créditos de Interação IA: Converse com a Eli para testar a plataforma."
+          ]
+        },
+        "creadores": {
+          "name": "CRIADORES",
+          "kicker": "Eleve seu Talento",
+          "subtitle": "Tudo do Free, e mais...",
+          "badge": "Recomendado",
+          "ctaLabel": "Eleve seu Talento",
+          "features": [
+            "Interação IA Sem Limites: Converse e aprenda sem restrições.",
+            "Personalização Total: Desenhe o avatar, voz e tom do seu mentor.",
+            "Autogeração Multimídia: Crie podcasts, vídeos e infográficos instantaneamente.",
+            "Screen Sharing ao Vivo: Assistência proativa sobre suas ferramentas.",
+            "Clonagem de Trilhas: Duplique e adapte trilhas globais ao seu contexto."
+          ]
+        },
+        "enterprise": {
+          "name": "ENTERPRISE",
+          "kicker": "Ecossistema Corporativo",
+          "subtitle": "Tudo do Criadores, e mais...",
+          "ctaLabel": "Agendar Diagnóstico",
+          "features": [
+            "Trilhas Corporativas: Converta manuais em trilhas interativas.",
+            "Dashboard de Análises: Meça adoção, horas e progresso em tempo real.",
+            "Integração Segura: Conexão Single Sign-On (SSO).",
+            "Kit de Transformação: Diagnóstico e workshops para diretoria.",
+            "Convênio Institucional: Preços preferenciais para toda a força de trabalho."
+          ]
+        }
+      }
+    },
+    "countdown": {
+      "title": "Lançamento Oficial",
+      "days": "Dias",
+      "hours": "Horas",
+      "minutes": "Minutos",
+      "seconds": "Segundos",
+      "live": "Já estamos ao vivo!",
+      "join_youtube": "Entrar no Lançamento",
+      "reminder_youtube": "Ativar Lembrete no YouTube"
+    }
+  },
+  "sceneHero": {
+    "headline": "A singularidade educacional é agora.",
+    "createAccount": "Ver preços"
   }
 }
