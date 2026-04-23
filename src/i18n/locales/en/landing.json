@@ -407,7 +407,11 @@
       "eyebrow": "The end of education as we know it",
       "headline": "The educational model is broken.",
       "typewriter": "Crea Academy is a personalized, gamified learning experience focused on real-world projects.",
-      "card_tag": "Traditional System"
+      "card_tag": "Traditional System",
+      "headline_1": "The educational ",
+      "headline_2": "model",
+      "headline_3": " is",
+      "headline_4": "broken."
     },
     "scene3": {
       "eyebrow": "Transform your workforce",

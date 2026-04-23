@@ -409,7 +409,11 @@
       "typewriter": "Crea Academy es una experiencia de aprendizaje personalizada, gamificada y centrada en proyectos reales.",
       "card_tag": "Sistema Tradicional",
       "headline_line1": "El modelo educativo está",
-      "headline_line2": "roto."
+      "headline_line2": "roto.",
+      "headline_1": "El ",
+      "headline_2": "modelo",
+      "headline_3": " educativo está",
+      "headline_4": "roto."
     },
     "scene3": {
       "eyebrow": "Transforma tu equipo de trabajo",
