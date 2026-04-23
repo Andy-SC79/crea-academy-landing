@@ -37,7 +37,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full flex-col pt-[66px]">
+      <div className="relative z-10 flex w-full flex-col ">
         {TOUR_SCENES.map((scene) => {
           const SceneComponent = scene.Component;
 

@@ -59,7 +59,7 @@ export default function SceneHero(_: SceneComponentProps) {
   return (
     <SceneTemplate className="grid-cols-1 !max-w-none !gap-0 !px-0 !py-0" flush>
       <div className="col-span-full">
-        <section className="relative isolate flex min-h-[calc(100dvh-66px)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-8 md:px-12 md:py-16">
+        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 pb-12 pt-0 sm:px-8 md:px-12 md:pb-16 md:pt-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.12),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.08),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
           <div className="absolute inset-0 opacity-70 dark:opacity-90">
             <VolumetricBrandField
