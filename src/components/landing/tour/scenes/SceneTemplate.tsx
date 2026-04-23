@@ -64,10 +64,7 @@ export default function SceneTemplate({
           <div className={cn(SCENE_CONTAINER_CLASS, className)}>{children}</div>
         )}
       </div>
-      {showFooter ? (
-        <div className="mt-auto w-full pt-16">
-        </div>
-      ) : null}
+
     </motion.section>
   );
 }

@@ -18,7 +18,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-white dark:bg-card border-t border-[#04FF8D]/10">
+    <footer className="relative z-20 w-full bg-white dark:bg-[#02050d] border-t border-slate-200 dark:border-white/10">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
