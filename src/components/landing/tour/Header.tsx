@@ -24,9 +24,14 @@ export default function Header() {
         <div className="flex min-h-[64px] items-center justify-between gap-2 py-1">
           <Link to="/" className="flex items-center gap-3">
             <img
-              src={mounted && resolvedTheme === 'light' ? creaLogoBlack : creaLogoWhite}
+              src={creaLogoWhite}
               alt="Crea Academy"
-              className="h-10 w-auto transition-opacity duration-300 sm:h-14"
+              className="h-10 w-auto transition-opacity duration-300 sm:h-14 hidden dark:block"
+            />
+            <img
+              src={creaLogoBlack}
+              alt="Crea Academy"
+              className="h-10 w-auto transition-opacity duration-300 sm:h-14 block dark:hidden"
             />
           </Link>
 
