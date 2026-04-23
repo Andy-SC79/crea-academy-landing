@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 
 import Header from "@/components/landing/tour/Header";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/layout/Footer";
 import "@/styles/tour-ambient.css";
 
 import { TOUR_SCENES } from "./scenes";
