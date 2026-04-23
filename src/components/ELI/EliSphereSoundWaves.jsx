@@ -3,6 +3,8 @@ import { useTheme } from 'next-themes';
 import { Volume2, VolumeX } from 'lucide-react';
 
 const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
@@ -154,16 +156,20 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
         ctx.fill();
       });
 
-      animationFrameRef.current = requestAnimationFrame(render);
+      if (isInView) {
+        animationFrameRef.current = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    if (isInView) {
+      render();
+    }
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrameRef.current);
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [isMuted, isDark]);
+  }, [isMuted, isDark, isInView]);
 
   useEffect(() => {
     const audio = audioRef.current;
