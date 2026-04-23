@@ -400,7 +400,8 @@
         "Mentoria 1:1 personalizada impulsionada por IA.",
         "Adaptação dinâmica ao ritmo do usuário.",
         "Integração fluida sem curva de aprendizado."
-      ]
+      ],
+      "simulation": "Simulação"
     },
     "scene1": {
       "eyebrow": "O fim da educação como a conhecemos",
@@ -473,7 +474,11 @@
         "level": "Nível Executivo",
         "summary_title": "Resumo do progresso",
         "summary_desc": "Mentoria, desafios e geração ativa."
-      }
+      },
+      "status_generating": "Gerando podcast de resumo...",
+      "active_tool": "Modelo: Sonnet 3.5 + TTS",
+      "reward_label": "Criação ativa",
+      "xp_earned": "+150 XP"
     },
     "scene5": {
       "eyebrow": "Resultados mensuráveis e escaláveis",
@@ -515,7 +520,8 @@
         "summary_desc": "Mentoria, desafios e certificação conectados.",
         "completed": "Concluído",
         "next_objective": "Próximo objetivo"
-      }
+      },
+      "description": "Eleve as capacidades da sua equipe e capacite-os para multiplicar resultados integrando fluxos de trabalho impulsionados por IA."
     },
     "pricing": {
       "eyebrow": "Escolha o seu plano",
@@ -579,6 +585,48 @@
       "live": "Já estamos ao vivo!",
       "join_youtube": "Entrar no Lançamento",
       "reminder_youtube": "Ativar Lembrete no YouTube"
+    },
+    "testimonies": {
+      "eyebrow": "Pioneiros",
+      "headline_1": "Não ",
+      "headline_2": "somos",
+      "headline_3": " uma teoria.",
+      "headline_4": "Somos",
+      "headline_5": " o caso de ",
+      "headline_6": "sucesso.",
+      "card_title": "Caso de Sucesso",
+      "loading": "Carregando...",
+      "play": "Reproduzir",
+      "pause": "Pausar"
+    },
+    "platformDemo": {
+      "eyebrow": "Arquitetura Viva",
+      "headline_1": "Não é uma ",
+      "headline_2": "promessa.",
+      "headline_3": "É a plataforma em ",
+      "headline_4": "ação.",
+      "demos": [
+        {
+          "title": "Criação de Trilhas com IA",
+          "desc": "Geração de trilhas de aprendizagem automáticas."
+        },
+        {
+          "title": "Geração de Avatares",
+          "desc": "Personalize seu gêmeo digital educacional."
+        },
+        {
+          "title": "Plataforma Inteligente",
+          "desc": "O ecossistema de aprendizagem do futuro."
+        },
+        {
+          "title": "Contexto Inteligente",
+          "desc": "Sincronize seu LinkedIn e currículo para adaptar a IA ao seu perfil exato."
+        },
+        {
+          "title": "Execução Ativa",
+          "desc": "Interaja com assistentes avançados em tempo real."
+        }
+      ]
     }
   }
 }

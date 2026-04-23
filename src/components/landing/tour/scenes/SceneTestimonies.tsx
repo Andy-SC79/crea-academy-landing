@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useInView, useMotionValue, useSpring } from "f
 import { Play, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 import {
   SceneEyebrow,
@@ -35,6 +36,7 @@ const TestimonyCard = ({
   activeVideoId,
   setActiveVideoId,
 }: TestimonyCardProps) => {
+  const { t } = useTranslation("landing");
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(cardRef, { margin: "200px" });
@@ -141,11 +143,11 @@ const TestimonyCard = ({
             className="pointer-events-none absolute left-0 top-0 z-50 -ml-[60px] -mt-[24px] flex h-12 w-[120px] items-center justify-center gap-2 rounded-full bg-white/90 shadow-xl backdrop-blur-md"
           >
             {isPlaying ? (
-              <span className="text-xs font-bold uppercase tracking-wider text-black">Pausar</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-black">{t("tour.testimonies.pause")}</span>
             ) : (
               <>
                 <Play className="h-3 w-3 fill-black text-black" />
-                <span className="text-xs font-bold uppercase tracking-wider text-black">Reproducir</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-black">{t("tour.testimonies.play")}</span>
               </>
             )}
           </motion.div>
@@ -156,6 +158,7 @@ const TestimonyCard = ({
 };
 
 export default function SceneTestimonies(_: SceneComponentProps) {
+  const { t } = useTranslation("landing");
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollRefDesktop = useRef<HTMLDivElement>(null);
 
@@ -205,10 +208,12 @@ export default function SceneTestimonies(_: SceneComponentProps) {
           typewriter={false}
           className="mx-auto max-w-[14ch] text-center text-[clamp(2.3rem,6vw,4.9rem)] leading-[1.02]"
           parts={[
-            { text: "No somos una teoria." },
-            { text: "Somos", accent: "prisma", breakBefore: true },
-            { text: " el caso de " },
-            { text: "exito.", accent: "neon" },
+            { text: t("tour.testimonies.headline_1") },
+            { text: t("tour.testimonies.headline_2"), accent: "prisma" },
+            { text: t("tour.testimonies.headline_3") },
+            { text: t("tour.testimonies.headline_4"), accent: "prisma", breakBefore: true },
+            { text: t("tour.testimonies.headline_5") },
+            { text: t("tour.testimonies.headline_6"), accent: "neon" },
           ]}
         />
       </motion.div>

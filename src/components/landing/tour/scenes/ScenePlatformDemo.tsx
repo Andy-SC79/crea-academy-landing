@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Cpu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 import SceneTemplate from "./SceneTemplate";
 import {
@@ -45,15 +46,15 @@ const DEMOS = [
   },
 ];
 
-const DemoCard = ({ demo }: { demo: typeof DEMOS[0] }) => {
+const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: any, index: number }) => {
   return (
     <div className={cn(TOUR_GLASS_PANEL_CLASS, "relative mx-auto flex w-full max-w-5xl flex-col overflow-hidden md:flex-row")}>
       <div className="flex flex-1 flex-col justify-center p-8 md:p-12">
         <h3 className={cn(SURFACE_TITLE_CLASS, "mt-0 pb-0 text-[clamp(1.6rem,2vw+1rem,3rem)]")}>
-          {demo.title}
+          {t(`tour.platformDemo.demos.${index}.title`)}
         </h3>
         <p className="mt-4 text-lg text-slate-700 dark:text-white/70 md:text-xl">
-          {demo.description}
+          {t(`tour.platformDemo.demos.${index}.desc`)}
         </p>
       </div>
       <div className="relative h-[300px] w-full overflow-hidden rounded-[28px] bg-slate-950 md:h-[450px] md:w-[50%]">
@@ -71,6 +72,7 @@ const DemoCard = ({ demo }: { demo: typeof DEMOS[0] }) => {
 };
 
 export default function ScenePlatformDemo(_: SceneComponentProps) {
+  const { t } = useTranslation("landing");
   return (
     <SceneTemplate className="relative z-10 flex min-h-[100vh] w-full flex-col items-center justify-center py-24">
       <motion.div
@@ -86,16 +88,16 @@ export default function ScenePlatformDemo(_: SceneComponentProps) {
         <SceneHeadline
           className="mx-auto max-w-[14ch] text-center text-[clamp(2.2rem,5.8vw,4.75rem)] leading-[1.02]"
           parts={[
-            { text: "No es una " },
-            { text: "promesa.", accent: "prisma" },
-            { text: "Es la plataforma en ", breakBefore: true },
-            { text: "acción.", accent: "neon" },
+            { text: t("tour.platformDemo.headline_1") },
+            { text: t("tour.platformDemo.headline_2"), accent: "prisma" },
+            { text: t("tour.platformDemo.headline_3"), breakBefore: true },
+            { text: t("tour.platformDemo.headline_4"), accent: "neon" },
           ]}
         />
       </motion.div>
 
       <div className="flex w-full flex-col gap-12 px-4 md:px-12">
-        {DEMOS.map((demo) => (
+        {DEMOS.map((demo, index) => (
           <motion.div
             key={demo.id}
             initial={{ opacity: 0, y: 40 }}
@@ -103,7 +105,7 @@ export default function ScenePlatformDemo(_: SceneComponentProps) {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
           >
-            <DemoCard demo={demo} />
+            <DemoCard demo={demo} t={t} index={index} />
           </motion.div>
         ))}
       </div>

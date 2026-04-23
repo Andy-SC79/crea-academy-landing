@@ -43,7 +43,7 @@ export default function Scene5(_: SceneComponentProps) {
             ]}
           />
           <p className={LEAD_COPY_CLASS}>
-            Eleva las capacidades de tu equipo y empodéralos para multiplicar los resultados integrando flujos de trabajo impulsados por IA.
+            {t("tour.scene5.description")}
           </p>
         </div>
 

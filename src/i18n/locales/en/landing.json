@@ -400,7 +400,8 @@
         "1:1 personalized mentoring driven by AI.",
         "Dynamic adaptation to the user's pace.",
         "Seamless integration with zero learning curve."
-      ]
+      ],
+      "simulation": "Simulation"
     },
     "scene1": {
       "eyebrow": "The end of education as we know it",
@@ -473,7 +474,11 @@
         "level": "Executive Level",
         "summary_title": "Progress summary",
         "summary_desc": "Mentoring, challenges, and active generation."
-      }
+      },
+      "status_generating": "Generating summary podcast...",
+      "active_tool": "Model: Sonnet 3.5 + TTS",
+      "reward_label": "Active creation",
+      "xp_earned": "+150 XP"
     },
     "scene5": {
       "eyebrow": "Measurable and scalable results",
@@ -515,7 +520,8 @@
         "summary_desc": "Mentoring, challenges, and certification connected.",
         "completed": "Completed",
         "next_objective": "Next objective"
-      }
+      },
+      "description": "Elevate your team's capabilities and empower them to multiply results by integrating AI-driven workflows."
     },
     "pricing": {
       "eyebrow": "Choose your plan",
@@ -579,6 +585,48 @@
       "live": "We are live!",
       "join_youtube": "Join the Launch Event",
       "reminder_youtube": "Set YouTube Reminder"
+    },
+    "testimonies": {
+      "eyebrow": "Pioneers",
+      "headline_1": "We are ",
+      "headline_2": "not",
+      "headline_3": " a theory.",
+      "headline_4": "We are",
+      "headline_5": " the success ",
+      "headline_6": "story.",
+      "card_title": "Success Story",
+      "loading": "Loading...",
+      "play": "Play",
+      "pause": "Pause"
+    },
+    "platformDemo": {
+      "eyebrow": "Living Architecture",
+      "headline_1": "It's not a ",
+      "headline_2": "promise.",
+      "headline_3": "It's the platform in ",
+      "headline_4": "action.",
+      "demos": [
+        {
+          "title": "AI Learning Paths",
+          "desc": "Automatic generation of customized learning routes."
+        },
+        {
+          "title": "Avatar Generation",
+          "desc": "Personalize your educational digital twin."
+        },
+        {
+          "title": "Smart Platform",
+          "desc": "The learning ecosystem of the future."
+        },
+        {
+          "title": "Smart Context",
+          "desc": "Sync your LinkedIn and CV to adapt the AI to your exact profile."
+        },
+        {
+          "title": "Active Execution",
+          "desc": "Interact with advanced assistants in real-time."
+        }
+      ]
     }
   }
 }
