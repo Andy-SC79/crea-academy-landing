@@ -5,6 +5,7 @@ import Header from "@/components/landing/tour/Header";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/layout/Footer";
 import "@/styles/tour-ambient.css";
+import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 
 import { TOUR_SCENES } from "./scenes";
 
@@ -55,6 +56,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
           );
         })}
       </div>
+      <WhatsAppWidget phoneNumber="573106014893" message="Hola, vengo del sitio web de Crea Academy y quiero más información." />
     </div>
   );
 }
