@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { AnimatePresence, motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,7 @@ const TestimonyCard = ({
 
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(true);
 
   useEffect(() => {
     if (activeVideoId !== null && activeVideoId !== testimony.id && isPlaying) {
@@ -94,7 +95,7 @@ const TestimonyCard = ({
       {isInView ? (
         <video
           ref={videoRef}
-          src={testimony.url}
+          src={`${testimony.url}#t=0.001`}
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",
             isPlaying ? "opacity-100" : "opacity-82 group-hover:opacity-92",
@@ -103,18 +104,31 @@ const TestimonyCard = ({
           playsInline
           controls={false}
           preload="metadata"
+          onLoadedData={() => setIsBuffering(false)}
+          onCanPlay={() => setIsBuffering(false)}
+          onWaiting={() => setIsBuffering(true)}
+          onPlaying={() => setIsBuffering(false)}
         />
       ) : null}
 
       <div
         className={cn(
           "absolute inset-0 flex flex-col items-center justify-center bg-slate-950/40 transition-opacity duration-500",
-          isPlaying ? "opacity-0" : "opacity-100",
+          isPlaying && !isBuffering ? "opacity-0" : "opacity-100",
         )}
       >
-        <p className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-lg">
-          Caso de Exito
-        </p>
+        {isBuffering ? (
+          <div className="flex flex-col items-center justify-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-brand-neon" />
+            <p className="font-display text-sm font-bold uppercase tracking-widest text-brand-neon drop-shadow-lg">
+              Cargando...
+            </p>
+          </div>
+        ) : (
+          <p className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-lg">
+            Caso de Exito
+          </p>
+        )}
       </div>
 
       <AnimatePresence>
