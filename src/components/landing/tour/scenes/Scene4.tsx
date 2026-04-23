@@ -46,7 +46,7 @@ function InteractiveGenerator() {
         <div className="flex flex-col items-center justify-center py-6">
           <div className="mb-6 w-full rounded-xl border border-slate-200/50 bg-slate-950 p-4 font-mono text-sm text-brand-neon/80 shadow-inner dark:border-white/10 dark:bg-black/40 text-left">
             <p className="text-brand-orange">Error: Module not found</p>
-            <p className="text-slate-400">Can't resolve './Dashboard' in '/src/pages'</p>
+            <p className="text-slate-400">Can&apos;t resolve './Dashboard' in '/src/pages'</p>
           </div>
           <button 
             onClick={() => setStage("generating")}
@@ -101,7 +101,7 @@ function InteractiveGenerator() {
           
           <div className="my-3 w-full rounded-xl border border-brand-neon/30 bg-brand-neon/5 p-3 text-center">
             <p className="text-xs font-medium text-slate-700 dark:text-white/80">
-              "El componente estaba en mayúsculas. Lo he corregido por ti."
+              &quot;El componente estaba en mayúsculas. Lo he corregido por ti.&quot;
             </p>
           </div>
 
