@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import "@/styles/tour-ambient.css";
 import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 
+import TrustBand from "@/components/landing/tour/TrustBand";
 import { TOUR_SCENES } from "./scenes";
 
 type TourControllerProps = {
@@ -44,15 +45,17 @@ export default function TourController({ integrationSlot }: TourControllerProps)
           const SceneComponent = scene.Component;
 
           return (
-            <div
-              key={scene.id}
-              id={scene.id}
-              className={cn(
-                "tour-section-blend flex w-full flex-col items-center justify-center",
-                scene.id === "tour-pricing" && "scroll-mt-24",
-              )}
-            >
-              <SceneComponent integrationSlot={integrationSlot} />
+            <div key={scene.id} className="flex w-full flex-col">
+              <div
+                id={scene.id}
+                className={cn(
+                  "tour-section-blend flex w-full flex-col items-center justify-center",
+                  scene.id === "tour-pricing" && "scroll-mt-24",
+                )}
+              >
+                <SceneComponent integrationSlot={integrationSlot} />
+              </div>
+              {scene.id === "scene-hero" && <TrustBand />}
             </div>
           );
         })}
