@@ -98,7 +98,7 @@ export default function SceneHero(_: SceneComponentProps) {
                         <img src={creaLogoWhite} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
                       </div>
                       <div className="h-5 sm:h-6 w-[2px] rounded-full bg-slate-300 dark:bg-white/20" />
-                      <span className="font-display text-[0.8rem] sm:text-[0.95rem] font-black tracking-[0.25em] text-slate-900 dark:text-white uppercase drop-shadow-sm pt-1">
+                      <span className="font-display text-[0.9rem] sm:text-[1.05rem] font-black tracking-[0.25em] text-black dark:text-white uppercase dark:drop-shadow-sm pt-1">
                         Academy
                       </span>
                     </div>
