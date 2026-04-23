@@ -487,12 +487,11 @@
         "summary_desc": "Mentoria, desafios e geração ativa.",
         "status_idle": "Detectando erro de compilação...",
         "action_btn": "Ativar Visão Multimodal",
-        "status_generating": "Analisando a tela e buscando solução...",
+        "status_generating": "Gerando podcast de resumo...",
         "status_done": "Desafio Concluído",
-        "reward_label": "Precisão de 98%"
+        "reward_label": "Precisão de 98%",
+        "active_tool": "Modelo: Sonnet 3.5 + TTS"
       },
-      "status_generating": "Gerando podcast de resumo...",
-      "active_tool": "Modelo: Sonnet 3.5 + TTS",
       "reward_label": "Criação ativa",
       "xp_earned": "+150 XP"
     },
