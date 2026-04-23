@@ -61,17 +61,20 @@ export default function Scene3({ integrationSlot }: SceneComponentProps) {
 
       <div className="flex min-h-[18rem] min-w-0 items-center lg:min-h-0">
         <div className={TOUR_FRAME_CLASS}>
-          <div className={cn(TOUR_SURFACE_CLASS, "flex h-[clamp(20rem,48svh,38rem)] w-full min-w-0 flex-col md:p-6 xl:h-[clamp(22rem,52svh,40rem)] xl:p-7")}>
+          <div className={cn(TOUR_SURFACE_CLASS, "flex h-[clamp(20rem,48svh,38rem)] w-full min-w-0 flex-col p-2 xl:h-[clamp(22rem,52svh,40rem)] xl:p-3")}>
             {integrationSlot ? (
               integrationSlot
             ) : (
-              <div className="flex h-full flex-col items-center justify-center p-8 text-center">
-                <p className="mb-2 text-xs font-display font-semibold uppercase tracking-[0.18em] text-brand-neon/80 md:text-sm">
-                  {t("tour.scene3.card.title")}
-                </p>
-                <p className="text-xs text-slate-600 dark:text-white/40">
-                  {t("tour.scene3.card.desc")}
-                </p>
+              <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[24px] bg-slate-950">
+                <video
+                  src="https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/6255db2c-1539-f111-88b3-000d3ac0461d?ts=639118866570000000"
+                  className="absolute inset-0 h-full w-full object-cover opacity-92"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]" />
               </div>
             )}
           </div>
