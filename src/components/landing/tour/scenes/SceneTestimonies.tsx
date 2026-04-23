@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { AnimatePresence, motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { Play, Loader2 } from "lucide-react";
+import AnimatedText from "@/components/landing/tour/AnimatedText";
 
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -201,7 +202,7 @@ export default function SceneTestimonies(_: SceneComponentProps) {
       >
         <div className="mb-4 flex justify-center">
           <SceneEyebrow icon={<Play className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />}>
-            Pioneros
+            <AnimatedText text={t("tour.testimonies.eyebrow")} />
           </SceneEyebrow>
         </div>
         <SceneHeadline

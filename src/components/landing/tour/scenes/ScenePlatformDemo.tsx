@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Cpu } from "lucide-react";
+import AnimatedText from "@/components/landing/tour/AnimatedText";
 
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -70,7 +71,7 @@ export default function ScenePlatformDemo(_: SceneComponentProps) {
       >
         <div className="mb-6 flex justify-center">
           <SceneEyebrow icon={<Cpu className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />}>
-            Arquitectura Viva
+            <AnimatedText text={t("tour.platformDemo.eyebrow")} />
           </SceneEyebrow>
         </div>
         <SceneHeadline
