@@ -156,12 +156,20 @@ export function SceneEyebrow({
   return (
     <div
       className={cn(
-        "inline-flex max-w-full items-center gap-1.5 overflow-hidden rounded-full border border-slate-200/80 bg-white/90 px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-[0.2em] text-[#00A859] shadow-sm backdrop-blur-lg sm:px-3 sm:py-1.5 sm:text-[10px] lg:px-4 lg:py-2 lg:text-[11px] xl:text-[12px] dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none",
+        "group relative inline-flex items-center justify-center gap-4 rounded-full border border-slate-200/50 bg-white/40 px-4 py-2 sm:px-5 sm:py-2.5 shadow-xl shadow-black/5 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:border-white/10 dark:bg-black/40 dark:shadow-brand-neon/5 dark:hover:bg-black/60",
         className,
       )}
     >
-      {icon ?? <Sparkles className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4" />}
-      <span className="truncate whitespace-nowrap">{children}</span>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center text-[#00A859] dark:text-brand-neon">
+          {icon ?? <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />}
+        </div>
+        <div className="h-4 sm:h-5 w-[2px] rounded-full bg-slate-300 dark:bg-white/20" />
+        <span className="font-display text-[0.7rem] sm:text-[0.8rem] font-black tracking-[0.25em] text-black dark:text-white uppercase dark:drop-shadow-sm pt-1 truncate">
+          {children}
+        </span>
+      </div>
     </div>
   );
 }
