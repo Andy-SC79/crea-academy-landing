@@ -156,7 +156,7 @@ export function SceneEyebrow({
   return (
     <div
       className={cn(
-        "inline-flex max-w-full items-center gap-1.5 overflow-hidden rounded-full border border-slate-200/80 bg-white/90 px-2.5 py-1 text-[8px] font-display font-black uppercase tracking-[0.2em] text-[#00A859] shadow-sm backdrop-blur-lg sm:px-3 sm:py-1.5 sm:text-[9px] lg:px-4 lg:py-2 lg:text-[10px] xl:text-[11px] dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none",
+        "inline-flex max-w-full items-center gap-1.5 overflow-hidden rounded-full border border-slate-200/80 bg-white/90 px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-[0.2em] text-[#00A859] shadow-sm backdrop-blur-lg sm:px-3 sm:py-1.5 sm:text-[10px] lg:px-4 lg:py-2 lg:text-[11px] xl:text-[12px] dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none",
         className,
       )}
     >
