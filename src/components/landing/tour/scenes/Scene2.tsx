@@ -118,7 +118,15 @@ export default function Scene2(_: SceneComponentProps) {
         <SceneEyebrow>
           <AnimatedText text={t("tour.scene2.eyebrow")} className="" />
         </SceneEyebrow>
-        <SceneHeadline parts={[{ text: t("tour.scene2.headline") }]} />
+        <SceneHeadline 
+          parts={[
+            { text: t("tour.scene2.headline_1") },
+            { text: t("tour.scene2.headline_2"), accent: "prisma" },
+            { text: t("tour.scene2.headline_3") },
+            { text: t("tour.scene2.headline_4"), accent: "neon" },
+            ...(t("tour.scene2.headline_5") !== "tour.scene2.headline_5" && t("tour.scene2.headline_5") ? [{ text: t("tour.scene2.headline_5") }] : [])
+          ]} 
+        />
       </div>
 
       <div className="relative z-10 order-2 my-8 flex w-full min-w-0 flex-col justify-center lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:my-0">
