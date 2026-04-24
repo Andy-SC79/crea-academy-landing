@@ -1,4 +1,4 @@
-import React, { ElementType, Fragment, ReactNode } from "react";
+import React, { ElementType, Fragment, ReactNode, cloneElement, isValidElement, useState } from "react";
 import { cn } from "@/lib/utils";
 import TypewriterComponent from "typewriter-effect";
 import { useReducedMotion } from "framer-motion";
@@ -14,31 +14,31 @@ export const SCENE_CONTAINER_CLASS =
   "mx-auto grid w-full min-w-0 max-w-[min(100%,104rem)] content-start items-center gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-8 md:gap-8 md:px-10 md:py-10 mt-0 lg:mt-4 xl:gap-10 xl:px-14 2xl:px-16 2xl:py-12";
 
 export const HERO_HEADLINE_CLASS =
-  "max-w-[14ch] font-display text-[clamp(1.35rem,5vw,6.25rem)] font-extrabold dark:font-bold leading-[0.96] tracking-[-0.045em] text-slate-900 dark:text-white pb-3";
+  "max-w-[14ch] font-display text-[clamp(1.35rem,5vw,6.25rem)] font-extrabold dark:font-bold leading-[0.96] tracking-[-0.045em] text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SCENE_HEADING_CLASS =
-  "max-w-[16ch] font-display text-[clamp(2rem,6vw,4rem)] font-extrabold dark:font-bold leading-[0.98] tracking-[-0.04em] text-slate-900 dark:text-white pb-3";
+  "max-w-[15ch] font-display text-[clamp(1.72rem,4.8vw+0.65rem,4rem)] font-bold sm:font-extrabold dark:font-bold leading-[1.02] sm:leading-[0.98] tracking-[-0.04em] text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
 
 export const LEAD_COPY_CLASS =
-  "max-w-[44rem] font-display text-[clamp(1.15rem,1.5vw+1rem,1.65rem)] leading-[1.6] text-slate-800 dark:text-slate-100 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]";
+  "max-w-[38rem] font-sans text-[clamp(0.98rem,0.75rem+0.95vw,1.22rem)] font-medium leading-[1.72] tracking-[-0.01em] text-[color:var(--tour-text-default)] dark:text-slate-100/90 sm:max-w-[42rem] sm:text-[clamp(1.02rem,0.88rem+0.62vw,1.32rem)] sm:leading-[1.68]";
 
 export const SURFACE_TITLE_CLASS =
-  "mt-4 font-display text-[clamp(1.45rem,1.08rem+1.45vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white pb-3";
+  "mt-4 font-display text-[clamp(1.28rem,1rem+1.2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SURFACE_COPY_CLASS =
-  "mt-4 text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-slate-700 font-medium dark:text-white/60";
+  "mt-4 text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-[color:var(--tour-text-default)] font-medium dark:text-white/60";
 
 export const METRIC_VALUE_CLASS =
-  "mt-3 font-display text-[clamp(1.25rem,1.5rem+1.5vw,3.5rem)] font-semibold leading-none text-slate-900 dark:text-white pb-3";
+  "mt-3 font-display text-[clamp(1.1rem,0.95rem+1.4vw,3.5rem)] font-semibold leading-none text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const TOUR_FRAME_CLASS =
-  "relative w-full rounded-[32px] p-[1px] bg-gradient-to-br from-slate-200/50 via-slate-100/50 to-slate-200/50 shadow-[0_20px_40px_rgba(0,0,0,0.04)] dark:from-brand-cyan/60 dark:via-brand-purple/45 dark:to-brand-orange/55 dark:shadow-[0_0_40px_rgba(123,44,191,0.05)]";
+  "tour-frame-shell relative w-full rounded-[32px] p-[1px]";
 
 export const TOUR_SURFACE_CLASS =
-  "relative overflow-hidden rounded-[31px] border border-white/60 bg-white/60 text-slate-900 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-2xl dark:!border-[#16243C] dark:!bg-[linear-gradient(180deg,rgba(9,18,35,0.96)_0%,rgba(7,13,27,0.94)_100%)] dark:text-white dark:shadow-[0_24px_70px_rgba(0,0,0,0.24)]";
+  "tour-surface-shell relative overflow-hidden rounded-[31px] text-[color:var(--tour-text-strong)] backdrop-blur-2xl dark:text-white";
 
 export const TOUR_GLASS_PANEL_CLASS =
-  "rounded-[30px] border border-slate-200/80 bg-white/80 text-slate-900 shadow-[0_20px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:shadow-[0_24px_70px_rgba(0,0,0,0.28)]";
+  "tour-glass-shell rounded-[30px] text-[color:var(--tour-text-strong)] backdrop-blur-xl dark:text-white";
 
 type HeadlineAccent = "none" | "neon" | "prisma";
 
@@ -153,21 +153,34 @@ export function SceneEyebrow({
   icon?: ReactNode;
   className?: string;
 }) {
+  const [hoverReplaySignal, setHoverReplaySignal] = useState(0);
+  const [hasReplayedOnHover, setHasReplayedOnHover] = useState(false);
+
+  const animatedChildren =
+    isValidElement<{ replaySignal?: number }>(children)
+      ? cloneElement(children, { replaySignal: hoverReplaySignal })
+      : children;
+
   return (
     <div
+      onMouseEnter={() => {
+        if (hasReplayedOnHover) return;
+        setHoverReplaySignal(1);
+        setHasReplayedOnHover(true);
+      }}
       className={cn(
-        "group relative inline-flex items-center justify-center gap-4 rounded-full border border-slate-200/50 bg-white/40 px-4 py-2 sm:px-5 sm:py-2.5 shadow-xl shadow-black/5 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:border-white/10 dark:bg-black/40 dark:shadow-brand-neon/5 dark:hover:bg-black/60",
+        "tour-pill-shell group relative inline-flex items-center justify-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 transition-all duration-500 hover:scale-105",
         className,
       )}
     >
       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
       <div className="relative flex items-center gap-3 sm:gap-4">
-        <div className="flex items-center text-[#00A859] dark:text-brand-neon">
+        <div className="flex items-center text-[#0d8b5c] dark:text-brand-neon">
           {icon ?? <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />}
         </div>
-        <div className="h-4 sm:h-5 w-[2px] rounded-full bg-slate-300 dark:bg-white/20" />
-        <span className="font-display text-[0.7rem] sm:text-[0.8rem] font-black tracking-[0.25em] text-black dark:text-white uppercase dark:drop-shadow-sm pt-1 truncate">
-          {children}
+        <div className="h-4 sm:h-5 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
+        <span className="font-display text-[0.7rem] sm:text-[0.8rem] font-black tracking-[0.25em] text-[color:var(--tour-text-default)] dark:text-white uppercase dark:drop-shadow-sm pt-1 truncate">
+          {animatedChildren}
         </span>
       </div>
     </div>

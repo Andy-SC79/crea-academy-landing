@@ -124,12 +124,12 @@ const TestimonyCard = ({
           <div className="flex flex-col items-center justify-center gap-3">
             <Loader2 className="h-8 w-8 animate-spin text-brand-neon" />
             <p className="font-display text-sm font-bold uppercase tracking-widest text-brand-neon drop-shadow-lg">
-              Cargando...
+              {t("tour.testimonies.loading")}
             </p>
           </div>
         ) : (
           <p className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-lg">
-            Caso de Exito
+            {t("tour.testimonies.card_title")}
           </p>
         )}
       </div>
@@ -141,7 +141,7 @@ const TestimonyCard = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
             style={{ x: springX, y: springY }}
-            className="pointer-events-none absolute left-0 top-0 z-50 -ml-[60px] -mt-[24px] flex h-12 w-[120px] items-center justify-center gap-2 rounded-full bg-white/90 shadow-xl backdrop-blur-md"
+            className="tour-meta-chip pointer-events-none absolute left-0 top-0 z-50 -ml-[60px] -mt-[24px] flex h-12 w-[120px] items-center justify-center gap-2 rounded-full !bg-white/90 text-black"
           >
             {isPlaying ? (
               <span className="text-xs font-bold uppercase tracking-wider text-black">{t("tour.testimonies.pause")}</span>

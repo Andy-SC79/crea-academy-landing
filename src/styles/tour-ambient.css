@@ -1,14 +1,14 @@
 :root {
-      --tour-bg-start: #ffffff;
-  --tour-bg-mid: #f1f5f9;
-  --tour-bg-end: #ffffff;
-  --tour-glow-neon: rgba(4, 255, 141, 0.15);
-  --tour-glow-cyan: rgba(0, 229, 255, 0.12);
-  --tour-glow-purple: rgba(157, 0, 255, 0.10);
-  --tour-glow-orange: rgba(255, 107, 0, 0.08);
-  --tour-vignette: rgba(255, 255, 255, 0.7);
-  --tour-header-bg: rgba(255, 255, 255, 0.85);
-  --tour-header-border: rgba(15, 23, 42, 0.04);
+  --tour-bg-start: #fcfcfd;
+  --tour-bg-mid: #f4f7fa;
+  --tour-bg-end: #fbfcfe;
+  --tour-glow-neon: rgba(4, 255, 141, 0.06);
+  --tour-glow-cyan: rgba(0, 229, 255, 0.045);
+  --tour-glow-purple: rgba(157, 0, 255, 0.032);
+  --tour-glow-orange: rgba(255, 107, 0, 0.024);
+  --tour-vignette: rgba(250, 251, 253, 0.84);
+  --tour-header-bg: rgba(255, 255, 255, 0.86);
+  --tour-header-border: rgba(15, 23, 42, 0.08);
 }
 
 .dark {
@@ -38,8 +38,8 @@
 }
 
 .tour-ambient-glow {
-  filter: blur(80px); /* Massive blur for mesh gradient effect */
-  opacity: 1;
+  filter: blur(110px);
+  opacity: 0.72;
 }
 .dark .tour-ambient-glow {
   filter: blur(24px);
@@ -65,7 +65,7 @@
 
 .tour-ambient-vignette {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 18%, transparent 82%, var(--tour-vignette) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 18%, transparent 82%, var(--tour-vignette) 100%);
 }
 
 .dark .tour-ambient-vignette {
@@ -89,9 +89,9 @@
   position: absolute;
   inset: -1px 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.06) 100%);
-  mix-blend-mode: soft-light;
-  opacity: 0.48;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.2) 100%);
+  mix-blend-mode: normal;
+  opacity: 0.2;
 }
 
 .dark .tour-section-blend::before {

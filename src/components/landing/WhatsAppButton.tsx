@@ -12,11 +12,12 @@ interface WhatsAppWidgetProps {
 
 export default function WhatsAppWidget({ 
   phoneNumber = "573000000000", // Default temporal
-  message = "Hola, me gustaría recibir más información sobre Crea Academy.",
+  message,
   isVisible = true 
 }: WhatsAppWidgetProps) {
-  
-  const encodedMessage = encodeURIComponent(message);
+  const { t } = useTranslation("landing");
+  const finalMessage = message ?? t("tour.whatsapp.message");
+  const encodedMessage = encodeURIComponent(finalMessage);
   const wpLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
   return (
@@ -34,6 +35,7 @@ export default function WhatsAppWidget({
             href={wpLink}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={t("tour.whatsapp.aria_label")}
             className="group relative flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#25D366]/40"
           >
             {/* Ping effect behind the button */}

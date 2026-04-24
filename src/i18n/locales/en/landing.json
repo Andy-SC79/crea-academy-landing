@@ -382,6 +382,13 @@
       "headline": "An educational singularity orchestrated by living intelligence",
       "createAccount": "Create account"
     },
+    "trustBand": {
+      "label": "Backed by industry pioneers"
+    },
+    "whatsapp": {
+      "message": "Hi, I came from the Crea Academy website and I'd like more information.",
+      "aria_label": "Open WhatsApp conversation"
+    },
     "scene2": {
       "eli_intro": "Hi, I'm Eli, your personal co-pilot and mentor at Crea Academy...",
       "consume_evolve": "You're not here to passively consume hours of video, you're here to evolve...",
@@ -402,6 +409,8 @@
         "Seamless integration with zero learning curve."
       ],
       "simulation": "Simulation",
+      "sound_on": "Turn on sound",
+      "sound_off": "Mute",
       "headline_1": "Meet ",
       "headline_2": "Eli",
       "headline_3": ", your ",
@@ -442,7 +451,7 @@
       "headline_3": "paths."
     },
     "scene4": {
-      "eyebrow": "Action & Gamification",
+      "eyebrow": "Guided creation in real time",
       "headline_line1": "Zero passive consumption.",
       "headline_line2": "Continuous creation.",
       "sequence": [
@@ -486,18 +495,29 @@
         "level": "Executive Level",
         "summary_title": "Progress summary",
         "summary_desc": "Mentoring, challenges, and active generation.",
+        "workspace_tag": "AI Workspace",
+        "workspace_title": "Multimodal Generator",
+        "processing_line": "Analyzing folder structure...",
+        "resolved_message": "The component was uppercase. I fixed it for you.",
         "status_idle": "Detecting compilation error...",
         "action_btn": "Activate Multimodal Vision",
         "status_generating": "Generating summary podcast...",
         "status_done": "Challenge Completed",
         "reward_label": "98% Accuracy",
-        "active_tool": "Model: Sonnet 3.5 + TTS"
+        "active_tool": "Model: Sonnet 3.5 + TTS",
+        "reset_action": "Reset simulation"
       },
       "reward_label": "Active creation",
       "xp_earned": "+150 XP"
     },
     "scene5": {
       "eyebrow": "Measurable and scalable results",
+      "headline_prefix_1": "",
+      "headline_focus_1": "Effort",
+      "headline_suffix_1": " is measured.",
+      "headline_prefix_2": "",
+      "headline_focus_2": "Progress",
+      "headline_suffix_2": " is felt.",
       "headline_line1": "Effort is measured.",
       "headline_line2": "Progress is felt.",
       "metrics": [
@@ -534,6 +554,18 @@
         "level": "Rising level",
         "summary_title": "Progress summary",
         "summary_desc": "Mentoring, challenges, and certification connected.",
+        "dashboard_tag": "Team Metrics",
+        "dashboard_title": "Corporate Ranking",
+        "global_retention": "Global Retention",
+        "retention_value": "94%",
+        "organization_impact": "Organizational Impact",
+        "top_students": "Top Weekly Students",
+        "student_1": "Carlos M.",
+        "student_1_score": "1.2k XP",
+        "student_2": "Laura G.",
+        "student_2_score": "980 XP",
+        "student_3": "Andrés S.",
+        "student_3_score": "850 XP",
         "completed": "Completed",
         "next_objective": "Next objective"
       },

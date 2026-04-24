@@ -382,6 +382,13 @@
       "headline": "Una singularidad educativa orquestada por inteligencia viva",
       "createAccount": "Crear cuenta"
     },
+    "trustBand": {
+      "label": "Respaldado por pioneros de la industria"
+    },
+    "whatsapp": {
+      "message": "Hola, vengo del sitio web de Crea Academy y quiero más información.",
+      "aria_label": "Abrir conversación por WhatsApp"
+    },
     "scene2": {
       "eli_intro": "Hola, soy Eli, tu copiloto y mentora personal en Crea Academy...",
       "consume_evolve": "Aquí no vienes a consumir videos por horas, vienes a evolucionar...",
@@ -402,6 +409,8 @@
         "Integración fluida sin curvas de aprendizaje."
       ],
       "simulation": "Simulación",
+      "sound_on": "Activar sonido",
+      "sound_off": "Silenciar",
       "headline_1": "Conoce a ",
       "headline_2": "Eli",
       "headline_3": ", tu mentora ",
@@ -443,7 +452,7 @@
       "headline_3": "automáticas."
     },
     "scene4": {
-      "eyebrow": "Acción y Gamificación",
+      "eyebrow": "Creación guiada en tiempo real",
       "headline_line1": "Cero consumo pasivo.",
       "headline_line2": "Creación continua.",
       "sequence": [
@@ -484,12 +493,15 @@
       "card": {
         "workspace_tag": "Espacio de trabajo AI",
         "workspace_title": "Generador Multimodal",
+        "processing_line": "Analizando estructura de carpetas...",
+        "resolved_message": "El componente estaba en mayúsculas. Lo he corregido por ti.",
         "status_generating": "Generando podcast resumen...",
         "active_tool": "Modelo: Sonnet 3.5 + TTS",
         "xp_earned": "+150 XP",
         "reward_label": "Precisión 98%",
         "status_idle": "Detectando error de compilación...",
         "action_btn": "Activar Visión Multimodal",
+        "reset_action": "Resetear simulación",
         "status_done": "Reto Superado"
       },
       "reward_label": "Creación activa",
@@ -497,6 +509,12 @@
     },
     "scene5": {
       "eyebrow": "Resultados medibles y escalables",
+      "headline_prefix_1": "El ",
+      "headline_focus_1": "esfuerzo",
+      "headline_suffix_1": " se mide.",
+      "headline_prefix_2": "El ",
+      "headline_focus_2": "avance",
+      "headline_suffix_2": " se siente.",
       "headline_line1": "El esfuerzo se mide.",
       "headline_line2": "El avance se siente.",
       "metrics": [
@@ -532,6 +550,7 @@
         "dashboard_title": "Ranking Corporativo",
         "global_retention": "Retención Global",
         "retention_value": "94%",
+        "organization_impact": "Impacto organizacional",
         "top_students": "Top Estudiantes Semanal",
         "student_1": "Carlos M.",
         "student_1_score": "1.2k XP",

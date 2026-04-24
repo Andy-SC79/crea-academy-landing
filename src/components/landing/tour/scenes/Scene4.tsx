@@ -75,7 +75,7 @@ function InteractiveGenerator() {
             </div>
           </div>
           <div className="mb-2 w-full rounded-xl border border-brand-cyan/30 bg-slate-950 p-3 font-mono text-[11px] text-brand-cyan/80 shadow-inner dark:bg-black/60 text-left">
-            <p className="animate-pulse">&#47;&#47; Analizando estructura de carpetas...</p>
+            <p className="animate-pulse">&#47;&#47; {t("tour.scene4.card.processing_line")}</p>
             <p className="mt-1 opacity-70">import Dashboard from &apos;@/pages/Dashboard&apos;;</p>
           </div>
           <div className="flex items-center justify-center gap-1 h-6 w-full overflow-hidden">
@@ -102,25 +102,25 @@ function InteractiveGenerator() {
           
           <div className="my-3 w-full rounded-xl border border-brand-neon/30 bg-brand-neon/5 p-3 text-center">
             <p className="text-xs font-medium text-slate-700 dark:text-white/80">
-              &quot;El componente estaba en mayúsculas. Lo he corregido por ti.&quot;
+              {t("tour.scene4.card.resolved_message")}
             </p>
           </div>
 
           <div className="mt-2 flex w-full items-center justify-between border-t border-slate-200 dark:border-white/10 pt-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-white/50">
-                {t("tour.scene4.card.reward_label")}
+              <span className="text-xs uppercase tracking-[0.16em] text-[color:var(--tour-text-muted)] dark:text-white/50">
+                {t("tour.scene4.reward_label")}
               </span>
             </div>
             <span className="shrink-0 text-sm font-display font-bold text-brand-neon drop-shadow-[0_0_10px_rgba(4,255,141,0.5)]">
-              {t("tour.scene4.card.xp_earned")}
+              {t("tour.scene4.xp_earned")}
             </span>
           </div>
           <button 
             onClick={() => setStage("idle")}
-            className="mt-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-brand-neon transition-colors"
+            className="mt-4 text-[10px] font-bold uppercase tracking-wider text-[color:var(--tour-text-muted)] hover:text-[color:var(--tour-text-strong)] dark:hover:text-brand-neon transition-colors"
           >
-            Resetear Simulación
+            {t("tour.scene4.card.reset_action")}
           </button>
         </motion.div>
       )}
@@ -172,7 +172,7 @@ export default function Scene4(_: SceneComponentProps) {
               key={item.label}
               className="flex flex-col pt-4 opacity-90 transition-opacity hover:opacity-100 first:pl-0 first:pt-0 sm:pl-6 sm:pt-0"
             >
-              <p className="text-xs font-display uppercase tracking-[0.18em] text-slate-600 dark:text-white/50">
+              <p className="text-xs font-display uppercase tracking-[0.18em] text-[color:var(--tour-text-muted)] dark:text-white/50">
                 {item.label}
               </p>
               <p className={METRIC_VALUE_CLASS}>{item.value}</p>
@@ -188,14 +188,14 @@ export default function Scene4(_: SceneComponentProps) {
 
             <div className="relative z-10 flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-orange/80">
+                <p className="tour-kicker text-xs font-display font-black uppercase tracking-[0.18em] dark:text-brand-orange/80">
                   {t("tour.scene4.card.workspace_tag")}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-slate-900 dark:text-white md:text-2xl lg:text-3xl">
                   {t("tour.scene4.card.workspace_title")}
                 </h3>
               </div>
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-display font-black text-[#00A859] shadow-sm backdrop-blur-md md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
+              <div className="tour-meta-chip inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-display font-black text-[color:var(--tour-text-default)] md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
                 <Wand2 className="h-4 w-4" />
                 {t("tour.scene4.card.active_tool")}
               </div>

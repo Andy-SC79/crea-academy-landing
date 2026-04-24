@@ -131,13 +131,24 @@ export default function Scene2(_: SceneComponentProps) {
 
       <div className="relative z-10 order-2 my-8 flex w-full min-w-0 flex-col justify-center lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:my-0">
         <div className={TOUR_FRAME_CLASS}>
-          <div className={cn(TOUR_SURFACE_CLASS, "flex h-[clamp(20rem,48svh,38rem)] w-full min-w-0 flex-col p-5 md:p-6 xl:h-[clamp(22rem,52svh,40rem)] xl:p-7")}>
-            <p className="mb-4 text-xs font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-neon/80">
-              Simulacion
+          <div
+            className={cn(
+              TOUR_SURFACE_CLASS,
+              "isolate flex h-[clamp(22rem,52svh,40rem)] w-full min-w-0 flex-col p-5 md:p-6 xl:h-[clamp(24rem,56svh,42rem)] xl:p-7",
+            )}
+          >
+            <div className="pointer-events-none absolute inset-0 z-0">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.45)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(4,255,141,0.10)_0%,rgba(0,229,255,0.05)_38%,transparent_68%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.42)_0%,transparent_18%,transparent_84%,rgba(255,255,255,0.16)_100%)] dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,transparent_18%,transparent_82%,rgba(0,0,0,0.14)_100%)]" />
+            </div>
+
+            <p className="tour-kicker relative z-10 mb-4 text-xs font-display font-black uppercase tracking-[0.18em] dark:text-brand-neon/80">
+              {t("tour.scene2.simulation")}
             </p>
 
-            <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-transparent">
-              <div className="relative flex aspect-square w-full max-w-[320px] items-center justify-center md:max-w-[400px]">
+            <div className="relative z-10 flex flex-1 items-center justify-center overflow-hidden bg-transparent">
+              <div className="pointer-events-none absolute inset-x-[14%] top-[16%] bottom-[16%] rounded-full bg-[radial-gradient(circle_at_center,rgba(4,255,141,0.06)_0%,rgba(0,229,255,0.04)_42%,transparent_72%)] blur-3xl dark:bg-[radial-gradient(circle_at_center,rgba(4,255,141,0.16)_0%,rgba(0,229,255,0.10)_42%,transparent_72%)]" />
+              <div className="relative z-10 flex aspect-square w-full max-w-[320px] items-center justify-center md:max-w-[400px]">
                 <EliSphereSoundWaves audioSrc={currentAudio} onTimeUpdate={handleTimeUpdate} />
               </div>
             </div>
@@ -146,16 +157,16 @@ export default function Scene2(_: SceneComponentProps) {
       </div>
 
       <div className="relative z-20 order-3 flex min-h-[5rem] w-full flex-col justify-center lg:col-start-1 lg:row-start-2 lg:mt-4 lg:pr-8">
-        <div className="relative w-full max-w-[44rem] rounded-[2rem] border border-slate-200/80 bg-white/95 p-6 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-brand-cyan/30 dark:bg-[#0A1628]/95 dark:shadow-[0_8px_32px_rgba(0,229,255,0.08)] sm:p-8 lg:rounded-[2.5rem] lg:rounded-tr-2xl">
+        <div className="tour-panel-elevated relative w-full max-w-[44rem] rounded-[2rem] p-6 sm:p-8 lg:rounded-[2.5rem] lg:rounded-tr-2xl">
           
           {/* Cola apuntando hacia ARRIBA (Mobile) */}
           <div className="absolute -top-[10px] right-[40px] h-[10px] w-[20px] overflow-hidden lg:hidden">
-            <div className="absolute bottom-0 left-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 translate-y-1/2 rotate-45 border-l border-t border-slate-200/80 bg-white dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
+            <div className="absolute bottom-0 left-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 translate-y-1/2 rotate-45 border-[color:var(--tour-border-standard)] border-l border-t bg-[var(--tour-surface-elevated)] dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
           </div>
 
           {/* Cola apuntando hacia la DERECHA (Desktop) */}
           <div className="absolute -right-[10px] top-[32px] hidden h-[20px] w-[10px] overflow-hidden lg:block">
-            <div className="absolute left-0 top-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 border-r border-t border-slate-200/80 bg-white dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
+            <div className="absolute left-0 top-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 border-[color:var(--tour-border-standard)] border-r border-t bg-[var(--tour-surface-elevated)] dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
           </div>
           
           <div className={LEAD_COPY_CLASS}>

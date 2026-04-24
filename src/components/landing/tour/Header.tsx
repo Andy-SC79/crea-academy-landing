@@ -1,25 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Sparkles, Rocket, ListChecks } from "lucide-react";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
-import { useTheme } from "next-themes";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { APP_AUTH_URL, LANDING_PRICING_HASH } from "@/lib/external-links";
 
 export default function Header() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { t } = useTranslation(["landing", "common"]);
 
   return (
-    <nav className="safe-area-pt fixed left-0 right-0 z-50 border-b border-[#04FF8D]/10 bg-white/80 backdrop-blur-xl transition-[top] duration-300 dark:bg-background/80" style={{ top: "var(--banner-height, 0px)" }}>
+    <nav className="safe-area-pt fixed left-0 right-0 z-50 border-b border-[#04FF8D]/10 bg-white/80 shadow-[0_10px_30px_rgba(15,23,42,0.04)] backdrop-blur-xl transition-[top] duration-300 dark:bg-background/80 dark:shadow-none" style={{ top: "var(--banner-height, 0px)" }}>
       <div className="container mx-auto px-3 sm:px-4">
         <div className="flex min-h-[64px] items-center justify-between gap-2 py-1">
           <a href="https://crea.academy/" className="flex items-center gap-3">
@@ -44,11 +34,11 @@ export default function Header() {
             <ThemeToggle />
             
             <div className="flex items-center gap-2 md:gap-4 ml-1">
-              <a href="https://crea.academy/auth" className="hidden text-[0.95rem] font-display font-black tracking-tight text-slate-900 dark:text-white hover:text-[#04FF8D] transition-colors md:inline-block">
-                Iniciar sesión
+              <a href={APP_AUTH_URL} className="hidden text-[0.95rem] font-display font-black tracking-tight text-[color:var(--tour-text-default)] dark:text-white hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D] transition-colors md:inline-block">
+                {t("nav.signIn", { ns: "common" })}
               </a>
-              <a href="https://crea.academy/auth?signup=true" className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-[1rem]">
-                Crear cuenta
+              <a href={LANDING_PRICING_HASH} className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-[1rem]">
+                {t("tour.sceneHero.createAccount", { ns: "landing" })}
               </a>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import Header from "@/components/landing/tour/Header";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ type TourControllerProps = {
 };
 
 export default function TourController({ integrationSlot }: TourControllerProps) {
+  const { t } = useTranslation("landing");
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -63,7 +65,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
       <div className="relative z-20 mt-16 w-full">
         <Footer />
       </div>
-      <WhatsAppWidget phoneNumber="573106014893" message="Hola, vengo del sitio web de Crea Academy y quiero más información." />
+      <WhatsAppWidget phoneNumber="573106014893" message={t("tour.whatsapp.message")} />
     </div>
   );
 }

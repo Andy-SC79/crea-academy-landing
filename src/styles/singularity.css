@@ -98,6 +98,14 @@
   opacity: 0.85;
 }
 
+:root:not(.dark) .singularity-ring {
+  background:
+    radial-gradient(ellipse at 18% 20%, rgba(4, 255, 141, 0.08), transparent 58%),
+    radial-gradient(ellipse at 82% 78%, rgba(0, 229, 255, 0.06), transparent 60%);
+  mix-blend-mode: normal;
+  opacity: 0.6;
+}
+
 /* Brand geometry canvas positioning helper */
 .singularity-brand-field {
   position: absolute;
@@ -115,7 +123,7 @@
   mix-blend-mode: multiply;
 }
 :root:not(.dark) .singularity-vignette {
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(248, 250, 252, 0.58) 100%);
   mix-blend-mode: normal;
 }
 
@@ -126,6 +134,14 @@
 }
 .singularity-cta:hover {
   box-shadow: 0 0 0 1px #04FF8D, 0 12px 60px color-mix(in srgb, #04FF8D 65%, transparent);
+}
+
+:root:not(.dark) .singularity-cta {
+  box-shadow: 0 0 0 1px rgba(4, 255, 141, 0.65), 0 16px 36px rgba(4, 255, 141, 0.18);
+}
+
+:root:not(.dark) .singularity-cta:hover {
+  box-shadow: 0 0 0 1px rgba(4, 255, 141, 0.85), 0 20px 44px rgba(4, 255, 141, 0.24);
 }
 
 /* Scroll hint */

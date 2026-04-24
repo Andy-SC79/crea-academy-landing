@@ -42,7 +42,7 @@ const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: any, index: nu
         <h3 className={cn(SURFACE_TITLE_CLASS, "mt-0 pb-0 text-[clamp(1.6rem,2vw+1rem,3rem)]")}>
           {t(`tour.platformDemo.demos.${index}.title`)}
         </h3>
-        <p className="mt-4 text-lg text-slate-700 dark:text-white/70 md:text-xl">
+        <p className="tour-text-default mt-4 text-lg dark:text-white/70 md:text-xl">
           {t(`tour.platformDemo.demos.${index}.desc`)}
         </p>
       </div>

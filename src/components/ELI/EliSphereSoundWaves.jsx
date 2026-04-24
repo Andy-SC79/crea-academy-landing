@@ -1,9 +1,11 @@
 import { useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from "react-i18next";
 import { useTheme } from 'next-themes';
 import { Volume2, VolumeX } from 'lucide-react';
 
 const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
+  const { t } = useTranslation("landing");
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { margin: "200px" });
   const canvasRef = useRef(null);
@@ -103,6 +105,30 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
       const centerX = logicalWidth / 2;
       const centerY = logicalHeight / 2;
 
+      const haloGradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        sphereRadius * 0.12,
+        centerX,
+        centerY,
+        sphereRadius * 1.95,
+      );
+
+      if (isDark) {
+        haloGradient.addColorStop(0, "rgba(4, 255, 141, 0.18)");
+        haloGradient.addColorStop(0.42, "rgba(0, 229, 255, 0.10)");
+        haloGradient.addColorStop(1, "rgba(4, 255, 141, 0)");
+      } else {
+        haloGradient.addColorStop(0, "rgba(0, 229, 255, 0.12)");
+        haloGradient.addColorStop(0.38, "rgba(4, 255, 141, 0.09)");
+        haloGradient.addColorStop(1, "rgba(0, 229, 255, 0)");
+      }
+
+      ctx.beginPath();
+      ctx.fillStyle = haloGradient;
+      ctx.arc(centerX, centerY, sphereRadius * 1.95, 0, Math.PI * 2);
+      ctx.fill();
+
       particlesRef.current.forEach(p => {
         let moveSpeed = !isMuted ? 1 + (reactiveMultiplier * 4) : 0.2;
         p.theta += p.speedTheta * moveSpeed;
@@ -138,15 +164,18 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
             // Prisma Spectrum: Cyan (180) -> Blue (230) -> Fuchsia (280) -> Orange (380/20)
             const hue = (180 + (p.randomFactor * 200) + (reactiveMultiplier * 30)) % 360;
             
-            const actualLightness = isDark ? 60 : 45; // slight bump for light mode to maintain vibrance
-            fillColor = `hsla(${hue}, 100%, ${actualLightness}%, ${depthAlpha})`;
-            shadowColor = `hsla(${hue}, 100%, ${actualLightness}%, 0.9)`;
-            glowIntensity = reactiveMultiplier * 25; 
+            const actualLightness = isDark ? 64 : 50;
+            const visibleAlpha = Math.max(depthAlpha, isDark ? 0.24 : 0.3);
+            fillColor = `hsla(${hue}, 100%, ${actualLightness}%, ${visibleAlpha})`;
+            shadowColor = `hsla(${hue}, 100%, ${actualLightness}%, 0.95)`;
+            glowIntensity = 8 + (reactiveMultiplier * 28);
         } else {
-            const rgb = isDark ? '255, 255, 255' : '15, 23, 42'; 
-            fillColor = `rgba(${rgb}, ${depthAlpha})`;
-            shadowColor = `rgba(${rgb}, 0.8)`;
-            glowIntensity = isDark ? 5 : 2; 
+            const idleHue = isDark ? 176 + (p.randomFactor * 26) : 166 + (p.randomFactor * 22);
+            const idleLightness = isDark ? 76 - (p.randomFactor * 8) : 44 - (p.randomFactor * 6);
+            const idleAlpha = Math.max(depthAlpha * (isDark ? 0.92 : 0.82), isDark ? 0.24 : 0.28);
+            fillColor = `hsla(${idleHue}, ${isDark ? 92 : 88}%, ${idleLightness}%, ${idleAlpha})`;
+            shadowColor = `hsla(${idleHue}, 100%, ${isDark ? 72 : 42}%, 0.72)`;
+            glowIntensity = isDark ? 12 : 7;
         }
 
         ctx.beginPath();
@@ -229,7 +258,10 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
   };
 
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div
+      ref={containerRef}
+      style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
       
       <canvas 
         ref={canvasRef} 
@@ -254,7 +286,7 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
       <button 
         onClick={toggleMute}
         className="absolute z-10 bottom-[-10px] right-[-10px] md:bottom-2 md:right-2 flex items-center justify-center w-10 h-10 rounded-full bg-[#04FF8D]/10 text-[#04FF8D] border border-[#04FF8D]/30 backdrop-blur-md transition-all hover:bg-[#04FF8D]/20 hover:scale-105"
-        aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+        aria-label={isMuted ? t("tour.scene2.sound_on") : t("tour.scene2.sound_off")}
       >
         {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
       </button>

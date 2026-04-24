@@ -104,6 +104,9 @@
     "error": "Error",
     "success": "Success"
   },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
   "dashboard": {
     "title": "My Dashboard",
     "welcome": "Welcome back, keep learning 🚀",

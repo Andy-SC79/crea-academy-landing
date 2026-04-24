@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import { Button } from "@/components/ui/button";
+import { APP_AUTH_URL } from "@/lib/external-links";
 import { cn } from "@/lib/utils";
 
 import SceneTemplate from "./SceneTemplate";
@@ -48,15 +49,15 @@ const cardVariants = {
 };
 
 const PRICING_SECTION_CLASS =
-  "relative overflow-hidden rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(248,250,252,0.88)_100%)] text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-[#15243A] dark:bg-[linear-gradient(180deg,rgba(7,16,31,0.96)_0%,rgba(5,10,22,0.94)_100%)] dark:text-white dark:shadow-[0_30px_90px_rgba(0,0,0,0.34)]";
+  "tour-surface-shell relative overflow-hidden rounded-[32px] text-[color:var(--tour-text-strong)] backdrop-blur-xl dark:text-white";
 const PRICING_PANEL_CLASS =
-  "rounded-[28px] border border-slate-200/80 bg-white/78 shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-[#16243C] dark:bg-[#091223]/92 dark:shadow-[0_20px_52px_rgba(0,0,0,0.24)]";
+  "tour-glass-shell rounded-[28px]";
 const PRICING_INSET_CLASS =
-  "border border-slate-200/80 bg-slate-50/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#18263D] dark:bg-[#0C172B]/92 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]";
+  "tour-inset-surface";
 const PRICING_CARD_BASE_CLASS =
-  "border border-slate-200/80 bg-white/82 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-[#16243C] dark:bg-[#091223]/94 dark:shadow-[0_24px_60px_rgba(0,0,0,0.28)]";
+  "tour-glass-shell";
 const PRICING_GHOST_BUTTON_CLASS =
-  "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-slate-50/88 px-6 text-sm font-display font-bold tracking-[0.01em] text-slate-900 no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all duration-300 hover:border-brand-neon/50 hover:bg-brand-neon/8 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent dark:border-[#18263D] dark:bg-[#0C172B]/96 dark:text-white dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] dark:hover:border-brand-neon/45 dark:hover:bg-[#11203A] dark:hover:text-white";
+  "tour-secondary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-display font-bold tracking-[0.01em] no-underline transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent dark:border-[#18263D] dark:bg-[#0C172B]/96 dark:text-white dark:hover:border-brand-neon/45 dark:hover:bg-[#11203A] dark:hover:text-white";
 
 
 function PricingCard({ tier }: { tier: PricingTier }) {
@@ -82,8 +83,8 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         PRICING_CARD_BASE_CLASS,
         "hover:-translate-y-2 hover:scale-[1.02]",
         tier.highlighted
-          ? "border-brand-neon/80 shadow-[0_0_0_1px_rgba(4,255,141,0.26),0_28px_70px_rgba(4,255,141,0.12)]"
-          : "border-slate-200/80 dark:border-[#16243C]"
+          ? "border-brand-neon/45 shadow-[0_0_0_1px_rgba(4,255,141,0.18),0_24px_60px_rgba(4,255,141,0.10)] dark:border-brand-neon/80 dark:shadow-[0_0_0_1px_rgba(4,255,141,0.26),0_28px_70px_rgba(4,255,141,0.12)]"
+          : "border-[color:var(--tour-border-standard)] dark:border-[#16243C]"
       )}
     >
       {/* Mouse Tracking Glow Border */}
@@ -117,7 +118,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               <TierIcon className="h-5 w-5" />
             </div>
             <div className="space-y-2">
-              <p className="text-[11px] font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-neon/80">
+              <p className="tour-kicker text-[11px] font-display font-black uppercase tracking-[0.18em] dark:text-brand-neon/80">
                 {tier.kicker}
               </p>
               <h3 className="font-display text-[2rem] font-bold tracking-tight text-slate-900 dark:text-brand-white">
@@ -127,14 +128,14 @@ function PricingCard({ tier }: { tier: PricingTier }) {
           </div>
           {tier.badge ? (
             <div className="absolute right-4 top-4 z-20">
-              <span className="inline-flex whitespace-nowrap rounded-full border border-slate-200/80 bg-white/90 px-3 py-1 text-[10px] font-display font-black uppercase tracking-[0.16em] text-slate-900 shadow-sm backdrop-blur-md md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
+              <span className="tour-meta-chip inline-flex whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-display font-black uppercase tracking-[0.16em] text-[color:var(--tour-text-strong)] md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
                 {tier.badge}
               </span>
             </div>
           ) : null}
         </div>
 
-        <p className="mt-6 min-h-[56px] text-sm leading-6 text-slate-700 dark:text-white/70">
+        <p className="tour-text-default mt-6 min-h-[56px] text-sm leading-6 dark:text-white/70">
           {tier.subtitle}
         </p>
 
@@ -144,17 +145,17 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               {tier.priceAmount}
             </span>
             {tier.pricePeriod && (
-              <span className="text-sm font-semibold text-slate-500 dark:text-white/50">
+              <span className="tour-text-muted text-sm font-semibold dark:text-white/50">
                 {tier.pricePeriod}
               </span>
             )}
           </div>
-          <p className="mt-1 text-[13px] text-slate-500 dark:text-white/50">
+          <p className="tour-text-muted mt-1 text-[13px] dark:text-white/50">
             {tier.priceSubtext}
           </p>
         </div>
 
-        <div className="mt-4 flex-1 border-t border-slate-200/50 dark:border-white/10 pt-6">
+        <div className="mt-4 flex-1 border-t border-[color:var(--tour-border-subtle)] dark:border-white/10 pt-6">
           <ul className="space-y-4">
             {tier.features.map((feature) => (
               <li key={feature} className="flex items-start gap-3">
@@ -162,13 +163,13 @@ function PricingCard({ tier }: { tier: PricingTier }) {
                   className={cn(
                     "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border",
                     tier.featureTone === "brand"
-                      ? "border-brand-neon/40 bg-brand-neon/12 text-brand-neon"
-                      : cn(PRICING_INSET_CLASS, "text-slate-500 dark:text-slate-300/65")
+                      ? "tour-accent-chip"
+                      : cn(PRICING_INSET_CLASS, "text-[color:var(--tour-text-muted)] dark:text-slate-300/65")
                   )}
                 >
                   <Check className="h-3.5 w-3.5" />
                 </span>
-                <span className="text-sm leading-6 text-slate-700 dark:text-white/80">{feature}</span>
+                <span className="tour-text-default text-sm leading-6 dark:text-white/80">{feature}</span>
               </li>
             ))}
           </ul>
@@ -211,7 +212,7 @@ const PricingSection = () => {
       subtitle: t("tour.pricing.tiers.free.subtitle"),
       icon: Sparkles,
       ctaLabel: t("tour.pricing.tiers.free.ctaLabel"),
-      ctaHref: "https://crea.academy/auth",
+      ctaHref: APP_AUTH_URL,
       ctaIcon: ArrowRight,
       ctaStyle: "ghost",
       featureTone: "brand",
@@ -234,7 +235,7 @@ const PricingSection = () => {
       highlighted: true,
       icon: Rocket,
       ctaLabel: t("tour.pricing.tiers.creadores.ctaLabel"),
-      ctaHref: "https://crea.academy/auth",
+      ctaHref: APP_AUTH_URL,
       ctaIcon: Zap,
       ctaStyle: "solid",
       featureTone: "brand",
@@ -277,8 +278,8 @@ const PricingSection = () => {
     <SceneTemplate isPricing showFooter={true} disableScrollReveal>
       <div className={PRICING_SECTION_CLASS}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-8%] top-[-18%] h-52 w-52 rounded-full bg-brand-neon/10 blur-3xl dark:bg-brand-neon/8" />
-          <div className="absolute right-[-10%] top-[18%] h-64 w-64 rounded-full bg-brand-purple/10 blur-3xl dark:bg-brand-purple/12" />
+          <div className="absolute left-[-8%] top-[-18%] h-52 w-52 rounded-full bg-brand-neon/6 blur-3xl dark:bg-brand-neon/8" />
+          <div className="absolute right-[-10%] top-[18%] h-64 w-64 rounded-full bg-brand-purple/6 blur-3xl dark:bg-brand-purple/12" />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.2))] dark:bg-[linear-gradient(180deg,transparent,rgba(3,7,18,0.32))]" />
         </div>
         <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
@@ -296,7 +297,7 @@ const PricingSection = () => {
                     { text: t("tour.pricing.headline_4"), accent: "neon" },
                   ]}
                 />
-                <p className="max-w-2xl text-base leading-7 text-slate-700 dark:text-white/70 sm:text-[1.05rem]">
+                <p className="tour-text-default max-w-2xl text-base leading-7 dark:text-white/70 sm:text-[1.05rem]">
                   {t("tour.pricing.description")}
                 </p>
               </div>
@@ -308,17 +309,16 @@ const PricingSection = () => {
                 "p-5 lg:max-w-sm",
               )}
             >
-              <p className="text-[11px] font-display font-black uppercase tracking-[0.18em] text-[#00A859] dark:text-brand-neon/80">
+              <p className="tour-kicker text-[11px] font-display font-black uppercase tracking-[0.18em] dark:text-brand-neon/80">
                 {t("tour.pricing.safe_payment")}
               </p>
-              <p className="mt-2 text-sm font-bold leading-6 text-slate-900 dark:font-medium dark:text-white/90">
+              <p className="tour-text-default mt-2 text-sm font-bold leading-6 dark:font-medium dark:text-white/90">
                 {t("tour.pricing.no_card")}
               </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-slate-600 dark:text-white/60">
+              <div className="tour-text-default mt-4 flex flex-wrap items-center gap-3 dark:text-white/60">
                 <span
                   className={cn(
-                    PRICING_INSET_CLASS,
-                    "inline-flex items-center rounded-full px-3 py-1.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-white/60",
+                    "tour-meta-chip inline-flex items-center rounded-full px-3 py-1.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60",
                   )}
                 >
                   {t("tour.pricing.payment_methods")}

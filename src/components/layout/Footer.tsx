@@ -1,24 +1,15 @@
 import { Mail, MapPin, Phone } from "lucide-react";
-import creaLogoColor from "@/assets/crea-logo-color.png";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import i365Logo from "@/assets/i365-logo-color.png";
-import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { APP_BOOTCAMPS_URL, APP_COURSES_URL } from "@/lib/external-links";
 
 const Footer = () => {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const { t } = useTranslation("common");
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
-    <footer className="relative z-20 w-full bg-white dark:bg-[#02050d] border-t border-slate-200 dark:border-white/10">
+    <footer className="relative z-20 w-full border-t border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] shadow-[0_-18px_40px_rgba(15,23,42,0.04)] dark:border-white/10 dark:bg-[#02050d] dark:shadow-none">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
@@ -36,7 +27,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-black/60 dark:text-white/60 mb-4">
+            <p className="mb-4 text-[color:var(--tour-text-default)] dark:text-white/60">
               {t('footer.tagline')}
             </p>
             <a 
@@ -50,31 +41,31 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-bold mb-4 text-black dark:text-white">{t('footer.courses')}</h3>
-            <ul className="space-y-2 text-black/60 dark:text-white/60">
-              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.ai')}</a></li>
-              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.dataScience')}</a></li>
-              <li><a href="https://crea.academy/bootcamps" className="hover:text-[#04FF8D] transition-colors">{t('nav.bootcamps')}</a></li>
-              <li><a href="https://crea.academy/cursos" className="hover:text-[#04FF8D] transition-colors">{t('footer.certification')}</a></li>
+            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.courses')}</h3>
+            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/60">
+              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.ai')}</a></li>
+              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.dataScience')}</a></li>
+              <li><a href={APP_BOOTCAMPS_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('nav.bootcamps')}</a></li>
+              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.certification')}</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-bold mb-4 text-black dark:text-white">{t('footer.contact')}</h3>
-            <ul className="space-y-3 text-black/60 dark:text-white/60 text-sm">
+            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.contact')}</h3>
+            <ul className="space-y-3 text-[color:var(--tour-text-default)] dark:text-white/60 text-sm">
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <a href="mailto:info@ingenieria365.com" className="hover:text-[#04FF8D] transition-colors">
+                <a href="mailto:info@ingenieria365.com" className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">
                   info@ingenieria365.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <Phone className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <div className="flex flex-col gap-1">
-                  <a href="tel:+573106014893" className="hover:text-[#04FF8D] transition-colors">
+                  <a href="tel:+573106014893" className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">
                     {t('footer.salesPhone')}
                   </a>
-                  <a href="tel:+573002893607" className="hover:text-[#04FF8D] transition-colors">
+                  <a href="tel:+573002893607" className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">
                     {t('footer.supportPhone')}
                   </a>
                 </div>
@@ -87,14 +78,14 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-bold mb-4 text-black dark:text-white">{t('footer.legal')}</h3>
-            <ul className="space-y-2 text-black/60 dark:text-white/60">
+            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.legal')}</h3>
+            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/60">
               <li>
                 <a 
                   href="https://ingenieria365.com/terminos-condiciones" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="hover:text-[#04FF8D] transition-colors"
+                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.terms')}
                 </a>
@@ -104,7 +95,7 @@ const Footer = () => {
                   href="https://ingenieria365.com/politica-datos" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="hover:text-[#04FF8D] transition-colors"
+                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.dataPolicy')}
                 </a>
@@ -114,7 +105,7 @@ const Footer = () => {
                   href="https://ingenieria365.com/aviso-privacidad" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="hover:text-[#04FF8D] transition-colors"
+                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.privacyNotice')}
                 </a>
@@ -123,8 +114,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-[#04FF8D]/10 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 dark:text-white/50">
+        <div className="border-t border-[color:var(--tour-border-subtle)] pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[color:var(--tour-text-muted)] dark:text-white/50">
             <p>&copy; {t('footer.copyright')}</p>
           </div>
         </div>

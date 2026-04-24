@@ -422,7 +422,7 @@ export default function VolumetricBrandField({
     };
   }, [density, cycle, showLogo, onShapeChange]);
 
-  return <canvas ref={canvasRef} className={`pointer-events-none mix-blend-multiply dark:mix-blend-screen ${className}`} />;
+  return <canvas ref={canvasRef} className={`pointer-events-none mix-blend-normal dark:mix-blend-screen ${className}`} />;
 }
 
 export type { Shape as BrandShape };

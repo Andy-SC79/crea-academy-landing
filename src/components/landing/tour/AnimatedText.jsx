@@ -1,18 +1,32 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const AnimatedText = ({ 
   text, 
   el: Wrapper = 'p', 
   className = '', 
-  delay = 0 
+  delay = 0,
+  replaySignal = 0,
 }) => {
   const textArray = Array.isArray(text) ? text : text.trim().replace(/\s+/g, ' ').split(' ');
   const accessibleText = Array.isArray(text) ? text.join(' ') : text;
   
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const [animationCycle, setAnimationCycle] = useState(0);
+  const hasEnteredViewRef = useRef(false);
+
+  useEffect(() => {
+    if (isInView) {
+      hasEnteredViewRef.current = true;
+    }
+  }, [isInView]);
+
+  useEffect(() => {
+    if (!hasEnteredViewRef.current || replaySignal === 0) return;
+    setAnimationCycle((prev) => prev + 1);
+  }, [replaySignal]);
 
   const containerVariants = {
     hidden: {},
@@ -37,6 +51,7 @@ const AnimatedText = ({
     <Wrapper className={className}>
       <span className="sr-only">{accessibleText}</span>
       <motion.span
+        key={`${accessibleText}-${animationCycle}`}
         ref={ref}
         variants={containerVariants}
         initial="hidden"

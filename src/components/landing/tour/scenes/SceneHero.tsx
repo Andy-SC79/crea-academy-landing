@@ -7,6 +7,7 @@ import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import { Button } from "@/components/ui/button";
+import { APP_AUTH_URL, LANDING_PRICING_HASH } from "@/lib/external-links";
 import "@/styles/singularity.css";
 
 import SceneTemplate from "./SceneTemplate";
@@ -61,9 +62,9 @@ export default function SceneHero(_: SceneComponentProps) {
   return (
     <SceneTemplate className="grid-cols-1 !max-w-none !gap-0 !px-0 !py-0" flush>
       <div className="col-span-full">
-        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 sm:px-8 md:px-12">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.12),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.08),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
-          <div className="absolute inset-0 opacity-70 dark:opacity-90">
+        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 pb-6 sm:px-8 sm:pb-8 md:px-12 md:pb-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.06),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.045),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
+          <div className="absolute inset-0 opacity-58 dark:opacity-90">
             <VolumetricBrandField
               shape="nebula"
               density={0.62}
@@ -71,16 +72,16 @@ export default function SceneHero(_: SceneComponentProps) {
               cycle={false}
               showLogo={false}
               theme={resolvedTheme}
-              className="absolute inset-0 h-full w-full opacity-[0.72] dark:opacity-[0.88]"
+              className="absolute inset-0 h-full w-full opacity-[0.36] dark:opacity-[0.88]"
             />
           </div>
           <div className="singularity-ring absolute inset-0 opacity-50 dark:opacity-70" />
           <div className="singularity-vignette absolute inset-0 opacity-30 dark:opacity-70" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-white/22 via-white/6 to-transparent dark:from-white/[0.035] dark:via-white/[0.01]" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-white/28 via-white/6 to-transparent dark:from-black/30 dark:via-black/8" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/10 blur-[140px] dark:bg-brand-cyan/12" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-white/55 via-white/12 to-transparent dark:from-white/[0.035] dark:via-white/[0.01]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#f8fafc]/75 via-[#f8fafc]/16 to-transparent dark:from-black/30 dark:via-black/8" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/6 blur-[140px] dark:bg-brand-cyan/12" />
 
-          <div className="relative z-10 mx-auto flex h-[100dvh] w-full max-w-[72rem] flex-col items-center justify-between pb-10 pt-[5.5rem] text-center sm:pb-16 sm:pt-28">
+          <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[72rem] flex-col items-center justify-between gap-10 pb-16 pt-[5.5rem] text-center sm:gap-12 sm:pb-20 sm:pt-28">
             <div className="flex flex-1 w-full flex-col items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 18 }}
@@ -90,15 +91,15 @@ export default function SceneHero(_: SceneComponentProps) {
                 className="flex w-full flex-col items-center"
               >
                 <div className="mb-8 flex justify-center">
-                  <div className="group relative inline-flex items-center justify-center gap-4 rounded-full border border-slate-200/50 bg-white/40 px-5 py-2.5 shadow-2xl shadow-black/5 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:border-white/10 dark:bg-black/40 dark:shadow-brand-neon/5 dark:hover:bg-black/60">
+                  <div className="tour-pill-shell group relative inline-flex items-center justify-center gap-4 rounded-full px-5 py-2.5 transition-all duration-500 hover:scale-105">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="relative flex items-center gap-3 sm:gap-4">
                       <div className="flex items-center">
                         <img src={creaLogoBlack} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain block dark:hidden" />
                         <img src={creaLogoWhite} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
                       </div>
-                      <div className="h-5 sm:h-6 w-[2px] rounded-full bg-slate-300 dark:bg-white/20" />
-                      <span className="font-display text-[0.9rem] sm:text-[1.05rem] font-black tracking-[0.25em] text-black dark:text-white uppercase dark:drop-shadow-sm pt-1">
+                      <div className="h-5 sm:h-6 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
+                      <span className="font-display text-[0.9rem] sm:text-[1.05rem] font-black tracking-[0.25em] text-[color:var(--tour-text-default)] dark:text-white uppercase dark:drop-shadow-sm pt-1">
                         Academy
                       </span>
                     </div>
@@ -125,16 +126,16 @@ export default function SceneHero(_: SceneComponentProps) {
                 asChild
                 size="xl"
                 variant="outline"
-                className="min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full border-slate-300/80 bg-white/78 px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-slate-900 backdrop-blur-xl hover:border-slate-400/80 hover:bg-white dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                className="tour-secondary-button min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
               >
-                <a href="https://crea.academy/auth">{t("nav.signIn", { ns: "common" })}</a>
+                <a href={APP_AUTH_URL}>{t("nav.signIn", { ns: "common" })}</a>
               </Button>
               <Button
                 asChild
                 size="xl"
                 className="singularity-cta min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full bg-brand-neon px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-black hover:bg-brand-neon/90"
               >
-                <a href="https://crea.academy/auth?signup=true">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
+                <a href={LANDING_PRICING_HASH}>{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
               </Button>
             </motion.div>
           </div>
