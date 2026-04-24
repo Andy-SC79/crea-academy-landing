@@ -1,7 +1,8 @@
 const PRICE_PER_PERSON = 1150000;
 const TEAM_DISCOUNT = 0.1;
 const MIN_PEOPLE = 1;
-const DEFAULT_PAYMENT_API_URL = "https://pasarela-backend-548141860239.us-central1.run.app";
+const DEFAULT_PAYMENT_API_URL = "https://widget-i365-pagos-574077189410.us-central1.run.app";
+const DEFAULT_PAYMENT_APP_ID = "6015d948-0a6d-4c66-b94d-830eeeb441bb";
 const DEFAULT_SESSION_ID = "medellin-2026-05-22";
 const BOOTCAMP_SESSIONS = {
   [DEFAULT_SESSION_ID]: {
@@ -61,6 +62,22 @@ function resolveSession(sessionId) {
   return session;
 }
 
+function normalizeWidgetData(widgetData) {
+  if (!widgetData || typeof widgetData !== "object") return null;
+
+  const signature =
+    typeof widgetData.signature === "string"
+      ? widgetData.signature
+      : widgetData.signature?.integrity;
+
+  if (!signature) return null;
+
+  return {
+    ...widgetData,
+    signature,
+  };
+}
+
 export async function createBootcampPayment(body, options = {}) {
   const env = options.env || process.env;
   const email = sanitizeText(body.email).toLowerCase();
@@ -83,11 +100,13 @@ export async function createBootcampPayment(body, options = {}) {
   const paymentApiBaseUrl = (
     env.I365_PAYMENT_API_URL || DEFAULT_PAYMENT_API_URL
   ).replace(/\/$/, "");
+  const appId = sanitizeText(env.I365_PAYMENT_APP_ID, DEFAULT_PAYMENT_APP_ID);
 
   const paymentResponse = await fetch(`${paymentApiBaseUrl}/api/crear-pago`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      app_id: appId,
       precio_centavos: quote.amountInCents,
       email,
       datos_curso: {
@@ -116,8 +135,9 @@ export async function createBootcampPayment(body, options = {}) {
   });
 
   const payload = await paymentResponse.json().catch(() => ({}));
+  const datosWidget = normalizeWidgetData(payload?.datos_widget);
 
-  if (!paymentResponse.ok || payload?.ok === false) {
+  if (!paymentResponse.ok || payload?.ok === false || !datosWidget) {
     throw new PaymentError(
       payload?.error || payload?.message || "No se pudo crear el pago en el portal i365.",
       paymentResponse.status || 502,
@@ -130,6 +150,6 @@ export async function createBootcampPayment(body, options = {}) {
     quote,
     session,
     payment: payload,
-    datos_widget: payload.datos_widget,
+    datos_widget: datosWidget,
   };
 }

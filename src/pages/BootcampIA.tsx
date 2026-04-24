@@ -34,7 +34,6 @@ import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
 import { IMPACTED_COMPANY_COUNT } from "@/data/impacted-companies";
 import { cn } from "@/lib/utils";
-import { loadWompiCheckout } from "@/lib/wompi";
 import "@/styles/tour-ambient.css";
 
 const WHATSAPP_URL =
@@ -315,10 +314,6 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#39;");
 }
 
-function onlyDigits(value: string) {
-  return value.replace(/\D/g, "");
-}
-
 function absoluteAssetUrl(path: string) {
   if (/^https?:\/\//.test(path)) return path;
 
@@ -333,6 +328,21 @@ function absoluteAssetUrl(path: string) {
 
 async function parsePaymentResponse(response: Response) {
   return (await response.json().catch(() => null)) as BootcampPaymentResponse | null;
+}
+
+function buildPaymentCheckoutUrl(widgetData: NonNullable<BootcampPaymentResponse["datos_widget"]>) {
+  const checkoutUrl = new URL("https://checkout.wompi.co/p/");
+  checkoutUrl.searchParams.set("public-key", widgetData.publicKey);
+  checkoutUrl.searchParams.set("currency", widgetData.currency);
+  checkoutUrl.searchParams.set("amount-in-cents", String(widgetData.amountInCents));
+  checkoutUrl.searchParams.set("reference", widgetData.reference);
+  checkoutUrl.searchParams.set("signature:integrity", widgetData.signature);
+
+  if (widgetData.redirectUrl) {
+    checkoutUrl.searchParams.set("redirect-url", widgetData.redirectUrl);
+  }
+
+  return checkoutUrl.toString();
 }
 
 function generateQuoteHtml({
@@ -726,61 +736,12 @@ function CorporateQuoter() {
     setPaymentMessage("Preparando el portal de pagos i365...");
 
     try {
-      const [WidgetCheckout, data] = await Promise.all([
-        loadWompiCheckout(),
-        createPaymentIntent(),
-      ]);
-
+      const data = await createPaymentIntent();
       const widgetData = data.datos_widget;
-      const phoneDigits = onlyDigits(form.phone);
-      const customerData: Record<string, string> = {
-        email: form.email.trim(),
-        fullName: form.contactName.trim() || form.company.trim() || form.email.trim(),
-      };
+      const checkoutUrl = buildPaymentCheckoutUrl(widgetData);
 
-      if (phoneDigits) {
-        customerData.phoneNumber = phoneDigits;
-        customerData.phoneNumberPrefix = "+57";
-      }
-
-      if (form.nit.trim()) {
-        customerData.legalId = form.nit.trim();
-        customerData.legalIdType = "NIT";
-      }
-
-      const checkout = new WidgetCheckout({
-        currency: widgetData.currency,
-        amountInCents: widgetData.amountInCents,
-        reference: widgetData.reference,
-        publicKey: widgetData.publicKey,
-        signature: { integrity: widgetData.signature },
-        redirectUrl: widgetData.redirectUrl,
-        customerData,
-      });
-
-      setPaymentMessage(`Referencia ${widgetData.reference} lista. Completa el pago en el portal i365.`);
-
-      checkout.open((result) => {
-        const transaction = result.transaction;
-        const status = transaction?.status;
-
-        if (status === "APPROVED") {
-          setPaymentMessage(`Pago aprobado. Transacción ${transaction?.id || widgetData.reference}.`);
-          return;
-        }
-
-        if (status === "DECLINED" || status === "ERROR") {
-          setPaymentMessage(transaction?.status_message || "El pago no fue aprobado. Intenta de nuevo o escríbenos por WhatsApp.");
-          return;
-        }
-
-        if (status === "PENDING") {
-          setPaymentMessage(`Pago pendiente. Referencia ${transaction?.reference || widgetData.reference}.`);
-          return;
-        }
-
-        setPaymentMessage(`Pasarela cerrada. Referencia ${widgetData.reference}.`);
-      });
+      setPaymentMessage(`Referencia ${widgetData.reference} lista. Abriendo el portal de pagos i365...`);
+      window.location.assign(checkoutUrl);
     } catch (error) {
       setPaymentMessage(
         error instanceof Error
