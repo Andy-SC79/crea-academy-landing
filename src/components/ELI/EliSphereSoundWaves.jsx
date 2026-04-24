@@ -203,14 +203,14 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !audioSrc) return;
     
     const attemptAutoplay = async () => {
       try {
         audio.muted = true;
         await audio.play();
       } catch (err) {
-        console.log("Autoplay paused, awaiting interaction:", err);
+        // Browser autoplay policies can pause this until the user interacts.
       }
     };
     
@@ -221,7 +221,7 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
         audioContextRef.current.close().catch(() => {});
       }
     };
-  }, []);
+  }, [audioSrc]);
 
   const toggleMute = async () => {
     const audio = audioRef.current;
@@ -273,15 +273,17 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
         }}
       />
 
-      <audio 
-        ref={audioRef} 
-        src={audioSrc} 
-        crossOrigin="anonymous" 
-        onTimeUpdate={onTimeUpdate}
-        autoPlay
-        loop
-        muted
-      />
+      {audioSrc ? (
+        <audio
+          ref={audioRef}
+          src={audioSrc}
+          crossOrigin="anonymous"
+          onTimeUpdate={onTimeUpdate}
+          autoPlay
+          loop
+          muted
+        />
+      ) : null}
 
       <button 
         onClick={toggleMute}

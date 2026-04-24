@@ -10,14 +10,15 @@ import {
   Check,
   Clock3,
   Code2,
+  CreditCard,
   Download,
   FileText,
   Lightbulb,
+  Loader2,
   Mail,
   MapPin,
   MessageCircle,
   Presentation,
-  ReceiptText,
   Rocket,
   Send,
   Sparkles,
@@ -33,6 +34,7 @@ import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
 import { IMPACTED_COMPANY_COUNT } from "@/data/impacted-companies";
 import { cn } from "@/lib/utils";
+import { loadWompiCheckout } from "@/lib/wompi";
 import "@/styles/tour-ambient.css";
 
 const WHATSAPP_URL =
@@ -40,6 +42,7 @@ const WHATSAPP_URL =
 const MAILTO_URL =
   "mailto:jeisonperez@ingenieria365.com?cc=eliza@ingenieria365.com,info@ingenieria365.com&subject=Cotizar%20Bootcamp%20de%20IA";
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
+const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -92,6 +95,21 @@ type QuoteHtmlOptions = {
   discountValue: number;
   total: number;
   autoPrint?: boolean;
+};
+
+type PaymentMode = "checkout" | null;
+
+type BootcampPaymentResponse = {
+  ok?: boolean;
+  error?: string;
+  datos_widget?: {
+    currency: string;
+    amountInCents: number;
+    reference: string;
+    publicKey: string;
+    signature: string;
+    redirectUrl?: string;
+  };
 };
 
 const STATS = [
@@ -265,6 +283,10 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#39;");
 }
 
+function onlyDigits(value: string) {
+  return value.replace(/\D/g, "");
+}
+
 function absoluteAssetUrl(path: string) {
   if (/^https?:\/\//.test(path)) return path;
 
@@ -275,6 +297,10 @@ function absoluteAssetUrl(path: string) {
   if (!baseUrl) return path;
 
   return new URL(path, baseUrl).toString();
+}
+
+async function parsePaymentResponse(response: Response) {
+  return (await response.json().catch(() => null)) as BootcampPaymentResponse | null;
 }
 
 function generateQuoteHtml({
@@ -300,6 +326,7 @@ function generateQuoteHtml({
   const city = escapeHtml(form.city);
   const creaLogoUrl = absoluteAssetUrl(QUOTE_ASSETS.creaLogo);
   const i365LogoUrl = absoluteAssetUrl(QUOTE_ASSETS.i365Logo);
+  const paymentUrl = absoluteAssetUrl("/bootcamp-ia#cotizador");
   const printScript = autoPrint
     ? "<script>window.onload = function() { window.print(); };</script>"
     : "";
@@ -353,6 +380,10 @@ function generateQuoteHtml({
   .features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .feature { display: flex; gap: 9px; align-items: flex-start; border: 1px solid #dbeaf1; border-radius: 12px; padding: 12px 14px; background: #f8fbfd; color: #203141; font-size: 14px; line-height: 1.4; }
   .feature span { color: #02b876; font-weight: 900; }
+  .payment-box { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; border: 1px solid #b8f5d6; border-radius: 18px; padding: 20px; background: #effdf6; }
+  .payment-box strong { display: block; color: #061322; font-size: 18px; }
+  .payment-box p { margin: 6px 0 0; color: #425466; font-size: 14px; line-height: 1.5; }
+  .payment-box a { display: inline-block; border-radius: 999px; padding: 12px 18px; background: #03f28f; color: #061322; font-size: 13px; font-weight: 900; text-decoration: none; white-space: nowrap; }
   .contacts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .contact-card { border: 1px solid #dbeaf1; border-radius: 16px; padding: 18px; background: #ffffff; }
   .contact-card strong, .contact-card span, .contact-card a, .contact-card small { display: block; }
@@ -366,7 +397,7 @@ function generateQuoteHtml({
     .page { padding: 18px; }
     .hero, .section { padding: 24px; }
     .brand-row, .footer { align-items: flex-start; flex-direction: column; }
-    .meta, .grid, .features, .contacts { grid-template-columns: 1fr; }
+    .meta, .grid, .features, .contacts, .payment-box { grid-template-columns: 1fr; }
     h1 { font-size: 30px; }
   }
   @media print {
@@ -431,6 +462,20 @@ function generateQuoteHtml({
       </section>
 
       <section class="section">
+        <p class="label">Pago seguro</p>
+        <div class="payment-box">
+          <div>
+            <strong>Pago en línea con el portal i365</strong>
+            <p>
+              Para pagar esta cotización, ingresa al cotizador oficial y usa "Pagar ahora".
+              El monto se recalcula en servidor antes de abrir el portal de pagos.
+            </p>
+          </div>
+          <a href="${paymentUrl}">Pagar en línea</a>
+        </div>
+      </section>
+
+      <section class="section">
         <p class="label">Incluido en el Bootcamp</p>
         <div class="features">${includedItems}</div>
       </section>
@@ -472,6 +517,8 @@ function CorporateQuoter() {
   });
   const [sentMessage, setSentMessage] = useState("");
   const [isSendingQuote, setIsSendingQuote] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("");
+  const [paymentMode, setPaymentMode] = useState<PaymentMode>(null);
 
   const people = Math.max(Number.parseInt(form.people, 10) || 0, 0);
   const subtotal = people * PRICE_PER_PERSON;
@@ -482,6 +529,20 @@ function CorporateQuoter() {
 
   const updateForm = (field: keyof QuoteForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const validatePaymentFields = () => {
+    if (people < 1) {
+      setPaymentMessage("Agrega al menos una persona para iniciar el pago.");
+      return false;
+    }
+
+    if (!form.email.trim()) {
+      setPaymentMessage("Agrega el correo del cliente para asociar el pago.");
+      return false;
+    }
+
+    return true;
   };
 
   const handleDownloadQuote = () => {
@@ -501,6 +562,30 @@ function CorporateQuoter() {
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
+  };
+
+  const createPaymentIntent = async () => {
+    const response = await fetch(BOOTCAMP_PAYMENT_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        company: form.company,
+        nit: form.nit,
+        contactName: form.contactName,
+        contactRole: form.contactRole,
+        phone: form.phone,
+        city: form.city,
+        people,
+        email: form.email,
+      }),
+    });
+    const data = await parsePaymentResponse(response);
+
+    if (response.ok && data?.datos_widget) {
+      return data;
+    }
+
+    throw new Error(data?.error || "No se pudo crear el pago en el portal i365.");
   };
 
   const handleEmailQuote = async () => {
@@ -557,6 +642,79 @@ function CorporateQuoter() {
     }
   };
 
+  const handleSecurePayment = async () => {
+    if (!validatePaymentFields()) return;
+
+    setPaymentMode("checkout");
+    setPaymentMessage("Preparando el portal de pagos i365...");
+
+    try {
+      const [WidgetCheckout, data] = await Promise.all([
+        loadWompiCheckout(),
+        createPaymentIntent(),
+      ]);
+
+      const widgetData = data.datos_widget;
+      const phoneDigits = onlyDigits(form.phone);
+      const customerData: Record<string, string> = {
+        email: form.email.trim(),
+        fullName: form.contactName.trim() || form.company.trim() || form.email.trim(),
+      };
+
+      if (phoneDigits) {
+        customerData.phoneNumber = phoneDigits;
+        customerData.phoneNumberPrefix = "+57";
+      }
+
+      if (form.nit.trim()) {
+        customerData.legalId = form.nit.trim();
+        customerData.legalIdType = "NIT";
+      }
+
+      const checkout = new WidgetCheckout({
+        currency: widgetData.currency,
+        amountInCents: widgetData.amountInCents,
+        reference: widgetData.reference,
+        publicKey: widgetData.publicKey,
+        signature: { integrity: widgetData.signature },
+        redirectUrl: widgetData.redirectUrl,
+        customerData,
+      });
+
+      setPaymentMessage(`Referencia ${widgetData.reference} lista. Completa el pago en el portal i365.`);
+
+      checkout.open((result) => {
+        const transaction = result.transaction;
+        const status = transaction?.status;
+
+        if (status === "APPROVED") {
+          setPaymentMessage(`Pago aprobado. Transacción ${transaction?.id || widgetData.reference}.`);
+          return;
+        }
+
+        if (status === "DECLINED" || status === "ERROR") {
+          setPaymentMessage(transaction?.status_message || "El pago no fue aprobado. Intenta de nuevo o escríbenos por WhatsApp.");
+          return;
+        }
+
+        if (status === "PENDING") {
+          setPaymentMessage(`Pago pendiente. Referencia ${transaction?.reference || widgetData.reference}.`);
+          return;
+        }
+
+        setPaymentMessage(`Pasarela cerrada. Referencia ${widgetData.reference}.`);
+      });
+    } catch (error) {
+      setPaymentMessage(
+        error instanceof Error
+          ? error.message
+          : "No se pudo iniciar el portal de pagos i365.",
+      );
+    } finally {
+      setPaymentMode(null);
+    }
+  };
+
   return (
     <section id="cotizador" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
@@ -566,10 +724,10 @@ function CorporateQuoter() {
             Cotizador empresarial
           </div>
           <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4.4rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-            Cotiza tu equipo en segundos.
+            Calcula y paga tu cupo.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Calcula el valor para una cohorte empresarial, activa el descuento por equipo y genera una cotización lista para imprimir o enviar.
+            Ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
           </p>
         </div>
 
@@ -673,53 +831,76 @@ function CorporateQuoter() {
             </p>
           )}
 
-          <div className="mt-6 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-4">
+          <div className="mt-6 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
             <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-              <ReceiptText className="h-4 w-4 text-brand-cyan" />
-              Cotización en PDF / correo
+              <CreditCard className="h-4 w-4 text-brand-neon" />
+              Paga en línea
             </div>
+            <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+              Este botón usa la pasarela i365. El total se valida en servidor antes de abrir el pago.
+            </p>
             <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
               <input
                 type="email"
                 value={form.email}
                 onChange={(event) => updateForm("email", event.target.value)}
-                placeholder="correo@empresa.com"
+                placeholder="correo para asociar el pago"
                 className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
               />
               <Button
                 type="button"
-                onClick={handleEmailQuote}
-                disabled={isSendingQuote}
-                className="rounded-full bg-brand-neon px-6 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={handleSecurePayment}
+                disabled={paymentMode !== null}
+                className="rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <Send className="h-4 w-4" />
-                {isSendingQuote ? "Enviando..." : "Enviar"}
+                {paymentMode === "checkout" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <CreditCard className="h-4 w-4" />
+                )}
+                {paymentMode === "checkout" ? "Abriendo..." : "Pagar ahora"}
               </Button>
             </div>
-            {sentMessage ? (
-              <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
-                {sentMessage}
+            {paymentMessage ? (
+              <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
+                {paymentMessage}
               </p>
             ) : null}
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
               <Download className="h-4 w-4" />
-              Descargar PDF
+              PDF
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleEmailQuote}
+              disabled={isSendingQuote}
+              className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Send className="h-4 w-4" />
+              {isSendingQuote ? "Enviando..." : "Enviar cotización"}
             </Button>
             <Button asChild variant="outline" className="tour-secondary-button rounded-full">
               <a href={MAILTO_URL}>
                 <Mail className="h-4 w-4" />
-                Solicitar factura
+                Factura
               </a>
             </Button>
-            <Button asChild className="rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
+            <Button asChild variant="outline" className="tour-secondary-button rounded-full">
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                Reservar cupos
+                <MessageCircle className="h-4 w-4" />
+                Ayuda
               </a>
             </Button>
           </div>
+          {sentMessage ? (
+            <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+              {sentMessage}
+            </p>
+          ) : null}
         </div>
       </div>
     </section>
@@ -776,9 +957,9 @@ export default function BootcampIA() {
                   size="xl"
                   className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
                 >
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                    Reservar cupo
-                    <ArrowRight className="h-4 w-4" />
+                  <a href="#cotizador">
+                    Pagar ahora
+                    <CreditCard className="h-4 w-4" />
                   </a>
                 </Button>
                 <Button
@@ -787,7 +968,10 @@ export default function BootcampIA() {
                   variant="outline"
                   className="tour-secondary-button rounded-full px-7 text-base font-black"
                 >
-                  <a href="#metodologia">Ver metodología</a>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    WhatsApp
+                    <MessageCircle className="h-4 w-4" />
+                  </a>
                 </Button>
               </div>
             </div>
@@ -933,10 +1117,10 @@ export default function BootcampIA() {
                 <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
                   Acceso completo para una persona. Incluye módulos, material, comunidad y certificado.
                 </p>
-                <Button asChild variant="outline" className="tour-secondary-button mt-7 w-full rounded-full">
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                    Comprar ahora
-                    <MessageCircle className="h-4 w-4" />
+                <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
+                  <a href="#cotizador">
+                    Pagar ahora
+                    <CreditCard className="h-4 w-4" />
                   </a>
                 </Button>
               </article>
@@ -953,8 +1137,8 @@ export default function BootcampIA() {
                   Desde cinco personas. Incluye diagnóstico, descuento grupal y factura electrónica.
                 </p>
                 <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
-                  <a href={MAILTO_URL}>
-                    Cotizar equipo
+                  <a href="#cotizador">
+                    Cotizar y pagar
                     <ArrowRight className="h-4 w-4" />
                   </a>
                 </Button>

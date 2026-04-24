@@ -14,7 +14,6 @@ import {
   SceneEyebrow,
   TOUR_FRAME_CLASS,
   TOUR_SURFACE_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
 const ELI_TIMINGS = {
@@ -56,12 +55,12 @@ const ELI_TIMINGS = {
   ],
 };
 
-export default function Scene2(_: SceneComponentProps) {
+export default function Scene2() {
   const { i18n, t } = useTranslation("landing");
   const currentLang = (i18n.language || "es").split("-")[0] as "en" | "es" | "pt";
   const activeLang = ELI_TIMINGS[currentLang] ? currentLang : "es";
   const [activeIndex, setActiveIndex] = useState(0);
-  const [currentAudio, setCurrentAudio] = useState<string>("");
+  const [currentAudio, setCurrentAudio] = useState<string | null>(null);
 
   const currentSequence = ELI_TIMINGS[activeLang].map((item) => ({
     text: t(`tour.scene2.${item.key}`),
@@ -69,6 +68,8 @@ export default function Scene2(_: SceneComponentProps) {
   }));
 
   useEffect(() => {
+    let cancelled = false;
+
     const loadAudio = async () => {
       let audioPath;
 
@@ -80,10 +81,16 @@ export default function Scene2(_: SceneComponentProps) {
         audioPath = (await import("@/assets/eli_scene2.mp3")).default;
       }
 
-      setCurrentAudio(audioPath);
+      if (!cancelled) {
+        setCurrentAudio(audioPath);
+      }
     };
 
     loadAudio();
+
+    return () => {
+      cancelled = true;
+    };
   }, [activeLang]);
 
   const eliPromises = [
