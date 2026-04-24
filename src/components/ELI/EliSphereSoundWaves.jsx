@@ -1,3 +1,4 @@
+import { useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Volume2, VolumeX } from 'lucide-react';
