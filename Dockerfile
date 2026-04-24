@@ -10,11 +10,16 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:1.27-alpine
+FROM node:22-alpine AS runtime
 
+WORKDIR /app
+ENV NODE_ENV=production
 ENV PORT=8080
 
-COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist ./dist
+COPY api ./api
+COPY server.mjs ./server.mjs
 
 EXPOSE 8080
+
+CMD ["node", "server.mjs"]

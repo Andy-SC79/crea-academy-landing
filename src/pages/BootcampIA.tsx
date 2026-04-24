@@ -70,6 +70,33 @@ const EXECUTIVE_CONTACTS = [
 const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla"];
 const PRICE_PER_PERSON = 1150000;
 const TEAM_DISCOUNT = 0.1;
+const BOOTCAMP_SESSIONS = [
+  {
+    id: "medellin-2026-05-22",
+    status: "available",
+    shortLabel: "22 de mayo de 2026",
+    dateLabel: "Viernes 22 de mayo de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Medellín",
+    venue: "Auditorio del Centro Comercial San Diego",
+    address: "Centro Comercial San Diego, Medellín",
+    selectLabel: "22 de mayo de 2026 · Medellín · Centro Comercial San Diego",
+  },
+  {
+    id: "future-dates",
+    status: "coming_soon",
+    shortLabel: "Próximas fechas",
+    dateLabel: "Próximas fechas por confirmar",
+    timeLabel: "Horario por confirmar",
+    city: "Por confirmar",
+    venue: "Lugar por confirmar",
+    address: "Por confirmar",
+    selectLabel: "Próximas fechas por confirmar",
+  },
+] as const;
+const ACTIVE_BOOTCAMP_SESSION = BOOTCAMP_SESSIONS[0];
+
+type BootcampSession = (typeof BOOTCAMP_SESSIONS)[number];
 
 type Feature = {
   icon: LucideIcon;
@@ -84,6 +111,7 @@ type QuoteForm = {
   contactRole: string;
   phone: string;
   city: string;
+  sessionId: string;
   people: string;
   email: string;
 };
@@ -112,11 +140,15 @@ type BootcampPaymentResponse = {
   };
 };
 
+function getBootcampSession(sessionId: string): BootcampSession {
+  return BOOTCAMP_SESSIONS.find((session) => session.id === sessionId) ?? ACTIVE_BOOTCAMP_SESSION;
+}
+
 const STATS = [
   { value: "+6.000", label: "profesionales formados" },
   { value: `+${IMPACTED_COMPANY_COUNT}`, label: "organizaciones impactadas" },
-  { value: "1 día", label: "intensivo y aplicado" },
-  { value: "4", label: "ciudades principales" },
+  { value: "22 mayo", label: "fecha disponible" },
+  { value: "San Diego", label: "auditorio en Medellín" },
 ];
 
 const PROBLEMS: Feature[] = [
@@ -324,6 +356,12 @@ function generateQuoteHtml({
   const phone = escapeHtml(form.phone || "No registrado");
   const email = escapeHtml(form.email || "No registrado");
   const city = escapeHtml(form.city);
+  const selectedSession = getBootcampSession(form.sessionId);
+  const sessionDate = escapeHtml(selectedSession.dateLabel);
+  const sessionTime = escapeHtml(selectedSession.timeLabel);
+  const sessionCity = escapeHtml(selectedSession.city);
+  const sessionVenue = escapeHtml(selectedSession.venue);
+  const sessionAddress = escapeHtml(selectedSession.address);
   const creaLogoUrl = absoluteAssetUrl(QUOTE_ASSETS.creaLogo);
   const i365LogoUrl = absoluteAssetUrl(QUOTE_ASSETS.i365Logo);
   const paymentUrl = absoluteAssetUrl("/bootcamp-ia#cotizador");
@@ -422,9 +460,9 @@ function generateQuoteHtml({
           automatización, agentes y construcción de prototipos útiles para el negocio.
         </p>
         <div class="meta">
-          <div><small>Fecha</small><strong>${date}</strong></div>
+          <div><small>Cotización</small><strong>${date}</strong></div>
           <div><small>Referencia</small><strong>${ref}</strong></div>
-          <div><small>Ciudad</small><strong>${city}</strong></div>
+          <div><small>Cohorte</small><strong>${sessionDate}</strong></div>
         </div>
       </header>
 
@@ -437,6 +475,18 @@ function generateQuoteHtml({
           <div class="cell"><small>Rol</small><strong>${contactRole}</strong></div>
           <div class="cell"><small>Correo</small><strong>${email}</strong></div>
           <div class="cell"><small>Teléfono</small><strong>${phone}</strong></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="label">Cohorte seleccionada</p>
+        <div class="grid">
+          <div class="cell"><small>Fecha</small><strong>${sessionDate}</strong></div>
+          <div class="cell"><small>Horario</small><strong>${sessionTime}</strong></div>
+          <div class="cell"><small>Ciudad</small><strong>${sessionCity}</strong></div>
+          <div class="cell"><small>Lugar</small><strong>${sessionVenue}</strong></div>
+          <div class="cell"><small>Dirección</small><strong>${sessionAddress}</strong></div>
+          <div class="cell"><small>Ciudad de cotización</small><strong>${city}</strong></div>
         </div>
       </section>
 
@@ -511,7 +561,8 @@ function CorporateQuoter() {
     contactName: "",
     contactRole: "",
     phone: "",
-    city: "Medellín",
+    city: ACTIVE_BOOTCAMP_SESSION.city,
+    sessionId: ACTIVE_BOOTCAMP_SESSION.id,
     people: "5",
     email: "",
   });
@@ -526,12 +577,28 @@ function CorporateQuoter() {
   const discountValue = hasDiscount ? subtotal * TEAM_DISCOUNT : 0;
   const total = subtotal - discountValue;
   const missingForDiscount = Math.max(5 - people, 0);
+  const selectedSession = getBootcampSession(form.sessionId);
+  const canPaySelectedSession = selectedSession.status === "available";
 
   const updateForm = (field: keyof QuoteForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
+  const updateSession = (sessionId: string) => {
+    const nextSession = getBootcampSession(sessionId);
+    setForm((current) => ({
+      ...current,
+      sessionId: nextSession.id,
+      city: nextSession.status === "available" ? nextSession.city : current.city,
+    }));
+  };
+
   const validatePaymentFields = () => {
+    if (!canPaySelectedSession) {
+      setPaymentMessage("Esta fecha aún no está disponible para pago.");
+      return false;
+    }
+
     if (people < 1) {
       setPaymentMessage("Agrega al menos una persona para iniciar el pago.");
       return false;
@@ -558,7 +625,7 @@ function CorporateQuoter() {
   const openMailFallback = () => {
     const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${form.company || "Empresa"}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nEmpresa: ${form.company || "N/A"}\nNIT: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nCiudad: ${form.city}\nParticipantes: ${people}\nTotal estimado: ${formatCurrency(total)}`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nEmpresa: ${form.company || "N/A"}\nNIT: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado: ${formatCurrency(total)}`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
@@ -575,6 +642,11 @@ function CorporateQuoter() {
         contactRole: form.contactRole,
         phone: form.phone,
         city: form.city,
+        sessionId: selectedSession.id,
+        sessionDate: selectedSession.dateLabel,
+        sessionTime: selectedSession.timeLabel,
+        sessionVenue: selectedSession.venue,
+        sessionAddress: selectedSession.address,
         people,
         email: form.email,
       }),
@@ -619,6 +691,11 @@ function CorporateQuoter() {
             contactRole: form.contactRole,
             phone: form.phone,
             city: form.city,
+            sessionId: selectedSession.id,
+            sessionDate: selectedSession.dateLabel,
+            sessionTime: selectedSession.timeLabel,
+            sessionVenue: selectedSession.venue,
+            sessionAddress: selectedSession.address,
             people,
             pricePerPerson: PRICE_PER_PERSON,
             subtotal,
@@ -729,6 +806,17 @@ function CorporateQuoter() {
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
             Ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
           </p>
+          <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+              Cohorte disponible
+            </p>
+            <p className="mt-3 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
+              Viernes 22 de mayo de 2026
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+              Auditorio del Centro Comercial San Diego, Medellín. Las próximas fechas se publicarán cuando estén confirmadas.
+            </p>
+          </div>
         </div>
 
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
@@ -769,8 +857,58 @@ function CorporateQuoter() {
                 className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
               />
             </label>
+            <label className="space-y-2 sm:col-span-2">
+              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Fecha y lugar</span>
+              <select
+                value={form.sessionId}
+                onChange={(event) => updateSession(event.target.value)}
+                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+              >
+                {BOOTCAMP_SESSIONS.map((session) => (
+                  <option key={session.id} value={session.id} disabled={session.status !== "available"}>
+                    {session.selectLabel}
+                    {session.status !== "available" ? " · aún no disponible" : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="flex gap-3">
+                  <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.14em] text-brand-cyan">
+                      Fecha disponible
+                    </p>
+                    <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
+                      {selectedSession.dateLabel}
+                    </p>
+                    <p className="text-sm text-[color:var(--tour-text-default)] dark:text-white/70">
+                      {selectedSession.timeLabel}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-neon" />
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.14em] text-brand-neon">
+                      Lugar
+                    </p>
+                    <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
+                      {selectedSession.venue}
+                    </p>
+                    <p className="text-sm text-[color:var(--tour-text-default)] dark:text-white/70">
+                      {selectedSession.address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 rounded-lg border border-white/10 bg-black/10 px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+                Las demás fechas todavía están por confirmar. Cuando estén disponibles aparecerán aquí para cotizar y pagar.
+              </p>
+            </div>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Ciudad</span>
+              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Ciudad de contacto</span>
               <select
                 value={form.city}
                 onChange={(event) => updateForm("city", event.target.value)}
@@ -837,7 +975,7 @@ function CorporateQuoter() {
               Paga en línea
             </div>
             <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-              Este botón usa la pasarela i365. El total se valida en servidor antes de abrir el pago.
+              Reserva cupos para {selectedSession.shortLabel} en {selectedSession.venue}. El total se valida en servidor antes de abrir el portal i365.
             </p>
             <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
               <input
@@ -850,7 +988,7 @@ function CorporateQuoter() {
               <Button
                 type="button"
                 onClick={handleSecurePayment}
-                disabled={paymentMode !== null}
+                disabled={paymentMode !== null || !canPaySelectedSession}
                 className="rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {paymentMode === "checkout" ? (
@@ -995,10 +1133,10 @@ export default function BootcampIA() {
               <div className="mt-4 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
                 <div className="flex items-center gap-3 text-brand-cyan">
                   <MapPin className="h-5 w-5" />
-                  <p className="font-display text-lg font-black">Medellín, Bogotá, Cali y Barranquilla</p>
+                  <p className="font-display text-lg font-black">Viernes 22 de mayo de 2026 · Medellín</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                  Próximas cohortes empresariales y abiertas con cupos limitados por ciudad.
+                  Cohorte abierta en el Auditorio del Centro Comercial San Diego. Las demás fechas aún están por confirmar.
                 </p>
               </div>
             </div>
@@ -1102,7 +1240,7 @@ export default function BootcampIA() {
             <SectionHeader
               eyebrow="Inversión"
               title="Precio claro para personas y equipos."
-              description="Para empresas, desde cinco participantes se activa precio preferencial y diagnóstico previo."
+              description="La fecha disponible actual es el viernes 22 de mayo de 2026 en el Auditorio del Centro Comercial San Diego, Medellín. Para empresas, desde cinco participantes se activa precio preferencial y diagnóstico previo."
               centered
             />
             <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">

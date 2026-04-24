@@ -2,6 +2,17 @@ const PRICE_PER_PERSON = 1150000;
 const TEAM_DISCOUNT = 0.1;
 const MIN_PEOPLE = 1;
 const DEFAULT_PAYMENT_API_URL = "https://pasarela-backend-548141860239.us-central1.run.app";
+const DEFAULT_SESSION_ID = "medellin-2026-05-22";
+const BOOTCAMP_SESSIONS = {
+  [DEFAULT_SESSION_ID]: {
+    id: DEFAULT_SESSION_ID,
+    dateLabel: "Viernes 22 de mayo de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Medellín",
+    venue: "Auditorio del Centro Comercial San Diego",
+    address: "Centro Comercial San Diego, Medellín",
+  },
+};
 
 export class PaymentError extends Error {
   constructor(message, status = 500, details = null) {
@@ -40,6 +51,16 @@ function calculateQuote(peopleInput) {
   };
 }
 
+function resolveSession(sessionId) {
+  const session = BOOTCAMP_SESSIONS[sanitizeText(sessionId, DEFAULT_SESSION_ID)];
+
+  if (!session) {
+    throw new PaymentError("La fecha seleccionada aún no está disponible para pago.", 400);
+  }
+
+  return session;
+}
+
 export async function createBootcampPayment(body, options = {}) {
   const env = options.env || process.env;
   const email = sanitizeText(body.email).toLowerCase();
@@ -54,7 +75,8 @@ export async function createBootcampPayment(body, options = {}) {
   const contactName = sanitizeText(body.contactName, company);
   const contactRole = sanitizeText(body.contactRole);
   const phone = sanitizeText(body.phone);
-  const city = sanitizeText(body.city, "Colombia");
+  const session = resolveSession(body.sessionId);
+  const city = sanitizeText(body.city, session.city);
   const redirectUrl =
     env.BOOTCAMP_PAYMENT_REDIRECT_URL ||
     (options.origin ? `${options.origin}/bootcamp-ia?payment=return#cotizador` : undefined);
@@ -78,6 +100,12 @@ export async function createBootcampPayment(body, options = {}) {
         cargo: contactRole,
         telefono: phone,
         ciudad: city,
+        session_id: session.id,
+        fecha: session.dateLabel,
+        horario: session.timeLabel,
+        ciudad_bootcamp: session.city,
+        lugar: session.venue,
+        direccion: session.address,
         participantes: quote.people,
         subtotal: quote.subtotal,
         descuento: quote.discountValue,
@@ -91,7 +119,7 @@ export async function createBootcampPayment(body, options = {}) {
 
   if (!paymentResponse.ok || payload?.ok === false) {
     throw new PaymentError(
-      payload?.error || payload?.message || "No se pudo crear el pago en la pasarela.",
+      payload?.error || payload?.message || "No se pudo crear el pago en el portal i365.",
       paymentResponse.status || 502,
       payload,
     );
@@ -100,6 +128,7 @@ export async function createBootcampPayment(body, options = {}) {
   return {
     ok: true,
     quote,
+    session,
     payment: payload,
     datos_widget: payload.datos_widget,
   };

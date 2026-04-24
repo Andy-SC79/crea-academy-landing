@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { createBootcampPayment, PaymentError } from "./api/bootcamp-payment-core.js";
+import { QuoteEmailError, sendQuoteEmail } from "./api/send-quote.js";
 
 function readJsonBody(req: import("node:http").IncomingMessage) {
   return new Promise<Record<string, unknown>>((resolve, reject) => {
@@ -56,7 +57,7 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: "local-bootcamp-payment-api",
+      name: "local-bootcamp-apis",
       configureServer(server) {
         server.middlewares.use("/api/create-bootcamp-payment", async (req, res) => {
           if (req.method !== "POST") {
@@ -86,6 +87,32 @@ export default defineConfig({
 
             sendJson(res, 500, {
               error: error instanceof Error ? error.message : "No se pudo crear el pago.",
+            });
+          }
+        });
+
+        server.middlewares.use("/api/send-quote", async (req, res) => {
+          if (req.method !== "POST") {
+            res.setHeader("Allow", "POST");
+            sendJson(res, 405, { error: "Método no permitido." });
+            return;
+          }
+
+          try {
+            const body = await readJsonBody(req);
+            const payload = await sendQuoteEmail(body, process.env);
+            sendJson(res, 200, payload);
+          } catch (error) {
+            if (error instanceof QuoteEmailError) {
+              sendJson(res, error.status, {
+                error: error.message,
+                details: error.details,
+              });
+              return;
+            }
+
+            sendJson(res, 500, {
+              error: error instanceof Error ? error.message : "No se pudo enviar la cotización.",
             });
           }
         });
