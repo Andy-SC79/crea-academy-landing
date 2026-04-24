@@ -454,7 +454,8 @@
     "scene4": {
       "eyebrow": "Creación guiada en tiempo real",
       "headline_line1": "Cero consumo pasivo.",
-      "headline_line2": "Creación continua.",
+      "headline_line2_creation": "Creación ",
+      "headline_line2_continuous": "continua.",
       "sequence": [
         "En Crea, el estudiante no es pasivo: crea.",
         "Transforma lo que aprendes en podcasts, resúmenes o videos al instante.",
@@ -602,9 +603,9 @@
             "Comunidad privada de aprendizaje colaborativo."
           ],
           "price_currency": "USD",
-          "price_amount": "$50",
+          "price_amount": "$29",
           "price_period": "/mes",
-          "price_subtext": "Facturado anualmente o $55 mes a mes",
+          "price_subtext": "o $22/mes facturado anual",
           "free_price": "Gratis",
           "free_subtext": "Para siempre. Sin tarjeta de crédito."
         },

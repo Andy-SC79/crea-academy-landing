@@ -17,6 +17,53 @@ interface VolumetricBrandFieldProps {
 }
 
 const CYCLE_ORDER: VolumetricShape[] = ["nebula", "galaxy", "supernova", "pulsar", "cluster", "void"];
+const DEFAULT_PALETTE: [string, string, string] = ["#04FF8D", "#00E5FF", "#9D00FF"];
+const LIGHT_MODE_INKS = ["#023D2D", "#0A3452", "#2B1D5A"] as const;
+const LIGHT_MODE_WEIGHTS = [0.58, 0.62, 0.4] as const;
+
+function clampByte(value: number) {
+  return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function hexToRgb(hex: string) {
+  const normalized = hex.trim().replace("#", "");
+  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) return null;
+
+  return {
+    r: parseInt(normalized.slice(0, 2), 16),
+    g: parseInt(normalized.slice(2, 4), 16),
+    b: parseInt(normalized.slice(4, 6), 16),
+  };
+}
+
+function rgbToHex(r: number, g: number, b: number) {
+  return `#${[r, g, b]
+    .map((channel) => clampByte(channel).toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase()}`;
+}
+
+function mixHexColors(colorA: string, colorB: string, weight: number) {
+  const a = hexToRgb(colorA);
+  const b = hexToRgb(colorB);
+  if (!a || !b) return colorA;
+
+  const mixChannel = (source: number, target: number) => source * (1 - weight) + target * weight;
+
+  return rgbToHex(
+    mixChannel(a.r, b.r),
+    mixChannel(a.g, b.g),
+    mixChannel(a.b, b.b),
+  );
+}
+
+function getRenderPalette(basePalette: [string, string, string], isDark: boolean): [string, string, string] {
+  if (isDark) return basePalette;
+
+  return basePalette.map((color, index) =>
+    mixHexColors(color, LIGHT_MODE_INKS[index], LIGHT_MODE_WEIGHTS[index]),
+  ) as [string, string, string];
+}
 
 
 function pts_nebula(n: number): Point[] {
@@ -141,7 +188,7 @@ interface Particle {
 export default function VolumetricBrandField({
   shape = "C",
   density = 1,
-  palette = ["#04FF8D", "#00E5FF", "#9D00FF"],
+  palette = DEFAULT_PALETTE,
   cycle = true,
   showLogo = true,
   className = "",
@@ -263,7 +310,7 @@ export default function VolumetricBrandField({
           ctx.clearRect(0, 0, w, h);
       }
 
-      const [cA, cB, cC] = paletteRef.current || ["#04FF8D", "#00E5FF", "#9D00FF"];
+      const [cA, cB, cC] = getRenderPalette(paletteRef.current || DEFAULT_PALETTE, isDark);
       
       // 2. DRAW NEW PARTICLES
       ctx.globalCompositeOperation = isDark ? "lighter" : "source-over";
@@ -351,7 +398,10 @@ export default function VolumetricBrandField({
         const edgeFade = Math.max(0, 1 - Math.pow(distFromCenter, 2)); // Cae rápido hacia los bordes
         
         const depthAlpha = Math.max(0.01, Math.min(0.8, (p.z + 1.5) / 3.0));
-        const finalAlpha = depthAlpha * edgeFade * 0.95;
+        const finalAlpha = Math.min(
+          isDark ? 0.78 : 0.88,
+          depthAlpha * edgeFade * (isDark ? 0.95 : 1.12),
+        );
 
         if (finalAlpha < 0.01) continue; // Culling: Si es invisible, ni la dibujes (Optimización Masiva)
 
@@ -387,7 +437,7 @@ export default function VolumetricBrandField({
         const breath = 1 + Math.sin(t * 0.02) * 0.015;
         const R = scale * breath;
 
-        ctx.strokeStyle = cA + "18";
+        ctx.strokeStyle = cA + (isDark ? "18" : "26");
         ctx.lineWidth = scale * 0.22;
         ctx.lineCap = "round";
         ctx.beginPath();
@@ -402,7 +452,7 @@ export default function VolumetricBrandField({
           drawStar(
             ctx, px, py, sp.size * scale,
             cB,
-            0.55 + Math.sin(t * 0.03 + sp.phase) * 0.2,
+            (isDark ? 0.55 : 0.72) + Math.sin(t * 0.03 + sp.phase) * (isDark ? 0.2 : 0.14),
             t * 0.01 + sp.phase,
           );
         }

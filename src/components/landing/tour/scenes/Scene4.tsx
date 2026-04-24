@@ -129,7 +129,8 @@ function InteractiveGenerator() {
 }
 
 export default function Scene4(_: SceneComponentProps) {
-  const { t } = useTranslation("landing");
+  const { t, i18n } = useTranslation("landing");
+  const language = (i18n.language || "es").split("-")[0];
   const textoEscena4 = [
     { text: t("tour.scene4.sequence.0"), durationMs: 4000 },
     { text: t("tour.scene4.sequence.1"), durationMs: 5000 },
@@ -137,6 +138,16 @@ export default function Scene4(_: SceneComponentProps) {
     { text: t("tour.scene4.sequence.3"), durationMs: 4500 },
     { text: t("tour.scene4.sequence.4"), durationMs: 5500 },
   ];
+  const line2Parts =
+    language === "en"
+      ? [
+          { text: t("tour.scene4.headline_line2_continuous"), accent: "neon" as const, breakBefore: true },
+          { text: t("tour.scene4.headline_line2_creation"), accent: "prisma" as const },
+        ]
+      : [
+          { text: t("tour.scene4.headline_line2_creation"), accent: "prisma" as const, breakBefore: true },
+          { text: t("tour.scene4.headline_line2_continuous"), accent: "neon" as const },
+        ];
 
   return (
     <SceneTemplate
@@ -153,7 +164,7 @@ export default function Scene4(_: SceneComponentProps) {
           <SceneHeadline
             parts={[
               { text: t("tour.scene4.headline_line1") },
-              { text: t("tour.scene4.headline_line2"), accent: "neon", breakBefore: true },
+              ...line2Parts,
             ]}
           />
 

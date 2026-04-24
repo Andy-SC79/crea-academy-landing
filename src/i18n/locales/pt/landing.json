@@ -452,7 +452,8 @@
     "scene4": {
       "eyebrow": "Criação guiada em tempo real",
       "headline_line1": "Zero consumo passivo.",
-      "headline_line2": "Criação contínua.",
+      "headline_line2_creation": "Criação ",
+      "headline_line2_continuous": "contínua.",
       "sequence": [
         "Na Crea, o aluno não é passivo: ele cria.",
         "Transforme o que aprende em podcasts, resumos ou vídeos instantaneamente.",
@@ -607,9 +608,9 @@
             "Clonagem de Trilhas: Duplique e adapte trilhas globais ao seu contexto."
           ],
           "price_currency": "USD",
-          "price_amount": "$50",
+          "price_amount": "$29",
           "price_period": "/mês",
-          "price_subtext": "Faturado anualmente ou $55 mensalmente",
+          "price_subtext": "ou $22/mês com cobrança anual",
           "free_price": "Grátis",
           "free_subtext": "Para sempre. Sem cartão de crédito."
         },

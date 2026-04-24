@@ -453,7 +453,8 @@
     "scene4": {
       "eyebrow": "Guided creation in real time",
       "headline_line1": "Zero passive consumption.",
-      "headline_line2": "Continuous creation.",
+      "headline_line2_creation": "creation.",
+      "headline_line2_continuous": "Continuous ",
       "sequence": [
         "At Crea, the student is never passive: they create.",
         "Transform what you learn into podcasts, summaries, or videos instantly.",
@@ -608,9 +609,9 @@
             "Path Cloning: Duplicate and adapt global paths to your context."
           ],
           "price_currency": "USD",
-          "price_amount": "$50",
+          "price_amount": "$29",
           "price_period": "/mo",
-          "price_subtext": "Billed annually or $55 month-to-month",
+          "price_subtext": "or $22/mo billed annually",
           "free_price": "Free",
           "free_subtext": "Forever. No credit card required."
         },
