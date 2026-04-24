@@ -20,6 +20,7 @@ import {
 } from "./shared";
 
 
+
 function InteractiveGenerator() {
   const { t } = useTranslation("landing");
   const [stage, setStage] = useState<"idle" | "generating" | "done">("idle");
@@ -46,7 +47,7 @@ function InteractiveGenerator() {
         <div className="flex flex-col items-center justify-center py-6">
           <div className="mb-6 w-full rounded-xl border border-slate-200/50 bg-slate-950 p-4 font-mono text-sm text-brand-neon/80 shadow-inner dark:border-white/10 dark:bg-black/40 text-left">
             <p className="text-brand-orange">Error: Module not found</p>
-            <p className="text-slate-400">Can&apos;t resolve './Dashboard' in '/src/pages'</p>
+            <p className="text-slate-400">Can&apos;t resolve &apos;./Dashboard&apos; in &apos;/src/pages&apos;</p>
           </div>
           <button 
             onClick={() => setStage("generating")}
@@ -74,11 +75,11 @@ function InteractiveGenerator() {
             </div>
           </div>
           <div className="mb-2 w-full rounded-xl border border-brand-cyan/30 bg-slate-950 p-3 font-mono text-[11px] text-brand-cyan/80 shadow-inner dark:bg-black/60 text-left">
-            <p className="animate-pulse">{"// Analizando estructura de carpetas..."}</p>
-            <p className="mt-1 opacity-70">{"import Dashboard from '@/pages/Dashboard';"}</p>
+            <p className="animate-pulse">&#47;&#47; Analizando estructura de carpetas...</p>
+            <p className="mt-1 opacity-70">import Dashboard from &apos;@/pages/Dashboard&apos;;</p>
           </div>
           <div className="flex items-center justify-center gap-1 h-6 w-full overflow-hidden">
-            {[...Array(12)].map((e, t) => (
+            {[...Array(12)].map((_, t) => (
               <motion.div 
                 key={t}
                 className="w-1.5 rounded-full bg-brand-cyan/80" 
