@@ -1,0 +1,21 @@
+server {
+    listen ${PORT};
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location = /index.html {
+        add_header Cache-Control "no-cache";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ~* \.(?:css|js|mjs|map|json|png|jpg|jpeg|gif|webp|svg|ico|mp3|mp4|woff2?|ttf|otf)$ {
+        try_files $uri =404;
+        access_log off;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
