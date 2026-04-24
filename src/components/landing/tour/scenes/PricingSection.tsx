@@ -5,23 +5,25 @@ import {
   Building2,
   CalendarDays,
   Check,
+  GraduationCap,
   Rocket,
   Sparkles,
   Zap,
   type LucideIcon,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import { Button } from "@/components/ui/button";
-import { APP_AUTH_URL } from "@/lib/external-links";
+import { APP_AUTH_URL, BOOKING_DIAGNOSTIC_URL, BOOTCAMP_IA_PATH } from "@/lib/external-links";
 import { cn } from "@/lib/utils";
 
 import SceneTemplate from "./SceneTemplate";
 import { SceneEyebrow, SceneHeadline } from "./shared";
 
 type PricingTier = {
-  id: "free" | "creadores" | "enterprise";
+  id: "free" | "creadores" | "enterprise" | "bootcampIA";
   name: string;
   kicker: string;
   subtitle: string;
@@ -72,7 +74,13 @@ function PricingCard({ tier }: { tier: PricingTier }) {
 
   const TierIcon = tier.icon;
   const CtaIcon = tier.ctaIcon;
-  const glowColor = tier.id === "enterprise" ? "rgba(157,0,255,0.6)" : "rgba(4,255,141,0.5)";
+  const glowColor =
+    tier.id === "enterprise"
+      ? "rgba(157,0,255,0.6)"
+      : tier.id === "bootcampIA"
+        ? "rgba(0,229,255,0.55)"
+        : "rgba(4,255,141,0.5)";
+  const isInternalCta = tier.ctaHref.startsWith("/");
 
   return (
     <motion.article
@@ -177,10 +185,17 @@ function PricingCard({ tier }: { tier: PricingTier }) {
 
         <div className="mt-8 pt-6">
           {tier.ctaStyle === "ghost" ? (
-            <a href={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
-              <span>{tier.ctaLabel}</span>
-              {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
-            </a>
+            isInternalCta ? (
+              <Link to={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                <span>{tier.ctaLabel}</span>
+                {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+              </Link>
+            ) : (
+              <a href={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                <span>{tier.ctaLabel}</span>
+                {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+              </a>
+            )
           ) : (
             <Button
               asChild
@@ -188,10 +203,17 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               variant="default"
               className="w-full rounded-full px-6 font-display text-[1.05rem] font-black tracking-tight shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-black hover:bg-brand-neon/90"
             >
-              <a href={tier.ctaHref}>
-                {tier.ctaLabel}
-                {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
-              </a>
+              {isInternalCta ? (
+                <Link to={tier.ctaHref}>
+                  {tier.ctaLabel}
+                  {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+                </Link>
+              ) : (
+                <a href={tier.ctaHref}>
+                  {tier.ctaLabel}
+                  {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+                </a>
+              )}
             </Button>
           )}
         </div>
@@ -257,7 +279,7 @@ const PricingSection = () => {
       subtitle: t("tour.pricing.tiers.enterprise.subtitle"),
       icon: Building2,
       ctaLabel: t("tour.pricing.tiers.enterprise.ctaLabel"),
-      ctaHref: "mailto:info@ingenieria365.com?subject=Agendar%20Diagnostico%20Crea%20Academy",
+      ctaHref: BOOKING_DIAGNOSTIC_URL,
       ctaIcon: CalendarDays,
       ctaStyle: "solid",
       featureTone: "brand",
@@ -270,6 +292,27 @@ const PricingSection = () => {
         t("tour.pricing.tiers.enterprise.features.2"),
         t("tour.pricing.tiers.enterprise.features.3"),
         t("tour.pricing.tiers.enterprise.features.4"),
+      ],
+    },
+    {
+      id: "bootcampIA",
+      name: t("tour.pricing.tiers.bootcampIA.name"),
+      kicker: t("tour.pricing.tiers.bootcampIA.kicker"),
+      subtitle: t("tour.pricing.tiers.bootcampIA.subtitle"),
+      icon: GraduationCap,
+      ctaLabel: t("tour.pricing.tiers.bootcampIA.ctaLabel"),
+      ctaHref: BOOTCAMP_IA_PATH,
+      ctaIcon: ArrowRight,
+      ctaStyle: "solid",
+      featureTone: "brand",
+      priceAmount: t("tour.pricing.tiers.bootcampIA.price_amount"),
+      pricePeriod: t("tour.pricing.tiers.bootcampIA.price_period"),
+      priceSubtext: t("tour.pricing.tiers.bootcampIA.price_subtext"),
+      features: [
+        t("tour.pricing.tiers.bootcampIA.features.0"),
+        t("tour.pricing.tiers.bootcampIA.features.1"),
+        t("tour.pricing.tiers.bootcampIA.features.2"),
+        t("tour.pricing.tiers.bootcampIA.features.3"),
       ],
     },
   ];
@@ -327,7 +370,7 @@ const PricingSection = () => {
             </div>
           </div>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {pricingTiers.map((tier) => (
               <PricingCard key={tier.id} tier={tier} />
             ))}

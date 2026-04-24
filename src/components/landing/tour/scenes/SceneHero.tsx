@@ -1,17 +1,16 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import { Button } from "@/components/ui/button";
-import { APP_AUTH_URL, LANDING_PRICING_HASH } from "@/lib/external-links";
+import { APP_AUTH_URL } from "@/lib/external-links";
 import "@/styles/singularity.css";
 
 import SceneTemplate from "./SceneTemplate";
-import { SceneHeadline, SceneEyebrow, type SceneComponentProps, type SceneHeadlinePart } from "./shared";
+import { SceneHeadline, type SceneHeadlinePart } from "./shared";
 
 const HERO_KEYWORDS = {
   en: { neon: "living", prisma: "singularity" },
@@ -19,7 +18,7 @@ const HERO_KEYWORDS = {
   pt: { neon: "viva", prisma: "singularidade" },
 } as const;
 
-function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: string): any[] {
+function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: string): SceneHeadlinePart[] {
   const lowerHeadline = headline.toLowerCase();
   const prismaIndex = lowerHeadline.indexOf(prismaWord);
 
@@ -46,7 +45,7 @@ function buildHeroHeadlineParts(headline: string, prismaWord: string, neonWord: 
   ].filter((part) => part.text.length > 0);
 }
 
-export default function SceneHero(_: SceneComponentProps) {
+export default function SceneHero() {
   const { resolvedTheme } = useTheme();
   const { i18n, t } = useTranslation(["landing", "common"]);
   const prefersReducedMotion = useReducedMotion();
@@ -135,7 +134,7 @@ export default function SceneHero(_: SceneComponentProps) {
                 size="xl"
                 className="singularity-cta min-h-[3.5rem] w-full min-[400px]:flex-1 rounded-full bg-brand-neon px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-black hover:bg-brand-neon/90"
               >
-                <a href={LANDING_PRICING_HASH}>{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
+                <a href={APP_AUTH_URL}>{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
               </Button>
             </motion.div>
           </div>

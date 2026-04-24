@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { useTranslation } from "react-i18next";
 import TourController from "@/components/landing/tour/TourController";
+import BootcampIA from "@/pages/BootcampIA";
 
 export default function App() {
   const { t } = useTranslation("common");
@@ -19,6 +20,8 @@ export default function App() {
         >
           <Routes>
             <Route path="/" element={<TourController />} />
+            <Route path="/bootcamp-ia" element={<BootcampIA />} />
+            <Route path="/bootcamp" element={<BootcampIA />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

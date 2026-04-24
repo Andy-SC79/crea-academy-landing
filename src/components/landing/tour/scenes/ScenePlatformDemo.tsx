@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import type { TFunction } from "i18next";
 import { Cpu } from "lucide-react";
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 
@@ -11,13 +12,12 @@ import {
   SceneHeadline,
   SURFACE_TITLE_CLASS,
   TOUR_GLASS_PANEL_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
 const DEMOS = [
   {
     id: 2,
-    title: "Generacion de Avatares",
+    title: "Generación de avatares",
     description: "Personaliza tu gemelo digital educativo.",
     url: "/audio-avatars/public/generating.mp4",
   },
@@ -35,7 +35,7 @@ const DEMOS = [
   }
 ];
 
-const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: any, index: number }) => {
+const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: TFunction<"landing">, index: number }) => {
   return (
     <div className={cn(TOUR_GLASS_PANEL_CLASS, "relative mx-auto flex w-full max-w-5xl flex-col overflow-hidden md:flex-row")}>
       <div className="flex flex-1 flex-col justify-center p-8 md:p-12">
@@ -60,7 +60,7 @@ const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: any, index: nu
   );
 };
 
-export default function ScenePlatformDemo(_: SceneComponentProps) {
+export default function ScenePlatformDemo() {
   const { t } = useTranslation("landing");
   return (
     <SceneTemplate className="relative z-10 flex min-h-[100vh] w-full flex-col items-center justify-center py-24">

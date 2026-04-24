@@ -498,14 +498,14 @@
         "summary_desc": "Mentoring, challenges, and active generation.",
         "workspace_tag": "AI Workspace",
         "workspace_title": "Multimodal Generator",
-        "processing_line": "Analyzing folder structure...",
-        "resolved_message": "The component was uppercase. I fixed it for you.",
-        "status_idle": "Detecting compilation error...",
+        "processing_line": "Analyzing the business case...",
+        "resolved_message": "Solution applied: workflow validated and ready to measure impact.",
+        "status_idle": "Preparing applied challenge...",
         "action_btn": "Activate Multimodal Vision",
-        "status_generating": "Generating summary podcast...",
-        "status_done": "Challenge Completed",
+        "status_generating": "Generating an AI workflow...",
+        "status_done": "Solution Implemented",
         "reward_label": "98% Accuracy",
-        "active_tool": "Model: Sonnet 3.5 + TTS",
+        "active_tool": "Multimodal AI + real-time voice",
         "reset_action": "Reset simulation"
       },
       "reward_label": "Active creation",
@@ -630,6 +630,21 @@
           "price_amount": "Custom",
           "price_period": "",
           "price_subtext": "Variable pricing based on your team's volume."
+        },
+        "bootcampIA": {
+          "name": "AI BOOTCAMP",
+          "kicker": "Applied intensive path",
+          "subtitle": "A practical program for teams that want to adopt generative AI with real use cases.",
+          "ctaLabel": "View AI Bootcamp",
+          "features": [
+            "Intensive training with exercises applied to real workflows.",
+            "Team quote calculator with automatic discount from 5 people.",
+            "Schedule, modules and resources in a dedicated bootcamp page.",
+            "Certificate and guidance to turn learning into implementation."
+          ],
+          "price_amount": "$1,150,000",
+          "price_period": "COP / person",
+          "price_subtext": "Base rate with team options."
         }
       },
       "headline_1": "Welcome to the ",
@@ -648,13 +663,13 @@
       "reminder_youtube": "Set YouTube Reminder"
     },
     "testimonies": {
-      "eyebrow": "Pioneers",
-      "headline_1": "We are ",
-      "headline_2": "not",
-      "headline_3": " a theory.",
-      "headline_4": "We are",
-      "headline_5": " the success ",
-      "headline_6": "story.",
+      "eyebrow": "AI Bootcamps",
+      "headline_1": "Pioneers of ",
+      "headline_2": "AI",
+      "headline_3": "",
+      "headline_4": "Bootcamps",
+      "headline_5": "",
+      "headline_6": "",
       "card_title": "Success Story",
       "loading": "Loading...",
       "play": "Play",

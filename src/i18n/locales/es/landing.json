@@ -492,18 +492,18 @@
         }
       ],
       "card": {
-        "workspace_tag": "Espacio de trabajo AI",
+        "workspace_tag": "Espacio de trabajo IA",
         "workspace_title": "Generador Multimodal",
-        "processing_line": "Analizando estructura de carpetas...",
-        "resolved_message": "El componente estaba en mayúsculas. Lo he corregido por ti.",
-        "status_generating": "Generando podcast resumen...",
-        "active_tool": "Modelo: Sonnet 3.5 + TTS",
+        "processing_line": "Analizando caso de negocio...",
+        "resolved_message": "Solución aplicada: flujo validado, listo para medir impacto.",
+        "status_generating": "Generando flujo de trabajo con IA...",
+        "active_tool": "IA multimodal + voz en tiempo real",
         "xp_earned": "+150 XP",
         "reward_label": "Precisión 98%",
-        "status_idle": "Detectando error de compilación...",
+        "status_idle": "Preparando reto aplicado...",
         "action_btn": "Activar Visión Multimodal",
-        "reset_action": "Resetear simulación",
-        "status_done": "Reto Superado"
+        "reset_action": "Reiniciar simulación",
+        "status_done": "Solución implementada"
       },
       "reward_label": "Creación activa",
       "xp_earned": "+150 XP"
@@ -613,10 +613,10 @@
           "name": "ENTERPRISE",
           "kicker": "Ecosistema Corporativo",
           "subtitle": "Todo lo del plan Creadores, más:",
-          "ctaLabel": "Agendar Diagnostico",
+          "ctaLabel": "Agendar diagnóstico",
           "features": [
-            "Whitelabel (logos, marca, dominio propio).",
-            "Integración Live IA con pantalla compartida, audio y video en tiempo real.",
+            "Marca blanca (logos, marca y dominio propio).",
+            "Integración de IA en vivo con pantalla compartida, audio y video en tiempo real.",
             "Generación de contenido multimedia (video, podcast, infografías).",
             "Rutas personalizadas por rol y evaluaciones dinámicas.",
             "Implementación de ATLAS — Control de gobernanza IA.",
@@ -626,6 +626,21 @@
           "price_amount": "Personalizado",
           "price_period": "",
           "price_subtext": "Cotización variable basada en el volumen de tu equipo."
+        },
+        "bootcampIA": {
+          "name": "BOOTCAMP IA",
+          "kicker": "Ruta intensiva aplicada",
+          "subtitle": "Programa práctico para equipos que quieren adoptar IA generativa con casos reales.",
+          "ctaLabel": "Ver Bootcamp de IA",
+          "features": [
+            "Formación intensiva con ejercicios aplicados a procesos reales.",
+            "Cotizador por equipos y descuento automático desde 5 personas.",
+            "Agenda, módulos y recursos del bootcamp en una página dedicada.",
+            "Certificado y acompañamiento para convertir aprendizaje en implementación."
+          ],
+          "price_amount": "$1.150.000",
+          "price_period": "COP / persona",
+          "price_subtext": "Tarifa base con opciones para equipos."
         }
       },
       "headline_1": "Bienvenido al ",
@@ -644,13 +659,13 @@
       "reminder_youtube": "Activar Recordatorio en YouTube"
     },
     "testimonies": {
-      "eyebrow": "Pioneros",
-      "headline_1": "No ",
-      "headline_2": "somos",
-      "headline_3": " una teoría.",
-      "headline_4": "Somos",
-      "headline_5": " el caso de ",
-      "headline_6": "éxito.",
+      "eyebrow": "Bootcamps de IA",
+      "headline_1": "Pioneros de ",
+      "headline_2": "Bootcamps",
+      "headline_3": " de",
+      "headline_4": "Inteligencia ",
+      "headline_5": "",
+      "headline_6": "Artificial",
       "card_title": "Caso de Éxito",
       "loading": "Cargando...",
       "play": "Reproducir",

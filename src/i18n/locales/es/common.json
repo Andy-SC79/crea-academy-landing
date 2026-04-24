@@ -167,12 +167,12 @@
     "npsHigh": "Muy probable"
   },
   "realTime": {
-    "title": "Crea Academy - Live AI Console",
-    "subtitle": "Interfaz Experimental Multimodal en Tiempo Real",
+    "title": "Crea Academy - Consola IA en vivo",
+    "subtitle": "Interfaz experimental multimodal en tiempo real",
     "waitingVideo": "Esperando entrada de video...",
-    "sessionHistory": "Historial de Sesión",
+    "sessionHistory": "Historial de sesión",
     "interactionsHere": "Las interacciones aparecerán aquí...",
-    "live": "En Vivo",
+    "live": "En vivo",
     "disconnected": "Desconectado"
   },
   "publicForm": {

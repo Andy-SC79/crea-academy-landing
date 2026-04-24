@@ -1,4 +1,4 @@
-import { Mic, Sparkles, Wand2, Activity, CheckCircle2, Bot } from "lucide-react";
+import { Wand2, Activity, CheckCircle2, Bot } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -16,7 +16,6 @@ import {
   SceneEyebrow,
   TOUR_FRAME_CLASS,
   TOUR_SURFACE_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
 
@@ -46,8 +45,8 @@ function InteractiveGenerator() {
       {stage === "idle" && (
         <div className="flex flex-col items-center justify-center py-6">
           <div className="mb-6 w-full rounded-xl border border-slate-200/50 bg-slate-950 p-4 font-mono text-sm text-brand-neon/80 shadow-inner dark:border-white/10 dark:bg-black/40 text-left">
-            <p className="text-brand-orange">Error: Module not found</p>
-            <p className="text-slate-400">Can&apos;t resolve &apos;./Dashboard&apos; in &apos;/src/pages&apos;</p>
+            <p className="text-brand-cyan">Reto activo</p>
+            <p className="text-slate-400">Automatizar reportes, crear un asistente interno y dejar el flujo listo para operar.</p>
           </div>
           <button 
             onClick={() => setStage("generating")}
@@ -76,7 +75,7 @@ function InteractiveGenerator() {
           </div>
           <div className="mb-2 w-full rounded-xl border border-brand-cyan/30 bg-slate-950 p-3 font-mono text-[11px] text-brand-cyan/80 shadow-inner dark:bg-black/60 text-left">
             <p className="animate-pulse">&#47;&#47; {t("tour.scene4.card.processing_line")}</p>
-            <p className="mt-1 opacity-70">import Dashboard from &apos;@/pages/Dashboard&apos;;</p>
+            <p className="mt-1 opacity-70">flujo.ia = diagnosticar + automatizar + medir_impacto;</p>
           </div>
           <div className="flex items-center justify-center gap-1 h-6 w-full overflow-hidden">
             {[...Array(12)].map((_, t) => (
@@ -128,7 +127,7 @@ function InteractiveGenerator() {
   );
 }
 
-export default function Scene4(_: SceneComponentProps) {
+export default function Scene4() {
   const { t, i18n } = useTranslation("landing");
   const language = (i18n.language || "es").split("-")[0];
   const textoEscena4 = [

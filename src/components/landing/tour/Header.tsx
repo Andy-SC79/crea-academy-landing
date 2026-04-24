@@ -3,7 +3,7 @@ import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { APP_AUTH_URL, LANDING_PRICING_HASH } from "@/lib/external-links";
+import { APP_AUTH_URL } from "@/lib/external-links";
 
 export default function Header() {
   const { t } = useTranslation(["landing", "common"]);
@@ -37,7 +37,7 @@ export default function Header() {
               <a href={APP_AUTH_URL} className="hidden text-[0.95rem] font-display font-black tracking-tight text-[color:var(--tour-text-default)] dark:text-white hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D] transition-colors md:inline-block">
                 {t("nav.signIn", { ns: "common" })}
               </a>
-              <a href={LANDING_PRICING_HASH} className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-[1rem]">
+              <a href={APP_AUTH_URL} className="inline-flex h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:h-10 md:px-5 md:text-[1rem]">
                 {t("tour.sceneHero.createAccount", { ns: "landing" })}
               </a>
             </div>

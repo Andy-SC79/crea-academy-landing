@@ -497,14 +497,14 @@
         "summary_desc": "Mentoria, desafios e geração ativa.",
         "workspace_tag": "Espaço de trabalho IA",
         "workspace_title": "Gerador Multimodal",
-        "processing_line": "Analisando estrutura de pastas...",
-        "resolved_message": "O componente estava em maiúsculas. Corrigi isso para você.",
-        "status_idle": "Detectando erro de compilação...",
+        "processing_line": "Analisando o caso de negócio...",
+        "resolved_message": "Solução aplicada: fluxo validado e pronto para medir impacto.",
+        "status_idle": "Preparando desafio aplicado...",
         "action_btn": "Ativar Visão Multimodal",
-        "status_generating": "Gerando podcast de resumo...",
-        "status_done": "Desafio Concluído",
+        "status_generating": "Gerando fluxo de trabalho com IA...",
+        "status_done": "Solução implementada",
         "reward_label": "Precisão de 98%",
-        "active_tool": "Modelo: Sonnet 3.5 + TTS",
+        "active_tool": "IA multimodal + voz em tempo real",
         "reset_action": "Reiniciar simulação"
       },
       "reward_label": "Criação ativa",
@@ -629,6 +629,21 @@
           "price_amount": "Personalizado",
           "price_period": "",
           "price_subtext": "Orçamento variável com base no volume da sua equipe."
+        },
+        "bootcampIA": {
+          "name": "BOOTCAMP IA",
+          "kicker": "Trilha intensiva aplicada",
+          "subtitle": "Programa prático para equipes que querem adotar IA generativa com casos reais.",
+          "ctaLabel": "Ver Bootcamp de IA",
+          "features": [
+            "Formação intensiva com exercícios aplicados a processos reais.",
+            "Calculadora para equipes com desconto automático a partir de 5 pessoas.",
+            "Agenda, módulos e recursos do bootcamp em uma página dedicada.",
+            "Certificado e acompanhamento para transformar aprendizado em implementação."
+          ],
+          "price_amount": "$1.150.000",
+          "price_period": "COP / pessoa",
+          "price_subtext": "Tarifa base com opções para equipes."
         }
       },
       "headline_1": "Bem-vindo ao ",
@@ -647,13 +662,13 @@
       "reminder_youtube": "Ativar Lembrete no YouTube"
     },
     "testimonies": {
-      "eyebrow": "Pioneiros",
-      "headline_1": "Não ",
-      "headline_2": "somos",
-      "headline_3": " uma teoria.",
-      "headline_4": "Somos",
-      "headline_5": " o caso de ",
-      "headline_6": "sucesso.",
+      "eyebrow": "Bootcamps de IA",
+      "headline_1": "Pioneiros de ",
+      "headline_2": "Bootcamps",
+      "headline_3": " de",
+      "headline_4": "Inteligência ",
+      "headline_5": "",
+      "headline_6": "Artificial",
       "card_title": "Caso de Sucesso",
       "loading": "Carregando...",
       "play": "Reproduzir",

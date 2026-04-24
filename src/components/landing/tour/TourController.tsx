@@ -9,6 +9,7 @@ import "@/styles/tour-ambient.css";
 import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 
 import TrustBand from "@/components/landing/tour/TrustBand";
+import ImpactedCompaniesSection from "@/components/landing/ImpactedCompaniesSection";
 import { TOUR_SCENES } from "./scenes";
 
 type TourControllerProps = {
@@ -58,6 +59,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
                 <SceneComponent integrationSlot={integrationSlot} />
               </div>
               {scene.id === "scene-hero" && <TrustBand />}
+              {scene.id === "scene-4" && <ImpactedCompaniesSection />}
             </div>
           );
         })}

@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bootcamp IA · Ingeniería 365</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0A2540;
+    --cyan: #00C2FF;
+    --purple: #6C63FF;
+    --bg: #F8FAFC;
+    --text: #1A1A1A;
+    --text-muted: #64748b;
+    --border: rgba(10,37,64,0.1);
+    --card-bg: #ffffff;
+    --grad: linear-gradient(135deg, var(--navy) 0%, #0d3460 40%, #1a1a5e 100%);
+    --grad-accent: linear-gradient(135deg, var(--cyan), var(--purple));
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(248,250,252,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  nav.scrolled { background: rgba(248,250,252,0.97); box-shadow: 0 2px 20px rgba(10,37,64,0.08); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-mark {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--grad);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 14px; color: white; letter-spacing: -0.5px;
+  }
+  .nav-logo-text { font-weight: 700; font-size: 15px; color: var(--navy); letter-spacing: -0.3px; }
+  .nav-logo-text span { color: var(--cyan); }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta {
+    background: var(--navy); color: white;
+    padding: 10px 22px; border-radius: 50px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(10,37,64,0.25);
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(10,37,64,0.35); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--grad);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(0,194,255,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(108,99,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    padding: 7px 16px; border-radius: 50px;
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85);
+    margin-bottom: 24px; backdrop-filter: blur(10px);
+  }
+  .hero-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #00ff88; flex-shrink: 0; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+  
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 700;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 1.8vw, 19px); color: rgba(255,255,255,0.7);
+    margin-bottom: 36px; line-height: 1.6; font-weight: 400;
+    max-width: 480px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 36px; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), #0099dd);
+    color: white; padding: 16px 32px; border-radius: 50px;
+    font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(0,194,255,0.4), 0 0 0 0 rgba(0,194,255,0);
+    letter-spacing: -0.2px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,194,255,0.5), 0 0 40px rgba(0,194,255,0.15); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08); color: white;
+    padding: 16px 28px; border-radius: 50px;
+    font-size: 15px; font-weight: 600; border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer; transition: all 0.25s; backdrop-filter: blur(10px);
+    letter-spacing: -0.2px;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+  .hero-cities {
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .city-pill {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    padding: 6px 14px; border-radius: 50px;
+    font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.65);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .city-pill:hover, .city-pill.active {
+    background: rgba(0,194,255,0.15); border-color: rgba(0,194,255,0.4);
+    color: var(--cyan);
+  }
+
+  /* Seats counter */
+  .seats-widget {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius); padding: 20px 24px;
+    backdrop-filter: blur(15px); margin-bottom: 32px;
+  }
+  .seats-label { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .seats-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 50px; height: 8px; margin-bottom: 10px; overflow: hidden; }
+  .seats-bar { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--purple)); border-radius: 50px; transition: width 0.8s ease; }
+  .seats-info { display: flex; justify-content: space-between; }
+  .seats-used { font-size: 13px; font-weight: 600; color: white; }
+  .seats-total { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .seats-urgent { font-size: 12px; color: #ff6b6b; font-weight: 600; margin-top: 4px; }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .hero-mockup {
+    width: 100%; max-width: 460px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 28px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .mockup-header { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+  .mockup-dots { display: flex; gap: 6px; }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-title { font-size: 13px; color: rgba(255,255,255,0.4); flex: 1; text-align: center; }
+  .mockup-screen {
+    background: linear-gradient(145deg, #0d1b35, #111840);
+    border-radius: 14px; padding: 20px; margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .mockup-prompt-label { font-size: 10px; color: var(--cyan); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .mockup-prompt { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; font-family: 'Space Grotesk', monospace; }
+  .mockup-prompt .cursor { display: inline-block; width: 2px; height: 14px; background: var(--cyan); margin-left: 2px; animation: blink 1.2s step-end infinite; vertical-align: middle; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .mockup-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mockup-metric {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 14px;
+  }
+  .metric-val { font-size: 22px; font-weight: 700; color: white; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+  .metric-val.cyan { color: var(--cyan); }
+  .metric-val.purple { color: #a78bfa; }
+  .metric-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .float-tag {
+    position: absolute; background: white; border-radius: 12px;
+    padding: 10px 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    display: flex; align-items: center; gap: 8px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .float-tag.tag-1 { top: -20px; right: -20px; animation-delay: 0s; }
+  .float-tag.tag-2 { bottom: 20px; left: -30px; animation-delay: 2s; }
+  .float-icon { font-size: 16px; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(0,194,255,0.1), rgba(108,99,255,0.1));
+    border: 1px solid rgba(108,99,255,0.2);
+    color: var(--purple); font-size: 12px; font-weight: 700;
+    padding: 5px 14px; border-radius: 50px; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700; letter-spacing: -1.5px;
+    color: var(--navy); line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  h2 .accent { background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-sub { font-size: 18px; color: var(--text-muted); max-width: 560px; line-height: 1.6; margin-bottom: 56px; }
+
+  /* PROBLEM */
+  .problem-section { background: var(--navy); }
+  .problem-section h2 { color: white; }
+  .problem-section .section-sub { color: rgba(255,255,255,0.55); }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .problem-bullets { display: flex; flex-direction: column; gap: 20px; }
+  .problem-bullet {
+    display: flex; align-items: flex-start; gap: 18px;
+    padding: 22px 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); transition: all 0.25s;
+  }
+  .problem-bullet:hover { background: rgba(255,255,255,0.07); transform: translateX(4px); }
+  .problem-icon-wrap {
+    width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    background: rgba(255,94,94,0.15); border: 1px solid rgba(255,94,94,0.2);
+  }
+  .problem-text h3 { font-size: 16px; font-weight: 600; color: white; margin-bottom: 4px; }
+  .problem-text p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+  .problem-cta-box {
+    background: linear-gradient(135deg, rgba(0,194,255,0.1), rgba(108,99,255,0.1));
+    border: 1px solid rgba(108,99,255,0.25); border-radius: 24px;
+    padding: 40px; text-align: center;
+  }
+  .problem-quote { font-size: clamp(20px, 2.5vw, 28px); font-weight: 700; color: white; line-height: 1.3; letter-spacing: -0.5px; margin-bottom: 16px; font-family: 'Space Grotesk', sans-serif; }
+  .problem-quote em { color: var(--cyan); font-style: normal; }
+
+  /* DIFFERENTIAL */
+  .diff-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .diff-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px 24px;
+    position: relative; overflow: hidden; cursor: default;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(10,37,64,0.04);
+  }
+  .diff-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    opacity: 0; transition: opacity 0.3s;
+    border-radius: var(--radius);
+  }
+  .diff-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(10,37,64,0.12); }
+  .diff-card:hover::before { opacity: 0.04; }
+  .diff-card:hover .diff-num { color: var(--purple); }
+  .diff-card > * { position: relative; z-index: 1; }
+  .diff-num { font-size: 48px; font-weight: 900; color: rgba(10,37,64,0.06); font-family: 'Space Grotesk', sans-serif; line-height: 1; margin-bottom: 16px; letter-spacing: -2px; transition: color 0.3s; }
+  .diff-card h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .diff-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .diff-bar { height: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); border-radius: 2px; margin-bottom: 20px; width: 40px; }
+
+  /* METHODOLOGY */
+  .methodology-section { background: linear-gradient(180deg, #f0f4ff 0%, var(--bg) 100%); }
+  .method-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); border-radius: var(--radius); overflow: hidden; }
+  .method-col { background: white; padding: 40px 32px; position: relative; }
+  .method-col:hover { background: #fafbff; }
+  .method-phase {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 20px; padding: 5px 12px; border-radius: 50px; display: inline-block;
+  }
+  .method-phase.before { background: rgba(255,183,77,0.15); color: #e07b00; }
+  .method-phase.during { background: rgba(0,194,255,0.12); color: #0099cc; }
+  .method-phase.after { background: rgba(108,99,255,0.12); color: var(--purple); }
+  .method-col h3 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 16px; letter-spacing: -0.5px; font-family: 'Space Grotesk', sans-serif; }
+  .method-items { display: flex; flex-direction: column; gap: 14px; }
+  .method-item { display: flex; align-items: flex-start; gap: 12px; }
+  .method-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .method-dot.before { background: #e07b00; }
+  .method-dot.during { background: var(--cyan); }
+  .method-dot.after { background: var(--purple); }
+  .method-item-text { font-size: 15px; color: var(--text-muted); font-weight: 500; line-height: 1.4; }
+
+  /* LEARN */
+  .learn-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .learn-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 30px;
+    transition: all 0.3s; cursor: default;
+    box-shadow: 0 2px 8px rgba(10,37,64,0.04);
+  }
+  .learn-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(10,37,64,0.1); border-color: rgba(108,99,255,0.2); }
+  .learn-icon {
+    width: 52px; height: 52px; border-radius: 14px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .learn-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .learn-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .learn-card .learn-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+
+  /* BEFORE / AFTER */
+  .ba-section { background: var(--navy); }
+  .ba-section h2 { color: white; }
+  .ba-section .section-sub { color: rgba(255,255,255,0.55); }
+  .ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 32px; align-items: stretch; }
+  .ba-col {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px;
+  }
+  .ba-col.after { border-color: rgba(0,194,255,0.3); background: rgba(0,194,255,0.06); }
+  .ba-col-header { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .ba-col.before .ba-col-header { color: rgba(255,255,255,0.4); }
+  .ba-col.after .ba-col-header { color: var(--cyan); }
+  .ba-item { display: flex; align-items: flex-start; gap: 14px; }
+  .ba-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .ba-item-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .ba-col.before .ba-item-text h4 { color: rgba(255,255,255,0.6); }
+  .ba-col.after .ba-item-text h4 { color: white; }
+  .ba-col.before .ba-item-text p { color: rgba(255,255,255,0.3); font-size: 13px; }
+  .ba-col.after .ba-item-text p { color: rgba(255,255,255,0.55); font-size: 13px; }
+  .ba-divider { display: flex; align-items: center; justify-content: center; }
+  .ba-arrow {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+    box-shadow: 0 4px 20px rgba(0,194,255,0.3);
+  }
+
+  /* EXPERIENCE */
+  .experience-section { background: linear-gradient(180deg, #f0f4ff 0%, var(--bg) 100%); }
+  .timeline { display: flex; gap: 0; align-items: flex-start; position: relative; }
+  .timeline::before { content: ''; position: absolute; top: 24px; left: 24px; right: 24px; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--purple)); opacity: 0.3; }
+  .timeline-item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; padding: 0 12px; }
+  .timeline-dot {
+    width: 48px; height: 48px; border-radius: 50%; margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(108,99,255,0.3);
+    position: relative; z-index: 1;
+  }
+  .timeline-time { font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: 0.5px; margin-bottom: 6px; }
+  .timeline-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .timeline-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  /* PRICING */
+  .pricing-section { background: var(--bg); }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 740px; margin: 0 auto; }
+  .price-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px 32px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(10,37,64,0.04);
+    transition: all 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(10,37,64,0.1); }
+  .price-card.featured { background: var(--navy); border-color: transparent; padding-top: 52px; }
+  .price-card.featured::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(0,194,255,0.15) 0%, transparent 60%); }
+  .price-card > * { position: relative; z-index: 1; }
+  .price-tag-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+  .price-card.featured .price-tag-label { color: var(--cyan); }
+  .price-card:not(.featured) .price-tag-label { color: var(--text-muted); }
+  .price-amount { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 8px; }
+  .price-currency { font-size: 20px; font-weight: 700; padding-bottom: 6px; }
+  .price-card.featured .price-currency { color: rgba(255,255,255,0.6); }
+  .price-main { font-size: 48px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; letter-spacing: -2px; line-height: 1; }
+  .price-card.featured .price-main { color: white; }
+  .price-card:not(.featured) .price-main { color: var(--navy); }
+  .price-period { font-size: 14px; color: var(--text-muted); padding-bottom: 8px; }
+  .price-card.featured .price-period { color: rgba(255,255,255,0.5); }
+  .price-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+  .price-card.featured .price-desc { color: rgba(255,255,255,0.55); }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .price-feature { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .price-card.featured .price-feature { color: rgba(255,255,255,0.8); }
+  .price-check { color: var(--cyan); font-size: 16px; flex-shrink: 0; }
+  .btn-price-primary {
+    width: 100%; padding: 15px; border-radius: 12px;
+    font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--cyan), #0099cc);
+    color: white; transition: all 0.25s;
+    box-shadow: 0 4px 15px rgba(0,194,255,0.3);
+  }
+  .btn-price-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,194,255,0.4); }
+  .btn-price-secondary {
+    width: 100%; padding: 15px; border-radius: 12px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    background: transparent; color: var(--navy);
+    border: 2px solid var(--border); transition: all 0.25s;
+  }
+  .btn-price-secondary:hover { border-color: var(--purple); color: var(--purple); transform: translateY(-2px); }
+  .price-badge {
+    position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white; padding: 5px 18px; border-radius: 50px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .discount-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,194,255,0.1); border: 1px solid rgba(0,194,255,0.2);
+    color: var(--cyan); padding: 4px 12px; border-radius: 50px;
+    font-size: 12px; font-weight: 700; margin-bottom: 16px;
+  }
+
+  /* QUOTER */
+  .quoter-section { background: linear-gradient(135deg, #f0f4ff, #f8f0ff); }
+  .quoter-wrap {
+    background: white; border: 1px solid var(--border);
+    border-radius: 24px; padding: 48px;
+    box-shadow: 0 20px 60px rgba(10,37,64,0.08);
+    max-width: 800px; margin: 0 auto;
+  }
+  .quoter-wrap h2 { text-align: center; margin-bottom: 8px; }
+  .quoter-wrap .section-sub { text-align: center; margin: 0 auto 40px; }
+  .quoter-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: span 2; }
+  .form-field label { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .form-field input, .form-field select {
+    padding: 12px 16px; border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text); background: var(--bg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-field input:focus, .form-field select:focus {
+    border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,99,255,0.1);
+  }
+  .quoter-result {
+    background: linear-gradient(135deg, var(--navy), #0d3460);
+    border-radius: 16px; padding: 28px 32px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-bottom: 24px; position: relative; overflow: hidden;
+  }
+  .quoter-result::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at right, rgba(0,194,255,0.1) 0%, transparent 60%); }
+  .quoter-result > * { position: relative; z-index: 1; }
+  .result-item { text-align: center; }
+  .result-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .result-value { font-size: 24px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+  .result-value.cyan { color: var(--cyan); }
+  .result-value.red { color: #ff6b6b; text-decoration: line-through; font-size: 18px; opacity: 0.7; }
+  .result-value.green { color: #4ade80; }
+  .quoter-actions { display: flex; gap: 14px; }
+  .btn-quoter-1 {
+    flex: 1; padding: 15px; border-radius: 12px;
+    background: var(--navy); color: white;
+    font-size: 14px; font-weight: 700; border: none; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-quoter-1:hover { background: #0d3460; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10,37,64,0.2); }
+  .btn-quoter-2 {
+    flex: 1; padding: 15px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white; font-size: 14px; font-weight: 700; border: none; cursor: pointer;
+    transition: all 0.25s; box-shadow: 0 4px 15px rgba(108,99,255,0.3);
+  }
+  .btn-quoter-2:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,99,255,0.4); }
+
+  /* RESOURCES */
+  .resources-section { background: var(--bg); }
+  .resources-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 640px; }
+  .resource-item {
+    display: flex; align-items: center; gap: 16px;
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 18px 20px;
+    transition: all 0.25s;
+    box-shadow: 0 2px 8px rgba(10,37,64,0.03);
+  }
+  .resource-item:hover { transform: translateX(4px); border-color: rgba(108,99,255,0.2); box-shadow: 0 6px 20px rgba(10,37,64,0.07); }
+  .resource-check { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 12px; font-weight: 700; }
+  .resource-text { font-size: 14px; font-weight: 600; color: var(--navy); }
+
+  /* PURPOSE */
+  .purpose-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a1a5e 100%);
+    text-align: center;
+  }
+  .purpose-section h2 { color: white; max-width: 700px; margin: 0 auto 20px; }
+  .purpose-section .section-sub { color: rgba(255,255,255,0.55); margin: 0 auto 50px; }
+  .purpose-stats { display: flex; justify-content: center; gap: 60px; }
+  .stat-item { text-align: center; }
+  .stat-val { font-size: 48px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; letter-spacing: -2px; background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-label { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  /* FINAL CTA */
+  .cta-section { background: var(--bg); }
+  .cta-box {
+    background: var(--grad);
+    border-radius: 28px; padding: 80px 60px; text-align: center;
+    position: relative; overflow: hidden;
+    box-shadow: 0 40px 80px rgba(10,37,64,0.2);
+  }
+  .cta-box::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(0,194,255,0.15) 0%, transparent 60%); }
+  .cta-box > * { position: relative; z-index: 1; }
+  .cta-box h2 { color: white; margin-bottom: 16px; font-size: clamp(28px, 3.5vw, 46px); }
+  .cta-box p { color: rgba(255,255,255,0.6); font-size: 18px; margin-bottom: 40px; }
+  .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer { background: var(--navy); padding: 40px 5%; text-align: center; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 16px; }
+  .footer-text { font-size: 14px; color: rgba(255,255,255,0.35); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px; z-index: 999;
+    background: var(--navy); color: white;
+    padding: 16px 24px; border-radius: 14px;
+    font-size: 14px; font-weight: 500;
+    box-shadow: 0 20px 40px rgba(10,37,64,0.3);
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 18px; }
+
+  /* TWEAKS PANEL */
+  .tweaks-panel {
+    position: fixed; bottom: 24px; left: 24px; z-index: 500;
+    background: white; border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px; width: 240px;
+    box-shadow: 0 20px 40px rgba(10,37,64,0.12);
+    display: none;
+  }
+  .tweaks-panel.open { display: block; }
+  .tweaks-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tweak-row { margin-bottom: 14px; }
+  .tweak-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+  .tweak-options { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tweak-btn {
+    padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border); background: white; cursor: pointer; color: var(--text);
+    transition: all 0.15s;
+  }
+  .tweak-btn.active { border-color: var(--purple); background: rgba(108,99,255,0.08); color: var(--purple); }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-up-d1 { transition-delay: 0.1s; }
+  .fade-up-d2 { transition-delay: 0.2s; }
+  .fade-up-d3 { transition-delay: 0.3s; }
+  .fade-up-d4 { transition-delay: 0.4s; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .diff-cards { grid-template-columns: 1fr 1fr; }
+    .method-cols { grid-template-columns: 1fr; }
+    .learn-cards { grid-template-columns: 1fr 1fr; }
+    .ba-grid { grid-template-columns: 1fr; }
+    .ba-divider { display: none; }
+    .timeline { flex-direction: column; gap: 20px; }
+    .timeline::before { display: none; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    .quoter-form { grid-template-columns: 1fr; }
+    .form-field.full { grid-column: span 1; }
+    .quoter-result { grid-template-columns: 1fr; text-align: left; gap: 16px; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .purpose-stats { gap: 30px; flex-wrap: wrap; }
+    .cta-box { padding: 50px 30px; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .diff-cards { grid-template-columns: 1fr; }
+    .learn-cards { grid-template-columns: 1fr; }
+  }
+</style>
+
+<template id="__bundler_thumbnail" data-bg-color="#0A2540">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0A2540"/>
+    <rect x="480" y="260" width="240" height="56" rx="14" fill="#00C2FF" opacity="0.15"/>
+    <text x="600" y="302" font-family="sans-serif" font-size="36" font-weight="800" fill="white" text-anchor="middle">I365</text>
+    <text x="600" y="360" font-family="sans-serif" font-size="18" fill="#00C2FF" text-anchor="middle">Bootcamp IA</text>
+    <rect x="440" y="400" width="320" height="6" rx="3" fill="#00C2FF" opacity="0.3"/>
+    <rect x="440" y="400" width="200" height="6" rx="3" fill="#00C2FF"/>
+  </svg>
+</template>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "cyan",
+  "heroLayout": "split",
+  "animationsOn": true
+}/*EDITMODE-END*/;
+
+const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla"];
+const CITY_SEATS = { "Medellín": { total: 40, used: 34 }, "Bogotá": { total: 40, used: 31 }, "Cali": { total: 30, used: 22 }, "Barranquilla": { total: 30, used: 19 } };
+
+function useScrollSpy() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  return scrolled;
+}
+
+function useFadeIn() {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function Toast({ msg, show }) {
+  return (
+    <div className={`toast ${show ? 'show' : ''}`}>
+      <span className="toast-icon">✓</span>
+      {msg}
+    </div>
+  );
+}
+
+function Nav({ scrolled, activeCity, setActiveCity }) {
+  return (
+    <nav className={scrolled ? 'scrolled' : ''}>
+      <a href="#" className="nav-logo">
+        <div className="nav-logo-mark">I365</div>
+        <span className="nav-logo-text">Ingeniería <span>365</span></span>
+      </a>
+      <div className="nav-links">
+        <a href="#diferencial">Diferencial</a>
+        <a href="#metodologia">Metodología</a>
+        <a href="#precios">Precios</a>
+        <a href="#cotizador">Empresas</a>
+      </div>
+      <a href="#precios" className="nav-cta">Reservar cupo →</a>
+    </nav>
+  );
+}
+
+function TypingEffect({ text }) {
+  const [displayed, setDisplayed] = useState('');
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    if (idx < text.length) {
+      const t = setTimeout(() => { setDisplayed(text.slice(0, idx+1)); setIdx(idx+1); }, 35);
+      return () => clearTimeout(t);
+    }
+  }, [idx, text]);
+  return <span>{displayed}<span className="cursor" /></span>;
+}
+
+function Hero({ activeCity, setActiveCity, onAction }) {
+  const seats = CITY_SEATS[activeCity];
+  const pct = Math.round((seats.used / seats.total) * 100);
+  const remaining = seats.total - seats.used;
+
+  return (
+    <section className="hero" id="hero">
+      <div className="hero-grid" />
+      <div className="hero-content">
+        <div className="hero-inner">
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              Bootcamp presencial · 1 día intensivo
+            </div>
+            <h1>
+              Transforma un día en una nueva forma de trabajar con{' '}
+              <span className="gradient-text">Inteligencia Artificial</span>
+            </h1>
+            <p className="hero-sub">
+              En este Bootcamp no aprendes IA… <strong style={{color:'white'}}>la implementas en tu trabajo</strong> el mismo día.
+            </p>
+
+            <div className="hero-cities">
+              {CITIES.map(c => (
+                <button key={c} className={`city-pill ${activeCity===c?'active':''}`} onClick={() => setActiveCity(c)}>{c}</button>
+              ))}
+            </div>
+
+            <div style={{height:16}} />
+
+            <div className="seats-widget">
+              <div className="seats-label">Cupos disponibles · {activeCity}</div>
+              <div className="seats-bar-wrap"><div className="seats-bar" style={{width: `${pct}%`}} /></div>
+              <div className="seats-info">
+                <span className="seats-used">{seats.used} inscritos</span>
+                <span className="seats-total">{seats.total} total</span>
+              </div>
+              {remaining <= 8 && <div className="seats-urgent">⚠ Solo {remaining} cupos restantes en {activeCity}</div>}
+            </div>
+
+            <div className="hero-actions">
+              <button className="btn-primary" onClick={() => onAction('¡Cupo reservado! Te contactaremos pronto.')}>Reservar cupo →</button>
+              <button className="btn-secondary" onClick={() => document.getElementById('cotizador').scrollIntoView()}>Soy empresa – cotizar equipo</button>
+            </div>
+          </div>
+
+          <div className="hero-visual">
+            <div style={{position:'relative', width:'100%', maxWidth:460}}>
+              <div className="hero-mockup">
+                <div className="mockup-header">
+                  <div className="mockup-dots">
+                    <div className="mockup-dot" style={{background:'#ff5f57'}} />
+                    <div className="mockup-dot" style={{background:'#ffbd2e'}} />
+                    <div className="mockup-dot" style={{background:'#28c840'}} />
+                  </div>
+                  <span className="mockup-title">I365 AI Workspace</span>
+                </div>
+                <div className="mockup-screen">
+                  <div className="mockup-prompt-label">Prompt activo</div>
+                  <div className="mockup-prompt">
+                    <TypingEffect text="Analiza nuestros datos de ventas del último trimestre y genera un informe ejecutivo con recomendaciones de acción..." />
+                  </div>
+                </div>
+                <div className="mockup-metrics">
+                  {[
+                    {val:'–72%', label:'Tiempo en reportes', cls:'cyan'},
+                    {val:'3.4×', label:'Productividad', cls:'purple'},
+                    {val:'1 día', label:'Para implementar', cls:''},
+                    {val:'0 código', label:'Necesario', cls:''},
+                  ].map((m,i) => (
+                    <div className="mockup-metric" key={i}>
+                      <div className={`metric-val ${m.cls}`}>{m.val}</div>
+                      <div className="metric-label">{m.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="float-tag tag-1">
+                <span className="float-icon">🤖</span>
+                <span>Agente IA activo</span>
+              </div>
+              <div className="float-tag tag-2">
+                <span className="float-icon">⚡</span>
+                <span>Automatización lista</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Problem() {
+  const bullets = [
+    { icon: '⏳', title: 'Horas perdidas en tareas manuales', desc: 'Copia, pega, filtra, formatea. Horas de trabajo que la IA puede hacer en segundos.' },
+    { icon: '🔗', title: 'Dependencia de áreas técnicas', desc: 'Esperar al equipo de sistemas para cada informe o automatización simple.' },
+    { icon: '🐌', title: 'Procesos lentos y repetitivos', desc: 'Flujos de trabajo diseñados en 2010 que nadie se ha atrevido a modernizar.' },
+  ];
+  return (
+    <section className="problem-section" id="problema">
+      <div className="section-inner">
+        <div className="problem-grid">
+          <div>
+            <span className="section-tag">El problema real</span>
+            <h2 style={{color:'white'}}>¿Por qué tu equipo <span className="accent">no avanza</span> tan rápido como debería?</h2>
+            <p className="section-sub">No es falta de talento. Es que nadie les dio las herramientas correctas.</p>
+            <div className="problem-bullets fade-up">
+              {bullets.map((b,i) => (
+                <div className="problem-bullet" key={i}>
+                  <div className="problem-icon-wrap">{b.icon}</div>
+                  <div className="problem-text">
+                    <h3>{b.title}</h3>
+                    <p>{b.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="problem-cta-box fade-up fade-up-d2">
+            <div style={{fontSize:56,marginBottom:16}}>💡</div>
+            <div className="problem-quote">
+              "Tu problema no es falta de talento.<br/>Es falta de <em>herramientas</em>."
+            </div>
+            <p style={{color:'rgba(255,255,255,0.5)',fontSize:15,lineHeight:1.6}}>
+              En un día de Bootcamp, tu equipo sale con soluciones reales implementadas, no con teorías.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Differential() {
+  const cards = [
+    { num: '01', title: 'Construyes soluciones reales', desc: 'No ejercicios ficticios. Trabajas en un problema real de tu organización desde el primer momento.' },
+    { num: '02', title: 'Tu problema, tu solución', desc: 'Cada participante define su reto y trabaja en su contexto específico. Sin casos genéricos.' },
+    { num: '03', title: 'Creas un MVP el mismo día', desc: 'Sales del Bootcamp con un prototipo funcionando. No con slides, no con promesas: con resultados.' },
+    { num: '04', title: 'Sin necesidad de programar', desc: 'El Bootcamp es 100% accesible. Vibe Coding, prompts y herramientas sin-código al alcance de todos.' },
+  ];
+  return (
+    <section id="diferencial">
+      <div className="section-inner">
+        <span className="section-tag">¿Por qué I365?</span>
+        <h2>Lo que nos hace <span className="accent">radicalmente distintos</span></h2>
+        <p className="section-sub">No es un curso. No es una charla. Es un día de transformación real.</p>
+        <div className="diff-cards">
+          {cards.map((c,i) => (
+            <div className={`diff-card fade-up fade-up-d${i+1}`} key={i}>
+              <div className="diff-bar" />
+              <div className="diff-num">{c.num}</div>
+              <h3>{c.title}</h3>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Methodology() {
+  const phases = [
+    {
+      phase: 'ANTES', cls: 'before',
+      title: 'Preparación',
+      items: ['Diagnóstico del equipo', 'Definición del reto', 'Acceso a materiales previos', 'Configuración de herramientas'],
+    },
+    {
+      phase: 'DURANTE', cls: 'during',
+      title: 'El Día del Bootcamp',
+      items: ['Construcción en vivo', 'Automatización de procesos', 'IA aplicada a tu trabajo', 'Mentoría personalizada', 'Demo Day final'],
+    },
+    {
+      phase: 'DESPUÉS', cls: 'after',
+      title: 'Impacto continuo',
+      items: ['Seguimiento a tu solución', 'Acceso a comunidad', 'Recursos de escalamiento', 'Soporte de 30 días'],
+    },
+  ];
+  return (
+    <section className="methodology-section" id="metodologia">
+      <div className="section-inner">
+        <span className="section-tag">Metodología</span>
+        <h2>Antes, durante<br/>y <span className="accent">después del bootcamp</span></h2>
+        <p className="section-sub">Un proceso completo diseñado para que el aprendizaje se convierta en resultado real.</p>
+        <div className="method-cols fade-up">
+          {phases.map((ph,i) => (
+            <div className="method-col" key={i}>
+              <span className={`method-phase ${ph.cls}`}>{ph.phase}</span>
+              <h3>{ph.title}</h3>
+              <div className="method-items">
+                {ph.items.map((item,j) => (
+                  <div className="method-item" key={j}>
+                    <div className={`method-dot ${ph.cls}`} />
+                    <span className="method-item-text">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Learn() {
+  const cards = [
+    { icon: '✍️', color: 'rgba(0,194,255,0.12)', border: 'rgba(0,194,255,0.2)', tag: 'Módulo 1', tagColor: '#0099cc', title: 'Prompt Engineering', desc: 'Domina el arte de comunicarte con la IA para obtener resultados extraordinarios en tu trabajo diario.' },
+    { icon: '🎨', color: 'rgba(108,99,255,0.1)', border: 'rgba(108,99,255,0.2)', tag: 'Módulo 2', tagColor: '#6C63FF', title: 'Vibe Coding', desc: 'Crea aplicaciones y herramientas personalizadas sin escribir una sola línea de código.' },
+    { icon: '⚙️', color: 'rgba(255,183,77,0.1)', border: 'rgba(255,183,77,0.2)', tag: 'Módulo 3', tagColor: '#e07b00', title: 'Automatización con IA', desc: 'Elimina las tareas repetitivas de tu trabajo con flujos automáticos inteligentes.' },
+    { icon: '📊', color: 'rgba(74,222,128,0.1)', border: 'rgba(74,222,128,0.2)', tag: 'Módulo 4', tagColor: '#16a34a', title: 'Analítica con IA', desc: 'Extrae insights y toma decisiones basadas en datos sin ser analista de datos.' },
+    { icon: '🤖', color: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.2)', tag: 'Módulo 5', tagColor: '#dc2626', title: 'Creación de Agentes', desc: 'Diseña y despliega agentes de IA que trabajen por ti 24/7 en tareas específicas.' },
+    { icon: '🚀', color: 'rgba(0,194,255,0.08)', border: 'rgba(0,194,255,0.15)', tag: 'Bonus', tagColor: '#0099cc', title: 'Tu MVP en producción', desc: 'Lanza tu solución el mismo día. Sales con algo funcionando, no con una idea.' },
+  ];
+  function vr(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  return (
+    <section id="aprender">
+      <div className="section-inner">
+        <span className="section-tag">¿Qué vas a aprender?</span>
+        <h2>5 módulos. <span className="accent">Un día.</span><br/>Resultados reales.</h2>
+        <p className="section-sub">Cada módulo está diseñado para aplicarse inmediatamente en tu contexto.</p>
+        <div className="learn-cards">
+          {cards.map((c,i) => (
+            <div className={`learn-card fade-up fade-up-d${(i%3)+1}`} key={i} style={{borderColor:c.border}}>
+              <div className="learn-icon" style={{background:c.color, border:`1px solid ${c.border}`}}>{c.icon}</div>
+              <div className="learn-tag" style={{color:c.tagColor}}>{c.tag}</div>
+              <h3>{c.title}</h3>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeforeAfter() {
+  const before = [
+    { icon: '😤', title: 'Trabajo manual repetitivo', desc: 'Horas en Excel, copiar-pegar, tareas sin valor.' },
+    { icon: '🔄', title: 'Procesos lentos', desc: 'Aprobaciones, esperas, cuellos de botella constantes.' },
+    { icon: '🤷', title: 'Intuición sin datos', desc: 'Decisiones basadas en suposiciones, no en evidencia.' },
+    { icon: '⏰', title: 'Sin tiempo para lo importante', desc: 'Atrapado en lo urgente, nunca en lo estratégico.' },
+  ];
+  const after = [
+    { icon: '⚡', title: 'Automatización inteligente', desc: 'Flujos automáticos que liberan 10+ horas a la semana.' },
+    { icon: '🚀', title: 'Velocidad 3x', desc: 'Procesos que tardaban días ahora toman minutos.' },
+    { icon: '📈', title: 'Decisiones con IA', desc: 'Análisis instantáneo de datos para mejores decisiones.' },
+    { icon: '💡', title: 'Soluciones propias', desc: 'Capacidad de resolver problemas con herramientas propias.' },
+  ];
+  return (
+    <section className="ba-section" id="resultados">
+      <div className="section-inner">
+        <span className="section-tag" style={{background:'rgba(0,194,255,0.1)',color:'#00C2FF',borderColor:'rgba(0,194,255,0.2)'}}>Transformación real</span>
+        <h2 style={{color:'white',marginBottom:8}}>Antes vs. <span className="accent">Después</span></h2>
+        <p className="section-sub">Lo que cambia cuando tu equipo sale del Bootcamp.</p>
+        <div className="ba-grid fade-up">
+          <div className="ba-col before">
+            <div className="ba-col-header">Antes del Bootcamp</div>
+            {before.map((b,i) => (
+              <div className="ba-item" key={i}>
+                <span className="ba-icon">{b.icon}</span>
+                <div className="ba-item-text"><h4>{b.title}</h4><p>{b.desc}</p></div>
+              </div>
+            ))}
+          </div>
+          <div className="ba-divider"><div className="ba-arrow">→</div></div>
+          <div className="ba-col after">
+            <div className="ba-col-header">Después del Bootcamp</div>
+            {after.map((a,i) => (
+              <div className="ba-item" key={i}>
+                <span className="ba-icon">{a.icon}</span>
+                <div className="ba-item-text"><h4>{a.title}</h4><p>{a.desc}</p></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  const steps = [
+    { icon: '👋', time: '8:00 AM', title: 'Networking', desc: 'Conecta con líderes de distintas industrias.' },
+    { icon: '🧠', time: '9:00 AM', title: 'Aprendizaje', desc: 'Módulos prácticos con casos reales.' },
+    { icon: '⚔️', time: '12:00 PM', title: 'Retos', desc: 'Trabaja en tu problema real con mentoría.' },
+    { icon: '🏗️', time: '2:00 PM', title: 'Construcción', desc: 'Builds en vivo, tu solución tomando forma.' },
+    { icon: '🎤', time: '5:00 PM', title: 'Demo Day', desc: 'Presenta tu MVP al grupo. Feedback real.' },
+    { icon: '🎉', time: '6:00 PM', title: 'Cierre', desc: 'Certificación y acceso a comunidad.' },
+  ];
+  return (
+    <section className="experience-section" id="experiencia">
+      <div className="section-inner">
+        <span className="section-tag">El día del Bootcamp</span>
+        <h2>Un día diseñado para <span className="accent">transformar</span></h2>
+        <p className="section-sub">Cada hora tiene un propósito. Nada de relleno, todo de valor.</p>
+        <div className="timeline fade-up">
+          {steps.map((s,i) => (
+            <div className="timeline-item" key={i}>
+              <div className="timeline-dot">{s.icon}</div>
+              <div className="timeline-time">{s.time}</div>
+              <div className="timeline-title">{s.title}</div>
+              <div className="timeline-desc">{s.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Pricing({ onAction }) {
+  return (
+    <section className="pricing-section" id="precios">
+      <div className="section-inner" style={{textAlign:'center'}}>
+        <span className="section-tag">Precios</span>
+        <h2>Una inversión que <span className="accent">se paga solo</span></h2>
+        <p className="section-sub" style={{margin:'0 auto 56px'}}>En horas recuperadas, el ROI es inmediato.</p>
+        <div className="pricing-grid" style={{margin:'0 auto'}}>
+          {/* Individual */}
+          <div className="price-card" style={{marginTop:16}}>
+            <div className="price-tag-label">Individual</div>
+            <div className="price-amount">
+              <span className="price-currency" style={{color:'#64748b'}}>$</span>
+              <span className="price-main">1.150</span>
+              <span className="price-period">.000 COP</span>
+            </div>
+            <p className="price-desc">Acceso completo para una persona. Incluye todos los módulos, materiales y comunidad.</p>
+            <ul className="price-features">
+              {['Todos los módulos prácticos','Material digital exclusivo','Acceso a comunidad I365','Certificado de participación'].map((f,i) => (
+                <li className="price-feature" key={i}><span className="price-check">✓</span>{f}</li>
+              ))}
+            </ul>
+            <button className="btn-price-secondary" onClick={() => onAction('¡Cupo individual reservado!')}>Comprar ahora</button>
+          </div>
+
+          {/* Empresa */}
+          <div className="price-card featured" style={{marginTop:0,position:'relative'}}>
+            <div className="price-badge">Más popular</div>
+            <div className="price-tag-label">Empresa</div>
+            <div className="discount-badge">✦ 10% de descuento</div>
+            <div className="price-amount">
+              <span className="price-currency" style={{color:'rgba(255,255,255,0.5)'}}>$</span>
+              <span className="price-main">1.035</span>
+              <span className="price-period">.000 COP/persona</span>
+            </div>
+            <p className="price-desc">Desde 5 personas. Factura electrónica disponible para tu empresa.</p>
+            <ul className="price-features">
+              {['Todo lo del plan individual','10% descuento grupal','Factura electrónica','Sesión de diagnóstico previo'].map((f,i) => (
+                <li className="price-feature" key={i}><span className="price-check">✓</span>{f}</li>
+              ))}
+            </ul>
+            <button className="btn-price-primary" onClick={() => document.getElementById('cotizador').scrollIntoView()}>Cotizar equipo →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function generatePDF(form, personas, total, totalFinal, descuento, fmt) {
+  const fecha = new Date().toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' });
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cotización Bootcamp IA · ${form.empresa || 'Empresa'}</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #1A1A1A; padding: 0; }
+  .page { width: 794px; min-height: 1123px; margin: 0 auto; padding: 60px 64px; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; padding-bottom: 28px; border-bottom: 2px solid #0A2540; }
+  .logo-block { display: flex; align-items: center; gap: 12px; }
+  .logo-mark { width: 44px; height: 44px; border-radius: 10px; background: #0A2540; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .logo-text { font-size: 18px; font-weight: 800; color: #0A2540; }
+  .logo-text span { color: #00C2FF; }
+  .header-meta { text-align: right; }
+  .header-meta h1 { font-size: 22px; font-weight: 800; color: #0A2540; letter-spacing: -0.5px; }
+  .header-meta p { font-size: 13px; color: #64748b; margin-top: 4px; }
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #6C63FF; margin-bottom: 12px; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .info-item { background: #F8FAFC; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; }
+  .info-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .info-value { font-size: 16px; font-weight: 700; color: #0A2540; }
+  .breakdown { background: #0A2540; border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; color: white; }
+  .breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 15px; }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-row.total { padding-top: 16px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); border-bottom: none; }
+  .breakdown-row .label { color: rgba(255,255,255,0.6); }
+  .breakdown-row .value { font-weight: 700; color: white; }
+  .breakdown-row.discount .value { color: #ff6b6b; text-decoration: line-through; }
+  .breakdown-row.total .label { color: white; font-weight: 700; font-size: 17px; }
+  .breakdown-row.total .value { color: #4ade80; font-size: 24px; font-weight: 800; }
+  .features { margin-bottom: 40px; }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feature-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #F8FAFC; border-radius: 8px; font-size: 14px; color: #0A2540; font-weight: 500; }
+  .feature-check { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #00C2FF, #6C63FF); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .footer-note { background: linear-gradient(135deg, rgba(0,194,255,0.08), rgba(108,99,255,0.08)); border: 1px solid rgba(108,99,255,0.2); border-radius: 12px; padding: 20px 24px; margin-bottom: 40px; }
+  .footer-note p { font-size: 14px; color: #475569; line-height: 1.6; }
+  .footer-note strong { color: #0A2540; }
+  .doc-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+  .doc-footer p { font-size: 12px; color: #94a3b8; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="logo-block">
+      <div class="logo-mark">I365</div>
+      <span class="logo-text">Ingeniería <span>365</span></span>
+    </div>
+    <div class="header-meta">
+      <h1>Cotización Bootcamp IA</h1>
+      <p>Fecha: ${fecha}</p>
+      <p>Ref: I365-${Date.now().toString().slice(-6)}</p>
+    </div>
+  </div>
+
+  <div class="section-title">Datos de la empresa</div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Empresa</div><div class="info-value">${form.empresa || '—'}</div></div>
+    <div class="info-item"><div class="info-label">NIT</div><div class="info-value">${form.nit || '—'}</div></div>
+    <div class="info-item"><div class="info-label">Ciudad</div><div class="info-value">${form.ciudad}</div></div>
+    <div class="info-item"><div class="info-label">Participantes</div><div class="info-value">${personas} personas</div></div>
+  </div>
+
+  <div class="section-title">Resumen de la cotización</div>
+  <div class="breakdown">
+    <div class="breakdown-row"><span class="label">Precio por persona</span><span class="value">${fmt(1150000)}</span></div>
+    <div class="breakdown-row ${descuento>0?'discount':''}"><span class="label">Subtotal (${personas} personas)</span><span class="value">${fmt(total)}</span></div>
+    ${descuento>0?`<div class="breakdown-row"><span class="label">Descuento grupal (10%)</span><span class="value" style="color:#4ade80">– ${fmt(total*0.1)}</span></div>`:''}
+    <div class="breakdown-row total"><span class="label">Total a facturar</span><span class="value">${fmt(totalFinal)}</span></div>
+  </div>
+
+  <div class="features">
+    <div class="section-title">Incluido en el plan empresa</div>
+    <div class="features-grid">
+      ${['Todos los módulos prácticos','Material digital exclusivo','Acceso a comunidad I365','Certificado de participación','10% descuento grupal','Factura electrónica','Sesión de diagnóstico previo','Networking con líderes del sector'].map(f=>`<div class="feature-item"><div class="feature-check">✓</div>${f}</div>`).join('')}
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>Esta cotización tiene validez de <strong>15 días calendario</strong> a partir de la fecha de emisión. Para confirmar los cupos, comunícate con nuestro equipo comercial. <strong>Ingeniería 365</strong> · contacto@ingenieria365.co · +57 300 000 0000</p>
+  </div>
+
+  <div class="doc-footer">
+    <p>© 2026 Ingeniería 365 · Formando líderes digitales en Colombia</p>
+    <p>Medellín · Bogotá · Cali · Barranquilla</p>
+  </div>
+</div>
+<script>window.onload = function() { window.print(); }<\/script>
+</body>
+</html>`;
+  return html;
+}
+
+function Quoter({ onAction }) {
+  const [form, setForm] = useState({ empresa: '', nit: '', ciudad: 'Medellín', personas: '5', email: '' });
+  const [showEmail, setShowEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const personas = parseInt(form.personas) || 0;
+  const precioBase = 1150000;
+  const descuento = personas >= 5 ? 0.10 : 0;
+  const total = personas * precioBase;
+  const totalFinal = total * (1 - descuento);
+
+  const fmt = (n) => n.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 });
+
+  function handleDownloadPDF() {
+    const html = generatePDF(form, personas, total, totalFinal, descuento, fmt);
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+  }
+
+  function handleSendEmail() {
+    if (!form.email) { setShowEmail(true); return; }
+    setEmailSent(true);
+    onAction(`¡Cotización enviada a ${form.email}!`);
+    setTimeout(() => setEmailSent(false), 4000);
+  }
+
+  return (
+    <section className="quoter-section" id="cotizador">
+      <div className="section-inner">
+        <div className="quoter-wrap">
+          <span className="section-tag" style={{display:'block',textAlign:'center',marginBottom:12}}>Cotizador empresarial</span>
+          <h2>Cotiza tu equipo <span className="accent">en segundos</span></h2>
+          <p className="section-sub">Obtén el precio exacto para tu organización al instante.</p>
+
+          <div className="quoter-form">
+            <div className="form-field">
+              <label>Nombre de la empresa</label>
+              <input placeholder="Ej: Bancolombia S.A." value={form.empresa} onChange={e=>setForm({...form,empresa:e.target.value})} />
+            </div>
+            <div className="form-field">
+              <label>NIT</label>
+              <input placeholder="Ej: 890.903.938-8" value={form.nit} onChange={e=>setForm({...form,nit:e.target.value})} />
+            </div>
+            <div className="form-field">
+              <label>Ciudad</label>
+              <select value={form.ciudad} onChange={e=>setForm({...form,ciudad:e.target.value})}>
+                {CITIES.map(c => <option key={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="form-field">
+              <label>Número de personas</label>
+              <input type="number" min="1" placeholder="Ej: 10" value={form.personas} onChange={e=>setForm({...form,personas:e.target.value})} />
+            </div>
+          </div>
+
+          <div className="quoter-result">
+            <div className="result-item">
+              <div className="result-label">Personas</div>
+              <div className="result-value" style={{color:'white'}}>{personas}</div>
+            </div>
+            <div className="result-item">
+              <div className="result-label">Precio bruto</div>
+              <div className={`result-value ${descuento>0?'red':''}`}>{fmt(total)}</div>
+            </div>
+            <div className="result-item">
+              <div className="result-label">Total final {descuento>0?'(–10%)':''}</div>
+              <div className="result-value green">{fmt(totalFinal)}</div>
+            </div>
+          </div>
+
+          {personas < 5 && <p style={{fontSize:13,color:'#e07b00',textAlign:'center',marginBottom:16}}>⚡ Agrega {5-personas} persona{5-personas!==1?'s':''} más para activar el 10% de descuento grupal</p>}
+
+          {/* PDF Actions */}
+          <div style={{
+            background:'linear-gradient(135deg, rgba(10,37,64,0.04), rgba(108,99,255,0.04))',
+            border:'1px solid rgba(108,99,255,0.12)',
+            borderRadius:14, padding:'20px 24px', marginBottom:16
+          }}>
+            <div style={{fontSize:13,fontWeight:700,color:'#0A2540',marginBottom:14,display:'flex',alignItems:'center',gap:8}}>
+              <span>📄</span> Cotización en PDF
+            </div>
+            <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom: showEmail?14:0}}>
+              <button onClick={handleDownloadPDF} style={{
+                flex:1, padding:'12px 20px', borderRadius:10, border:'1.5px solid #0A2540',
+                background:'white', color:'#0A2540', fontSize:14, fontWeight:700, cursor:'pointer',
+                display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.2s'
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.background='#0A2540';e.currentTarget.style.color='white';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='white';e.currentTarget.style.color='#0A2540';}}>
+                ⬇ Descargar PDF
+              </button>
+              <button onClick={() => setShowEmail(!showEmail)} style={{
+                flex:1, padding:'12px 20px', borderRadius:10,
+                background: showEmail?'#6C63FF':'transparent',
+                border:'1.5px solid #6C63FF',
+                color: showEmail?'white':'#6C63FF',
+                fontSize:14, fontWeight:700, cursor:'pointer',
+                display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.2s'
+              }}>
+                ✉ Enviar por correo
+              </button>
+            </div>
+            {showEmail && (
+              <div style={{display:'flex',gap:10,marginTop:10}}>
+                <input
+                  type="email" placeholder="correo@empresa.com"
+                  value={form.email} onChange={e=>setForm({...form,email:e.target.value})}
+                  style={{
+                    flex:1, padding:'11px 16px', borderRadius:10, border:'1.5px solid #e2e8f0',
+                    fontSize:14, fontFamily:'Plus Jakarta Sans, sans-serif', outline:'none',
+                    background:'white', color:'#1A1A1A'
+                  }}
+                />
+                <button onClick={handleSendEmail} style={{
+                  padding:'11px 22px', borderRadius:10,
+                  background:'linear-gradient(135deg,#00C2FF,#6C63FF)',
+                  color:'white', fontSize:14, fontWeight:700, border:'none', cursor:'pointer',
+                  whiteSpace:'nowrap', transition:'all 0.2s'
+                }}>
+                  {emailSent ? '✓ Enviado' : 'Enviar →'}
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="quoter-actions">
+            <button className="btn-quoter-1" onClick={() => onAction('¡Solicitud de factura electrónica enviada! Te contactamos en breve.')}>🧾 Solicitar factura electrónica</button>
+            <button className="btn-quoter-2" onClick={() => onAction('¡Cupos reservados para tu equipo!')}>⚡ Reservar cupos</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Resources() {
+  const items = [
+    'Material práctico digital','Acceso a comunidad exclusiva',
+    'Plataforma Crea Academy','Networking con líderes',
+    'Certificado I365','Soporte post-bootcamp',
+    'Grabaciones de sesiones','Acceso a herramientas premium',
+  ];
+  return (
+    <section className="resources-section" id="recursos">
+      <div className="section-inner">
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
+          <div>
+            <span className="section-tag">Recursos incluidos</span>
+            <h2>Todo lo que necesitas para <span className="accent">seguir avanzando</span></h2>
+            <p className="section-sub">El Bootcamp no termina cuando sales. Tienes soporte continuo.</p>
+            <div className="resources-grid fade-up">
+              {items.map((item,i) => (
+                <div className="resource-item" key={i}>
+                  <div className="resource-check">✓</div>
+                  <span className="resource-text">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="fade-up fade-up-d2" style={{
+            background: 'linear-gradient(135deg, var(--navy), #1a1a5e)',
+            borderRadius: 24, padding: '40px 36px',
+            boxShadow: '0 30px 60px rgba(10,37,64,0.15)'
+          }}>
+            <div style={{fontSize:48,marginBottom:20}}>🎓</div>
+            <h3 style={{fontSize:22,fontWeight:700,color:'white',marginBottom:12,fontFamily:"'Space Grotesk',sans-serif",letterSpacing:'-0.5px'}}>Crea Academy</h3>
+            <p style={{color:'rgba(255,255,255,0.55)',fontSize:15,lineHeight:1.7,marginBottom:24}}>Accede a la plataforma de aprendizaje continuo de I365. Lecciones cortas, retos semanales y comunidad activa de personas como tú.</p>
+            <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+              {['Comunidad activa','Retos semanales','Nuevas herramientas'].map((tag,i) => (
+                <span key={i} style={{background:'rgba(0,194,255,0.15)',border:'1px solid rgba(0,194,255,0.2)',color:'var(--cyan)',padding:'4px 12px',borderRadius:50,fontSize:12,fontWeight:600}}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Purpose() {
+  return (
+    <section className="purpose-section" id="proposito">
+      <div className="section-inner">
+        <span className="section-tag" style={{background:'rgba(0,194,255,0.1)',color:'var(--cyan)',borderColor:'rgba(0,194,255,0.2)'}}>Nuestra misión</span>
+        <h2 style={{color:'white',maxWidth:700,margin:'0 auto 20px'}}>
+          "Estamos formando ciudadanos desarrolladores capaces de{' '}
+          <span className="accent">transformar sus organizaciones</span> con IA"
+        </h2>
+        <p className="section-sub" style={{margin:'0 auto 56px'}}>No solo enseñamos herramientas. Construimos líderes digitales.</p>
+        <div className="purpose-stats fade-up">
+          {[
+            {val:'+2.800', label:'Profesionales formados'},
+            {val:'12', label:'Ciudades en Colombia'},
+            {val:'94%', label:'Tasa de implementación'},
+            {val:'+340', label:'Empresas impactadas'},
+          ].map((s,i) => (
+            <div className="stat-item" key={i}>
+              <div className="stat-val">{s.val}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FinalCTA({ onAction }) {
+  return (
+    <section className="cta-section">
+      <div className="section-inner">
+        <div className="cta-box fade-up">
+          <div style={{fontSize:52,marginBottom:16}}>🚀</div>
+          <h2>"Este no es un curso.<br/>Es una transformación."</h2>
+          <p>Un día que cambia cómo trabajas para siempre. ¿Estás listo?</p>
+          <div className="cta-actions">
+            <button className="btn-primary" style={{fontSize:16,padding:'18px 40px'}} onClick={() => onAction('¡Cupo reservado! Nos vemos en el Bootcamp.')}>Reservar mi cupo →</button>
+            <button className="btn-secondary" style={{fontSize:16,padding:'18px 32px'}} onClick={() => document.getElementById('cotizador').scrollIntoView()}>Cotizar para mi empresa</button>
+          </div>
+          <p style={{color:'rgba(255,255,255,0.35)',fontSize:13,marginTop:24}}>
+            Medellín · Bogotá · Cali · Barranquilla — Próximas fechas disponibles
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div className="footer-inner">
+        <div className="footer-logo">
+          <div className="nav-logo-mark">I365</div>
+          <span className="nav-logo-text" style={{color:'white'}}>Ingeniería <span>365</span></span>
+        </div>
+        <p className="footer-text">© 2026 Ingeniería 365 · Formando líderes digitales en Colombia</p>
+        <p className="footer-text" style={{marginTop:4}}>Medellín · Bogotá · Cali · Barranquilla</p>
+      </div>
+    </footer>
+  );
+}
+
+function TweaksPanel({ open, tweaks, setTweaks }) {
+  return (
+    <div className={`tweaks-panel ${open ? 'open' : ''}`}>
+      <div className="tweaks-title">Tweaks</div>
+      <div className="tweak-row">
+        <div className="tweak-label">Acento visual</div>
+        <div className="tweak-options">
+          {['cyan','purple','mixed'].map(c => (
+            <button key={c} className={`tweak-btn ${tweaks.accentColor===c?'active':''}`} onClick={() => setTweaks({...tweaks,accentColor:c})}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <div className="tweak-row">
+        <div className="tweak-label">Layout hero</div>
+        <div className="tweak-options">
+          {['split','centered'].map(c => (
+            <button key={c} className={`tweak-btn ${tweaks.heroLayout===c?'active':''}`} onClick={() => setTweaks({...tweaks,heroLayout:c})}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <div className="tweak-row">
+        <div className="tweak-label">Animaciones</div>
+        <div className="tweak-options">
+          <button className={`tweak-btn ${tweaks.animationsOn?'active':''}`} onClick={() => setTweaks({...tweaks,animationsOn:!tweaks.animationsOn})}>{tweaks.animationsOn?'On':'Off'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [activeCity, setActiveCity] = useState(localStorage.getItem('i365_city') || 'Medellín');
+  const [toast, setToast] = useState({ show: false, msg: '' });
+  const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+  const scrolled = useScrollSpy();
+  useFadeIn();
+
+  useEffect(() => { localStorage.setItem('i365_city', activeCity); }, [activeCity]);
+
+  function showToast(msg) {
+    setToast({ show: true, msg });
+    setTimeout(() => setToast({ show: false, msg: '' }), 3000);
+  }
+
+  useEffect(() => {
+    window.addEventListener('message', e => {
+      if (e.data?.type === '__activate_edit_mode') setTweaksOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  }, []);
+
+  function handleTweaks(t) {
+    setTweaks(t);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: t }, '*');
+  }
+
+  return (
+    <>
+      <Nav scrolled={scrolled} activeCity={activeCity} setActiveCity={setActiveCity} />
+      <Hero activeCity={activeCity} setActiveCity={setActiveCity} onAction={showToast} />
+      <Problem />
+      <Differential />
+      <Methodology />
+      <Learn />
+      <BeforeAfter />
+      <Experience />
+      <Pricing onAction={showToast} />
+      <Quoter onAction={showToast} />
+      <Resources />
+      <Purpose />
+      <FinalCTA onAction={showToast} />
+      <Footer />
+      <Toast msg={toast.msg} show={toast.show} />
+      <TweaksPanel open={tweaksOpen} tweaks={tweaks} setTweaks={handleTweaks} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>

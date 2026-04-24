@@ -3,7 +3,6 @@ import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import i365Logo from "@/assets/i365-logo-color.png";
 import { useTranslation } from "react-i18next";
-import { APP_BOOTCAMPS_URL, APP_COURSES_URL } from "@/lib/external-links";
 
 const Footer = () => {
   const { t } = useTranslation("common");
@@ -11,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="relative z-20 w-full border-t border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] shadow-[0_-18px_40px_rgba(15,23,42,0.04)] dark:border-white/10 dark:bg-[#02050d] dark:shadow-none">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="mb-4">
               <div className="flex items-center">
@@ -38,16 +37,6 @@ const Footer = () => {
             >
               <img src={i365Logo} alt="Ingeniería 365" className="h-10" />
             </a>
-          </div>
-
-          <div>
-            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.courses')}</h3>
-            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/60">
-              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.ai')}</a></li>
-              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.dataScience')}</a></li>
-              <li><a href={APP_BOOTCAMPS_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('nav.bootcamps')}</a></li>
-              <li><a href={APP_COURSES_URL} className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">{t('footer.certification')}</a></li>
-            </ul>
           </div>
 
           <div>
