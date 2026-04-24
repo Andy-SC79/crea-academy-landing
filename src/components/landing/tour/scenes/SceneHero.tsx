@@ -52,6 +52,7 @@ export default function SceneHero() {
   const prefersReducedMotion = useReducedMotion();
   const language = (i18n.language || "es").split("-")[0] as "en" | "es" | "pt";
   const activeLanguage = HERO_KEYWORDS[language] ? language : "es";
+  const heroFieldDensity = 0.6;
   const headline = t("tour.sceneHero.headline", { ns: "landing" });
   const headlineParts = buildHeroHeadlineParts(
     headline,
@@ -63,23 +64,23 @@ export default function SceneHero() {
     <SceneTemplate className="grid-cols-1 !max-w-none !gap-0 !px-0 !py-0" flush>
       <div className="col-span-full">
         <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 pb-6 sm:px-8 sm:pb-8 md:px-12 md:pb-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.06),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.045),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
-          <div className="absolute inset-0 opacity-58 dark:opacity-90">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(250,252,254,0.74)_54%,rgba(247,250,252,0.62)_100%),radial-gradient(circle_at_50%_22%,rgba(10,86,184,0.03),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(0,90,67,0.024),transparent_28%),radial-gradient(circle_at_84%_18%,rgba(75,43,223,0.018),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
+          <div className="absolute inset-0 opacity-68 dark:opacity-90">
             <VolumetricBrandField
               shape="nebula"
-              density={0.62}
+              density={heroFieldDensity}
               palette={["#04FF8D", "#00E5FF", "#9D00FF"]}
               cycle={false}
               showLogo={false}
               theme={resolvedTheme}
-              className="absolute inset-0 h-full w-full opacity-[0.36] dark:opacity-[0.88]"
+              className="absolute inset-0 h-full w-full opacity-[0.66] dark:opacity-[0.88]"
             />
           </div>
-          <div className="singularity-ring absolute inset-0 opacity-50 dark:opacity-70" />
-          <div className="singularity-vignette absolute inset-0 opacity-30 dark:opacity-70" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-white/55 via-white/12 to-transparent dark:from-white/[0.035] dark:via-white/[0.01]" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#f8fafc]/75 via-[#f8fafc]/16 to-transparent dark:from-black/30 dark:via-black/8" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/6 blur-[140px] dark:bg-brand-cyan/12" />
+          <div className="singularity-ring absolute inset-0 opacity-38 dark:opacity-70" />
+          <div className="singularity-vignette absolute inset-0 opacity-24 dark:opacity-70" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-white/28 via-white/6 to-transparent dark:from-white/[0.035] dark:via-white/[0.01]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#fbfdff]/42 via-[#fbfdff]/6 to-transparent dark:from-black/30 dark:via-black/8" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/3 blur-[140px] dark:bg-brand-cyan/12" />
 
           <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[72rem] flex-col items-center justify-between gap-10 pb-16 pt-[5.5rem] text-center sm:gap-12 sm:pb-20 sm:pt-28">
             <div className="flex flex-1 w-full flex-col items-center justify-center">
