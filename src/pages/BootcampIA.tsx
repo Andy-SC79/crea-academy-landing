@@ -33,6 +33,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
 import { IMPACTED_COMPANY_COUNT } from "@/data/impacted-companies";
+import { openI365PaymentWidget } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import "@/styles/tour-ambient.css";
 
@@ -41,7 +42,14 @@ const WHATSAPP_URL =
 const MAILTO_URL =
   "mailto:jeisonperez@ingenieria365.com?cc=eliza@ingenieria365.com,info@ingenieria365.com&subject=Cotizar%20Bootcamp%20de%20IA";
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
+const BOOTCAMP_PRICING_ENDPOINT = "/api/bootcamp-pricing";
 const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
+const DEFAULT_I365_WIDGET_APP_ID = "6015d948-0a6d-4c66-b94d-830eeeb441bb";
+const DEFAULT_I365_BOOTCAMP_PLAN_ID = "ff64a816-c6d9-47ac-a298-7ece16c486cb";
+const I365_WIDGET_APP_ID =
+  import.meta.env.VITE_I365_PAYMENT_APP_ID || DEFAULT_I365_WIDGET_APP_ID;
+const I365_BOOTCAMP_PLAN_ID =
+  import.meta.env.VITE_I365_BOOTCAMP_PLAN_ID?.trim() || DEFAULT_I365_BOOTCAMP_PLAN_ID;
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -118,6 +126,7 @@ type QuoteForm = {
 type QuoteHtmlOptions = {
   form: QuoteForm;
   people: number;
+  pricePerPerson: number;
   subtotal: number;
   discountValue: number;
   total: number;
@@ -137,6 +146,31 @@ type BootcampPaymentResponse = {
     signature: string;
     redirectUrl?: string;
   };
+};
+
+type BootcampQuote = {
+  people: number;
+  currency?: string;
+  planId?: string | null;
+  planName?: string | null;
+  priceSource?: string;
+  basePricePerPerson: number;
+  pricePerPerson: number;
+  baseSubtotal: number;
+  subtotal: number;
+  planDiscountPercentage: number;
+  planDiscountValue: number;
+  groupDiscountPercentage: number;
+  groupDiscountValue: number;
+  totalDiscountValue: number;
+  total: number;
+  amountInCents: number;
+};
+
+type BootcampPricingResponse = {
+  ok?: boolean;
+  error?: string;
+  quote?: BootcampQuote;
 };
 
 function getBootcampSession(sessionId: string): BootcampSession {
@@ -345,9 +379,70 @@ function buildPaymentCheckoutUrl(widgetData: NonNullable<BootcampPaymentResponse
   return checkoutUrl.toString();
 }
 
+function slugifyPaymentIdentityPart(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+}
+
+function buildSyntheticPaymentId(prefix: string, ...parts: string[]) {
+  const normalized = parts.map(slugifyPaymentIdentityPart).filter(Boolean).join("-");
+  return `${prefix}-${normalized || "cliente"}`.slice(0, 120);
+}
+
+function buildBootcampPaymentIdentity(form: QuoteForm) {
+  const companyAnchor = form.nit || form.company || "empresa";
+
+  return {
+    userId: buildSyntheticPaymentId(
+      "bootcamp-user",
+      form.email,
+      form.contactName || form.company,
+      companyAnchor,
+    ),
+    companyId: buildSyntheticPaymentId("bootcamp-company", companyAnchor),
+  };
+}
+
+function buildLocalFallbackQuote(peopleInput: number): BootcampQuote {
+  const safePeople = Math.max(peopleInput, 0);
+  const basePricePerPerson = PRICE_PER_PERSON;
+  const pricePerPerson = basePricePerPerson;
+  const baseSubtotal = safePeople * basePricePerPerson;
+  const subtotal = safePeople * pricePerPerson;
+  const groupDiscountPercentage = safePeople >= 5 ? Math.round(TEAM_DISCOUNT * 100) : 0;
+  const groupDiscountValue = groupDiscountPercentage > 0 ? Math.round(subtotal * TEAM_DISCOUNT) : 0;
+  const total = Math.max(subtotal - groupDiscountValue, 0);
+
+  return {
+    people: safePeople,
+    currency: "COP",
+    planId: null,
+    planName: null,
+    priceSource: "fallback",
+    basePricePerPerson,
+    pricePerPerson,
+    baseSubtotal,
+    subtotal,
+    planDiscountPercentage: 0,
+    planDiscountValue: 0,
+    groupDiscountPercentage,
+    groupDiscountValue,
+    totalDiscountValue: groupDiscountValue,
+    total,
+    amountInCents: Math.round(total * 100),
+  };
+}
+
 function generateQuoteHtml({
   form,
   people,
+  pricePerPerson,
   subtotal,
   discountValue,
   total,
@@ -514,9 +609,9 @@ function generateQuoteHtml({
         <p class="label">Resumen financiero</p>
         <div class="summary">
           <div class="row"><span>Participantes</span><strong>${people}</strong></div>
-          <div class="row"><span>Precio por persona</span><strong>${formatCurrency(PRICE_PER_PERSON)}</strong></div>
+          <div class="row"><span>Precio por persona</span><strong>${formatCurrency(pricePerPerson)}</strong></div>
           <div class="row"><span>Subtotal</span><strong>${formatCurrency(subtotal)}</strong></div>
-          <div class="row"><span>Descuento grupal</span><strong class="green">-${formatCurrency(discountValue)}</strong></div>
+          <div class="row"><span>Descuentos aplicados</span><strong class="green">-${formatCurrency(discountValue)}</strong></div>
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
         </div>
       </section>
@@ -580,17 +675,26 @@ function CorporateQuoter() {
   const [isSendingQuote, setIsSendingQuote] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
   const [paymentMode, setPaymentMode] = useState<PaymentMode>(null);
+  const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(5));
 
   const people = Math.max(Number.parseInt(form.people, 10) || 0, 0);
-  const subtotal = people * PRICE_PER_PERSON;
-  const hasDiscount = people >= 5;
-  const discountValue = hasDiscount ? subtotal * TEAM_DISCOUNT : 0;
-  const total = subtotal - discountValue;
   const missingForDiscount = Math.max(5 - people, 0);
   const selectedSession = getBootcampSession(form.sessionId);
   const canPaySelectedSession = selectedSession.status === "available";
+  const paymentIdentity = buildBootcampPaymentIdentity(form);
+  const usesEmbeddedI365Widget = Boolean(I365_BOOTCAMP_PLAN_ID) && people === 1;
+  const pricePerPerson = pricing.pricePerPerson;
+  const subtotal = pricing.baseSubtotal;
+  const total = pricing.total;
+  const totalDiscountValue = pricing.totalDiscountValue;
+  const hasDiscount = totalDiscountValue > 0;
+  const hasPlanDiscount = pricing.planDiscountPercentage > 0;
+  const hasGroupDiscount = pricing.groupDiscountPercentage > 0;
 
   const updateForm = (field: keyof QuoteForm, value: string) => {
+    if (field === "email" && paymentMessage) {
+      setPaymentMessage("");
+    }
     setForm((current) => ({ ...current, [field]: value }));
   };
 
@@ -602,6 +706,37 @@ function CorporateQuoter() {
       city: nextSession.status === "available" ? nextSession.city : current.city,
     }));
   };
+
+  useEffect(() => {
+    const fallbackQuote = buildLocalFallbackQuote(people);
+    setPricing(fallbackQuote);
+
+    if (people < 1) return;
+
+    const controller = new AbortController();
+
+    void fetch(BOOTCAMP_PRICING_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ people }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const data = (await response.json().catch(() => null)) as BootcampPricingResponse | null;
+
+        if (!response.ok || !data?.quote) {
+          throw new Error(data?.error || "No se pudo sincronizar el precio del Bootcamp con i365.");
+        }
+
+        setPricing(data.quote);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setPricing(fallbackQuote);
+      });
+
+    return () => controller.abort();
+  }, [people]);
 
   const validatePaymentFields = () => {
     if (!canPaySelectedSession) {
@@ -619,6 +754,11 @@ function CorporateQuoter() {
       return false;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      setPaymentMessage("Agrega un correo válido para asociar el pago.");
+      return false;
+    }
+
     return true;
   };
 
@@ -627,7 +767,15 @@ function CorporateQuoter() {
     if (!quoteWindow) return;
 
     quoteWindow.document.write(
-      generateQuoteHtml({ form, people, subtotal, discountValue, total, autoPrint: true }),
+      generateQuoteHtml({
+        form,
+        people,
+        pricePerPerson,
+        subtotal,
+        discountValue: totalDiscountValue,
+        total,
+        autoPrint: true,
+      }),
     );
     quoteWindow.document.close();
   };
@@ -658,7 +806,9 @@ function CorporateQuoter() {
         sessionVenue: selectedSession.venue,
         sessionAddress: selectedSession.address,
         people,
-        email: form.email,
+        email: form.email.trim(),
+        userId: paymentIdentity.userId,
+        companyId: paymentIdentity.companyId,
       }),
     });
     const data = await parsePaymentResponse(response);
@@ -682,8 +832,9 @@ function CorporateQuoter() {
     const quoteHtml = generateQuoteHtml({
       form,
       people,
+      pricePerPerson,
       subtotal,
-      discountValue,
+      discountValue: totalDiscountValue,
       total,
       autoPrint: false,
     });
@@ -707,9 +858,9 @@ function CorporateQuoter() {
             sessionVenue: selectedSession.venue,
             sessionAddress: selectedSession.address,
             people,
-            pricePerPerson: PRICE_PER_PERSON,
+            pricePerPerson,
             subtotal,
-            discountValue,
+            discountValue: totalDiscountValue,
             total,
           },
           html: quoteHtml,
@@ -733,6 +884,54 @@ function CorporateQuoter() {
     if (!validatePaymentFields()) return;
 
     setPaymentMode("checkout");
+    if (usesEmbeddedI365Widget) {
+      setPaymentMessage("Cargando el widget de pagos i365...");
+
+      try {
+        let widgetCompleted = false;
+
+        await openI365PaymentWidget({
+          appId: I365_WIDGET_APP_ID,
+          planId: I365_BOOTCAMP_PLAN_ID,
+          userId: paymentIdentity.userId,
+          companyId: paymentIdentity.companyId,
+          userEmail: form.email.trim(),
+          userName: form.contactName.trim() || form.company.trim() || "Cliente Bootcamp IA",
+          onSuccess: () => {
+            widgetCompleted = true;
+            setPaymentMode(null);
+            setPaymentMessage("Pago aprobado en i365. Cierra el widget para continuar.");
+          },
+          onError: (error) => {
+            widgetCompleted = true;
+            setPaymentMode(null);
+            setPaymentMessage(
+              error instanceof Error
+                ? error.message
+                : error.message || "El widget i365 reportó un error al procesar el pago.",
+            );
+          },
+          onClose: () => {
+            setPaymentMode(null);
+            if (!widgetCompleted) {
+              setPaymentMessage("El widget i365 se cerró antes de completar el pago.");
+            }
+          },
+        });
+
+        setPaymentMessage("Widget i365 abierto. Completa el pago para confirmar la reserva.");
+      } catch (error) {
+        setPaymentMode(null);
+        setPaymentMessage(
+          error instanceof Error
+            ? error.message
+            : "No se pudo abrir el widget de pagos i365.",
+        );
+      }
+
+      return;
+    }
+
     setPaymentMessage("Preparando el portal de pagos i365...");
 
     try {
@@ -922,11 +1121,17 @@ function CorporateQuoter() {
 
           {hasDiscount ? (
             <p className="mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold text-[#0d8b5c] dark:text-brand-neon">
-              Descuento grupal del 10% aplicado automáticamente.
+              {hasPlanDiscount && hasGroupDiscount
+                ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) y descuento grupal del ${pricing.groupDiscountPercentage}% aplicados automáticamente.`
+                : hasPlanDiscount
+                  ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) aplicado automáticamente.`
+                  : `Descuento grupal del ${pricing.groupDiscountPercentage}% aplicado automáticamente.`}
             </p>
           ) : (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-700 dark:text-amber-200">
-              Agrega {missingForDiscount} persona{missingForDiscount === 1 ? "" : "s"} más para activar el 10% de descuento grupal.
+              {hasPlanDiscount
+                ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`
+                : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`}
             </p>
           )}
 
@@ -936,7 +1141,9 @@ function CorporateQuoter() {
               Paga en línea
             </div>
             <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-              Reserva cupos para {selectedSession.shortLabel} en {selectedSession.venue}. El total se valida en servidor antes de abrir el portal i365.
+              {usesEmbeddedI365Widget
+                ? "Ingresa el correo del participante para asociar el pago y abrir el widget seguro de i365."
+                : `Reserva cupos para ${selectedSession.shortLabel} en ${selectedSession.venue}. Para equipos validamos el total en servidor usando el plan base de i365 antes de abrir el portal.`}
             </p>
             <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
               <input
@@ -944,6 +1151,7 @@ function CorporateQuoter() {
                 value={form.email}
                 onChange={(event) => updateForm("email", event.target.value)}
                 placeholder="correo para asociar el pago"
+                autoComplete="email"
                 className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
               />
               <Button
