@@ -1,4 +1,8 @@
 const FALLBACK_PRICE_PER_PERSON = 1150000;
+const EARLY_PAYMENT_DISCOUNT_PERCENTAGE = 30;
+const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = Math.round(
+  FALLBACK_PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT_PERCENTAGE / 100),
+);
 const TEAM_DISCOUNT = 0.1;
 const MIN_PEOPLE = 1;
 const DEFAULT_PAYMENT_API_URL = "https://pagos.ingenieria365.com";
@@ -225,8 +229,8 @@ async function resolveBootcampUnitPricing(config, now = new Date(), session = nu
       planId: targetPlanId || null,
       planName: null,
       basePricePerPerson: FALLBACK_PRICE_PER_PERSON,
-      pricePerPerson: FALLBACK_PRICE_PER_PERSON,
-      planDiscountPercentage: 0,
+      pricePerPerson: FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON,
+      planDiscountPercentage: EARLY_PAYMENT_DISCOUNT_PERCENTAGE,
     };
   }
 
@@ -341,6 +345,8 @@ export async function createBootcampPayment(body, options = {}) {
         participantes: quote.people,
         precio_base_persona: quote.basePricePerPerson,
         precio_final_persona: quote.pricePerPerson,
+        valores_antes_de_iva: true,
+        descuento_pronto_pago_porcentaje: quote.planDiscountPercentage,
         subtotal_base: quote.baseSubtotal,
         subtotal: quote.subtotal,
         descuento_plan_porcentaje: quote.planDiscountPercentage,
@@ -358,6 +364,8 @@ export async function createBootcampPayment(body, options = {}) {
         bootcamp_price_source: quote.priceSource,
         plan_discount_percentage: quote.planDiscountPercentage,
         group_discount_percentage: quote.groupDiscountPercentage,
+        early_payment_discount_percentage: quote.planDiscountPercentage,
+        values_before_vat: true,
       },
       redirect_url: redirectUrl,
     }),

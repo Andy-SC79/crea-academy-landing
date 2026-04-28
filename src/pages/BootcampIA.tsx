@@ -74,9 +74,11 @@ const EXECUTIVE_CONTACTS = [
 ];
 const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla", "Cartagena", "Bucaramanga"];
 const PRICE_PER_PERSON = 1150000;
+const EARLY_PAYMENT_DISCOUNT = 0.3;
 const TEAM_DISCOUNT = 0.1;
 const TEAM_MIN_PEOPLE = 5;
-const TEAM_PRICE_PER_PERSON = Math.round(PRICE_PER_PERSON * (1 - TEAM_DISCOUNT));
+const EARLY_PAYMENT_PRICE_PER_PERSON = Math.round(PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT));
+const TEAM_PRICE_PER_PERSON = Math.round(EARLY_PAYMENT_PRICE_PER_PERSON * (1 - TEAM_DISCOUNT));
 const TEAM_BASE_TOTAL = PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
 const TEAM_TOTAL = TEAM_PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
 const TEAM_SAVINGS = TEAM_BASE_TOTAL - TEAM_TOTAL;
@@ -661,11 +663,12 @@ function buildLocalFallbackQuote(
 ): BootcampQuote {
   const safePeople = Math.max(peopleInput, 0);
   const basePricePerPerson = PRICE_PER_PERSON;
-  const pricePerPerson = basePricePerPerson;
+  const pricePerPerson = EARLY_PAYMENT_PRICE_PER_PERSON;
   const baseSubtotal = safePeople * basePricePerPerson;
   const subtotal = safePeople * pricePerPerson;
   const groupDiscountPercentage = safePeople >= TEAM_MIN_PEOPLE ? Math.round(TEAM_DISCOUNT * 100) : 0;
   const groupDiscountValue = groupDiscountPercentage > 0 ? Math.round(subtotal * TEAM_DISCOUNT) : 0;
+  const planDiscountValue = Math.max(baseSubtotal - subtotal, 0);
   const total = Math.max(subtotal - groupDiscountValue, 0);
 
   return {
@@ -679,11 +682,11 @@ function buildLocalFallbackQuote(
     pricePerPerson,
     baseSubtotal,
     subtotal,
-    planDiscountPercentage: 0,
-    planDiscountValue: 0,
+    planDiscountPercentage: Math.round(EARLY_PAYMENT_DISCOUNT * 100),
+    planDiscountValue,
     groupDiscountPercentage,
     groupDiscountValue,
-    totalDiscountValue: groupDiscountValue,
+    totalDiscountValue: planDiscountValue + groupDiscountValue,
     total,
     amountInCents: Math.round(total * 100),
   };
@@ -864,6 +867,10 @@ function generateQuoteHtml({
           <div class="row"><span>Descuentos aplicados</span><strong class="green">-${formatCurrency(discountValue)}</strong></div>
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
         </div>
+        <p class="note" style="margin-top:14px">
+          Valores antes de IVA. Todos los planes incluyen descuento por pronto pago del 30%
+          y descuento adicional por equipo cuando aplique.
+        </p>
       </section>
 
       <section class="section">
@@ -1050,7 +1057,7 @@ function CorporateQuoter() {
   const openMailFallback = () => {
     const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${form.company || "Empresa"}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nEmpresa: ${form.company || "N/A"}\nNIT: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado: ${formatCurrency(total)}`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nEmpresa: ${form.company || "N/A"}\nNIT: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado antes de IVA: ${formatCurrency(total)}\nNota: todos los planes incluyen descuento por pronto pago del 30%.`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
@@ -1375,13 +1382,13 @@ function CorporateQuoter() {
               <p className="mt-2 font-display text-3xl font-black">{people}</p>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Subtotal</p>
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Precio lista</p>
               <p className={cn("mt-2 font-display text-2xl font-black", hasDiscount && "text-white/45 line-through")}>
                 {formatCurrency(subtotal)}
               </p>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Total final</p>
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Total antes de IVA</p>
               <p className="mt-2 font-display text-2xl font-black text-brand-neon">
                 {formatCurrency(total)}
               </p>
@@ -1391,16 +1398,16 @@ function CorporateQuoter() {
           {hasDiscount ? (
             <p className="mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold text-[#0d8b5c] dark:text-brand-neon">
               {hasPlanDiscount && hasGroupDiscount
-                ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) y descuento grupal del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente.`
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. Valores antes de IVA.`
                 : hasPlanDiscount
-                  ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) aplicado automáticamente.`
-                  : `Descuento grupal del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente.`}
+                  ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% aplicado automáticamente. Valores antes de IVA.`
+                  : `Descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente. Valores antes de IVA.`}
             </p>
           ) : (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-700 dark:text-amber-200">
               {hasPlanDiscount
-                ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`
-                : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`}
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. Valores antes de IVA.`
+                : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. Valores antes de IVA.`}
             </p>
           )}
 
@@ -1411,8 +1418,8 @@ function CorporateQuoter() {
             </div>
             <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
               {usesEmbeddedI365Widget
-                ? "Ingresa el correo del participante para asociar el pago y abrir el widget seguro de i365."
-                : `Reserva cupos para ${selectedSession.shortLabel} en ${selectedSession.venue}. Para equipos validamos el total en servidor usando el plan base de i365 antes de abrir el portal.`}
+                ? "Ingresa el correo del participante para asociar el pago y abrir el widget seguro de i365. Los valores se muestran antes de IVA."
+                : `Reserva cupos para ${selectedSession.shortLabel} en ${selectedSession.venue}. Validamos el total en servidor, con pronto pago del 30% y valores antes de IVA, antes de abrir el portal.`}
             </p>
             <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
               <input
@@ -1679,23 +1686,31 @@ export default function BootcampIA() {
           <div className="mx-auto max-w-7xl">
             <SectionHeader
               eyebrow="Inversión"
-              title={`Precio actual: ${formatCurrency(PRICE_PER_PERSON)} COP por cupo.`}
-              description={`Desde ${TEAM_MIN_PEOPLE} participantes aplicamos ${Math.round(TEAM_DISCOUNT * 100)}% de descuento automático: ${formatCurrency(TEAM_PRICE_PER_PERSON)} COP por persona. El cotizador valida el precio final del plan de cada ciudad antes del pago.`}
+              title={`Pronto pago activo: ${formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)} COP por cupo.`}
+              description={`Precio de lista: ${formatCurrency(PRICE_PER_PERSON)} COP antes de IVA. Todos los planes tienen ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
               centered
             />
             <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
               <article className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
-                <p className="inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
-                  Cupo individual
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                    Cupo individual
+                  </p>
+                  <span className="rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
+                    30% pronto pago
+                  </span>
+                </div>
+                <p className="mt-5 text-sm font-bold text-[color:var(--tour-text-muted)]">
+                  Precio de lista: <span className="line-through">{formatCurrency(PRICE_PER_PERSON)} COP</span>
                 </p>
                 <div className="mt-4 flex items-end gap-1">
                   <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
-                    {formatCurrency(PRICE_PER_PERSON)}
+                    {formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)}
                   </span>
-                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP</span>
+                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP antes de IVA</span>
                 </div>
                 <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                  valor vigente por participante
+                  valor con pronto pago, antes de IVA
                 </p>
                 <ul className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
                   {["Pago directo por ciudad", "Bootcamp presencial de 8:00 AM a 6:00 PM", "Material, comunidad y certificado incluidos"].map((item) => (
@@ -1719,7 +1734,7 @@ export default function BootcampIA() {
                     Equipo empresa
                   </p>
                   <span className="rounded-full bg-[#071225] px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-brand-neon">
-                    Ahorras {formatCurrency(TEAM_SAVINGS)}
+                    Ahorras {formatCurrency(TEAM_SAVINGS)} vs. lista
                   </span>
                 </div>
                 <div className="mt-5">
@@ -1730,25 +1745,25 @@ export default function BootcampIA() {
                     <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
                       {formatCurrency(TEAM_PRICE_PER_PERSON)}
                     </span>
-                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP/persona</span>
+                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP antes de IVA/persona</span>
                   </div>
                 </div>
                 <div className="mt-5 border-y border-brand-neon/25 py-4 text-sm">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="text-[color:var(--tour-text-muted)]">Antes por {TEAM_MIN_PEOPLE} cupos</span>
+                    <span className="text-[color:var(--tour-text-muted)]">Lista por {TEAM_MIN_PEOPLE} cupos</span>
                     <span className="font-bold text-[color:var(--tour-text-muted)] line-through">
                       {formatCurrency(TEAM_BASE_TOTAL)}
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between gap-4">
-                    <span className="font-black text-[color:var(--tour-text-strong)]">Total actual equipo</span>
+                    <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo antes de IVA</span>
                     <span className="font-display text-2xl font-black text-[#0d8b5c] dark:text-brand-neon">
                       {formatCurrency(TEAM_TOTAL)}
                     </span>
                   </div>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                  Incluye diagnóstico previo, descuento grupal, factura electrónica y reserva de cupos en la ciudad seleccionada.
+                  Incluye 30% de pronto pago, 10% adicional por equipo, diagnóstico previo, factura electrónica y reserva de cupos en la ciudad seleccionada.
                 </p>
                 <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
                   <a href="#cotizador">
@@ -1761,15 +1776,15 @@ export default function BootcampIA() {
             <div className="mx-auto mt-4 grid max-w-6xl gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
               <p className="flex gap-3">
                 <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
-                El pago individual usa el plan exacto de la ciudad elegida.
+                Todos los planes muestran precio con 30% de pronto pago.
               </p>
               <p className="flex gap-3">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
-                El descuento de equipo se aplica automáticamente desde {TEAM_MIN_PEOPLE} participantes.
+                Equipos desde {TEAM_MIN_PEOPLE} participantes reciben 10% adicional.
               </p>
               <p className="flex gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                Las fechas están confirmadas; algunas sedes siguen en cierre de dirección.
+                Valores antes de IVA; algunas sedes siguen en cierre de dirección.
               </p>
             </div>
           </div>
