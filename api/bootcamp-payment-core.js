@@ -1,18 +1,64 @@
 const FALLBACK_PRICE_PER_PERSON = 1150000;
 const TEAM_DISCOUNT = 0.1;
 const MIN_PEOPLE = 1;
-const DEFAULT_PAYMENT_API_URL = "https://widget-i365-pagos-574077189410.us-central1.run.app";
-const DEFAULT_PAYMENT_APP_ID = "6015d948-0a6d-4c66-b94d-830eeeb441bb";
-const DEFAULT_BOOTCAMP_PLAN_ID = "ff64a816-c6d9-47ac-a298-7ece16c486cb";
+const DEFAULT_PAYMENT_API_URL = "https://pagos.ingenieria365.com";
+const DEFAULT_PAYMENT_APP_ID = "298f0727-6901-4d98-88e0-785576041b20";
+const DEFAULT_BOOTCAMP_PLAN_ID = "79d33e26-5076-4057-8eb0-326c2b19a937";
 const DEFAULT_SESSION_ID = "medellin-2026-05-22";
 const BOOTCAMP_SESSIONS = {
   [DEFAULT_SESSION_ID]: {
     id: DEFAULT_SESSION_ID,
+    planId: "79d33e26-5076-4057-8eb0-326c2b19a937",
     dateLabel: "Viernes 22 de mayo de 2026",
     timeLabel: "8:00 AM a 6:00 PM",
     city: "Medellín",
     venue: "Auditorio del Centro Comercial San Diego",
     address: "Centro Comercial San Diego, Medellín",
+  },
+  "bogota-2026-05-29": {
+    id: "bogota-2026-05-29",
+    planId: "810ee2d2-720f-44b3-8377-4dfa2f689b1b",
+    dateLabel: "Viernes 29 de mayo de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Bogot\u00e1",
+    venue: "Sede por confirmar",
+    address: "Direcci\u00f3n por confirmar",
+  },
+  "cali-2026-06-12": {
+    id: "cali-2026-06-12",
+    planId: "baa0c7c8-b226-4f55-92e6-37aedb4c598b",
+    dateLabel: "Viernes 12 de junio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Cali",
+    venue: "Sede por confirmar",
+    address: "Direcci\u00f3n por confirmar",
+  },
+  "barranquilla-2026-07-10": {
+    id: "barranquilla-2026-07-10",
+    planId: "252ac806-8779-4cbf-9f5b-07f493e8e9ef",
+    dateLabel: "Viernes 10 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Barranquilla",
+    venue: "Sede por confirmar",
+    address: "Direcci\u00f3n por confirmar",
+  },
+  "cartagena-2026-07-17": {
+    id: "cartagena-2026-07-17",
+    planId: "d5ba71a2-b12d-4434-b67d-5b6cd28f4784",
+    dateLabel: "Viernes 17 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Cartagena",
+    venue: "Sede por confirmar",
+    address: "Direcci\u00f3n por confirmar",
+  },
+  "bucaramanga-2026-07-24": {
+    id: "bucaramanga-2026-07-24",
+    planId: "2d9990b7-b1d3-4997-b6f4-98a4cb8e460e",
+    dateLabel: "Viernes 24 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Bucaramanga",
+    venue: "Sede por confirmar",
+    address: "Direcci\u00f3n por confirmar",
   },
 };
 
@@ -138,8 +184,9 @@ function resolvePaymentConfig(envInput = {}) {
   };
 }
 
-async function fetchBootcampBasePlan(config) {
-  if (!config.bootcampPlanId) return null;
+async function fetchBootcampBasePlan(config, planId = config.bootcampPlanId) {
+  const targetPlanId = sanitizeText(planId);
+  if (!targetPlanId) return null;
 
   const search = new URLSearchParams({ app_id: config.appId });
   const response = await fetch(`${config.paymentApiBaseUrl}/api/planes?${search.toString()}`);
@@ -153,11 +200,11 @@ async function fetchBootcampBasePlan(config) {
     );
   }
 
-  const plan = payload.plans.find((item) => sanitizeText(item?.id) === config.bootcampPlanId);
+  const plan = payload.plans.find((item) => sanitizeText(item?.id) === targetPlanId);
 
   if (!plan) {
     throw new PaymentError(
-      `No se encontró el plan base del Bootcamp en i365 (${config.bootcampPlanId}).`,
+      `No se encontró el plan base del Bootcamp en i365 (${targetPlanId}).`,
       502,
       payload,
     );
@@ -166,15 +213,16 @@ async function fetchBootcampBasePlan(config) {
   return plan;
 }
 
-async function resolveBootcampUnitPricing(config, now = new Date()) {
-  const plan = await fetchBootcampBasePlan(config);
+async function resolveBootcampUnitPricing(config, now = new Date(), session = null) {
+  const targetPlanId = sanitizeText(session?.planId || config.bootcampPlanId);
+  const plan = await fetchBootcampBasePlan(config, targetPlanId);
 
   if (!plan) {
     return {
       plan: null,
       priceSource: "fallback",
       currency: "COP",
-      planId: null,
+      planId: targetPlanId || null,
       planName: null,
       basePricePerPerson: FALLBACK_PRICE_PER_PERSON,
       pricePerPerson: FALLBACK_PRICE_PER_PERSON,
@@ -205,7 +253,8 @@ async function resolveBootcampUnitPricing(config, now = new Date()) {
 export async function getBootcampQuote(peopleInput, options = {}) {
   const config = resolvePaymentConfig(options.env || process.env);
   const people = parsePeople(peopleInput);
-  const unitPricing = await resolveBootcampUnitPricing(config, options.now || new Date());
+  const session = resolveSession(options.sessionId);
+  const unitPricing = await resolveBootcampUnitPricing(config, options.now || new Date(), session);
 
   const baseSubtotal = unitPricing.basePricePerPerson * people;
   const subtotal = unitPricing.pricePerPerson * people;
@@ -216,6 +265,7 @@ export async function getBootcampQuote(peopleInput, options = {}) {
 
   return {
     people,
+    sessionId: session.id,
     currency: unitPricing.currency,
     planId: unitPricing.planId,
     planName: unitPricing.planName,
@@ -242,7 +292,8 @@ export async function createBootcampPayment(body, options = {}) {
     throw new PaymentError("Correo de cliente inválido.", 400);
   }
 
-  const quote = await getBootcampQuote(body.people, options);
+  const session = resolveSession(body.sessionId);
+  const quote = await getBootcampQuote(body.people, { ...options, sessionId: session.id });
   const company = sanitizeText(body.company, "Cliente Bootcamp IA");
   const nit = sanitizeText(body.nit, "N/A");
   const contactName = sanitizeText(body.contactName, company);
@@ -253,7 +304,6 @@ export async function createBootcampPayment(body, options = {}) {
   const fallbackUserId = buildExternalId("bootcamp-user", email, contactName, identityAnchor);
   const userId = sanitizeText(body.userId || body.user_id, fallbackUserId);
   const companyId = sanitizeText(body.companyId || body.company_id, fallbackCompanyId);
-  const session = resolveSession(body.sessionId);
   const city = sanitizeText(body.city, session.city);
   const customerLegalId = nit !== "N/A" ? nit : undefined;
   const redirectUrl =

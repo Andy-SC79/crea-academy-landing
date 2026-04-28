@@ -32,7 +32,6 @@ import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
-import { IMPACTED_COMPANY_COUNT } from "@/data/impacted-companies";
 import { openI365PaymentWidget } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import "@/styles/tour-ambient.css";
@@ -44,12 +43,11 @@ const MAILTO_URL =
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
 const BOOTCAMP_PRICING_ENDPOINT = "/api/bootcamp-pricing";
 const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
-const DEFAULT_I365_WIDGET_APP_ID = "6015d948-0a6d-4c66-b94d-830eeeb441bb";
-const DEFAULT_I365_BOOTCAMP_PLAN_ID = "ff64a816-c6d9-47ac-a298-7ece16c486cb";
+const DEFAULT_I365_WIDGET_APP_ID = "298f0727-6901-4d98-88e0-785576041b20";
 const I365_WIDGET_APP_ID =
   import.meta.env.VITE_I365_PAYMENT_APP_ID || DEFAULT_I365_WIDGET_APP_ID;
 const I365_BOOTCAMP_PLAN_ID =
-  import.meta.env.VITE_I365_BOOTCAMP_PLAN_ID?.trim() || DEFAULT_I365_BOOTCAMP_PLAN_ID;
+  import.meta.env.VITE_I365_BOOTCAMP_PLAN_ID?.trim() || "";
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -74,31 +72,99 @@ const EXECUTIVE_CONTACTS = [
     phone: "3005296040",
   },
 ];
-const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla"];
+const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla", "Cartagena", "Bucaramanga"];
 const PRICE_PER_PERSON = 1150000;
 const TEAM_DISCOUNT = 0.1;
+const TEAM_MIN_PEOPLE = 5;
+const TEAM_PRICE_PER_PERSON = Math.round(PRICE_PER_PERSON * (1 - TEAM_DISCOUNT));
+const TEAM_BASE_TOTAL = PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
+const TEAM_TOTAL = TEAM_PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
+const TEAM_SAVINGS = TEAM_BASE_TOTAL - TEAM_TOTAL;
+const BOOTCAMP_SESSION_SELECT_EVENT = "bootcamp-session-select";
 const BOOTCAMP_SESSIONS = [
   {
     id: "medellin-2026-05-22",
     status: "available",
+    planId: "79d33e26-5076-4057-8eb0-326c2b19a937",
     shortLabel: "22 de mayo de 2026",
     dateLabel: "Viernes 22 de mayo de 2026",
     timeLabel: "8:00 AM a 6:00 PM",
     city: "Medellín",
     venue: "Auditorio del Centro Comercial San Diego",
     address: "Centro Comercial San Diego, Medellín",
+    venueConfirmed: true,
     selectLabel: "22 de mayo de 2026 · Medellín · Centro Comercial San Diego",
+    map: { x: 81.3, y: 139.8, labelX: -10, labelY: 4, anchor: "end" },
   },
   {
-    id: "future-dates",
-    status: "coming_soon",
-    shortLabel: "Próximas fechas",
-    dateLabel: "Próximas fechas por confirmar",
-    timeLabel: "Horario por confirmar",
-    city: "Por confirmar",
-    venue: "Lugar por confirmar",
-    address: "Por confirmar",
-    selectLabel: "Próximas fechas por confirmar",
+    id: "bogota-2026-05-29",
+    status: "available",
+    planId: "810ee2d2-720f-44b3-8377-4dfa2f689b1b",
+    shortLabel: "29 de mayo de 2026",
+    dateLabel: "Viernes 29 de mayo de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Bogotá",
+    venue: "Sede por confirmar",
+    address: "Dirección por confirmar",
+    venueConfirmed: false,
+    selectLabel: "29 de mayo de 2026 · Bogotá · sede por confirmar",
+    map: { x: 108.9, y: 168.1, labelX: 10, labelY: 2, anchor: "start" },
+  },
+  {
+    id: "cali-2026-06-12",
+    status: "available",
+    planId: "baa0c7c8-b226-4f55-92e6-37aedb4c598b",
+    shortLabel: "12 de junio de 2026",
+    dateLabel: "Viernes 12 de junio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Cali",
+    venue: "Sede por confirmar",
+    address: "Dirección por confirmar",
+    venueConfirmed: false,
+    selectLabel: "12 de junio de 2026 · Cali · sede por confirmar",
+    map: { x: 63.5, y: 191.4, labelX: -10, labelY: 8, anchor: "end" },
+  },
+  {
+    id: "barranquilla-2026-07-10",
+    status: "available",
+    planId: "252ac806-8779-4cbf-9f5b-07f493e8e9ef",
+    shortLabel: "10 de julio de 2026",
+    dateLabel: "Viernes 10 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Barranquilla",
+    venue: "Sede por confirmar",
+    address: "Dirección por confirmar",
+    venueConfirmed: false,
+    selectLabel: "10 de julio de 2026 · Barranquilla · sede por confirmar",
+    map: { x: 95.4, y: 52.5, labelX: 10, labelY: -8, anchor: "start" },
+  },
+  {
+    id: "cartagena-2026-07-17",
+    status: "available",
+    planId: "d5ba71a2-b12d-4434-b67d-5b6cd28f4784",
+    shortLabel: "17 de julio de 2026",
+    dateLabel: "Viernes 17 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Cartagena",
+    venue: "Sede por confirmar",
+    address: "Dirección por confirmar",
+    venueConfirmed: false,
+    selectLabel: "17 de julio de 2026 · Cartagena · sede por confirmar",
+    map: { x: 82.9, y: 63.1, labelX: -10, labelY: 3, anchor: "end" },
+  },
+  {
+    id: "bucaramanga-2026-07-24",
+    status: "available",
+    planId: "2d9990b7-b1d3-4997-b6f4-98a4cb8e460e",
+    shortLabel: "24 de julio de 2026",
+    dateLabel: "Viernes 24 de julio de 2026",
+    timeLabel: "8:00 AM a 6:00 PM",
+    city: "Bucaramanga",
+    venue: "Sede por confirmar",
+    address: "Dirección por confirmar",
+    venueConfirmed: false,
+    selectLabel: "24 de julio de 2026 · Bucaramanga · sede por confirmar",
+    map: { x: 126.6, y: 123.5, labelX: 10, labelY: 0, anchor: "start" },
   },
 ] as const;
 const ACTIVE_BOOTCAMP_SESSION = BOOTCAMP_SESSIONS[0];
@@ -150,6 +216,7 @@ type BootcampPaymentResponse = {
 
 type BootcampQuote = {
   people: number;
+  sessionId?: string;
   currency?: string;
   planId?: string | null;
   planName?: string | null;
@@ -179,9 +246,9 @@ function getBootcampSession(sessionId: string): BootcampSession {
 
 const STATS = [
   { value: "+6.000", label: "profesionales formados" },
-  { value: `+${IMPACTED_COMPANY_COUNT}`, label: "organizaciones impactadas" },
-  { value: "22 mayo", label: "fecha disponible" },
-  { value: "San Diego", label: "auditorio en Medellín" },
+  { value: "6", label: "ciudades confirmadas" },
+  { value: "mayo-julio", label: "gira Colombia 2026" },
+  { value: "1 día", label: "experiencia presencial" },
 ];
 
 const PROBLEMS: Feature[] = [
@@ -331,6 +398,185 @@ function FeatureCard({ feature }: { feature: Feature }) {
   );
 }
 
+function scrollToBootcampSession(sessionId: string) {
+  window.dispatchEvent(
+    new CustomEvent(BOOTCAMP_SESSION_SELECT_EVENT, {
+      detail: { sessionId },
+    }),
+  );
+  document.getElementById("cotizador")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function TourRouteSection() {
+  const routePoints = BOOTCAMP_SESSIONS.map((session) => `${session.map.x},${session.map.y}`).join(" ");
+
+  return (
+    <section id="gira-colombia" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+          <div>
+            <SectionHeader
+              eyebrow="Gira Colombia 2026"
+              title="Seis ciudades para llevar la IA del discurso a la operación."
+              description="La ruta combina formación presencial, casos reales y pago por fecha. Medellín ya tiene auditorio confirmado; las demás ciudades quedan abiertas para reservar mientras cerramos sede."
+            />
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-4">
+                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">6</p>
+                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
+                  ciudades
+                </p>
+              </div>
+              <div className="rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
+                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">64</p>
+                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-brand-cyan">
+                  días de gira
+                </p>
+              </div>
+              <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-4">
+                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">1</p>
+                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+                  día intensivo
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-[color:var(--tour-border-standard)] bg-[linear-gradient(145deg,rgba(2,5,13,0.94),rgba(7,18,37,0.9))] p-5 shadow-[var(--tour-shadow-elevated)]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(4,255,141,0.18),transparent_34%),radial-gradient(circle_at_82%_22%,rgba(0,210,255,0.18),transparent_32%),radial-gradient(circle_at_70%_82%,rgba(123,44,191,0.18),transparent_36%)]" />
+            <svg
+              viewBox="0 0 260 360"
+              role="img"
+              aria-label="Mapa de Colombia con la ruta del Bootcamp IA 2026"
+              className="relative mx-auto h-[390px] w-full max-w-[420px]"
+            >
+              <defs>
+                <linearGradient id="colombiaMapFill" x1="45" y1="20" x2="214" y2="342" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#10233f" />
+                  <stop offset="0.48" stopColor="#0d3554" />
+                  <stop offset="1" stopColor="#092018" />
+                </linearGradient>
+                <linearGradient id="tourRouteStroke" x1="90" y1="320" x2="155" y2="85" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#04FF8D" />
+                  <stop offset="0.5" stopColor="#00D2FF" />
+                  <stop offset="1" stopColor="#9D00FF" />
+                </linearGradient>
+                <filter id="pinGlow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <path
+                d="M84.9 258.1L77 253.7L67.9 247.6L62.6 250.5L47 247.9L42.4 240L39 240.3L20.5 229.7L18 224L24.9 222.6L24.1 213.3L28.4 206.6L37.6 205.4L45.4 193.8L52.5 184.1L45.6 179.7L49.1 168.9L45 152L48.9 147.2L46 131.5L38.5 121.7L40.9 112.7L46.8 114L50.3 108.5L46 97.6L48.3 94.9L57.8 95.5L71.7 82.6L79.3 80.6L79.5 74.5L82.9 58.9L93.5 50.3L105.2 50L106.6 46.1L121.1 47.7L135.7 38.3L142.9 34.2L151.8 25.3L158.4 26.4L163.2 31.3L159.6 37.5L147.7 40.6L143.1 49.8L135.9 55.1L130.5 62L128.3 75.2L123.1 86L132.7 87.3L135.1 95.8L139.1 99.8L140.6 107.3L138.4 114.1L139 118L143.6 119.5L148 126L171.8 124.2L182.5 126.5L195.5 142.5L203 140.5L216.3 141.5L226.9 139.4L233.4 142.5L230.1 152.5L225.9 158.7L224.5 172L228.2 184.3L233.5 189.7L234.1 193.9L224.7 203.1L231.4 207.2L236.4 213.6L242 232.1L238.5 234.4L234.9 223.4L229.8 217.6L223.7 224L187.6 223.5L187.9 235.1L198.7 237L198.1 244.1L194.4 242.2L184 245.2L183.9 258.7L192.1 265.4L195 276L194.5 284L186.2 334.7L177 324.9L171.4 324.5L183.4 305.6L169.2 297L158.1 298.6L151.4 295.4L141.2 300.3L127.5 297.9L116.6 278.6L108 273.8L102.1 265.1L89.8 256.3L84.9 258.1Z"
+                fill="url(#colombiaMapFill)"
+                stroke="rgba(255,255,255,0.16)"
+                strokeWidth="2"
+              />
+              <path
+                d="M80 59C93 80 91 104 81 130C69 162 57 192 76 224C92 252 125 276 164 300"
+                fill="none"
+                stroke="rgba(255,255,255,0.08)"
+                strokeWidth="1"
+                strokeDasharray="6 8"
+              />
+              <polyline
+                points={routePoints}
+                fill="none"
+                stroke="url(#tourRouteStroke)"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="3"
+                vectorEffect="non-scaling-stroke"
+              />
+              {BOOTCAMP_SESSIONS.map((session, index) => (
+                <g key={session.id} filter="url(#pinGlow)">
+                  <circle cx={session.map.x} cy={session.map.y} r="11" fill="#02050d" stroke="#04FF8D" strokeWidth="2" />
+                  <circle cx={session.map.x} cy={session.map.y} r="4" fill={session.venueConfirmed ? "#04FF8D" : "#00D2FF"} />
+                  <text
+                    x={session.map.x}
+                    y={session.map.y + 4}
+                    textAnchor="middle"
+                    className="fill-white text-[9px] font-black"
+                  >
+                    {index + 1}
+                  </text>
+                  <text
+                    x={session.map.x + session.map.labelX}
+                    y={session.map.y + session.map.labelY}
+                    textAnchor={session.map.anchor}
+                    className="fill-white text-[10px] font-black tracking-normal"
+                  >
+                    {session.city}
+                  </text>
+                </g>
+              ))}
+            </svg>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {BOOTCAMP_SESSIONS.map((session, index) => (
+            <article
+              key={session.id}
+              className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-soft)]"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                    Parada {index + 1}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
+                    {session.city}
+                  </h3>
+                </div>
+                <span
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em]",
+                    session.venueConfirmed
+                      ? "border-brand-neon/25 bg-brand-neon/10 text-[#0d8b5c] dark:text-brand-neon"
+                      : "border-amber-400/30 bg-amber-400/10 text-amber-700 dark:text-amber-200",
+                  )}
+                >
+                  {session.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
+                </span>
+              </div>
+              <div className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                <p className="flex gap-3">
+                  <CalendarDays className="mt-1 h-4 w-4 shrink-0 text-brand-cyan" />
+                  <span>
+                    <strong className="text-[color:var(--tour-text-strong)]">{session.shortLabel}</strong>
+                    <br />
+                    {session.timeLabel}
+                  </span>
+                </p>
+                <p className="flex gap-3">
+                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
+                  <span>
+                    <strong className="text-[color:var(--tour-text-strong)]">{session.venue}</strong>
+                    <br />
+                    {session.address}
+                  </span>
+                </p>
+              </div>
+              <Button
+                type="button"
+                onClick={() => scrollToBootcampSession(session.id)}
+                className="mt-5 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90"
+              >
+                Reservar esta ciudad
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function formatCurrency(value: number) {
   return value.toLocaleString("es-CO", {
     style: "currency",
@@ -409,20 +655,24 @@ function buildBootcampPaymentIdentity(form: QuoteForm) {
   };
 }
 
-function buildLocalFallbackQuote(peopleInput: number): BootcampQuote {
+function buildLocalFallbackQuote(
+  peopleInput: number,
+  session: BootcampSession = ACTIVE_BOOTCAMP_SESSION,
+): BootcampQuote {
   const safePeople = Math.max(peopleInput, 0);
   const basePricePerPerson = PRICE_PER_PERSON;
   const pricePerPerson = basePricePerPerson;
   const baseSubtotal = safePeople * basePricePerPerson;
   const subtotal = safePeople * pricePerPerson;
-  const groupDiscountPercentage = safePeople >= 5 ? Math.round(TEAM_DISCOUNT * 100) : 0;
+  const groupDiscountPercentage = safePeople >= TEAM_MIN_PEOPLE ? Math.round(TEAM_DISCOUNT * 100) : 0;
   const groupDiscountValue = groupDiscountPercentage > 0 ? Math.round(subtotal * TEAM_DISCOUNT) : 0;
   const total = Math.max(subtotal - groupDiscountValue, 0);
 
   return {
     people: safePeople,
+    sessionId: session.id,
     currency: "COP",
-    planId: null,
+    planId: session.planId || null,
     planName: null,
     priceSource: "fallback",
     basePricePerPerson,
@@ -668,28 +918,33 @@ function CorporateQuoter() {
     phone: "",
     city: ACTIVE_BOOTCAMP_SESSION.city,
     sessionId: ACTIVE_BOOTCAMP_SESSION.id,
-    people: "5",
+    people: String(TEAM_MIN_PEOPLE),
     email: "",
   });
   const [sentMessage, setSentMessage] = useState("");
   const [isSendingQuote, setIsSendingQuote] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
   const [paymentMode, setPaymentMode] = useState<PaymentMode>(null);
-  const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(5));
+  const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(TEAM_MIN_PEOPLE));
 
   const people = Math.max(Number.parseInt(form.people, 10) || 0, 0);
-  const missingForDiscount = Math.max(5 - people, 0);
+  const missingForDiscount = Math.max(TEAM_MIN_PEOPLE - people, 0);
   const selectedSession = getBootcampSession(form.sessionId);
   const canPaySelectedSession = selectedSession.status === "available";
   const paymentIdentity = buildBootcampPaymentIdentity(form);
-  const usesEmbeddedI365Widget = Boolean(I365_BOOTCAMP_PLAN_ID) && people === 1;
-  const pricePerPerson = pricing.pricePerPerson;
-  const subtotal = pricing.baseSubtotal;
-  const total = pricing.total;
-  const totalDiscountValue = pricing.totalDiscountValue;
+  const selectedPlanId = selectedSession.planId || I365_BOOTCAMP_PLAN_ID;
+  const usesEmbeddedI365Widget = Boolean(selectedPlanId) && people === 1;
+  const effectivePricing =
+    pricing.people === people && pricing.sessionId === selectedSession.id
+      ? pricing
+      : buildLocalFallbackQuote(people, selectedSession);
+  const pricePerPerson = effectivePricing.pricePerPerson;
+  const subtotal = effectivePricing.baseSubtotal;
+  const total = effectivePricing.total;
+  const totalDiscountValue = effectivePricing.totalDiscountValue;
   const hasDiscount = totalDiscountValue > 0;
-  const hasPlanDiscount = pricing.planDiscountPercentage > 0;
-  const hasGroupDiscount = pricing.groupDiscountPercentage > 0;
+  const hasPlanDiscount = effectivePricing.planDiscountPercentage > 0;
+  const hasGroupDiscount = effectivePricing.groupDiscountPercentage > 0;
 
   const updateForm = (field: keyof QuoteForm, value: string) => {
     if (field === "email" && paymentMessage) {
@@ -703,13 +958,13 @@ function CorporateQuoter() {
     setForm((current) => ({
       ...current,
       sessionId: nextSession.id,
-      city: nextSession.status === "available" ? nextSession.city : current.city,
+      city: nextSession.city,
     }));
   };
 
   useEffect(() => {
-    const fallbackQuote = buildLocalFallbackQuote(people);
-    setPricing(fallbackQuote);
+    const pricingSession = getBootcampSession(form.sessionId);
+    const fallbackQuote = buildLocalFallbackQuote(people, pricingSession);
 
     if (people < 1) return;
 
@@ -718,7 +973,7 @@ function CorporateQuoter() {
     void fetch(BOOTCAMP_PRICING_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ people }),
+      body: JSON.stringify({ people, sessionId: pricingSession.id }),
       signal: controller.signal,
     })
       .then(async (response) => {
@@ -736,7 +991,19 @@ function CorporateQuoter() {
       });
 
     return () => controller.abort();
-  }, [people]);
+  }, [people, form.sessionId]);
+
+  useEffect(() => {
+    const handleSessionSelect = (event: Event) => {
+      const nextSessionId = (event as CustomEvent<{ sessionId?: string }>).detail?.sessionId;
+      if (nextSessionId) {
+        updateSession(nextSessionId);
+      }
+    };
+
+    window.addEventListener(BOOTCAMP_SESSION_SELECT_EVENT, handleSessionSelect);
+    return () => window.removeEventListener(BOOTCAMP_SESSION_SELECT_EVENT, handleSessionSelect);
+  }, []);
 
   const validatePaymentFields = () => {
     if (!canPaySelectedSession) {
@@ -892,7 +1159,7 @@ function CorporateQuoter() {
 
         await openI365PaymentWidget({
           appId: I365_WIDGET_APP_ID,
-          planId: I365_BOOTCAMP_PLAN_ID,
+          planId: selectedPlanId,
           userId: paymentIdentity.userId,
           companyId: paymentIdentity.companyId,
           userEmail: form.email.trim(),
@@ -961,20 +1228,20 @@ function CorporateQuoter() {
             Cotizador empresarial
           </div>
           <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4.4rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-            Calcula y paga tu cupo.
+            Elige ciudad, calcula y paga tu cupo.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
+            Selecciona la parada de la gira, ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
           </p>
           <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-              Cohorte disponible
+              Cohorte seleccionada
             </p>
             <p className="mt-3 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
-              Viernes 22 de mayo de 2026
+              {selectedSession.dateLabel} · {selectedSession.city}
             </p>
             <p className="mt-2 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-              Auditorio del Centro Comercial San Diego, Medellín. Las próximas fechas se publicarán cuando estén confirmadas.
+              {selectedSession.venue}. {selectedSession.address}.
             </p>
           </div>
         </div>
@@ -1064,7 +1331,9 @@ function CorporateQuoter() {
                 </div>
               </div>
               <p className="mt-3 rounded-lg border border-white/10 bg-black/10 px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
-                Las demás fechas todavía están por confirmar. Cuando estén disponibles aparecerán aquí para cotizar y pagar.
+                {selectedSession.venueConfirmed
+                  ? "Sede confirmada. Puedes reservar cupo individual o cotizar varios participantes ahora."
+                  : "Fecha confirmada y disponible para reserva. La sede y dirección final se compartirán al cerrar el venue de la ciudad."}
               </p>
             </div>
             <label className="space-y-2">
@@ -1122,15 +1391,15 @@ function CorporateQuoter() {
           {hasDiscount ? (
             <p className="mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold text-[#0d8b5c] dark:text-brand-neon">
               {hasPlanDiscount && hasGroupDiscount
-                ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) y descuento grupal del ${pricing.groupDiscountPercentage}% aplicados automáticamente.`
+                ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) y descuento grupal del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente.`
                 : hasPlanDiscount
-                  ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) aplicado automáticamente.`
-                  : `Descuento grupal del ${pricing.groupDiscountPercentage}% aplicado automáticamente.`}
+                  ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) aplicado automáticamente.`
+                  : `Descuento grupal del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente.`}
             </p>
           ) : (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-700 dark:text-amber-200">
               {hasPlanDiscount
-                ? `Descuento del plan i365 (${pricing.planDiscountPercentage}%) activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`
+                ? `Descuento del plan i365 (${effectivePricing.planDiscountPercentage}%) activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`
                 : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento grupal.`}
             </p>
           )}
@@ -1216,7 +1485,7 @@ function CorporateQuoter() {
 
 export default function BootcampIA() {
   useEffect(() => {
-    document.title = "Bootcamp IA | Ingeniería 365";
+    document.title = "Bootcamp IA Gira Colombia 2026 | Ingeniería 365";
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
@@ -1248,15 +1517,15 @@ export default function BootcampIA() {
                 Volver a Crea Academy
               </Link>
               <div className="mb-6 inline-flex flex-wrap items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-                <span>Bootcamp presencial</span>
+                <span>Gira Colombia 2026</span>
                 <span className="h-1 w-1 rounded-full bg-current" />
                 <span>1 día intensivo</span>
               </div>
               <h1 className="max-w-5xl font-display text-[clamp(2.8rem,8vw,7.6rem)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]">
-                Bootcamp IA para equipos que necesitan implementar.
+                Bootcamp IA para equipos que quieren implementar, ciudad por ciudad.
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
-                En este Bootcamp no aprendes IA como teoría. La aplicas en tu trabajo, construyes soluciones reales y sales con un prototipo que tu equipo puede seguir mejorando.
+                De mayo a julio recorremos Colombia con una experiencia presencial para aprender IA aplicada, construir soluciones reales y salir con un prototipo que el equipo puede seguir mejorando.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -1265,7 +1534,7 @@ export default function BootcampIA() {
                   className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
                 >
                   <a href="#cotizador">
-                    Pagar ahora
+                    Ver fechas y pagar
                     <CreditCard className="h-4 w-4" />
                   </a>
                 </Button>
@@ -1302,15 +1571,17 @@ export default function BootcampIA() {
               <div className="mt-4 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
                 <div className="flex items-center gap-3 text-brand-cyan">
                   <MapPin className="h-5 w-5" />
-                  <p className="font-display text-lg font-black">Viernes 22 de mayo de 2026 · Medellín</p>
+                  <p className="font-display text-lg font-black">Medellín · Bogotá · Cali · Barranquilla · Cartagena · Bucaramanga</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                  Cohorte abierta en el Auditorio del Centro Comercial San Diego. Las demás fechas aún están por confirmar.
+                  Seis paradas confirmadas con pago por ciudad. Medellín tiene auditorio cerrado y las demás sedes se publicarán en cuanto quede definida la dirección.
                 </p>
               </div>
             </div>
           </div>
         </section>
+
+        <TourRouteSection />
 
         <section className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
@@ -1408,48 +1679,98 @@ export default function BootcampIA() {
           <div className="mx-auto max-w-7xl">
             <SectionHeader
               eyebrow="Inversión"
-              title="Precio claro para personas y equipos."
-              description="La fecha disponible actual es el viernes 22 de mayo de 2026 en el Auditorio del Centro Comercial San Diego, Medellín. Para empresas, desde cinco participantes se activa precio preferencial y diagnóstico previo."
+              title={`Precio actual: ${formatCurrency(PRICE_PER_PERSON)} COP por cupo.`}
+              description={`Desde ${TEAM_MIN_PEOPLE} participantes aplicamos ${Math.round(TEAM_DISCOUNT * 100)}% de descuento automático: ${formatCurrency(TEAM_PRICE_PER_PERSON)} COP por persona. El cotizador valida el precio final del plan de cada ciudad antes del pago.`}
               centered
             />
-            <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
+            <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
               <article className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[color:var(--tour-text-muted)]">
-                  Individual
+                <p className="inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                  Cupo individual
                 </p>
                 <div className="mt-4 flex items-end gap-1">
-                  <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">$1.150.000</span>
+                  <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
+                    {formatCurrency(PRICE_PER_PERSON)}
+                  </span>
                   <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP</span>
                 </div>
-                <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                  Acceso completo para una persona. Incluye módulos, material, comunidad y certificado.
+                <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+                  valor vigente por participante
                 </p>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                  {["Pago directo por ciudad", "Bootcamp presencial de 8:00 AM a 6:00 PM", "Material, comunidad y certificado incluidos"].map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
                 <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
                   <a href="#cotizador">
-                    Pagar ahora
+                    Elegir ciudad y pagar
                     <CreditCard className="h-4 w-4" />
                   </a>
                 </Button>
               </article>
 
               <article className="rounded-lg border border-brand-neon/45 bg-brand-neon/10 p-7 shadow-[0_24px_60px_rgba(4,255,141,0.10)]">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-                  Empresa
-                </p>
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">$1.035.000</span>
-                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP/persona</span>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+                    Equipo empresa
+                  </p>
+                  <span className="rounded-full bg-[#071225] px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-brand-neon">
+                    Ahorras {formatCurrency(TEAM_SAVINGS)}
+                  </span>
+                </div>
+                <div className="mt-5">
+                  <p className="text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+                    Desde {TEAM_MIN_PEOPLE} personas
+                  </p>
+                  <div className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
+                    <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
+                      {formatCurrency(TEAM_PRICE_PER_PERSON)}
+                    </span>
+                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP/persona</span>
+                  </div>
+                </div>
+                <div className="mt-5 border-y border-brand-neon/25 py-4 text-sm">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-[color:var(--tour-text-muted)]">Antes por {TEAM_MIN_PEOPLE} cupos</span>
+                    <span className="font-bold text-[color:var(--tour-text-muted)] line-through">
+                      {formatCurrency(TEAM_BASE_TOTAL)}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between gap-4">
+                    <span className="font-black text-[color:var(--tour-text-strong)]">Total actual equipo</span>
+                    <span className="font-display text-2xl font-black text-[#0d8b5c] dark:text-brand-neon">
+                      {formatCurrency(TEAM_TOTAL)}
+                    </span>
+                  </div>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                  Desde cinco personas. Incluye diagnóstico, descuento grupal y factura electrónica.
+                  Incluye diagnóstico previo, descuento grupal, factura electrónica y reserva de cupos en la ciudad seleccionada.
                 </p>
                 <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
                   <a href="#cotizador">
-                    Cotizar y pagar
+                    Cotizar equipo
                     <ArrowRight className="h-4 w-4" />
                   </a>
                 </Button>
               </article>
+            </div>
+            <div className="mx-auto mt-4 grid max-w-6xl gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
+              <p className="flex gap-3">
+                <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
+                El pago individual usa el plan exacto de la ciudad elegida.
+              </p>
+              <p className="flex gap-3">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
+                El descuento de equipo se aplica automáticamente desde {TEAM_MIN_PEOPLE} participantes.
+              </p>
+              <p className="flex gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
+                Las fechas están confirmadas; algunas sedes siguen en cierre de dirección.
+              </p>
             </div>
           </div>
         </section>

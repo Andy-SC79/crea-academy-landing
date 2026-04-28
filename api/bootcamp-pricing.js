@@ -14,7 +14,10 @@ export default async function handler(req, res) {
 
   try {
     const body = parseBody(req);
-    const quote = await getBootcampQuote(body.people, { env: process.env });
+    const quote = await getBootcampQuote(body.people, {
+      env: process.env,
+      sessionId: body.sessionId,
+    });
 
     return res.status(200).json({ ok: true, quote });
   } catch (error) {

@@ -84,7 +84,10 @@ export default defineConfig(({ mode }) => {
 
             try {
               const body = await readJsonBody(req);
-              const quote = await getBootcampQuote(body.people, { env });
+              const quote = await getBootcampQuote(body.people, {
+                env,
+                sessionId: body.sessionId,
+              });
               sendJson(res, 200, { ok: true, quote });
             } catch (error) {
               if (error instanceof PaymentError) {

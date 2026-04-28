@@ -1,7 +1,7 @@
 import { loadExternalScript } from "@/lib/loadExternalScript";
 
 const DEFAULT_I365_WIDGET_URL =
-  "https://widget-i365-pagos-574077189410.us-central1.run.app/widget.js";
+  "https://pagos.ingenieria365.com/widget.js";
 
 export type I365WidgetRole = "usuario" | "admin" | "superadmin";
 
