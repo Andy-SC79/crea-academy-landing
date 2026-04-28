@@ -170,12 +170,20 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
             shadowColor = `hsla(${hue}, 100%, ${actualLightness}%, 0.95)`;
             glowIntensity = 8 + (reactiveMultiplier * 28);
         } else {
-            const idleHue = isDark ? 176 + (p.randomFactor * 26) : 166 + (p.randomFactor * 22);
-            const idleLightness = isDark ? 76 - (p.randomFactor * 8) : 44 - (p.randomFactor * 6);
-            const idleAlpha = Math.max(depthAlpha * (isDark ? 0.92 : 0.82), isDark ? 0.24 : 0.28);
-            fillColor = `hsla(${idleHue}, ${isDark ? 92 : 88}%, ${idleLightness}%, ${idleAlpha})`;
-            shadowColor = `hsla(${idleHue}, 100%, ${isDark ? 72 : 42}%, 0.72)`;
-            glowIntensity = isDark ? 12 : 7;
+            if (isDark) {
+              const idleHue = 176 + (p.randomFactor * 26);
+              const idleLightness = 76 - (p.randomFactor * 8);
+              const idleAlpha = Math.max(depthAlpha * 0.92, 0.24);
+              fillColor = `hsla(${idleHue}, 92%, ${idleLightness}%, ${idleAlpha})`;
+              shadowColor = `hsla(${idleHue}, 100%, 72%, 0.72)`;
+              glowIntensity = 12;
+            } else {
+              const idleLightness = 50 - (p.randomFactor * 14);
+              const idleAlpha = Math.max(depthAlpha * 0.78, 0.3);
+              fillColor = `hsla(0, 0%, ${idleLightness}%, ${idleAlpha})`;
+              shadowColor = "hsla(0, 0%, 42%, 0.48)";
+              glowIntensity = 5;
+            }
         }
 
         ctx.beginPath();

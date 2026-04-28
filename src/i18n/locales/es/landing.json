@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "Una singularidad educativa orquestada por inteligencia viva",
-      "createAccount": "Crear cuenta"
+      "createAccount": "Ver Planes"
     },
     "trustBand": {
       "label": "Respaldado por pioneros de la industria"
@@ -571,41 +571,39 @@
       "payment_methods": "PSE / MERCADO PAGO / TARJETAS",
       "tiers": {
         "free": {
-          "name": "FREE",
+          "name": "Básico",
           "kicker": "Explorador Crea",
           "subtitle": "Ideal para explorar antes de comprometerte. Sin fricciones, sin sorpresas.",
-          "ctaLabel": "Empieza Gratis Ahora",
+          "ctaLabel": "Comenzar gratis",
           "features": [
             "Acceso incluido — 500 créditos / mes.",
-            "Ruta 1 completa (4 horas de contenido práctico).",
-            "3 sesiones de muestra de cada ruta restante.",
-            "Evaluación por IA en todas las sesiones incluidas.",
-            "Certificado digital de la Ruta 1 al completarla.",
-            "Acceso a noticias y tendencias de IA semanal."
+            "Diseño de rutas de aprendizaje.",
+            "Generación multimedia (infografías, flash cards). Próximamente: podcast, videos, imágenes.",
+            "Sesiones en vivo.",
+            "Mentor IA 24/7 multimodal de última generación."
           ],
           "price_amount": "$0",
           "price_period": "",
-          "price_subtext": "Para siempre. Sin compromisos."
+          "price_subtext": "Acceso gratuito por tiempo limitado."
         },
         "creadores": {
           "name": "CREADORES",
           "kicker": "Eleva tu Talento",
-          "subtitle": "Todo lo del plan Free, más:",
+          "subtitle": "Todo lo del plan Básico, más:",
           "badge": "Recomendado",
           "ctaLabel": "Eleva tu Talento",
           "features": [
             "Rutas ilimitadas con acceso a todo el catálogo.",
             "Clonación de rutas pre-diseñadas a tu contexto.",
             "Evaluación por IA con feedback real por cada entregable.",
-            "Mentor IA 24/7 de última generación y multimodal.",
             "Certificados digitales, insignias y rankings.",
             "Talleres en vivo mensuales con expertos en IA aplicada.",
             "Comunidad privada de aprendizaje colaborativo."
           ],
           "price_currency": "USD",
-          "price_amount": "$29",
+          "price_amount": "$27",
           "price_period": "/mes",
-          "price_subtext": "o $22/mes facturado anual",
+          "price_subtext": "o $22/mes facturados anualmente",
           "free_price": "Gratis",
           "free_subtext": "Para siempre. Sin tarjeta de crédito."
         },

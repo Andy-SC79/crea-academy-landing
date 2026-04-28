@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "Uma singularidade educacional orquestrada por inteligência viva",
-      "createAccount": "Criar conta"
+      "createAccount": "Ver Planos"
     },
     "trustBand": {
       "label": "Com apoio de pioneiros da indústria"
@@ -580,24 +580,25 @@
       "payment_methods": "CARTÕES / PIX / MERCADO PAGO",
       "tiers": {
         "free": {
-          "name": "FREE",
+          "name": "Básico",
           "kicker": "Explorador Crea",
           "subtitle": "Experimente o futuro do aprendizado sem barreiras.",
-          "ctaLabel": "Comece Grátis Agora",
+          "ctaLabel": "Começar grátis",
           "features": [
-            "Conta Grátis Forever: Comece hoje mesmo sem registrar cartões de crédito.",
-            "Amostra de Trilhas: Consuma até 30% de nossas trilhas globais.",
-            "Onboarding Inteligente: Adaptação automática da linguagem ao seu perfil.",
-            "Créditos de Interação IA: Converse com a Eli para testar a plataforma."
+            "Acesso incluído — 500 créditos / mês.",
+            "Design de trilhas de aprendizagem.",
+            "Geração multimídia (infográficos, flash cards). Em breve: podcasts, vídeos, imagens.",
+            "Sessões ao vivo.",
+            "Mentor de IA 24/7."
           ],
           "price_amount": "$0",
           "price_period": "",
-          "price_subtext": "Para sempre. Sem compromissos."
+          "price_subtext": "Acesso gratuito por tempo limitado."
         },
         "creadores": {
           "name": "CRIADORES",
           "kicker": "Eleve seu Talento",
-          "subtitle": "Tudo do Free, e mais...",
+          "subtitle": "Tudo do Básico, e mais...",
           "badge": "Recomendado",
           "ctaLabel": "Eleve seu Talento",
           "features": [
@@ -608,7 +609,7 @@
             "Clonagem de Trilhas: Duplique e adapte trilhas globais ao seu contexto."
           ],
           "price_currency": "USD",
-          "price_amount": "$29",
+          "price_amount": "$27",
           "price_period": "/mês",
           "price_subtext": "ou $22/mês com cobrança anual",
           "free_price": "Grátis",

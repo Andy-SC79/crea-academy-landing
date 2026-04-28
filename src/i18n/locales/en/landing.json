@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "An educational singularity orchestrated by living intelligence",
-      "createAccount": "Create account"
+      "createAccount": "View Plans"
     },
     "trustBand": {
       "label": "Backed by industry pioneers"
@@ -581,24 +581,25 @@
       "payment_methods": "CREDIT CARDS / PAYPAL / WIRE",
       "tiers": {
         "free": {
-          "name": "FREE",
+          "name": "Basic",
           "kicker": "Crea Explorer",
           "subtitle": "Experience the future of learning without barriers.",
-          "ctaLabel": "Start For Free Now",
+          "ctaLabel": "Start free",
           "features": [
-            "Free Forever Account: Start today without registering credit cards.",
-            "Path Previews: Consume up to 30% of our global learning paths.",
-            "Smart Onboarding: Automatic language adaptation to your profile.",
-            "AI Interaction Credits: Chat with Eli to test the platform."
+            "Included access — 500 credits / month.",
+            "Learning path design.",
+            "Multimedia generation (infographics, flash cards). Coming soon: podcasts, videos, images.",
+            "Live sessions.",
+            "24/7 AI mentor."
           ],
           "price_amount": "$0",
           "price_period": "",
-          "price_subtext": "Forever. No commitments."
+          "price_subtext": "Free access for a limited time."
         },
         "creadores": {
           "name": "CREATORS",
           "kicker": "Elevate your Talent",
-          "subtitle": "Everything in Free, plus...",
+          "subtitle": "Everything in Basic, plus...",
           "badge": "Recommended",
           "ctaLabel": "Elevate your Talent",
           "features": [
@@ -609,7 +610,7 @@
             "Path Cloning: Duplicate and adapt global paths to your context."
           ],
           "price_currency": "USD",
-          "price_amount": "$29",
+          "price_amount": "$27",
           "price_period": "/mo",
           "price_subtext": "or $22/mo billed annually",
           "free_price": "Free",

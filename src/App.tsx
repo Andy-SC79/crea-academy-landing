@@ -1,9 +1,10 @@
-import React, { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { useTranslation } from "react-i18next";
 import TourController from "@/components/landing/tour/TourController";
-import BootcampIA from "@/pages/BootcampIA";
+
+const BootcampIA = lazy(() => import("@/pages/BootcampIA"));
 
 export default function App() {
   const { t } = useTranslation("common");
