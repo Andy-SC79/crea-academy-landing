@@ -190,10 +190,10 @@
     "title": "¿Listo para convertirte en un",
     "titleHighlight": "Ciudadano Desarrollador",
     "description": "Únete a nuestros bootcamps intensivos donde aprenderás a crear soluciones reales con IA Generativa, Low-Code y analítica de datos.",
-    "descriptionHighlight": "8 horas presenciales + Mentoría + Certificado firmado por COMFAMA, CESDE e I365",
+    "descriptionHighlight": "8 horas presenciales + Material digital + Certificado de participación I365",
     "viewBootcamps": "Ver Bootcamps 2026",
     "exploreCourses": "Explorar Cursos",
-    "participantsCount": "+5,000",
+    "participantsCount": "+6,000",
     "participantsLabel": "Participantes transformados",
     "satisfactionCount": "98%",
     "satisfactionLabel": "Satisfacción (NPS: 87)",
@@ -632,13 +632,13 @@
           "ctaLabel": "Ver Bootcamp de IA",
           "features": [
             "Formación intensiva con ejercicios aplicados a procesos reales.",
-            "Cotizador por equipos y descuento automático desde 5 personas.",
+            "Pronto pago del 30% y 10% adicional para equipos desde 5 personas.",
             "Agenda, módulos y recursos del bootcamp en una página dedicada.",
             "Certificado y acompañamiento para convertir aprendizaje en implementación."
           ],
-          "price_amount": "$1.150.000",
-          "price_period": "COP / persona",
-          "price_subtext": "Tarifa base con opciones para equipos."
+          "price_amount": "$805.000",
+          "price_period": "COP / cupo",
+          "price_subtext": "Pronto pago activo. Precio lista: $1.150.000 COP antes de IVA."
         }
       },
       "headline_1": "Bienvenido al ",

@@ -190,10 +190,10 @@
     "title": "Ready to become a",
     "titleHighlight": "Citizen Developer",
     "description": "Join our intensive bootcamps where you'll learn to create real solutions with Generative AI, Low-Code and data analytics.",
-    "descriptionHighlight": "8 in-person hours + Mentoring + Certificate signed by COMFAMA, CESDE and I365",
+    "descriptionHighlight": "8 in-person hours + Digital materials + I365 participation certificate",
     "viewBootcamps": "View Bootcamps 2026",
     "exploreCourses": "Explore Courses",
-    "participantsCount": "+5,000",
+    "participantsCount": "+6,000",
     "participantsLabel": "Participants transformed",
     "satisfactionCount": "98%",
     "satisfactionLabel": "Satisfaction (NPS: 87)",
@@ -639,13 +639,13 @@
           "ctaLabel": "View AI Bootcamp",
           "features": [
             "Intensive training with exercises applied to real workflows.",
-            "Team quote calculator with automatic discount from 5 people.",
+            "30% early-payment discount plus an extra 10% for teams from 5 people.",
             "Schedule, modules and resources in a dedicated bootcamp page.",
             "Certificate and guidance to turn learning into implementation."
           ],
-          "price_amount": "$1,150,000",
-          "price_period": "COP / person",
-          "price_subtext": "Base rate with team options."
+          "price_amount": "$805,000",
+          "price_period": "COP / seat",
+          "price_subtext": "Early-payment price active. List price: COP $1,150,000 before VAT."
         }
       },
       "headline_1": "Welcome to the ",
