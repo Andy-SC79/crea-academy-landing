@@ -1015,7 +1015,6 @@ function Pricing({ onAction }) {
         <h2>Una inversión que <span className="accent">se paga solo</span></h2>
         <p className="section-sub" style={{margin:'0 auto 56px'}}>En horas recuperadas, el ROI es inmediato.</p>
         <div className="pricing-grid" style={{margin:'0 auto'}}>
-          {/* Individual */}
           <div className="price-card" style={{marginTop:16}}>
             <div className="price-tag-label">Individual</div>
             <div className="price-amount">
@@ -1032,7 +1031,6 @@ function Pricing({ onAction }) {
             <button className="btn-price-secondary" onClick={() => onAction('¡Cupo individual reservado!')}>Comprar ahora</button>
           </div>
 
-          {/* Empresa */}
           <div className="price-card featured" style={{marginTop:0,position:'relative'}}>
             <div className="price-badge">Más popular</div>
             <div className="price-tag-label">Empresa</div>
@@ -1226,7 +1224,6 @@ function Quoter({ onAction }) {
 
           {personas < 5 && <p style={{fontSize:13,color:'#e07b00',textAlign:'center',marginBottom:16}}>⚡ Agrega {5-personas} persona{5-personas!==1?'s':''} más para activar el 10% de descuento grupal</p>}
 
-          {/* PDF Actions */}
           <div style={{
             background:'linear-gradient(135deg, rgba(10,37,64,0.04), rgba(108,99,255,0.04))',
             border:'1px solid rgba(108,99,255,0.12)',

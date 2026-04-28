@@ -62,7 +62,7 @@ const PRICING_INSET_CLASS =
 const PRICING_CARD_BASE_CLASS =
   "tour-glass-shell";
 const PRICING_GHOST_BUTTON_CLASS =
-  "tour-secondary-button inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-display font-bold tracking-[0.01em] no-underline transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent dark:border-[#18263D] dark:bg-[#0C172B]/96 dark:text-white dark:hover:border-brand-neon/45 dark:hover:bg-[#11203A] dark:hover:text-white";
+  "tour-secondary-button inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-center text-sm font-display font-bold leading-tight tracking-[0.01em] no-underline transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent dark:border-[#18263D] dark:bg-[#0C172B]/96 dark:text-white dark:hover:border-brand-neon/45 dark:hover:bg-[#11203A] dark:hover:text-white sm:px-6";
 
 
 function PricingCard({ tier }: { tier: PricingTier }) {
@@ -83,6 +83,14 @@ function PricingCard({ tier }: { tier: PricingTier }) {
       : tier.id === "bootcampIA"
         ? "rgba(0,229,255,0.55)"
         : "rgba(4,255,141,0.5)";
+  const innerGlowColor =
+    tier.id === "enterprise"
+      ? "rgba(157,0,255,0.08)"
+      : tier.id === "bootcampIA"
+        ? "rgba(0,229,255,0.08)"
+        : "rgba(4,255,141,0.08)";
+  const borderGlow = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, ${glowColor}, transparent 80%)`;
+  const innerGlow = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${innerGlowColor}, transparent 80%)`;
   const isInternalCta = tier.ctaHref.startsWith("/");
 
   return (
@@ -98,11 +106,11 @@ function PricingCard({ tier }: { tier: PricingTier }) {
           : "border-[color:var(--tour-border-standard)] dark:border-[#16243C]"
       )}
     >
-      {/* Mouse Tracking Glow Border */}
+      {/* Outer mask keeps the pointer glow on the card border only. */}
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[30px] opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-50"
         style={{
-          background: useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, ${glowColor}, transparent 80%)`,
+          background: borderGlow,
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
@@ -110,21 +118,21 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         }}
       />
       
-      {/* Mouse Tracking Inner Core Glow */}
+      {/* Inner glow is separated so content remains readable above it. */}
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[30px] opacity-0 transition-opacity duration-500 group-hover:opacity-100 overflow-hidden z-0"
       >
          <motion.div 
             className="absolute inset-0"
             style={{
-               background: useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${glowColor.replace('0.6', '0.08').replace('0.5', '0.08')}, transparent 80%)`
+               background: innerGlow
             }}
          />
       </motion.div>
 
-      <div className="relative z-10 flex h-full flex-col p-8">
+      <div className="relative z-10 flex h-full min-w-0 flex-col p-5 sm:p-6 lg:p-8">
         <div className="flex items-start justify-between gap-4">
-          <div className="space-y-4">
+          <div className="min-w-0 space-y-4">
             <div className={cn(PRICING_INSET_CLASS, "inline-flex h-12 w-12 items-center justify-center rounded-2xl text-brand-neon")}>
               <TierIcon className="h-5 w-5" />
             </div>
@@ -132,14 +140,14 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               <p className="tour-kicker text-[11px] font-display font-black uppercase tracking-[0.18em] dark:text-brand-neon/80">
                 {tier.kicker}
               </p>
-              <h3 className="font-display text-[2rem] font-bold tracking-tight text-slate-900 dark:text-brand-white">
+              <h3 className="break-words font-display text-[clamp(1.55rem,7vw,2rem)] font-bold tracking-tight text-slate-900 dark:text-brand-white">
                 {tier.name}
               </h3>
             </div>
           </div>
           {tier.badge ? (
             <div className="absolute right-4 top-4 z-20">
-              <span className="tour-meta-chip inline-flex whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-display font-black uppercase tracking-[0.16em] text-[color:var(--tour-text-strong)] md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
+              <span className="tour-meta-chip inline-flex max-w-36 rounded-full px-3 py-1 text-center text-[10px] font-display font-black uppercase leading-tight tracking-[0.16em] text-[color:var(--tour-text-strong)] md:text-[11px] dark:border-brand-neon/50 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-[0_0_15px_rgba(4,255,141,0.2)]">
                 {tier.badge}
               </span>
             </div>
@@ -151,8 +159,8 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         </p>
 
         <div className="my-6">
-          <div className="flex items-baseline gap-1">
-            <span className="font-display text-[clamp(1.8rem,4vw,2.25rem)] font-bold tracking-tight text-slate-900 dark:text-white">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span className="max-w-full break-words font-display text-[clamp(1.55rem,7vw,2.25rem)] font-bold tracking-tight text-slate-900 dark:text-white">
               {tier.priceAmount}
             </span>
             {tier.pricePeriod && (
@@ -205,7 +213,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
                 asChild
                 size="lg"
                 variant="default"
-                className="w-full rounded-full px-6 font-display text-[1.05rem] font-black tracking-tight shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-black hover:bg-brand-neon/90"
+                className="h-auto min-h-[3rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 py-3 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight text-black shadow-none transition-all duration-300 hover:bg-brand-neon/90 hover:shadow-none sm:px-6 sm:text-[1.05rem]"
               >
                 {isInternalCta ? (
                   <Link to={tier.ctaHref}>
@@ -339,7 +347,7 @@ const PricingSection = () => {
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.56),rgba(255,255,255,0.14)_34%,rgba(255,255,255,0.46))] dark:bg-[linear-gradient(180deg,rgba(3,7,18,0.42),rgba(3,7,18,0.12)_36%,rgba(3,7,18,0.5))]" />
         </div>
-        <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+        <div className="relative z-10 px-4 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
               <div className="flex justify-center lg:justify-start mb-4"><SceneEyebrow className="dark:text-brand-neon">
@@ -375,7 +383,7 @@ const PricingSection = () => {
               <div className="tour-text-default mt-4 flex flex-wrap items-center gap-3 dark:text-white/60">
                 <span
                   className={cn(
-                    "tour-meta-chip inline-flex items-center rounded-full px-3 py-1.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60",
+                    "tour-meta-chip inline-flex max-w-full items-center rounded-full px-3 py-1.5 text-center text-[10px] font-bold uppercase leading-tight tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60",
                   )}
                 >
                   {t("tour.pricing.payment_methods")}

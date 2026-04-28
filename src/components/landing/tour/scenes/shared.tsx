@@ -14,10 +14,10 @@ export const SCENE_CONTAINER_CLASS =
   "mx-auto grid w-full min-w-0 max-w-[min(100%,104rem)] content-start items-center gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-8 md:gap-8 md:px-10 md:py-10 mt-0 lg:mt-4 xl:gap-10 xl:px-14 2xl:px-16 2xl:py-12";
 
 export const HERO_HEADLINE_CLASS =
-  "max-w-[14ch] font-display text-[clamp(1.35rem,5vw,6.25rem)] font-black leading-[0.96] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
+  "max-w-[min(100%,14ch)] break-words font-display text-[clamp(1.35rem,5vw,6.25rem)] font-black leading-[0.96] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SCENE_HEADING_CLASS =
-  "max-w-[15ch] font-display text-[clamp(1.72rem,4.8vw+0.65rem,4rem)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
+  "max-w-[min(100%,15ch)] break-words font-display text-[clamp(1.72rem,4.8vw+0.65rem,4rem)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
 
 export const LEAD_COPY_CLASS =
   "max-w-[38rem] font-display text-[clamp(0.98rem,0.75rem+0.95vw,1.22rem)] font-normal leading-[1.72] tracking-normal text-[color:var(--tour-text-default)] dark:text-slate-100/90 sm:max-w-[42rem] sm:text-[clamp(1.02rem,0.88rem+0.62vw,1.32rem)] sm:leading-[1.68]";
@@ -60,11 +60,11 @@ type SceneHeadlineProps<T extends ElementType = "h2"> = {
 
 function escapeHtml(value: string) {
   return value
-    .replace("&", "&amp;")
-    .replace("<", "&lt;")
-    .replace(">", "&gt;")
-    .replace('"', "&quot;")
-    .replace("'", "&#39;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function getAccentClass(accent: HeadlineAccent = "none") {
@@ -104,6 +104,7 @@ export function SceneHeadline<T extends ElementType = "h2">({
   const prefersReducedMotion = useReducedMotion();
   const shouldType = typewriter && !prefersReducedMotion;
   const markup = buildHeadlineMarkup(parts);
+  const plainText = parts.map((part) => part.text).join("");
 
   return (
     <Component
@@ -114,20 +115,25 @@ export function SceneHeadline<T extends ElementType = "h2">({
       )}
     >
       {shouldType ? (
-        <TypewriterComponent
-          key={markup}
-          component="span"
-          onInit={(typewriterInstance) => {
-            typewriterInstance.typeString(markup).start();
-          }}
-          options={{
-            autoStart: true,
-            cursor: "|",
-            delay,
-            loop: false,
-            wrapperClassName,
-          }}
-        />
+        <>
+          <span className="sr-only">{plainText}</span>
+          <span aria-hidden="true">
+            <TypewriterComponent
+              key={markup}
+              component="span"
+              onInit={(typewriterInstance) => {
+                typewriterInstance.typeString(markup).start();
+              }}
+              options={{
+                autoStart: true,
+                cursor: "|",
+                delay,
+                loop: false,
+                wrapperClassName,
+              }}
+            />
+          </span>
+        </>
       ) : (
         parts.map((part, index) => (
           <Fragment key={`${part.text}-${index}`}>
@@ -169,17 +175,17 @@ export function SceneEyebrow({
         setHasReplayedOnHover(true);
       }}
       className={cn(
-        "tour-pill-shell group relative inline-flex items-center justify-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 transition-all duration-500 hover:scale-105",
+        "tour-pill-shell group relative inline-flex max-w-full min-w-0 items-center justify-center overflow-hidden rounded-full px-4 py-2 sm:px-5 sm:py-2.5 transition-all duration-500 hover:scale-105",
         className,
       )}
     >
       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="relative flex items-center gap-3 sm:gap-4">
+      <div className="relative flex min-w-0 max-w-full items-center gap-3 sm:gap-4">
         <div className="flex items-center text-[#0d8b5c] dark:text-brand-neon">
           {icon ?? <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />}
         </div>
         <div className="h-4 sm:h-5 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
-        <span className="font-display text-[0.7rem] sm:text-[0.8rem] font-black tracking-[0.25em] text-[color:var(--tour-text-default)] dark:text-white uppercase dark:drop-shadow-sm pt-1 truncate">
+        <span className="min-w-0 truncate pt-1 font-display text-[0.7rem] font-black uppercase tracking-[0.18em] text-[color:var(--tour-text-default)] dark:text-white dark:drop-shadow-sm sm:text-[0.8rem] sm:tracking-[0.25em]">
           {animatedChildren}
         </span>
       </div>

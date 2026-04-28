@@ -27,7 +27,7 @@ export default {
         "brand-orange": "#FF4D4D",
         "brand-black": "#000000",
         "brand-white": "#FFFFFF",
-        /* Multicolor Neon Palette - solo para gráficos/ilustraciones */
+        /* Graphic-only neon palette. */
         "neon-magenta": "#FF00FF",
         "neon-blue": "#0066FF",
         "neon-orange": "#FF6600",

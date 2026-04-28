@@ -23,7 +23,7 @@ const TextSequence = ({ sequenceData = [], activeIndex = null }) => {
       <AnimatePresence mode="wait">
         <motion.div 
           key={activeIndex !== null ? activeIndex : currentIndex} 
-          // Kinetic physics: Soft vertical fade to prevent bounds clipping in mobile viewports
+          // Keep the vertical offset small so the fade animation does not clip on narrow viewports.
           initial={{ opacity: 0, y: 15, filter: "blur(8px)" }} 
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}    
           exit={{ opacity: 0, y: -15, filter: "blur(12px)" }}    
@@ -33,7 +33,6 @@ const TextSequence = ({ sequenceData = [], activeIndex = null }) => {
           }}
           className="relative w-full"
         >
-          {/* Rendered text node. Inherits typography and spacing constraints from parent */}
           {sequenceData[activeIndex !== null ? activeIndex : currentIndex]?.text}
         </motion.div>
       </AnimatePresence>

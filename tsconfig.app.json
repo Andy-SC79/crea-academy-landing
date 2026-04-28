@@ -11,7 +11,7 @@
         "./src/*"
       ]
     },
-    /* Bundler mode */
+    /* Match Vite's ESM resolver; check aliases and asset imports before changing this. */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -19,10 +19,9 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    /* Linting */
+    /* Type checking stays permissive while this landing app still carries JS-era code. */
     "strict": false,
     "noImplicitAny": false,
-    "ignoreDeprecations": "5.0",
     "ignoreDeprecations": "6.0"
   },
   "include": ["src"]

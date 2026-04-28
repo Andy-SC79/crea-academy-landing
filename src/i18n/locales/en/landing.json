@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "An educational singularity orchestrated by living intelligence",
-      "createAccount": "View Plans"
+      "createAccount": "View plans"
     },
     "trustBand": {
       "label": "Backed by industry pioneers"
@@ -601,7 +601,7 @@
           "kicker": "Elevate your Talent",
           "subtitle": "Everything in Basic, plus...",
           "badge": "Recommended",
-          "ctaLabel": "Elevate your Talent",
+          "ctaLabel": "Elevate your talent",
           "features": [
             "Unlimited AI Interaction: Converse and learn without restrictions.",
             "Total Customization: Design your mentor's avatar, voice, and tone.",
@@ -620,7 +620,7 @@
           "name": "ENTERPRISE",
           "kicker": "Corporate Ecosystem",
           "subtitle": "Everything in Creators, plus...",
-          "ctaLabel": "Schedule Diagnostics",
+          "ctaLabel": "Schedule diagnostics",
           "features": [
             "Corporate Paths: Convert flat manuals into interactive learning paths.",
             "Analytics Dashboard: Measure adoption, hours, and progress in real time.",
@@ -636,7 +636,7 @@
           "name": "AI BOOTCAMP",
           "kicker": "Applied intensive path",
           "subtitle": "A practical program for teams that want to adopt generative AI with real use cases.",
-          "ctaLabel": "View AI Bootcamp",
+          "ctaLabel": "View AI bootcamp",
           "features": [
             "Intensive training with exercises applied to real workflows.",
             "30% early-payment discount plus an extra 10% for teams from 5 people.",
@@ -660,8 +660,8 @@
       "minutes": "Minutes",
       "seconds": "Seconds",
       "live": "We are live!",
-      "join_youtube": "Join the Launch Event",
-      "reminder_youtube": "Set YouTube Reminder"
+      "join_youtube": "Join the launch event",
+      "reminder_youtube": "Set YouTube reminder"
     },
     "testimonies": {
       "eyebrow": "AI Bootcamps",

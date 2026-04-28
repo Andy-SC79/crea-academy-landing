@@ -1,6 +1,4 @@
-/* CREA Singularity — animations + utility classes
-   Layered on top of the existing landing. Scoped to .singularity-* classes
-   and explicit utilities so they don't collide with base styles. */
+/* CREA Singularity animation utilities scoped to .singularity-* so landing effects stay isolated from base styles. */
 
 @keyframes singularity-shine {
   0% { background-position: 0% 50%; }
@@ -23,7 +21,6 @@
   100% { left: 60px; }
 }
 
-/* ── Shine text ── */
 .singularity-shine {
   background: linear-gradient(110deg, currentColor 10%, #04FF8D 50%, #00E5FF 90%);
   -webkit-background-clip: text;
@@ -33,12 +30,10 @@
   animation: singularity-shine 8s linear infinite;
 }
 
-/* ── Glow halo for hero ── */
 .singularity-glow {
   filter: drop-shadow(0 0 40px color-mix(in srgb, #04FF8D 35%, transparent));
 }
 
-/* ── Pulse dot ── */
 .singularity-pulse-dot {
   width: 6px;
   height: 6px;
@@ -47,7 +42,6 @@
   animation: singularity-pulse 2s infinite;
 }
 
-/* ── HUD bars (evidence) ── */
 .singularity-bar {
   flex: 1;
   background: linear-gradient(180deg, #04FF8D, color-mix(in srgb, #04FF8D 30%, transparent));
@@ -55,7 +49,6 @@
   animation: singularity-bar-pulse 2s ease-in-out infinite;
 }
 
-/* ── Corner HUD labels ── */
 .singularity-corner {
   position: fixed;
   z-index: 40;
@@ -86,7 +79,7 @@
   color: #04a561;
 }
 
-/* ── Live shape ring (used behind hero) ── */
+/* Live shape ring sits behind the hero without intercepting pointer events. */
 .singularity-ring {
   position: absolute;
   inset: 0;

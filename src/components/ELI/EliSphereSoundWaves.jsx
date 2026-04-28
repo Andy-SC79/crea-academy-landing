@@ -161,7 +161,7 @@ const EliSphereSoundWaves = ({ audioSrc, onTimeUpdate }) => {
         let glowIntensity = 0;
         
         if (!isMuted && reactiveMultiplier > 0.05) {
-            // Prisma Spectrum: Cyan (180) -> Blue (230) -> Fuchsia (280) -> Orange (380/20)
+            // Reactive hue range starts at cyan and wraps past 360 so the spectrum ends near orange.
             const hue = (180 + (p.randomFactor * 200) + (reactiveMultiplier * 30)) % 360;
             
             const actualLightness = isDark ? 64 : 50;

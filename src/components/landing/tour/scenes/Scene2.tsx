@@ -166,12 +166,12 @@ export default function Scene2() {
       <div className="relative z-20 order-3 flex min-h-[5rem] w-full flex-col justify-center lg:col-start-1 lg:row-start-2 lg:mt-4 lg:pr-8">
         <div className="tour-panel-elevated relative w-full max-w-[44rem] rounded-[2rem] p-6 sm:p-8 lg:rounded-[2.5rem] lg:rounded-tr-2xl">
           
-          {/* Cola apuntando hacia ARRIBA (Mobile) */}
+          {/* Speech bubble tail for the mobile orientation. */}
           <div className="absolute -top-[10px] right-[40px] h-[10px] w-[20px] overflow-hidden lg:hidden">
             <div className="absolute bottom-0 left-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 translate-y-1/2 rotate-45 border-[color:var(--tour-border-standard)] border-l border-t bg-[var(--tour-surface-elevated)] dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
           </div>
 
-          {/* Cola apuntando hacia la DERECHA (Desktop) */}
+          {/* Speech bubble tail for the desktop orientation. */}
           <div className="absolute -right-[10px] top-[32px] hidden h-[20px] w-[10px] overflow-hidden lg:block">
             <div className="absolute left-0 top-1/2 h-[14px] w-[14px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 border-[color:var(--tour-border-standard)] border-r border-t bg-[var(--tour-surface-elevated)] dark:border-brand-cyan/30 dark:bg-[#0A1628]" />
           </div>

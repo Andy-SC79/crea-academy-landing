@@ -1,7 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
 import Magnetic from "@/components/landing/Magnetic";
 
 interface WhatsAppWidgetProps {
@@ -11,7 +9,7 @@ interface WhatsAppWidgetProps {
 }
 
 export default function WhatsAppWidget({ 
-  phoneNumber = "573000000000", // Default temporal
+  phoneNumber = "573000000000", // Placeholder used when a campaign-specific number is not provided.
   message,
   isVisible = true 
 }: WhatsAppWidgetProps) {
@@ -38,7 +36,6 @@ export default function WhatsAppWidget({
             aria-label={t("tour.whatsapp.aria_label")}
             className="group relative flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#25D366]/40"
           >
-            {/* Ping effect behind the button */}
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-30"></span>
             
             <svg viewBox="0 0 24 24" className="h-8 w-8 md:h-9 md:w-9 fill-current z-10" xmlns="http://www.w3.org/2000/svg">

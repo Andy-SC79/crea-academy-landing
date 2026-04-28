@@ -955,6 +955,10 @@ function CorporateQuoter() {
     if (field === "email" && paymentMessage) {
       setPaymentMessage("");
     }
+    if (field === "people") {
+      const nextPeople = Math.max(Number.parseInt(value, 10) || 0, 0);
+      setPricing(buildLocalFallbackQuote(nextPeople));
+    }
     setForm((current) => ({ ...current, [field]: value }));
   };
 
@@ -968,8 +972,12 @@ function CorporateQuoter() {
   };
 
   useEffect(() => {
+<<<<<<< Updated upstream
     const pricingSession = getBootcampSession(form.sessionId);
     const fallbackQuote = buildLocalFallbackQuote(people, pricingSession);
+=======
+    const fallbackQuote = buildLocalFallbackQuote(people);
+>>>>>>> Stashed changes
 
     if (people < 1) return;
 
@@ -1490,7 +1498,10 @@ function CorporateQuoter() {
 
 export default function BootcampIA() {
   useEffect(() => {
+<<<<<<< Updated upstream
     document.title = "Bootcamp IA Gira Colombia 2026 | Ingeniería 365";
+=======
+>>>>>>> Stashed changes
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 

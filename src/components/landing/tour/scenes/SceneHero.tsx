@@ -64,7 +64,7 @@ export default function SceneHero() {
   return (
     <SceneTemplate className="grid-cols-1 !max-w-none !gap-0 !px-0 !py-0" flush>
       <div className="col-span-full">
-        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-6 pb-6 sm:px-8 sm:pb-8 md:px-12 md:pb-10">
+        <section className="relative isolate flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-4 pb-6 sm:px-8 sm:pb-8 md:px-12 md:pb-10">
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(250,252,254,0.74)_54%,rgba(247,250,252,0.62)_100%),radial-gradient(circle_at_50%_22%,rgba(10,86,184,0.03),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(0,90,67,0.024),transparent_28%),radial-gradient(circle_at_84%_18%,rgba(75,43,223,0.018),transparent_28%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(0,229,255,0.16),transparent_34%),radial-gradient(circle_at_20%_76%,rgba(4,255,141,0.12),transparent_28%)]" />
           <div className="absolute inset-0 opacity-68 dark:opacity-90">
             <VolumetricBrandField
@@ -93,15 +93,15 @@ export default function SceneHero() {
                 className="flex w-full flex-col items-center"
               >
                 <div className="mb-8 flex justify-center">
-                  <div className="tour-pill-shell group relative inline-flex items-center justify-center gap-4 rounded-full px-5 py-2.5 transition-all duration-500 hover:scale-105">
+                  <div className="tour-pill-shell group relative inline-flex max-w-full items-center justify-center overflow-hidden rounded-full px-4 py-2.5 transition-all duration-500 hover:scale-105 sm:px-5">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="relative flex items-center gap-3 sm:gap-4">
                       <div className="flex items-center">
-                        <img src={creaLogoBlack} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain block dark:hidden" />
-                        <img src={creaLogoWhite} alt="Crea Logo" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
+                        <img src={creaLogoBlack} alt="Crea Academy" className="h-6 sm:h-8 w-auto object-contain block dark:hidden" />
+                        <img src={creaLogoWhite} alt="Crea Academy" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
                       </div>
                       <div className="h-5 sm:h-6 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
-                      <span className="font-display text-[0.9rem] sm:text-[1.05rem] font-black tracking-[0.25em] text-[color:var(--tour-text-default)] dark:text-white uppercase dark:drop-shadow-sm pt-1">
+                      <span className="pt-1 font-display text-[0.82rem] font-black uppercase tracking-[0.18em] text-[color:var(--tour-text-default)] dark:text-white dark:drop-shadow-sm sm:text-[1.05rem] sm:tracking-[0.25em]">
                         Academy
                       </span>
                     </div>
@@ -110,7 +110,7 @@ export default function SceneHero() {
                 <SceneHeadline
                   as="h1"
                   variant="hero"
-                  className="mx-auto max-w-[18ch] text-center text-[clamp(2.5rem,8.5vw,7.5rem)] leading-[0.95] tracking-[-0.05em]"
+                  className="mx-auto max-w-[min(100%,18ch)] text-center text-[clamp(2.35rem,8.5vw,7.5rem)] leading-[0.98] tracking-normal sm:leading-[0.95]"
                   delay={34}
                   parts={headlineParts}
                 />
@@ -122,33 +122,33 @@ export default function SceneHero() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.7 }}
               transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="flex w-full max-w-[44rem] flex-col items-center justify-center gap-3 min-[640px]:flex-row pb-safe"
+              className="flex w-full max-w-[44rem] flex-col items-center justify-center gap-3 pb-safe md:flex-row"
             >
-              <Magnetic strength={0.24} className="w-full min-[640px]:flex-1">
+              <Magnetic strength={0.24} className="w-full md:flex-1">
                 <Button
                   asChild
                   size="xl"
-                  className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-black hover:bg-brand-neon/90"
+                  className="singularity-cta min-h-[3.5rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight text-black hover:bg-brand-neon/90 sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
                 >
                   <Link to={BOOTCAMP_IA_PATH}>Bootcamp IA</Link>
                 </Button>
               </Magnetic>
-              <Magnetic strength={0.2} className="w-full min-[640px]:flex-1">
+              <Magnetic strength={0.2} className="w-full md:flex-1">
                 <Button
                   asChild
                   size="xl"
                   variant="outline"
-                  className="tour-secondary-button min-h-[3.5rem] w-full rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
                 >
                   <a href={APP_AUTH_URL}>{t("nav.signIn", { ns: "common" })}</a>
                 </Button>
               </Magnetic>
-              <Magnetic strength={0.24} className="w-full min-[640px]:flex-1">
+              <Magnetic strength={0.24} className="w-full md:flex-1">
                 <Button
                   asChild
                   size="xl"
                   variant="outline"
-                  className="tour-secondary-button min-h-[3.5rem] w-full rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
                 >
                   <a href="#pricing-section">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
                 </Button>

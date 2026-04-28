@@ -15,7 +15,6 @@ import {
   SceneEyebrow,
   TOUR_FRAME_CLASS,
   TOUR_SURFACE_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
 
@@ -62,7 +61,7 @@ const itemVariants = {
   visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
 };
 
-export default function Scene5(_: SceneComponentProps) {
+export default function Scene5() {
   const { t } = useTranslation("landing");
   const metrics = [
     { label: t("tour.scene5.metrics.0.label"), value: t("tour.scene5.metrics.0.value") },
@@ -91,7 +90,7 @@ export default function Scene5(_: SceneComponentProps) {
 
         <div className="space-y-5 xl:space-y-6">
           <SceneHeadline
-            className="max-w-[13ch] sm:max-w-[15ch]"
+            className="max-w-[min(100%,13ch)] sm:max-w-[min(100%,15ch)]"
             parts={headlineParts}
           />
           <p className={cn(LEAD_COPY_CLASS, "max-w-[34rem]")}>
@@ -114,7 +113,7 @@ export default function Scene5(_: SceneComponentProps) {
         </div>
       </div>
 
-      <div className={TOUR_FRAME_CLASS}>
+      <div className={cn(TOUR_FRAME_CLASS, "min-w-0")}>
         <Card className={cn(TOUR_SURFACE_CLASS, "min-w-0")}>
           <CardContent className="space-y-6 p-5 md:p-6 xl:p-7">
             <div className="flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
@@ -126,15 +125,15 @@ export default function Scene5(_: SceneComponentProps) {
                   {t("tour.scene5.card.dashboard_title")}
                 </h3>
               </div>
-              <div className="tour-meta-chip inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-display font-black text-[color:var(--tour-text-default)] md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
+              <div className="tour-meta-chip inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full px-4 py-2 text-center text-xs font-display font-black leading-tight text-[color:var(--tour-text-default)] md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
                 <Users className="h-4 w-4" />
-                {t("tour.scene5.card.global_retention")}
+                <span className="min-w-0">{t("tour.scene5.card.global_retention")}</span>
               </div>
             </div>
 
             <div className="pt-2">
               <div className="relative mb-6 flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-brand-neon/20 bg-brand-neon/[0.06] p-4 dark:bg-brand-neon/10">
-                {/* Laser scan effect */}
+                {/* One-pass scan line triggered when the metric card enters view. */}
                 <motion.div 
                   className="absolute top-0 bottom-0 w-[40px] bg-white/20 dark:bg-white/10 skew-x-[-20deg]"
                   initial={{ left: "-20%" }}
@@ -145,7 +144,7 @@ export default function Scene5(_: SceneComponentProps) {
                 <p className="text-4xl font-display font-black text-brand-neon drop-shadow-[0_0_15px_rgba(4,255,141,0.5)]">
                   <AnimatedCounter text={t("tour.scene5.card.retention_value")} />
                 </p>
-                <p className="mt-2 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-[#0d8b5c] dark:text-brand-neon/80">
+                <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-xs font-black uppercase tracking-[0.12em] text-[#0d8b5c] dark:text-brand-neon/80 sm:tracking-widest">
                   <TrendingUp className="h-3 w-3" /> {t("tour.scene5.card.organization_impact")}
                 </p>
               </div>
@@ -167,19 +166,18 @@ export default function Scene5(_: SceneComponentProps) {
                     { name: t("tour.scene5.card.student_3"), score: t("tour.scene5.card.student_3_score"), color: "text-amber-700 dark:text-amber-600", width: "65%" },
                   ].map((student, i) => (
                     <motion.div variants={itemVariants} key={student.name} className="relative flex flex-col justify-center py-2 opacity-90 transition-opacity hover:opacity-100">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3 z-10">
+                      <div className="mb-2 flex min-w-0 items-center justify-between gap-2">
+                        <div className="z-10 flex min-w-0 items-center gap-3">
                           <span className={cn("font-display font-bold text-lg w-5", student.color)}>#{i + 1}</span>
                           <div className="tour-inset-surface flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white">
                             {student.name.charAt(0)}
                           </div>
-                          <span className="text-sm font-semibold text-slate-900 dark:text-white">{student.name}</span>
+                          <span className="min-w-0 truncate text-sm font-semibold text-slate-900 dark:text-white">{student.name}</span>
                         </div>
-                        <div className="flex items-center gap-2 z-10">
+                        <div className="z-10 flex shrink-0 items-center gap-2">
                           <span className="tour-inset-surface rounded-md px-2 py-1 text-xs font-display font-bold text-[#0d8b5c] dark:bg-white/5 dark:text-brand-neon">{student.score}</span>
                         </div>
                       </div>
-                      {/* XP Progress Bar */}
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200/80 dark:bg-white/5">
                         <motion.div 
                           className="h-full bg-brand-neon"

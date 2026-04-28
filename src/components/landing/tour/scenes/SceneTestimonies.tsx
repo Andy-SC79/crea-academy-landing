@@ -10,7 +10,6 @@ import {
   SceneEyebrow,
   SceneHeadline,
   TOUR_GLASS_PANEL_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
 const TESTIMONIES = [
@@ -43,15 +42,14 @@ const TestimonyCard = ({
   const isInView = useInView(cardRef, { margin: "200px" });
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isBuffering, setIsBuffering] = useState(true);
+  const isPlaying = activeVideoId === testimony.id;
 
   useEffect(() => {
-    if (activeVideoId !== null && activeVideoId !== testimony.id && isPlaying) {
+    if (activeVideoId !== testimony.id) {
       videoRef.current?.pause();
-      setIsPlaying(false);
     }
-  }, [activeVideoId, testimony.id, isPlaying]);
+  }, [activeVideoId, testimony.id]);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -67,16 +65,14 @@ const TestimonyCard = ({
   const togglePlay = () => {
     if (!videoRef.current) return;
 
-    if (videoRef.current.paused) {
+    if (!isPlaying || videoRef.current.paused) {
       videoRef.current.muted = false;
-      videoRef.current.play();
-      setIsPlaying(true);
+      void videoRef.current.play();
       setActiveVideoId(testimony.id);
       return;
     }
 
     videoRef.current.pause();
-    setIsPlaying(false);
     setActiveVideoId(null);
   };
 
@@ -158,7 +154,7 @@ const TestimonyCard = ({
   );
 };
 
-export default function SceneTestimonies(_: SceneComponentProps) {
+export default function SceneTestimonies() {
   const { t } = useTranslation("landing");
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollRefDesktop = useRef<HTMLDivElement>(null);
@@ -207,7 +203,7 @@ export default function SceneTestimonies(_: SceneComponentProps) {
         </div>
         <SceneHeadline
           typewriter={false}
-          className="mx-auto max-w-[14ch] text-center text-[clamp(2.3rem,6vw,4.9rem)] leading-[1.02]"
+          className="mx-auto max-w-[min(100%,14ch)] text-center text-[clamp(2.3rem,6vw,4.9rem)] leading-[1.02]"
           parts={[
             { text: t("tour.testimonies.headline_1") },
             { text: t("tour.testimonies.headline_2"), accent: "prisma" },

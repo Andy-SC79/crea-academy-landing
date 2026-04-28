@@ -43,7 +43,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full flex-col ">
+      <main className="relative z-10 flex w-full flex-col ">
         {TOUR_SCENES.map((scene) => {
           const SceneComponent = scene.Component;
 
@@ -63,7 +63,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
             </div>
           );
         })}
-      </div>
+      </main>
       <div className="relative z-20 mt-16 w-full">
         <Footer />
       </div>

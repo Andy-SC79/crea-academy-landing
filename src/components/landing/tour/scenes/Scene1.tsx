@@ -13,10 +13,9 @@ import {
   SceneHeadline,
   SceneEyebrow,
   TOUR_FRAME_CLASS,
-  type SceneComponentProps,
 } from "./shared";
 
-export default function Scene1(_: SceneComponentProps) {
+export default function Scene1() {
   const videoRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(videoRef, { once: true, margin: "200px" });
   const { t } = useTranslation("landing");
@@ -42,7 +41,7 @@ export default function Scene1(_: SceneComponentProps) {
           <SceneHeadline
             as="h1"
             variant="hero"
-            className="max-w-[18ch]"
+            className="max-w-[min(100%,18ch)]"
             parts={[
               { text: t("tour.scene1.headline_1") },
               { text: t("tour.scene1.headline_2"), accent: "prisma" },

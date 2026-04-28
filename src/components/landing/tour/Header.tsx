@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
@@ -8,27 +9,31 @@ import ThemeToggle from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { APP_AUTH_URL } from "@/lib/external-links";
 
-const PRICING_SECTION_HREF = "#pricing-section";
+const PRICING_SECTION_HASH = "#pricing-section";
 
 export default function Header() {
   const { t } = useTranslation(["landing", "common"]);
+  const { pathname } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isHomePage = pathname === "/";
+  const sectionHref = (hash: string) => (isHomePage ? hash : `/${hash}`);
 
   const navLinks = [
-    { href: "#scene-hero", label: t("nav.home", { ns: "common" }) },
-    { href: "#scene-platform-demo", label: t("nav.platform", { ns: "common" }) },
-    { href: "#scene-testimonies", label: t("nav.bootcamps", { ns: "common" }) },
-    { href: PRICING_SECTION_HREF, label: t("nav.plans", { ns: "common" }) },
+    { href: sectionHref("#scene-hero"), label: t("nav.home", { ns: "common" }) },
+    { href: sectionHref("#scene-platform-demo"), label: t("nav.platform", { ns: "common" }) },
+    { href: sectionHref("#scene-testimonies"), label: t("nav.bootcamps", { ns: "common" }) },
+    { href: sectionHref(PRICING_SECTION_HASH), label: t("nav.plans", { ns: "common" }) },
   ];
 
   return (
     <nav
+      aria-label="Principal"
       className="safe-area-pt fixed left-0 right-0 z-50 border-b border-[#04FF8D]/10 bg-white/80 shadow-[0_10px_30px_rgba(15,23,42,0.04)] backdrop-blur-xl transition-[top] duration-300 dark:bg-background/80 dark:shadow-none"
       style={{ top: "var(--banner-height, 0px)" }}
     >
       <div className="container mx-auto px-3 sm:px-4">
         <div className="flex min-h-[64px] items-center justify-between gap-2 py-1">
-          <a href="https://crea.academy/" className="flex items-center gap-3">
+          <a href="/" className="flex items-center gap-3" aria-label="Crea Academy">
             <img
               src={creaLogoWhite}
               alt="Crea Academy"
@@ -65,7 +70,7 @@ export default function Header() {
                 {t("nav.signIn", { ns: "common" })}
               </a>
               <a
-                href={PRICING_SECTION_HREF}
+                href={sectionHref(PRICING_SECTION_HASH)}
                 className="hidden h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:inline-flex md:h-10 md:px-5 md:text-[1rem]"
               >
                 {t("tour.sceneHero.createAccount", { ns: "landing" })}
@@ -115,7 +120,7 @@ export default function Header() {
               {t("nav.signIn", { ns: "common" })}
             </a>
             <a
-              href={PRICING_SECTION_HREF}
+              href={sectionHref(PRICING_SECTION_HASH)}
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-2 inline-flex h-11 items-center justify-center rounded-full bg-brand-neon px-5 text-sm font-display font-black tracking-tight text-black transition-transform hover:scale-[1.02]"
             >

@@ -11,7 +11,6 @@ import {
   SceneHeadline,
   SceneEyebrow,
   TOUR_FRAME_CLASS,
-  TOUR_SURFACE_CLASS,
   type SceneComponentProps,
 } from "./shared";
 

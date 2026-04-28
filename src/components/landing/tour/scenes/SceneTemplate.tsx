@@ -25,7 +25,6 @@ export default function SceneTemplate({
   disableScrollReveal = false,
   flush = false,
   isPricing = false,
-  showFooter = false,
 }: SceneTemplateProps) {
   const revealProps = disableScrollReveal
     ? {}

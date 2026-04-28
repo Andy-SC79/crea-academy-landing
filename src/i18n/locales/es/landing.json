@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "Una singularidad educativa orquestada por inteligencia viva",
-      "createAccount": "Ver Planes"
+      "createAccount": "Ver planes"
     },
     "trustBand": {
       "label": "Respaldado por pioneros de la industria"
@@ -591,7 +591,7 @@
           "kicker": "Eleva tu Talento",
           "subtitle": "Todo lo del plan Básico, más:",
           "badge": "Recomendado",
-          "ctaLabel": "Eleva tu Talento",
+          "ctaLabel": "Eleva tu talento",
           "features": [
             "Rutas ilimitadas con acceso a todo el catálogo.",
             "Clonación de rutas pre-diseñadas a tu contexto.",
@@ -629,7 +629,7 @@
           "name": "BOOTCAMP IA",
           "kicker": "Ruta intensiva aplicada",
           "subtitle": "Programa práctico para equipos que quieren adoptar IA generativa con casos reales.",
-          "ctaLabel": "Ver Bootcamp de IA",
+          "ctaLabel": "Ver bootcamp de IA",
           "features": [
             "Formación intensiva con ejercicios aplicados a procesos reales.",
             "Pronto pago del 30% y 10% adicional para equipos desde 5 personas.",
@@ -653,8 +653,8 @@
       "minutes": "Minutos",
       "seconds": "Segundos",
       "live": "¡Ya estamos en vivo!",
-      "join_youtube": "Unirse al Lanzamiento",
-      "reminder_youtube": "Activar Recordatorio en YouTube"
+      "join_youtube": "Unirse al lanzamiento",
+      "reminder_youtube": "Activar recordatorio en YouTube"
     },
     "testimonies": {
       "eyebrow": "Bootcamps de IA",

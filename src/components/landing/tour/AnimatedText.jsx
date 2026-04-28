@@ -68,7 +68,7 @@ const AnimatedText = ({
                 {word}
               </motion.span>
             </span>
-            {/* Inyectamos el espacio real directamente en el HTML en lugar de usar CSS */}
+            {/* Preserve spacing as real text so animated word wrappers do not collapse gaps. */}
             {index < textArray.length - 1 && <span>&nbsp;</span>}
           </React.Fragment>
         ))}

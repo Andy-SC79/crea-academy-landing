@@ -16,11 +16,7 @@
 
 @layer base {
   :root {
-    /* ═══════════════════════════════════════════════════════════════
-       CREA BY I365 — White-Tech / Multicolor Visual Adapt
-       Fondo: Blanco Puro (#FFFFFF) | Texto: Deep Black (#000000)
-       Acento: Verde Neón (#04FF8D) | Gráficos: Multicolor Neón
-    ═══════════════════════════════════════════════════════════════ */
+    /* Light theme tokens: accessible green is for UI contrast; neon hues stay in graphic-only roles. */
     --background: 0 0% 100%;
     --foreground: 215 28% 17%;
 
@@ -30,16 +26,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 28% 17%;
 
-    /* Primary: Verde accesible (mejor contraste para lectura) */
+    /* Primary: accessible green for readable UI contrast. */
     --primary: 153 67% 39%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 153 72% 46%;
 
-    /* Secondary: Electric Magenta (solo gráficos) */
+    /* Secondary: electric magenta for graphic accents only. */
     --secondary: 300 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Accent: Electric Blue (solo gráficos) */
+    /* Accent: electric blue for graphic accents only. */
     --accent: 216 100% 50%;
     --accent-foreground: 0 0% 100%;
 
@@ -55,14 +51,14 @@
 
     --radius: 1rem;
 
-    /* Gradientes — White-Tech */
+    /* Light theme gradients */
     --gradient-primary: linear-gradient(135deg, #21A66E, #00B8D9);
     --gradient-secondary: linear-gradient(135deg, #FF00FF, #9D00FF);
     --gradient-hero: linear-gradient(135deg, #FFFFFF 0%, #F8F8F8 40%, #F0FFF8 100%);
     --gradient-card: linear-gradient(180deg, #FFFFFF, #FAFAFA);
     --gradient-neon: linear-gradient(90deg, #21A66E, #00B8D9, #2A67CF);
 
-    /* Sombras — White-Tech (elegantes y sutiles) */
+    /* Light theme shadows */
     --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.06);
     --shadow-medium: 0 4px 20px hsl(0 0% 0% / 0.10);
     --shadow-large: 0 8px 40px hsl(0 0% 0% / 0.12);
@@ -109,7 +105,7 @@
     --tour-chip-accent-text: #0d8b5c;
   }
 
-  /* Scoped Theme for White-Tech Forms */
+  /* Scoped theme for white-tech forms */
   .white-tech-scope {
     --background: 0 0% 100%;
     --foreground: 215 28% 17%;
@@ -126,7 +122,7 @@
   }
 
   .dark {
-    /* Dark variant — Soft Slate (menos contrastada y menos oscura) */
+    /* Dark variant: soft slate keeps contrast comfortable without going pure black. */
     --background: 220 23% 16%;
     --foreground: 0 0% 94%;
 
@@ -136,16 +132,16 @@
     --popover: 220 22% 20%;
     --popover-foreground: 0 0% 94%;
 
-    /* Primary: Verde accesible en dark */
+    /* Primary: accessible green tuned for dark surfaces. */
     --primary: 153 69% 54%;
     --primary-foreground: 0 0% 8%;
     --primary-glow: 153 74% 62%;
 
-    /* Secondary: Magenta Neón */
+    /* Secondary: neon magenta for graphic accents. */
     --secondary: 300 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Accent: Blue Eléctrico */
+    /* Accent: electric blue for graphic accents. */
     --accent: 216 100% 50%;
     --accent-foreground: 0 0% 100%;
 
@@ -161,14 +157,14 @@
 
     --radius: 1rem;
 
-    /* Gradientes — Prisma Tecnológico Dark */
+    /* Dark theme gradients */
     --gradient-primary: linear-gradient(135deg, #2BC680, #1BB2D0);
     --gradient-secondary: linear-gradient(135deg, #FF00FF, #9D00FF);
     --gradient-hero: linear-gradient(135deg, hsl(220 23% 16%) 0%, hsl(223 24% 20%) 52%, hsl(214 25% 24%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(220 22% 20%), hsl(220 21% 18%));
     --gradient-neon: linear-gradient(90deg, #2BC680, #1BB2D0, #2A67CF);
 
-    /* Sombras — Neon Glow */
+    /* Dark theme glow shadows */
     --shadow-soft: 0 2px 8px hsl(220 30% 6% / 0.35);
     --shadow-medium: 0 4px 20px hsl(220 30% 6% / 0.45);
     --shadow-large: 0 8px 40px hsl(220 30% 6% / 0.55);
@@ -302,10 +298,7 @@
   }
 }
 
-/* ═══════════════════════════════════════════════
-   CREA BY I365 — Utility Classes
-   Glassmorphism, Glow, Prisma Tecnológico
-═══════════════════════════════════════════════ */
+/* Reusable utility classes layered above Tailwind components. */
 
 @layer components {
   .text-body-ui {
@@ -357,7 +350,6 @@
     padding-right: var(--safe-area-right);
   }
 
-  /* Glassmorphism Effect */
   .glass {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
@@ -370,17 +362,16 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  /* Neon Glow Text — solo para elementos gráficos, NO para texto de lectura */
+  /* Graphic-only glow color; avoid using it for reading text. */
   .text-neon-glow {
     color: #04FF8D;
   }
 
-  /* Multicolor glow border — solo para elementos gráficos */
+  /* Graphic-only multicolor border for decorative elements. */
   .border-prisma {
     border-image: linear-gradient(135deg, #FF00FF, #0066FF, #04FF8D, #FF6600) 1;
   }
 
-  /* Neon underline for headings */
   .neon-underline {
     position: relative;
   }
@@ -395,7 +386,6 @@
     border-radius: 2px;
   }
 
-  /* Card with glassmorphism */
   .card-glass {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(16px);
@@ -409,7 +399,7 @@
     border: 1px solid rgba(4, 255, 141, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
-  /* World Theme transition — smooth palette swap between cognitive modules */
+  /* World theme transition: smooth palette swaps between cognitive modules. */
   .world-transition {
     transition:
       --primary 0.5s ease,

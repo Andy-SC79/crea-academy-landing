@@ -380,7 +380,7 @@
   "tour": {
     "sceneHero": {
       "headline": "Uma singularidade educacional orquestrada por inteligência viva",
-      "createAccount": "Ver Planos"
+      "createAccount": "Ver planos"
     },
     "trustBand": {
       "label": "Com apoio de pioneiros da indústria"
@@ -600,7 +600,7 @@
           "kicker": "Eleve seu Talento",
           "subtitle": "Tudo do Básico, e mais...",
           "badge": "Recomendado",
-          "ctaLabel": "Eleve seu Talento",
+          "ctaLabel": "Eleve seu talento",
           "features": [
             "Interação IA Sem Limites: Converse e aprenda sem restrições.",
             "Personalização Total: Desenhe o avatar, voz e tom do seu mentor.",
@@ -619,7 +619,7 @@
           "name": "ENTERPRISE",
           "kicker": "Ecossistema Corporativo",
           "subtitle": "Tudo do Criadores, e mais...",
-          "ctaLabel": "Agendar Diagnóstico",
+          "ctaLabel": "Agendar diagnóstico",
           "features": [
             "Trilhas Corporativas: Converta manuais em trilhas interativas.",
             "Dashboard de Análises: Meça adoção, horas e progresso em tempo real.",
@@ -635,7 +635,7 @@
           "name": "BOOTCAMP IA",
           "kicker": "Trilha intensiva aplicada",
           "subtitle": "Programa prático para equipes que querem adotar IA generativa com casos reais.",
-          "ctaLabel": "Ver Bootcamp de IA",
+          "ctaLabel": "Ver bootcamp de IA",
           "features": [
             "Formação intensiva com exercícios aplicados a processos reais.",
             "Pronto pagamento de 30% e 10% adicional para equipes a partir de 5 pessoas.",
@@ -659,8 +659,8 @@
       "minutes": "Minutos",
       "seconds": "Segundos",
       "live": "Já estamos ao vivo!",
-      "join_youtube": "Entrar no Lançamento",
-      "reminder_youtube": "Ativar Lembrete no YouTube"
+      "join_youtube": "Entrar no lançamento",
+      "reminder_youtube": "Ativar lembrete no YouTube"
     },
     "testimonies": {
       "eyebrow": "Bootcamps de IA",

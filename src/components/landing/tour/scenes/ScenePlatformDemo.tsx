@@ -37,16 +37,16 @@ const DEMOS = [
 
 const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: TFunction<"landing">, index: number }) => {
   return (
-    <div className={cn(TOUR_GLASS_PANEL_CLASS, "relative mx-auto flex w-full max-w-5xl flex-col overflow-hidden md:flex-row")}>
-      <div className="flex flex-1 flex-col justify-center p-8 md:p-12">
+    <div className={cn(TOUR_GLASS_PANEL_CLASS, "relative mx-auto flex w-full max-w-5xl flex-col overflow-hidden lg:flex-row")}>
+      <div className="flex min-w-0 flex-1 flex-col justify-center p-5 sm:p-8 lg:p-12">
         <h3 className={cn(SURFACE_TITLE_CLASS, "mt-0 pb-0 text-[clamp(1.6rem,2vw+1rem,3rem)]")}>
           {t(`tour.platformDemo.demos.${index}.title`)}
         </h3>
-        <p className="tour-text-default mt-4 text-lg dark:text-white/70 md:text-xl">
+        <p className="tour-text-default mt-4 text-base leading-7 dark:text-white/70 md:text-lg lg:text-xl">
           {t(`tour.platformDemo.demos.${index}.desc`)}
         </p>
       </div>
-      <div className="relative h-[300px] w-full overflow-hidden rounded-[28px] bg-slate-950 md:h-[450px] md:w-[50%]">
+      <div className="relative h-[240px] w-full overflow-hidden rounded-[28px] bg-slate-950 sm:h-[320px] lg:h-[450px] lg:w-[50%]">
         <video
           src={demo.url}
           className="absolute inset-0 h-full w-full object-cover opacity-92"
@@ -63,7 +63,7 @@ const DemoCard = ({ demo, t, index }: { demo: typeof DEMOS[0], t: TFunction<"lan
 export default function ScenePlatformDemo() {
   const { t } = useTranslation("landing");
   return (
-    <SceneTemplate className="relative z-10 flex min-h-[100vh] w-full flex-col items-center justify-center py-24">
+    <SceneTemplate className="relative z-10 flex min-h-[100vh] w-full flex-col items-center justify-center py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function ScenePlatformDemo() {
           </SceneEyebrow>
         </div>
         <SceneHeadline
-          className="mx-auto max-w-[14ch] text-center text-[clamp(2.2rem,5.8vw,4.75rem)] leading-[1.02]"
+          className="mx-auto max-w-[min(100%,14ch)] text-center text-[clamp(2.2rem,5.8vw,4.75rem)] leading-[1.02]"
           parts={[
             { text: t("tour.platformDemo.headline_1") },
             { text: t("tour.platformDemo.headline_2"), accent: "prisma" },
@@ -85,7 +85,7 @@ export default function ScenePlatformDemo() {
         />
       </motion.div>
 
-      <div className="flex w-full flex-col gap-12 px-4 md:px-12">
+      <div className="flex w-full flex-col gap-8 px-0 sm:px-4 md:gap-12 lg:px-12">
         {DEMOS.map((demo, index) => (
           <motion.div
             key={demo.id}

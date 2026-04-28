@@ -4,8 +4,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import Magnetic from "@/components/landing/Magnetic";
 
-// Target Date: April 23, 2026, 16:00 (4:00 PM) Colombia Time (UTC-5)
-// In UTC: 2026-04-23T21:00:00Z
+// April 23, 2026 at 16:00 Colombia time (UTC-5), stored in UTC for consistent client countdowns.
 const TARGET_DATE = new Date("2026-04-23T21:00:00Z").getTime();
 
 interface TimeLeft {
@@ -33,12 +32,10 @@ function calculateTimeLeft(): TimeLeft {
 }
 
 function AnimatedNumber({ value, label }: { value: number; label: string }) {
-  // Pad with leading zero if needed
   const paddedValue = value.toString().padStart(2, "0");
 
   return (
     <div className="flex flex-col items-center justify-center p-1.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/5 dark:bg-white/[0.04] border border-black/5 dark:border-white/5 relative overflow-hidden group w-[46px] h-[54px] sm:w-[80px] sm:h-[86px]">
-      {/* Subtle glow effect inside each card */}
       <div className="absolute inset-0 bg-brand-neon/0 group-hover:bg-brand-neon/5 transition-colors duration-500 rounded-2xl" />
       
       <div className="relative h-[40px] sm:h-[50px] w-full flex items-center justify-center overflow-hidden">
@@ -80,7 +77,6 @@ export default function TimeCounter({ className }: { className?: string }) {
     <div className={cn("w-full max-w-4xl mx-auto relative z-20 px-4 sm:px-0", className)}>
       <div className="relative overflow-hidden rounded-[32px] bg-white/70 dark:bg-[#0A0A0A]/80 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 p-3 sm:p-6 shadow-2xl shadow-black/5 dark:shadow-[0_0_80px_rgba(4,255,141,0.05)]">
         
-        {/* Background Prisma Glow */}
         <div className="absolute top-1/2 left-1/2 w-full h-full max-w-[400px] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 rounded-full blur-[100px] pointer-events-none opacity-50 dark:opacity-30" />
 
         <div className="relative z-10 flex flex-col items-center text-center space-y-3 sm:space-y-5">
@@ -120,7 +116,6 @@ export default function TimeCounter({ className }: { className?: string }) {
             </div>
           )}
 
-          {/* YouTube Action Button (Always visible) */}
           <div className="pt-2">
             <Magnetic strength={0.25}>
               <a 
@@ -139,8 +134,8 @@ export default function TimeCounter({ className }: { className?: string }) {
                   </svg>
                   <span>
                     {isLive 
-                      ? "Unirse al Directo"
-                      : "Activar Recordatorio"}
+                      ? t("tour.countdown.join_youtube")
+                      : t("tour.countdown.reminder_youtube")}
                   </span>
                 </motion.div>
               </a>

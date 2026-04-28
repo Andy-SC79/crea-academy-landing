@@ -41,7 +41,7 @@ function InteractiveGenerator() {
   }, [stage]);
 
   return (
-    <div className="relative z-10 p-5 sm:p-2">
+    <div className="relative z-10 p-1 sm:p-2">
       {stage === "idle" && (
         <div className="flex flex-col items-center justify-center py-6">
           <div className="mb-6 w-full rounded-xl border border-slate-200/50 bg-slate-950 p-4 font-mono text-sm text-brand-neon/80 shadow-inner dark:border-white/10 dark:bg-black/40 text-left">
@@ -50,7 +50,7 @@ function InteractiveGenerator() {
           </div>
           <button 
             onClick={() => setStage("generating")}
-            className="group relative flex items-center justify-center gap-2 rounded-full bg-brand-neon px-6 py-3 font-display text-sm font-black text-black transition-all hover:scale-105 hover:bg-brand-neon/90 shadow-lg shadow-brand-neon/20"
+            className="group relative flex items-center justify-center gap-2 rounded-full bg-brand-neon px-5 py-3 text-center font-display text-sm font-black leading-tight text-black shadow-lg shadow-brand-neon/20 transition-all hover:scale-105 hover:bg-brand-neon/90 sm:px-6"
           >
             <Activity className="h-4 w-4" />
             {t("tour.scene4.card.action_btn")}
@@ -105,7 +105,7 @@ function InteractiveGenerator() {
             </p>
           </div>
 
-          <div className="mt-2 flex w-full items-center justify-between border-t border-slate-200 dark:border-white/10 pt-4">
+          <div className="mt-2 flex w-full flex-col items-center gap-2 border-t border-slate-200 pt-4 text-center dark:border-white/10 sm:flex-row sm:justify-between sm:text-left">
             <div className="flex items-center gap-2">
               <span className="text-xs uppercase tracking-[0.16em] text-[color:var(--tour-text-muted)] dark:text-white/50">
                 {t("tour.scene4.reward_label")}
@@ -205,9 +205,9 @@ export default function Scene4() {
                   {t("tour.scene4.card.workspace_title")}
                 </h3>
               </div>
-              <div className="tour-meta-chip inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-display font-black text-[color:var(--tour-text-default)] md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
+              <div className="tour-meta-chip inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full px-4 py-2 text-center text-xs font-display font-black leading-tight text-[color:var(--tour-text-default)] md:text-sm dark:border-brand-neon/20 dark:bg-brand-neon/10 dark:text-brand-neon dark:shadow-none">
                 <Wand2 className="h-4 w-4" />
-                {t("tour.scene4.card.active_tool")}
+                <span className="min-w-0">{t("tour.scene4.card.active_tool")}</span>
               </div>
             </div>
 
