@@ -354,6 +354,10 @@ const INCLUDED = [
   "Soporte post-bootcamp",
 ];
 
+const FORM_LABEL_CLASS =
+  "text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-default)]";
+const FORM_FIELD_CLASS = "tour-form-field h-12 w-full rounded-lg px-4 text-sm outline-none";
+
 function SectionHeader({
   eyebrow,
   title,
@@ -422,17 +426,11 @@ function TourRouteSection() {
               title="Seis ciudades para llevar la IA del discurso a la operación."
               description="La ruta combina formación presencial, casos reales y pago por fecha. Medellín ya tiene auditorio confirmado; las demás ciudades quedan abiertas para reservar mientras cerramos sede."
             />
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-4">
                 <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">6</p>
                 <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
                   ciudades
-                </p>
-              </div>
-              <div className="rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
-                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">64</p>
-                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-brand-cyan">
-                  días de gira
                 </p>
               </div>
               <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-4">
@@ -1230,7 +1228,7 @@ function CorporateQuoter() {
     <section id="cotizador" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+          <div className="tour-readable-cyan inline-flex items-center gap-2 rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em]">
             <Calculator className="h-3.5 w-3.5" />
             Cotizador empresarial
           </div>
@@ -1241,7 +1239,7 @@ function CorporateQuoter() {
             Selecciona la parada de la gira, ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
           </p>
           <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+            <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
               Cohorte seleccionada
             </p>
             <p className="mt-3 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
@@ -1256,47 +1254,47 @@ function CorporateQuoter() {
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Empresa</span>
+              <span className={FORM_LABEL_CLASS}>Empresa</span>
               <input
                 value={form.company}
                 onChange={(event) => updateForm("company", event.target.value)}
                 placeholder="Ej: Bancolombia S.A."
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">NIT</span>
+              <span className={FORM_LABEL_CLASS}>NIT</span>
               <input
                 value={form.nit}
                 onChange={(event) => updateForm("nit", event.target.value)}
                 placeholder="Ej: 890.903.938-8"
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Contacto</span>
+              <span className={FORM_LABEL_CLASS}>Contacto</span>
               <input
                 value={form.contactName}
                 onChange={(event) => updateForm("contactName", event.target.value)}
                 placeholder="Ej: Laura Gómez"
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Cargo</span>
+              <span className={FORM_LABEL_CLASS}>Cargo</span>
               <input
                 value={form.contactRole}
                 onChange={(event) => updateForm("contactRole", event.target.value)}
                 placeholder="Ej: Directora de talento"
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
             <label className="space-y-2 sm:col-span-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Fecha y lugar</span>
+              <span className={FORM_LABEL_CLASS}>Fecha y lugar</span>
               <select
                 value={form.sessionId}
                 onChange={(event) => updateSession(event.target.value)}
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               >
                 {BOOTCAMP_SESSIONS.map((session) => (
                   <option key={session.id} value={session.id} disabled={session.status !== "available"}>
@@ -1309,9 +1307,9 @@ function CorporateQuoter() {
             <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="flex gap-3">
-                  <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+                  <CalendarDays className="tour-readable-cyan mt-0.5 h-5 w-5 shrink-0" />
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.14em] text-brand-cyan">
+                    <p className="tour-readable-cyan text-xs font-black uppercase tracking-[0.14em]">
                       Fecha disponible
                     </p>
                     <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
@@ -1323,9 +1321,9 @@ function CorporateQuoter() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-neon" />
+                  <MapPin className="tour-readable-green mt-0.5 h-5 w-5 shrink-0" />
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.14em] text-brand-neon">
+                    <p className="tour-readable-green text-xs font-black uppercase tracking-[0.14em]">
                       Lugar
                     </p>
                     <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
@@ -1337,18 +1335,18 @@ function CorporateQuoter() {
                   </div>
                 </div>
               </div>
-              <p className="mt-3 rounded-lg border border-white/10 bg-black/10 px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+              <p className="mt-3 rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
                 {selectedSession.venueConfirmed
                   ? "Sede confirmada. Puedes reservar cupo individual o cotizar varios participantes ahora."
                   : "Fecha confirmada y disponible para reserva. La sede y dirección final se compartirán al cerrar el venue de la ciudad."}
               </p>
             </div>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Ciudad de contacto</span>
+              <span className={FORM_LABEL_CLASS}>Ciudad de contacto</span>
               <select
                 value={form.city}
                 onChange={(event) => updateForm("city", event.target.value)}
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               >
                 {CITIES.map((city) => (
                   <option key={city}>{city}</option>
@@ -1356,47 +1354,47 @@ function CorporateQuoter() {
               </select>
             </label>
             <label className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Número de personas</span>
+              <span className={FORM_LABEL_CLASS}>Número de personas</span>
               <input
                 type="number"
                 min="1"
                 value={form.people}
                 onChange={(event) => updateForm("people", event.target.value)}
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
             <label className="space-y-2 sm:col-span-2">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">Teléfono de contacto</span>
+              <span className={FORM_LABEL_CLASS}>Teléfono de contacto</span>
               <input
                 value={form.phone}
                 onChange={(event) => updateForm("phone", event.target.value)}
                 placeholder="Ej: 300 000 0000"
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
             </label>
           </div>
 
-          <div className="mt-6 grid gap-3 rounded-lg bg-[#071225] p-4 text-white sm:grid-cols-3">
+          <div className="tour-quote-summary mt-6 grid gap-3 rounded-lg p-4 sm:grid-cols-3">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Personas</p>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Personas</p>
               <p className="mt-2 font-display text-3xl font-black">{people}</p>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Precio lista</p>
-              <p className={cn("mt-2 font-display text-2xl font-black", hasDiscount && "text-white/45 line-through")}>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Precio lista</p>
+              <p className={cn("mt-2 font-display text-2xl font-black", hasDiscount && "tour-quote-summary-muted line-through")}>
                 {formatCurrency(subtotal)}
               </p>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-white/45">Total antes de IVA</p>
-              <p className="mt-2 font-display text-2xl font-black text-brand-neon">
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total antes de IVA</p>
+              <p className="tour-readable-green mt-2 font-display text-2xl font-black">
                 {formatCurrency(total)}
               </p>
             </div>
           </div>
 
           {hasDiscount ? (
-            <p className="mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold text-[#0d8b5c] dark:text-brand-neon">
+            <p className="tour-readable-green mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold">
               {hasPlanDiscount && hasGroupDiscount
                 ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. Valores antes de IVA.`
                 : hasPlanDiscount
@@ -1413,7 +1411,7 @@ function CorporateQuoter() {
 
           <div className="mt-6 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
             <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-              <CreditCard className="h-4 w-4 text-brand-neon" />
+              <CreditCard className="tour-readable-green h-4 w-4" />
               Paga en línea
             </div>
             <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
@@ -1428,7 +1426,7 @@ function CorporateQuoter() {
                 onChange={(event) => updateForm("email", event.target.value)}
                 placeholder="correo para asociar el pago"
                 autoComplete="email"
-                className="h-12 w-full rounded-lg border border-[color:var(--tour-border-standard)] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-brand-cyan dark:bg-[#071225] dark:text-white"
+                className={FORM_FIELD_CLASS}
               />
               <Button
                 type="button"
@@ -1693,10 +1691,10 @@ export default function BootcampIA() {
             <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
               <article className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                  <p className="tour-readable-cyan inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
                     Cupo individual
                   </p>
-                  <span className="rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
+                  <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em]">
                     30% pronto pago
                   </span>
                 </div>
@@ -1728,12 +1726,12 @@ export default function BootcampIA() {
                 </Button>
               </article>
 
-              <article className="rounded-lg border border-brand-neon/45 bg-brand-neon/10 p-7 shadow-[0_24px_60px_rgba(4,255,141,0.10)]">
+              <article className="rounded-lg border border-brand-neon/45 bg-[linear-gradient(180deg,rgba(236,253,245,0.72),rgba(240,253,250,0.54))] p-7 shadow-[0_24px_60px_rgba(4,255,141,0.10)] dark:bg-none dark:bg-brand-neon/10">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+                  <p className="tour-readable-green inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
                     Equipo empresa
                   </p>
-                  <span className="rounded-full bg-[#071225] px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-brand-neon">
+                  <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] dark:bg-[#071225]">
                     Ahorras {formatCurrency(TEAM_SAVINGS)} vs. lista
                   </span>
                 </div>
@@ -1757,7 +1755,7 @@ export default function BootcampIA() {
                   </div>
                   <div className="mt-2 flex items-center justify-between gap-4">
                     <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo antes de IVA</span>
-                    <span className="font-display text-2xl font-black text-[#0d8b5c] dark:text-brand-neon">
+                    <span className="tour-readable-green font-display text-2xl font-black">
                       {formatCurrency(TEAM_TOTAL)}
                     </span>
                   </div>

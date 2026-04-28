@@ -16,6 +16,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
+COPY package.json ./package.json
 COPY --from=build /app/dist ./dist
 COPY api ./api
 COPY server.mjs ./server.mjs

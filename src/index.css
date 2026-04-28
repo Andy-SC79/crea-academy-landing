@@ -488,6 +488,80 @@
     color: var(--tour-chip-accent-text);
   }
 
+  .tour-form-field {
+    border: 1px solid var(--tour-border-standard);
+    background: var(--tour-canvas-strong);
+    color: var(--tour-text-strong);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .dark .tour-form-field {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .tour-form-field::placeholder {
+    color: var(--tour-text-muted);
+    opacity: 0.78;
+  }
+
+  .tour-form-field:focus {
+    border-color: #007aa5;
+    box-shadow: 0 0 0 3px rgba(0, 122, 165, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  }
+
+  .dark .tour-form-field:focus {
+    border-color: #00d2ff;
+    box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .tour-form-field:-webkit-autofill,
+  .tour-form-field:-webkit-autofill:hover,
+  .tour-form-field:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--tour-text-strong);
+    caret-color: var(--tour-text-strong);
+    -webkit-box-shadow: 0 0 0 1000px var(--tour-canvas-strong) inset;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  .tour-quote-summary {
+    border: 1px solid var(--tour-border-standard);
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(241, 245, 249, 0.94) 100%);
+    color: var(--tour-text-strong);
+    box-shadow: var(--tour-shadow-soft);
+  }
+
+  .dark .tour-quote-summary {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: #071225;
+    color: #ffffff;
+    box-shadow: none;
+  }
+
+  .tour-quote-summary-muted {
+    color: var(--tour-text-muted);
+  }
+
+  .dark .tour-quote-summary-muted {
+    color: rgba(255, 255, 255, 0.46);
+  }
+
+  .tour-readable-cyan {
+    color: #007aa5;
+  }
+
+  .dark .tour-readable-cyan {
+    color: #00d2ff;
+  }
+
+  .tour-readable-green {
+    color: #0d8b5c;
+  }
+
+  .dark .tour-readable-green {
+    color: #04ff8d;
+  }
+
   .tour-secondary-button {
     background: var(--tour-surface-elevated);
     border: 1px solid var(--tour-border-standard);
