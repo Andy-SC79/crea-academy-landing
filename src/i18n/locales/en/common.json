@@ -13,7 +13,9 @@
     "administration": "Administration",
     "signOut": "Sign Out",
     "joinWaitlist": "Join Waitlist",
-    "waitlistStatus": "Access status"
+    "waitlistStatus": "Access status",
+    "plans": "Plans",
+    "menu": "Menu"
   },
   "adminMenu": {
     "adminBootcamps": "Admin Bootcamps",

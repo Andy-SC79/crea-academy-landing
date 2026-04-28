@@ -11,9 +11,12 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import Magnetic from "@/components/landing/Magnetic";
+import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import { Button } from "@/components/ui/button";
 import { APP_AUTH_URL, BOOKING_DIAGNOSTIC_URL, BOOTCAMP_IA_PATH } from "@/lib/external-links";
@@ -184,38 +187,40 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         </div>
 
         <div className="mt-8 pt-6">
-          {tier.ctaStyle === "ghost" ? (
-            isInternalCta ? (
-              <Link to={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
-                <span>{tier.ctaLabel}</span>
-                {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
-              </Link>
-            ) : (
-              <a href={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
-                <span>{tier.ctaLabel}</span>
-                {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
-              </a>
-            )
-          ) : (
-            <Button
-              asChild
-              size="lg"
-              variant="default"
-              className="w-full rounded-full px-6 font-display text-[1.05rem] font-black tracking-tight shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-black hover:bg-brand-neon/90"
-            >
-              {isInternalCta ? (
-                <Link to={tier.ctaHref}>
-                  {tier.ctaLabel}
+          <Magnetic strength={tier.highlighted ? 0.28 : 0.22} className="w-full">
+            {tier.ctaStyle === "ghost" ? (
+              isInternalCta ? (
+                <Link to={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                  <span>{tier.ctaLabel}</span>
                   {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                 </Link>
               ) : (
-                <a href={tier.ctaHref}>
-                  {tier.ctaLabel}
+                <a href={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                  <span>{tier.ctaLabel}</span>
                   {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                 </a>
-              )}
-            </Button>
-          )}
+              )
+            ) : (
+              <Button
+                asChild
+                size="lg"
+                variant="default"
+                className="w-full rounded-full px-6 font-display text-[1.05rem] font-black tracking-tight shadow-none transition-all duration-300 hover:shadow-none bg-brand-neon text-black hover:bg-brand-neon/90"
+              >
+                {isInternalCta ? (
+                  <Link to={tier.ctaHref}>
+                    {tier.ctaLabel}
+                    {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+                  </Link>
+                ) : (
+                  <a href={tier.ctaHref}>
+                    {tier.ctaLabel}
+                    {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
+                  </a>
+                )}
+              </Button>
+            )}
+          </Magnetic>
         </div>
       </div>
     </motion.article>
@@ -225,6 +230,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
 const PricingSection = () => {
 
   const { t } = useTranslation("landing");
+  const { resolvedTheme } = useTheme();
 
   const pricingTiers: PricingTier[] = [
     {
@@ -246,6 +252,7 @@ const PricingSection = () => {
         t("tour.pricing.tiers.free.features.1"),
         t("tour.pricing.tiers.free.features.2"),
         t("tour.pricing.tiers.free.features.3"),
+        t("tour.pricing.tiers.free.features.4"),
       ],
     },
     {
@@ -321,9 +328,16 @@ const PricingSection = () => {
     <SceneTemplate isPricing showFooter={true} disableScrollReveal>
       <div className={PRICING_SECTION_CLASS}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-8%] top-[-18%] h-52 w-52 rounded-full bg-brand-neon/6 blur-3xl dark:bg-brand-neon/8" />
-          <div className="absolute right-[-10%] top-[18%] h-64 w-64 rounded-full bg-brand-purple/6 blur-3xl dark:bg-brand-purple/12" />
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.2))] dark:bg-[linear-gradient(180deg,transparent,rgba(3,7,18,0.32))]" />
+          <VolumetricBrandField
+            shape="cluster"
+            density={0.36}
+            palette={["#04FF8D", "#00E5FF", "#9D00FF"]}
+            cycle={false}
+            showLogo={false}
+            theme={resolvedTheme}
+            className="absolute inset-0 h-full w-full opacity-[0.32] dark:opacity-[0.56]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.56),rgba(255,255,255,0.14)_34%,rgba(255,255,255,0.46))] dark:bg-[linear-gradient(180deg,rgba(3,7,18,0.42),rgba(3,7,18,0.12)_36%,rgba(3,7,18,0.5))]" />
         </div>
         <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">

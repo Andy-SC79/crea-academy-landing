@@ -13,7 +13,9 @@
     "administration": "Administración",
     "signOut": "Cerrar Sesión",
     "joinWaitlist": "Unirse a la Lista",
-    "waitlistStatus": "Estado de acceso"
+    "waitlistStatus": "Estado de acceso",
+    "plans": "Planes",
+    "menu": "Menú"
   },
   "adminMenu": {
     "adminBootcamps": "Admin Bootcamps",

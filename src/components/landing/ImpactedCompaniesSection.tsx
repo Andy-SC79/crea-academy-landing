@@ -1,5 +1,7 @@
 import { Building2, ExternalLink } from "lucide-react";
 
+import AnimatedText from "@/components/landing/tour/AnimatedText";
+import { SceneEyebrow } from "@/components/landing/tour/scenes/shared";
 import {
   IMPACTED_COMPANY_COUNT,
   IMPACTED_COMPANY_GROUPS,
@@ -26,10 +28,9 @@ export default function ImpactedCompaniesSection({
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div className="lg:sticky lg:top-28">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-              <Building2 className="h-3.5 w-3.5" />
-              Impacto empresarial
-            </div>
+            <SceneEyebrow icon={<Building2 className="h-4 w-4 sm:h-5 sm:w-5" />}>
+              <AnimatedText text="Impacto empresarial" />
+            </SceneEyebrow>
             <h2 className="mt-5 max-w-2xl font-display text-[clamp(2rem,5vw,4.2rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
               Empresas que ha impactado{" "}
               <a

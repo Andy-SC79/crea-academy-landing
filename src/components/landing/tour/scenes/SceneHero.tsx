@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import Magnetic from "@/components/landing/Magnetic";
 import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
@@ -123,29 +124,35 @@ export default function SceneHero() {
               transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="flex w-full max-w-[44rem] flex-col items-center justify-center gap-3 min-[640px]:flex-row pb-safe"
             >
-              <Button
-                asChild
-                size="xl"
-                className="singularity-cta min-h-[3.5rem] w-full min-[640px]:flex-1 rounded-full bg-brand-neon px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-black hover:bg-brand-neon/90"
-              >
-                <Link to={BOOTCAMP_IA_PATH}>Bootcamp IA</Link>
-              </Button>
-              <Button
-                asChild
-                size="xl"
-                variant="outline"
-                className="tour-secondary-button min-h-[3.5rem] w-full min-[640px]:flex-1 rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
-              >
-                <a href={APP_AUTH_URL}>{t("nav.signIn", { ns: "common" })}</a>
-              </Button>
-              <Button
-                asChild
-                size="xl"
-                variant="outline"
-                className="tour-secondary-button min-h-[3.5rem] w-full min-[640px]:flex-1 rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
-              >
-                <a href={APP_AUTH_URL}>{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
-              </Button>
+              <Magnetic strength={0.24} className="w-full min-[640px]:flex-1">
+                <Button
+                  asChild
+                  size="xl"
+                  className="singularity-cta min-h-[3.5rem] w-full rounded-full bg-brand-neon px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight text-black hover:bg-brand-neon/90"
+                >
+                  <Link to={BOOTCAMP_IA_PATH}>Bootcamp IA</Link>
+                </Button>
+              </Magnetic>
+              <Magnetic strength={0.2} className="w-full min-[640px]:flex-1">
+                <Button
+                  asChild
+                  size="xl"
+                  variant="outline"
+                  className="tour-secondary-button min-h-[3.5rem] w-full rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                >
+                  <a href={APP_AUTH_URL}>{t("nav.signIn", { ns: "common" })}</a>
+                </Button>
+              </Magnetic>
+              <Magnetic strength={0.24} className="w-full min-[640px]:flex-1">
+                <Button
+                  asChild
+                  size="xl"
+                  variant="outline"
+                  className="tour-secondary-button min-h-[3.5rem] w-full rounded-full px-4 sm:px-8 text-[1.05rem] sm:text-[1.2rem] font-display font-black tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08]"
+                >
+                  <a href="#pricing-section">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
+                </Button>
+              </Magnetic>
             </motion.div>
           </div>
         </section>

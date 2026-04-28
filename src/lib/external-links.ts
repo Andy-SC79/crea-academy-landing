@@ -1,4 +1,4 @@
-export const LANDING_PRICING_HASH = "/#tour-pricing";
+export const LANDING_PRICING_HASH = "/#pricing-section";
 export const BOOTCAMP_IA_PATH = "/bootcamp-ia";
 
 export const APP_BASE_URL = "https://app.crea.academy";

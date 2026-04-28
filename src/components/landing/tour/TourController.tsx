@@ -53,7 +53,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
                 id={scene.id}
                 className={cn(
                   "tour-section-blend flex w-full flex-col items-center justify-center",
-                  scene.id === "tour-pricing" && "scroll-mt-24",
+                  scene.id === "pricing-section" && "scroll-mt-24",
                 )}
               >
                 <SceneComponent integrationSlot={integrationSlot} />

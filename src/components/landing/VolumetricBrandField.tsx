@@ -49,15 +49,15 @@ interface RenderTokens {
 
 const CYCLE_ORDER: VolumetricShape[] = ["nebula", "galaxy", "supernova", "pulsar", "cluster", "void"];
 const DEFAULT_PALETTE: [string, string, string] = ["#04FF8D", "#00E5FF", "#9D00FF"];
-const LIGHT_MODE_PRISM_TARGETS = ["#005A43", "#0A56B8", "#4B2BDF"] as const;
-const LIGHT_MODE_WEIGHTS = [0.5, 0.46, 0.4] as const;
+const LIGHT_MODE_PRISM_TARGETS = ["#0080FF", "#4B0082", "#B22222"] as const;
+const LIGHT_MODE_WEIGHTS = [0.9, 0.9, 0.9] as const;
 const DARK_TRAIL_HALO = "#F4FCFF";
 const LIGHT_TRAIL_INK = "#0B1424";
 
 const MOTION = {
   fieldOfView: 4.0,
-  bodyScale: 1.16,
-  bodyThickness: 0.58,
+  bodyScale: 1.96,
+  bodyThickness: 0.8,
   stretchPerSpeed: 126,
   minSeparationEm: 1,
   separationRadiusMultiplier: 2.55,
@@ -68,8 +68,8 @@ const MOTION = {
   cursorSinkStrength: -0.05,
   velocityLerp: 0.05,
   damping: 0.98,
-  targetFlowSpeed: 0.015,
-  targetDepthSpeed: 0.01,
+  targetFlowSpeed: 0.01056,
+  targetDepthSpeed: 0.01088,
   boundX: 2.5,
   boundY: 2.5,
   tailLengthSizeMultiplier: 5.1,
@@ -79,7 +79,7 @@ const MOTION = {
   tailNearOffsetMultiplier: 0.34,
   tailNearWidthMultiplier: 0.62,
   tailFarWidthMultiplier: 0.1,
-  alphaCeiling: 0.76,
+  alphaCeiling: 0.6,
   alphaGain: 0.98,
 } as const;
 
@@ -162,13 +162,13 @@ function getRenderTokens(basePalette: [string, string, string], isDark: boolean)
 
   return {
     bodyFill: bodyPalette,
-    tailColor: (fillColor) => mixHexColors(fillColor, LIGHT_TRAIL_INK, 0.82),
-    tailOpacityStops: [0, 0.03, 0.08, 0.24],
-    trailBlendMode: "multiply",
+    tailColor: (fillColor) => mixHexColors(fillColor, LIGHT_TRAIL_INK, 0.5),
+    tailOpacityStops: [0, 0.2, 0.6, 1.0],
+    trailBlendMode: "lighter",
     backgroundFade: null,
     bodyBlendMode: "source-over",
-    ringStrokeOpacityHex: "20",
-    sparkleAlphaBase: 0.6,
+    ringStrokeOpacityHex: "30",
+    sparkleAlphaBase: 0.7,
     sparkleAlphaSwing: 0.1,
   };
 }

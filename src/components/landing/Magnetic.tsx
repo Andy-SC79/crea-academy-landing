@@ -18,37 +18,60 @@ export default function Magnetic({ children, strength = 0.35, className = "" }: 
 
     let raf = 0;
     let tx = 0, ty = 0, cx = 0, cy = 0;
+    const settleThreshold = 0.08;
 
-    const onMove = (e: MouseEvent) => {
+    const animate = () => {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+
+      const deltaX = Math.abs(tx - cx);
+      const deltaY = Math.abs(ty - cy);
+      if (deltaX < settleThreshold && deltaY < settleThreshold) {
+        cx = tx;
+        cy = ty;
+      }
+
+      el.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`;
+
+      if (
+        Math.abs(tx - cx) > settleThreshold ||
+        Math.abs(ty - cy) > settleThreshold ||
+        Math.abs(cx) > settleThreshold ||
+        Math.abs(cy) > settleThreshold
+      ) {
+        raf = requestAnimationFrame(animate);
+      } else {
+        raf = 0;
+      }
+    };
+
+    const requestTick = () => {
+      if (!raf) {
+        raf = requestAnimationFrame(animate);
+      }
+    };
+
+    const onMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       const mx = e.clientX - (r.left + r.width / 2);
       const my = e.clientY - (r.top + r.height / 2);
-      const dist = Math.hypot(mx, my);
-      const radius = Math.max(r.width, r.height) * 1.2;
-      if (dist < radius) {
-        tx = mx * strength;
-        ty = my * strength;
-      } else {
-        tx = 0; ty = 0;
-      }
+      tx = mx * strength;
+      ty = my * strength;
+      requestTick();
     };
-    const onLeave = () => { tx = 0; ty = 0; };
-
-    const loop = () => {
-      cx += (tx - cx) * 0.15;
-      cy += (ty - cy) * 0.15;
-      el.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`;
-      raf = requestAnimationFrame(loop);
+    const onLeave = () => {
+      tx = 0;
+      ty = 0;
+      requestTick();
     };
 
-    window.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
-    loop();
+    el.addEventListener("pointermove", onMove, { passive: true });
+    el.addEventListener("pointerleave", onLeave);
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
-      el.removeEventListener("mouseleave", onLeave);
+      if (raf) cancelAnimationFrame(raf);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
     };
   }, [strength]);
 

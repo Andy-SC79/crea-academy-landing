@@ -26,6 +26,44 @@
 
 .tour-ambient-shell {
   background-color: var(--tour-bg-start);
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-kerning: normal;
+}
+
+.tour-ambient-shell :is(h1, h2) {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.tour-ambient-shell :is(h3, h4, h5, h6) {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.tour-ambient-shell :is(p, li) {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.tour-ambient-shell :is(a, button, [role="button"]) {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 700;
+}
+
+.tour-ambient-shell .tour-kicker,
+.tour-ambient-shell .tour-meta-chip {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 700;
+}
+
+.tour-ambient-shell .font-display,
+.tour-ambient-shell .font-sans {
+  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
 }
 
 .tour-ambient-base {
