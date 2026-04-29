@@ -1,7 +1,8 @@
 import { useState } from "react";
+import type { MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
@@ -14,9 +15,44 @@ const PRICING_SECTION_HASH = "#pricing-section";
 export default function Header() {
   const { t } = useTranslation(["landing", "common"]);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isHomePage = pathname === "/";
   const sectionHref = (hash: string) => (isHomePage ? hash : `/${hash}`);
+
+  const scrollToHash = (hash: string, attempt = 0) => {
+    const target = document.querySelector(hash);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    if (attempt < 8) {
+      window.setTimeout(() => scrollToHash(hash, attempt + 1), 80);
+    }
+  };
+
+  const handleSectionClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.includes("#")) return;
+
+    event.preventDefault();
+    setIsMobileMenuOpen(false);
+
+    const hash = `#${href.split("#")[1]}`;
+    if (!hash || hash === "#") return;
+
+    if (isHomePage) {
+      window.history.pushState(null, "", hash);
+      scrollToHash(hash);
+      return;
+    }
+
+    navigate({ pathname: "/", hash });
+    window.setTimeout(() => scrollToHash(hash), 80);
+  };
 
   const navLinks = [
     { href: sectionHref("#scene-hero"), label: t("nav.home", { ns: "common" }) },
@@ -51,6 +87,7 @@ export default function Header() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={(event) => handleSectionClick(event, item.href)}
                 className="text-[0.9rem] font-display font-black tracking-tight text-[color:var(--tour-text-default)] transition-colors hover:text-[color:var(--tour-text-strong)] dark:text-white/80 dark:hover:text-[#04FF8D]"
               >
                 {item.label}
@@ -71,6 +108,7 @@ export default function Header() {
               </a>
               <a
                 href={sectionHref(PRICING_SECTION_HASH)}
+                onClick={(event) => handleSectionClick(event, sectionHref(PRICING_SECTION_HASH))}
                 className="hidden h-9 items-center justify-center rounded-full bg-brand-neon px-4 text-[0.85rem] font-display font-black tracking-tight text-black transition-transform hover:scale-105 md:inline-flex md:h-10 md:px-5 md:text-[1rem]"
               >
                 {t("tour.sceneHero.createAccount", { ns: "landing" })}
@@ -105,7 +143,7 @@ export default function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(event) => handleSectionClick(event, item.href)}
                 className="rounded-2xl px-4 py-3 text-sm font-display font-black tracking-tight text-[color:var(--tour-text-default)] transition-colors hover:bg-brand-neon/10 hover:text-[color:var(--tour-text-strong)] dark:text-white/85 dark:hover:text-brand-neon"
               >
                 {item.label}
@@ -121,7 +159,7 @@ export default function Header() {
             </a>
             <a
               href={sectionHref(PRICING_SECTION_HASH)}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(event) => handleSectionClick(event, sectionHref(PRICING_SECTION_HASH))}
               className="mt-2 inline-flex h-11 items-center justify-center rounded-full bg-brand-neon px-5 text-sm font-display font-black tracking-tight text-black transition-transform hover:scale-[1.02]"
             >
               {t("tour.sceneHero.createAccount", { ns: "landing" })}

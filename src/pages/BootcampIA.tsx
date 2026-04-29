@@ -5,6 +5,7 @@ import {
   ArrowRight,
   BadgeCheck,
   Bot,
+  Building2,
   CalendarDays,
   Calculator,
   Check,
@@ -22,6 +23,7 @@ import {
   Rocket,
   Send,
   Sparkles,
+  UserRound,
   Workflow,
   type LucideIcon,
 } from "lucide-react";
@@ -32,7 +34,6 @@ import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
-import { openI365PaymentWidget } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import "@/styles/tour-ambient.css";
 
@@ -43,11 +44,6 @@ const MAILTO_URL =
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
 const BOOTCAMP_PRICING_ENDPOINT = "/api/bootcamp-pricing";
 const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
-const DEFAULT_I365_WIDGET_APP_ID = "298f0727-6901-4d98-88e0-785576041b20";
-const I365_WIDGET_APP_ID =
-  import.meta.env.VITE_I365_PAYMENT_APP_ID || DEFAULT_I365_WIDGET_APP_ID;
-const I365_BOOTCAMP_PLAN_ID =
-  import.meta.env.VITE_I365_BOOTCAMP_PLAN_ID?.trim() || "";
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -73,15 +69,18 @@ const EXECUTIVE_CONTACTS = [
   },
 ];
 const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla", "Cartagena", "Bucaramanga"];
-const PRICE_PER_PERSON = 1150000;
+const BOOTCAMP_CURRENCY = "USD";
+const BOOTCAMP_TAX_LABEL = "IVA incluido";
+const PRICE_PER_PERSON = 360;
 const EARLY_PAYMENT_DISCOUNT = 0.3;
 const TEAM_DISCOUNT = 0.1;
 const TEAM_MIN_PEOPLE = 5;
-const EARLY_PAYMENT_PRICE_PER_PERSON = Math.round(PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT));
-const TEAM_PRICE_PER_PERSON = Math.round(EARLY_PAYMENT_PRICE_PER_PERSON * (1 - TEAM_DISCOUNT));
-const TEAM_BASE_TOTAL = PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
-const TEAM_TOTAL = TEAM_PRICE_PER_PERSON * TEAM_MIN_PEOPLE;
-const TEAM_SAVINGS = TEAM_BASE_TOTAL - TEAM_TOTAL;
+const roundMoney = (value: number) => Number(value.toFixed(2));
+const EARLY_PAYMENT_PRICE_PER_PERSON = roundMoney(PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT));
+const TEAM_PRICE_PER_PERSON = roundMoney(EARLY_PAYMENT_PRICE_PER_PERSON * (1 - TEAM_DISCOUNT));
+const TEAM_BASE_TOTAL = roundMoney(PRICE_PER_PERSON * TEAM_MIN_PEOPLE);
+const TEAM_TOTAL = roundMoney(TEAM_PRICE_PER_PERSON * TEAM_MIN_PEOPLE);
+const TEAM_SAVINGS = roundMoney(TEAM_BASE_TOTAL - TEAM_TOTAL);
 const BOOTCAMP_SESSION_SELECT_EVENT = "bootcamp-session-select";
 const BOOTCAMP_SESSIONS = [
   {
@@ -191,8 +190,11 @@ type QuoteForm = {
   email: string;
 };
 
+type QuoteFlow = "person" | "company";
+
 type QuoteHtmlOptions = {
   form: QuoteForm;
+  flow: QuoteFlow;
   people: number;
   pricePerPerson: number;
   subtotal: number;
@@ -577,12 +579,17 @@ function TourRouteSection() {
   );
 }
 
-function formatCurrency(value: number) {
-  return value.toLocaleString("es-CO", {
+function formatCurrency(value: number, currency = BOOTCAMP_CURRENCY) {
+  const safeValue = Number.isFinite(value) ? value : 0;
+  const hasDecimals = Math.abs(safeValue % 1) > 0;
+  const formatted = safeValue.toLocaleString("en-US", {
     style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
+    currency,
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+    maximumFractionDigits: 2,
   });
+
+  return currency === "USD" ? `${formatted} USD` : formatted;
 }
 
 function escapeHtml(value: string) {
@@ -642,7 +649,7 @@ function buildSyntheticPaymentId(prefix: string, ...parts: string[]) {
 }
 
 function buildBootcampPaymentIdentity(form: QuoteForm) {
-  const companyAnchor = form.nit || form.company || "empresa";
+  const companyAnchor = form.nit || form.company || form.contactName || "cliente";
 
   return {
     userId: buildSyntheticPaymentId(
@@ -662,17 +669,17 @@ function buildLocalFallbackQuote(
   const safePeople = Math.max(peopleInput, 0);
   const basePricePerPerson = PRICE_PER_PERSON;
   const pricePerPerson = EARLY_PAYMENT_PRICE_PER_PERSON;
-  const baseSubtotal = safePeople * basePricePerPerson;
-  const subtotal = safePeople * pricePerPerson;
+  const baseSubtotal = roundMoney(safePeople * basePricePerPerson);
+  const subtotal = roundMoney(safePeople * pricePerPerson);
   const groupDiscountPercentage = safePeople >= TEAM_MIN_PEOPLE ? Math.round(TEAM_DISCOUNT * 100) : 0;
-  const groupDiscountValue = groupDiscountPercentage > 0 ? Math.round(subtotal * TEAM_DISCOUNT) : 0;
-  const planDiscountValue = Math.max(baseSubtotal - subtotal, 0);
-  const total = Math.max(subtotal - groupDiscountValue, 0);
+  const groupDiscountValue = groupDiscountPercentage > 0 ? roundMoney(subtotal * TEAM_DISCOUNT) : 0;
+  const planDiscountValue = roundMoney(Math.max(baseSubtotal - subtotal, 0));
+  const total = roundMoney(Math.max(subtotal - groupDiscountValue, 0));
 
   return {
     people: safePeople,
     sessionId: session.id,
-    currency: "COP",
+    currency: BOOTCAMP_CURRENCY,
     planId: session.planId || null,
     planName: null,
     priceSource: "fallback",
@@ -684,7 +691,7 @@ function buildLocalFallbackQuote(
     planDiscountValue,
     groupDiscountPercentage,
     groupDiscountValue,
-    totalDiscountValue: planDiscountValue + groupDiscountValue,
+    totalDiscountValue: roundMoney(planDiscountValue + groupDiscountValue),
     total,
     amountInCents: Math.round(total * 100),
   };
@@ -692,6 +699,7 @@ function buildLocalFallbackQuote(
 
 function generateQuoteHtml({
   form,
+  flow,
   people,
   pricePerPerson,
   subtotal,
@@ -705,7 +713,12 @@ function generateQuoteHtml({
     day: "numeric",
   });
   const ref = `I365-${Date.now().toString().slice(-6)}`;
-  const company = escapeHtml(form.company || "Empresa");
+  const isCompanyQuote = flow === "company";
+  const clientName = escapeHtml(
+    isCompanyQuote ? form.company || "Empresa" : form.contactName || "Participante",
+  );
+  const clientLabel = isCompanyQuote ? "Empresa" : "Persona natural";
+  const documentLabel = isCompanyQuote ? "NIT" : "Documento";
   const nit = escapeHtml(form.nit || "N/A");
   const contactName = escapeHtml(form.contactName || "Contacto por definir");
   const contactRole = escapeHtml(form.contactRole || "Rol por definir");
@@ -742,7 +755,7 @@ function generateQuoteHtml({
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Cotización Bootcamp de IA - ${company}</title>
+<title>Cotización Bootcamp de IA - ${clientName}</title>
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #061322; background: #edf7fb; }
@@ -809,8 +822,8 @@ function generateQuoteHtml({
           <img class="crea-logo" src="${creaLogoUrl}" alt="Crea Academy" />
           <img class="i365-logo" src="${i365LogoUrl}" alt="Ingeniería 365" />
         </div>
-        <p class="kicker">Cotización empresarial</p>
-        <h1>Bootcamp de Inteligencia Artificial para ${company}</h1>
+        <p class="kicker">${isCompanyQuote ? "Cotización empresarial" : "Cotización persona natural"}</p>
+        <h1>Bootcamp de Inteligencia Artificial para ${clientName}</h1>
         <p class="subtitle">
           Propuesta personalizada para formar ${people} participante${people === 1 ? "" : "s"} en IA aplicada,
           automatización, agentes y construcción de prototipos útiles para el negocio.
@@ -825,8 +838,8 @@ function generateQuoteHtml({
       <section class="section">
         <p class="label">Datos del cliente</p>
         <div class="grid">
-          <div class="cell"><small>Empresa</small><strong>${company}</strong></div>
-          <div class="cell"><small>NIT</small><strong>${nit}</strong></div>
+          <div class="cell"><small>${clientLabel}</small><strong>${clientName}</strong></div>
+          <div class="cell"><small>${documentLabel}</small><strong>${nit}</strong></div>
           <div class="cell"><small>Contacto</small><strong>${contactName}</strong></div>
           <div class="cell"><small>Rol</small><strong>${contactRole}</strong></div>
           <div class="cell"><small>Correo</small><strong>${email}</strong></div>
@@ -866,7 +879,7 @@ function generateQuoteHtml({
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
         </div>
         <p class="note" style="margin-top:14px">
-          Valores antes de IVA. Todos los planes incluyen descuento por pronto pago del 30%
+          Valores en dólares estadounidenses, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Incluye descuento por pronto pago del 30%
           y descuento adicional por equipo cuando aplique.
         </p>
       </section>
@@ -875,10 +888,10 @@ function generateQuoteHtml({
         <p class="label">Pago seguro</p>
         <div class="payment-box">
           <div>
-            <strong>Pago en línea con el portal i365</strong>
+            <strong>Pago en línea con checkout seguro de Wompi</strong>
             <p>
               Para pagar esta cotización, ingresa al cotizador oficial y usa "Pagar ahora".
-              El monto se recalcula en servidor antes de abrir el portal de pagos.
+              El monto se recalcula en servidor antes de abrir el checkout seguro de Wompi.
             </p>
           </div>
           <a href="${paymentUrl}">Pagar en línea</a>
@@ -897,8 +910,8 @@ function generateQuoteHtml({
 
       <section class="section">
         <div class="note">
-          Esta cotización tiene validez de 15 días calendario. Los valores están expresados en pesos colombianos
-          y pueden formalizarse mediante factura electrónica, orden de compra o confirmación comercial. La reserva
+          Esta cotización tiene validez de 15 días calendario. Los valores están expresados en dólares estadounidenses
+          e incluyen IVA. Pueden formalizarse mediante factura electrónica, orden de compra o confirmación comercial. La reserva
           de cupos se confirma con el acuerdo de pago aprobado por Ingeniería 365.
         </div>
       </section>
@@ -915,6 +928,7 @@ function generateQuoteHtml({
 }
 
 function CorporateQuoter() {
+  const [quoteFlow, setQuoteFlow] = useState<QuoteFlow>("person");
   const [form, setForm] = useState<QuoteForm>({
     company: "",
     nit: "",
@@ -923,7 +937,7 @@ function CorporateQuoter() {
     phone: "",
     city: ACTIVE_BOOTCAMP_SESSION.city,
     sessionId: ACTIVE_BOOTCAMP_SESSION.id,
-    people: String(TEAM_MIN_PEOPLE),
+    people: "1",
     email: "",
   });
   const [sentMessage, setSentMessage] = useState("");
@@ -937,8 +951,7 @@ function CorporateQuoter() {
   const selectedSession = getBootcampSession(form.sessionId);
   const canPaySelectedSession = selectedSession.status === "available";
   const paymentIdentity = buildBootcampPaymentIdentity(form);
-  const selectedPlanId = selectedSession.planId || I365_BOOTCAMP_PLAN_ID;
-  const usesEmbeddedI365Widget = Boolean(selectedPlanId) && people === 1;
+  const isCompanyFlow = quoteFlow === "company";
   const effectivePricing =
     pricing.people === people && pricing.sessionId === selectedSession.id
       ? pricing
@@ -951,13 +964,24 @@ function CorporateQuoter() {
   const hasPlanDiscount = effectivePricing.planDiscountPercentage > 0;
   const hasGroupDiscount = effectivePricing.groupDiscountPercentage > 0;
 
+  const updateQuoteFlow = (nextFlow: QuoteFlow) => {
+    if (nextFlow === quoteFlow) return;
+
+    const nextPeople = nextFlow === "company" ? Math.max(people, TEAM_MIN_PEOPLE) : 1;
+    setQuoteFlow(nextFlow);
+    setPaymentMessage("");
+    setSentMessage("");
+    setForm((current) => ({ ...current, people: String(nextPeople) }));
+    setPricing(buildLocalFallbackQuote(nextPeople, selectedSession));
+  };
+
   const updateForm = (field: keyof QuoteForm, value: string) => {
     if (field === "email" && paymentMessage) {
       setPaymentMessage("");
     }
     if (field === "people") {
       const nextPeople = Math.max(Number.parseInt(value, 10) || 0, 0);
-      setPricing(buildLocalFallbackQuote(nextPeople));
+      setPricing(buildLocalFallbackQuote(nextPeople, selectedSession));
     }
     setForm((current) => ({ ...current, [field]: value }));
   };
@@ -972,12 +996,8 @@ function CorporateQuoter() {
   };
 
   useEffect(() => {
-<<<<<<< Updated upstream
     const pricingSession = getBootcampSession(form.sessionId);
     const fallbackQuote = buildLocalFallbackQuote(people, pricingSession);
-=======
-    const fallbackQuote = buildLocalFallbackQuote(people);
->>>>>>> Stashed changes
 
     if (people < 1) return;
 
@@ -993,7 +1013,7 @@ function CorporateQuoter() {
         const data = (await response.json().catch(() => null)) as BootcampPricingResponse | null;
 
         if (!response.ok || !data?.quote) {
-          throw new Error(data?.error || "No se pudo sincronizar el precio del Bootcamp con i365.");
+          throw new Error(data?.error || "No se pudo sincronizar el precio internacional del Bootcamp.");
         }
 
         setPricing(data.quote);
@@ -1039,6 +1059,30 @@ function CorporateQuoter() {
       return false;
     }
 
+    if (isCompanyFlow && !form.company.trim()) {
+      setPaymentMessage("Agrega la razón social de la empresa para continuar.");
+      return false;
+    }
+
+    if (!isCompanyFlow && !form.contactName.trim()) {
+      setPaymentMessage("Agrega el nombre de la persona que asistirá al Bootcamp.");
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateQuoteEmail = () => {
+    if (!form.email.trim()) {
+      setSentMessage("Agrega un correo para enviar la cotización.");
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      setSentMessage("Agrega un correo válido para enviar la cotización.");
+      return false;
+    }
+
     return true;
   };
 
@@ -1049,6 +1093,7 @@ function CorporateQuoter() {
     quoteWindow.document.write(
       generateQuoteHtml({
         form,
+        flow: quoteFlow,
         people,
         pricePerPerson,
         subtotal,
@@ -1061,9 +1106,10 @@ function CorporateQuoter() {
   };
 
   const openMailFallback = () => {
-    const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${form.company || "Empresa"}`);
+    const clientName = isCompanyFlow ? form.company || "Empresa" : form.contactName || "Persona natural";
+    const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${clientName}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nEmpresa: ${form.company || "N/A"}\nNIT: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado antes de IVA: ${formatCurrency(total)}\nNota: todos los planes incluyen descuento por pronto pago del 30%.`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
@@ -1086,6 +1132,8 @@ function CorporateQuoter() {
         sessionVenue: selectedSession.venue,
         sessionAddress: selectedSession.address,
         people,
+        clientType: quoteFlow,
+        currency: BOOTCAMP_CURRENCY,
         email: form.email.trim(),
         userId: paymentIdentity.userId,
         companyId: paymentIdentity.companyId,
@@ -1097,20 +1145,18 @@ function CorporateQuoter() {
       return data;
     }
 
-    throw new Error(data?.error || "No se pudo crear el pago en el portal i365.");
+    throw new Error(data?.error || "No se pudo crear el pago en Wompi.");
   };
 
   const handleEmailQuote = async () => {
-    if (!form.email) {
-      setSentMessage("Agrega un correo para enviar la cotización.");
-      return;
-    }
+    if (!validateQuoteEmail()) return;
 
     setIsSendingQuote(true);
     setSentMessage("");
 
     const quoteHtml = generateQuoteHtml({
       form,
+      flow: quoteFlow,
       people,
       pricePerPerson,
       subtotal,
@@ -1126,6 +1172,7 @@ function CorporateQuoter() {
         body: JSON.stringify({
           to: form.email,
           quote: {
+            clientType: quoteFlow,
             company: form.company,
             nit: form.nit,
             contactName: form.contactName,
@@ -1142,6 +1189,8 @@ function CorporateQuoter() {
             subtotal,
             discountValue: totalDiscountValue,
             total,
+            currency: BOOTCAMP_CURRENCY,
+            taxLabel: BOOTCAMP_TAX_LABEL,
           },
           html: quoteHtml,
         }),
@@ -1164,68 +1213,20 @@ function CorporateQuoter() {
     if (!validatePaymentFields()) return;
 
     setPaymentMode("checkout");
-    if (usesEmbeddedI365Widget) {
-      setPaymentMessage("Cargando el widget de pagos i365...");
-
-      try {
-        let widgetCompleted = false;
-
-        await openI365PaymentWidget({
-          appId: I365_WIDGET_APP_ID,
-          planId: selectedPlanId,
-          userId: paymentIdentity.userId,
-          companyId: paymentIdentity.companyId,
-          userEmail: form.email.trim(),
-          userName: form.contactName.trim() || form.company.trim() || "Cliente Bootcamp IA",
-          onSuccess: () => {
-            widgetCompleted = true;
-            setPaymentMode(null);
-            setPaymentMessage("Pago aprobado en i365. Cierra el widget para continuar.");
-          },
-          onError: (error) => {
-            widgetCompleted = true;
-            setPaymentMode(null);
-            setPaymentMessage(
-              error instanceof Error
-                ? error.message
-                : error.message || "El widget i365 reportó un error al procesar el pago.",
-            );
-          },
-          onClose: () => {
-            setPaymentMode(null);
-            if (!widgetCompleted) {
-              setPaymentMessage("El widget i365 se cerró antes de completar el pago.");
-            }
-          },
-        });
-
-        setPaymentMessage("Widget i365 abierto. Completa el pago para confirmar la reserva.");
-      } catch (error) {
-        setPaymentMode(null);
-        setPaymentMessage(
-          error instanceof Error
-            ? error.message
-            : "No se pudo abrir el widget de pagos i365.",
-        );
-      }
-
-      return;
-    }
-
-    setPaymentMessage("Preparando el portal de pagos i365...");
+    setPaymentMessage("Preparando el checkout seguro de Wompi...");
 
     try {
       const data = await createPaymentIntent();
       const widgetData = data.datos_widget;
       const checkoutUrl = buildPaymentCheckoutUrl(widgetData);
 
-      setPaymentMessage(`Referencia ${widgetData.reference} lista. Abriendo el portal de pagos i365...`);
+      setPaymentMessage(`Referencia ${widgetData.reference} lista. Abriendo Wompi...`);
       window.location.assign(checkoutUrl);
     } catch (error) {
       setPaymentMessage(
         error instanceof Error
           ? error.message
-          : "No se pudo iniciar el portal de pagos i365.",
+          : "No se pudo iniciar el checkout seguro de Wompi.",
       );
     } finally {
       setPaymentMode(null);
@@ -1238,13 +1239,13 @@ function CorporateQuoter() {
         <div>
           <div className="tour-readable-cyan inline-flex items-center gap-2 rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em]">
             <Calculator className="h-3.5 w-3.5" />
-            Cotizador empresarial
+            Cotizador y pago
           </div>
           <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4.4rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-            Elige ciudad, calcula y paga tu cupo.
+            Elige cómo quieres avanzar.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Selecciona la parada de la gira, ingresa el correo, confirma el número de personas y abre el portal de pagos i365. Si necesitas apoyo, WhatsApp queda disponible como soporte.
+            Primero define si eres persona natural o empresa. Luego puedes cotizar en PDF/correo o pagar de inmediato con checkout seguro de Wompi.
           </p>
           <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
             <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
@@ -1260,43 +1261,109 @@ function CorporateQuoter() {
         </div>
 
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
+          <div className="mb-5 grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              aria-pressed={!isCompanyFlow}
+              onClick={() => updateQuoteFlow("person")}
+              className={cn(
+                "flex items-start gap-3 rounded-lg border p-4 text-left transition-colors",
+                !isCompanyFlow
+                  ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)]"
+                  : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35",
+              )}
+            >
+              <UserRound className="tour-readable-green mt-0.5 h-5 w-5 shrink-0" />
+              <span>
+                <span className="block text-sm font-black">Persona natural</span>
+                <span className="mt-1 block text-xs leading-5 text-[color:var(--tour-text-muted)]">
+                  Cupo individual, cotización simple o pago inmediato.
+                </span>
+              </span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={isCompanyFlow}
+              onClick={() => updateQuoteFlow("company")}
+              className={cn(
+                "flex items-start gap-3 rounded-lg border p-4 text-left transition-colors",
+                isCompanyFlow
+                  ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)]"
+                  : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35",
+              )}
+            >
+              <Building2 className="tour-readable-cyan mt-0.5 h-5 w-5 shrink-0" />
+              <span>
+                <span className="block text-sm font-black">Empresa / persona jurídica</span>
+                <span className="mt-1 block text-xs leading-5 text-[color:var(--tour-text-muted)]">
+                  Cotiza varios participantes, factura y reserva de cupos.
+                </span>
+              </span>
+            </button>
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>Empresa</span>
-              <input
-                value={form.company}
-                onChange={(event) => updateForm("company", event.target.value)}
-                placeholder="Ej: Bancolombia S.A."
-                className={FORM_FIELD_CLASS}
-              />
-            </label>
-            <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>NIT</span>
-              <input
-                value={form.nit}
-                onChange={(event) => updateForm("nit", event.target.value)}
-                placeholder="Ej: 890.903.938-8"
-                className={FORM_FIELD_CLASS}
-              />
-            </label>
-            <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>Contacto</span>
-              <input
-                value={form.contactName}
-                onChange={(event) => updateForm("contactName", event.target.value)}
-                placeholder="Ej: Laura Gómez"
-                className={FORM_FIELD_CLASS}
-              />
-            </label>
-            <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>Cargo</span>
-              <input
-                value={form.contactRole}
-                onChange={(event) => updateForm("contactRole", event.target.value)}
-                placeholder="Ej: Directora de talento"
-                className={FORM_FIELD_CLASS}
-              />
-            </label>
+            {isCompanyFlow ? (
+              <>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>Empresa</span>
+                  <input
+                    value={form.company}
+                    onChange={(event) => updateForm("company", event.target.value)}
+                    placeholder="Ej: Bancolombia S.A."
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>NIT</span>
+                  <input
+                    value={form.nit}
+                    onChange={(event) => updateForm("nit", event.target.value)}
+                    placeholder="Ej: 890.903.938-8"
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>Contacto</span>
+                  <input
+                    value={form.contactName}
+                    onChange={(event) => updateForm("contactName", event.target.value)}
+                    placeholder="Ej: Laura Gómez"
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>Cargo</span>
+                  <input
+                    value={form.contactRole}
+                    onChange={(event) => updateForm("contactRole", event.target.value)}
+                    placeholder="Ej: Directora de talento"
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>Nombre completo</span>
+                  <input
+                    value={form.contactName}
+                    onChange={(event) => updateForm("contactName", event.target.value)}
+                    placeholder="Ej: Laura Gómez"
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className={FORM_LABEL_CLASS}>Documento (opcional)</span>
+                  <input
+                    value={form.nit}
+                    onChange={(event) => updateForm("nit", event.target.value)}
+                    placeholder="Ej: CC 1.000.000.000"
+                    className={FORM_FIELD_CLASS}
+                  />
+                </label>
+              </>
+            )}
             <label className="space-y-2 sm:col-span-2">
               <span className={FORM_LABEL_CLASS}>Fecha y lugar</span>
               <select
@@ -1380,6 +1447,17 @@ function CorporateQuoter() {
                 className={FORM_FIELD_CLASS}
               />
             </label>
+            <label className="space-y-2 sm:col-span-2">
+              <span className={FORM_LABEL_CLASS}>Correo para cotización y pago</span>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(event) => updateForm("email", event.target.value)}
+                placeholder="correo@empresa.com"
+                autoComplete="email"
+                className={FORM_FIELD_CLASS}
+              />
+            </label>
           </div>
 
           <div className="tour-quote-summary mt-6 grid gap-3 rounded-lg p-4 sm:grid-cols-3">
@@ -1394,7 +1472,7 @@ function CorporateQuoter() {
               </p>
             </div>
             <div>
-              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total antes de IVA</p>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total con IVA</p>
               <p className="tour-readable-green mt-2 font-display text-2xl font-black">
                 {formatCurrency(total)}
               </p>
@@ -1404,74 +1482,81 @@ function CorporateQuoter() {
           {hasDiscount ? (
             <p className="tour-readable-green mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold">
               {hasPlanDiscount && hasGroupDiscount
-                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. Valores antes de IVA.`
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. ${BOOTCAMP_TAX_LABEL}.`
                 : hasPlanDiscount
-                  ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% aplicado automáticamente. Valores antes de IVA.`
-                  : `Descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente. Valores antes de IVA.`}
+                  ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% aplicado automáticamente. ${BOOTCAMP_TAX_LABEL}.`
+                  : `Descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente. ${BOOTCAMP_TAX_LABEL}.`}
             </p>
           ) : (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-700 dark:text-amber-200">
               {hasPlanDiscount
-                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. Valores antes de IVA.`
-                : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. Valores antes de IVA.`}
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. ${BOOTCAMP_TAX_LABEL}.`
+                : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. ${BOOTCAMP_TAX_LABEL}.`}
             </p>
           )}
 
-          <div className="mt-6 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
-            <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-              <CreditCard className="tour-readable-green h-4 w-4" />
-              Paga en línea
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
+              <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
+                <FileText className="tour-readable-cyan h-4 w-4" />
+                Quiero cotizar
+              </div>
+              <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                Genera una cotización formal para revisar internamente, pedir factura o reservar cupos por ciudad.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
+                  <Download className="h-4 w-4" />
+                  PDF
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleEmailQuote}
+                  disabled={isSendingQuote}
+                  className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <Send className="h-4 w-4" />
+                  {isSendingQuote ? "Enviando..." : "Enviar"}
+                </Button>
+              </div>
+              {sentMessage ? (
+                <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+                  {sentMessage}
+                </p>
+              ) : null}
             </div>
-            <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-              {usesEmbeddedI365Widget
-                ? "Ingresa el correo del participante para asociar el pago y abrir el widget seguro de i365. Los valores se muestran antes de IVA."
-                : `Reserva cupos para ${selectedSession.shortLabel} en ${selectedSession.venue}. Validamos el total en servidor, con pronto pago del 30% y valores antes de IVA, antes de abrir el portal.`}
-            </p>
-            <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-              <input
-                type="email"
-                value={form.email}
-                onChange={(event) => updateForm("email", event.target.value)}
-                placeholder="correo para asociar el pago"
-                autoComplete="email"
-                className={FORM_FIELD_CLASS}
-              />
+
+            <div className="rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
+              <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
+                <CreditCard className="tour-readable-green h-4 w-4" />
+                Quiero pagar ahora
+              </div>
+              <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                Validamos el total en servidor y te llevamos al checkout seguro de Wompi para confirmar la reserva.
+              </p>
               <Button
                 type="button"
                 onClick={handleSecurePayment}
                 disabled={paymentMode !== null || !canPaySelectedSession}
-                className="rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {paymentMode === "checkout" ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <CreditCard className="h-4 w-4" />
                 )}
-                {paymentMode === "checkout" ? "Abriendo..." : "Pagar ahora"}
+                {paymentMode === "checkout" ? "Abriendo..." : "Pagar con Wompi"}
               </Button>
+              {paymentMessage ? (
+                <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
+                  {paymentMessage}
+                </p>
+              ) : null}
             </div>
-            {paymentMessage ? (
-              <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
-                {paymentMessage}
-              </p>
-            ) : null}
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
-              <Download className="h-4 w-4" />
-              PDF
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleEmailQuote}
-              disabled={isSendingQuote}
-              className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Send className="h-4 w-4" />
-              {isSendingQuote ? "Enviando..." : "Enviar cotización"}
-            </Button>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <Button asChild variant="outline" className="tour-secondary-button rounded-full">
               <a href={MAILTO_URL}>
                 <Mail className="h-4 w-4" />
@@ -1485,11 +1570,6 @@ function CorporateQuoter() {
               </a>
             </Button>
           </div>
-          {sentMessage ? (
-            <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
-              {sentMessage}
-            </p>
-          ) : null}
         </div>
       </div>
     </section>
@@ -1498,10 +1578,7 @@ function CorporateQuoter() {
 
 export default function BootcampIA() {
   useEffect(() => {
-<<<<<<< Updated upstream
     document.title = "Bootcamp IA Gira Colombia 2026 | Ingeniería 365";
-=======
->>>>>>> Stashed changes
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
@@ -1695,8 +1772,8 @@ export default function BootcampIA() {
           <div className="mx-auto max-w-7xl">
             <SectionHeader
               eyebrow="Inversión"
-              title={`Pronto pago activo: ${formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)} COP por cupo.`}
-              description={`Precio de lista: ${formatCurrency(PRICE_PER_PERSON)} COP antes de IVA. Todos los planes tienen ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
+              title={`Bootcamp IA: ${formatCurrency(PRICE_PER_PERSON)} por cupo.`}
+              description={`Valor internacional con ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Se mantiene ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
               centered
             />
             <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
@@ -1710,16 +1787,16 @@ export default function BootcampIA() {
                   </span>
                 </div>
                 <p className="mt-5 text-sm font-bold text-[color:var(--tour-text-muted)]">
-                  Precio de lista: <span className="line-through">{formatCurrency(PRICE_PER_PERSON)} COP</span>
+                  Precio base: <span className="line-through">{formatCurrency(PRICE_PER_PERSON)}</span>
                 </p>
                 <div className="mt-4 flex items-end gap-1">
                   <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
                     {formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)}
                   </span>
-                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP antes de IVA</span>
+                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}</span>
                 </div>
                 <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                  valor con pronto pago, antes de IVA
+                  valor con pronto pago
                 </p>
                 <ul className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
                   {["Pago directo por ciudad", "Bootcamp presencial de 8:00 AM a 6:00 PM", "Material, comunidad y certificado incluidos"].map((item) => (
@@ -1754,7 +1831,7 @@ export default function BootcampIA() {
                     <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
                       {formatCurrency(TEAM_PRICE_PER_PERSON)}
                     </span>
-                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">COP antes de IVA/persona</span>
+                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}/persona</span>
                   </div>
                 </div>
                 <div className="mt-5 border-y border-brand-neon/25 py-4 text-sm">
@@ -1765,7 +1842,7 @@ export default function BootcampIA() {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-between gap-4">
-                    <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo antes de IVA</span>
+                    <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo con IVA</span>
                     <span className="tour-readable-green font-display text-2xl font-black">
                       {formatCurrency(TEAM_TOTAL)}
                     </span>
@@ -1793,7 +1870,7 @@ export default function BootcampIA() {
               </p>
               <p className="flex gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                Valores antes de IVA; algunas sedes siguen en cierre de dirección.
+                Valores en USD con IVA incluido; algunas sedes siguen en cierre de dirección.
               </p>
             </div>
           </div>

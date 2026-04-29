@@ -580,7 +580,7 @@
       "payment_methods": "CARTÕES / PIX / MERCADO PAGO",
       "tiers": {
         "free": {
-          "name": "Básico",
+          "name": "Plano Gratuito",
           "kicker": "Explorador Crea",
           "subtitle": "Experimente o futuro do aprendizado sem barreiras.",
           "ctaLabel": "Começar grátis",
@@ -598,7 +598,7 @@
         "creadores": {
           "name": "CRIADORES",
           "kicker": "Eleve seu Talento",
-          "subtitle": "Tudo do Básico, e mais...",
+          "subtitle": "Tudo do Plano Gratuito, e mais...",
           "badge": "Recomendado",
           "ctaLabel": "Eleve seu talento",
           "features": [
@@ -609,9 +609,9 @@
             "Clonagem de Trilhas: Duplique e adapte trilhas globais ao seu contexto."
           ],
           "price_currency": "USD",
-          "price_amount": "$27",
-          "price_period": "/mês",
-          "price_subtext": "ou $22/mês com cobrança anual",
+          "price_amount": "$23",
+          "price_period": "USD / mês",
+          "price_subtext": "Isento de IVA.",
           "free_price": "Grátis",
           "free_subtext": "Para sempre. Sem cartão de crédito."
         },
@@ -642,9 +642,9 @@
             "Agenda, módulos e recursos do bootcamp em uma página dedicada.",
             "Certificado e acompanhamento para transformar aprendizado em implementação."
           ],
-          "price_amount": "$805.000",
-          "price_period": "COP / vaga",
-          "price_subtext": "Pronto pagamento ativo. Preço de tabela: $1.150.000 COP antes do IVA."
+          "price_amount": "$360",
+          "price_period": "USD / vaga",
+          "price_subtext": "IVA incluído. Aplica 30% de pronto pagamento e 10% adicional a partir de 5 pessoas."
         }
       },
       "headline_1": "Bem-vindo ao ",

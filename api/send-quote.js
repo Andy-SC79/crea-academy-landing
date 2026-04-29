@@ -24,11 +24,11 @@ function getRequestBody(req) {
   return req.body;
 }
 
-function money(value) {
+function money(value, currency = "USD") {
   return Number(value || 0).toLocaleString("es-CO", {
     style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
+    currency,
+    maximumFractionDigits: 2,
   });
 }
 
@@ -44,11 +44,15 @@ function buildTextSummary(quote = {}) {
   const sessionVenue = quote.sessionVenue || "N/A";
   const sessionAddress = quote.sessionAddress || "N/A";
   const people = quote.people || 0;
-  const total = money(quote.total);
+  const currency = quote.currency || "USD";
+  const total = money(quote.total, currency);
+  const clientType =
+    quote.clientType === "person" ? "Persona natural" : "Empresa / persona jurídica";
 
   return [
     "Cotización Bootcamp de Inteligencia Artificial",
     "",
+    `Tipo de cliente: ${clientType}`,
     `Empresa: ${company}`,
     `NIT: ${nit}`,
     `Contacto: ${contactName}`,
@@ -60,7 +64,7 @@ function buildTextSummary(quote = {}) {
     `Dirección: ${sessionAddress}`,
     `Ciudad de cotización: ${city}`,
     `Participantes: ${people}`,
-    `Total estimado: ${total}`,
+    `Total estimado: ${total} (${quote.taxLabel || "IVA incluido"})`,
     "",
     "Proveedor: Ingeniería 365",
     "NIT: 901290421-9",

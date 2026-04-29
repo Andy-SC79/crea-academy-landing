@@ -1019,8 +1019,8 @@ function Pricing({ onAction }) {
             <div className="price-tag-label">Individual</div>
             <div className="price-amount">
               <span className="price-currency" style={{color:'#64748b'}}>$</span>
-              <span className="price-main">1.150</span>
-              <span className="price-period">.000 COP</span>
+              <span className="price-main">360</span>
+              <span className="price-period"> USD</span>
             </div>
             <p className="price-desc">Acceso completo para una persona. Incluye todos los módulos, materiales y comunidad.</p>
             <ul className="price-features">
@@ -1034,11 +1034,11 @@ function Pricing({ onAction }) {
           <div className="price-card featured" style={{marginTop:0,position:'relative'}}>
             <div className="price-badge">Más popular</div>
             <div className="price-tag-label">Empresa</div>
-            <div className="discount-badge">✦ 10% de descuento</div>
+            <div className="discount-badge">✦ 30% pronto pago + 10% equipo</div>
             <div className="price-amount">
               <span className="price-currency" style={{color:'rgba(255,255,255,0.5)'}}>$</span>
-              <span className="price-main">1.035</span>
-              <span className="price-period">.000 COP/persona</span>
+              <span className="price-main">226.80</span>
+              <span className="price-period"> USD/persona</span>
             </div>
             <p className="price-desc">Desde 5 personas. Factura electrónica disponible para tu empresa.</p>
             <ul className="price-features">
@@ -1124,7 +1124,7 @@ function generatePDF(form, personas, total, totalFinal, descuento, fmt) {
 
   <div class="section-title">Resumen de la cotización</div>
   <div class="breakdown">
-    <div class="breakdown-row"><span class="label">Precio por persona</span><span class="value">${fmt(1150000)}</span></div>
+    <div class="breakdown-row"><span class="label">Precio por persona con pronto pago</span><span class="value">${fmt(360 * 0.7)}</span></div>
     <div class="breakdown-row ${descuento>0?'discount':''}"><span class="label">Subtotal (${personas} personas)</span><span class="value">${fmt(total)}</span></div>
     ${descuento>0?`<div class="breakdown-row"><span class="label">Descuento grupal (10%)</span><span class="value" style="color:#4ade80">– ${fmt(total*0.1)}</span></div>`:''}
     <div class="breakdown-row total"><span class="label">Total a facturar</span><span class="value">${fmt(totalFinal)}</span></div>
@@ -1157,12 +1157,13 @@ function Quoter({ onAction }) {
   const [showEmail, setShowEmail] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const personas = parseInt(form.personas) || 0;
-  const precioBase = 1150000;
+  const precioBase = 360;
+  const precioProntoPago = precioBase * 0.7;
   const descuento = personas >= 5 ? 0.10 : 0;
-  const total = personas * precioBase;
+  const total = personas * precioProntoPago;
   const totalFinal = total * (1 - descuento);
 
-  const fmt = (n) => n.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 });
+  const fmt = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
 
   function handleDownloadPDF() {
     const html = generatePDF(form, personas, total, totalFinal, descuento, fmt);

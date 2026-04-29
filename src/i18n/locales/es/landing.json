@@ -571,7 +571,7 @@
       "payment_methods": "PSE / MERCADO PAGO / TARJETAS",
       "tiers": {
         "free": {
-          "name": "Básico",
+          "name": "Plan Gratuito",
           "kicker": "Explorador Crea",
           "subtitle": "Ideal para explorar antes de comprometerte. Sin fricciones, sin sorpresas.",
           "ctaLabel": "Comenzar gratis",
@@ -589,7 +589,7 @@
         "creadores": {
           "name": "CREADORES",
           "kicker": "Eleva tu Talento",
-          "subtitle": "Todo lo del plan Básico, más:",
+          "subtitle": "Todo lo del plan Gratuito, más:",
           "badge": "Recomendado",
           "ctaLabel": "Eleva tu talento",
           "features": [
@@ -601,9 +601,9 @@
             "Comunidad privada de aprendizaje colaborativo."
           ],
           "price_currency": "USD",
-          "price_amount": "$27",
-          "price_period": "/mes",
-          "price_subtext": "o $22/mes facturados anualmente",
+          "price_amount": "$23",
+          "price_period": "USD / mes",
+          "price_subtext": "Exento de IVA.",
           "free_price": "Gratis",
           "free_subtext": "Para siempre. Sin tarjeta de crédito."
         },
@@ -636,9 +636,9 @@
             "Agenda, módulos y recursos del bootcamp en una página dedicada.",
             "Certificado y acompañamiento para convertir aprendizaje en implementación."
           ],
-          "price_amount": "$805.000",
-          "price_period": "COP / cupo",
-          "price_subtext": "Pronto pago activo. Precio lista: $1.150.000 COP antes de IVA."
+          "price_amount": "$360",
+          "price_period": "USD / cupo",
+          "price_subtext": "IVA incluido. Aplica 30% de pronto pago y 10% adicional desde 5 personas."
         }
       },
       "headline_1": "Bienvenido al ",

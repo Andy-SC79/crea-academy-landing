@@ -1,6 +1,8 @@
-const FALLBACK_PRICE_PER_PERSON = 1150000;
+const FALLBACK_CURRENCY = "USD";
+const FALLBACK_PRICE_PER_PERSON = 360;
 const EARLY_PAYMENT_DISCOUNT_PERCENTAGE = 30;
-const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = Math.round(
+const roundMoney = (value) => Number(Number(value || 0).toFixed(2));
+const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = roundMoney(
   FALLBACK_PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT_PERCENTAGE / 100),
 );
 const TEAM_DISCOUNT = 0.1;
@@ -185,6 +187,7 @@ function resolvePaymentConfig(envInput = {}) {
       env.I365_BOOTCAMP_PLAN_ID || env.VITE_I365_BOOTCAMP_PLAN_ID,
       DEFAULT_BOOTCAMP_PLAN_ID,
     ),
+    useRemoteBootcampPricing: env.I365_BOOTCAMP_USE_REMOTE_PRICING === "true",
   };
 }
 
@@ -219,24 +222,30 @@ async function fetchBootcampBasePlan(config, planId = config.bootcampPlanId) {
 
 async function resolveBootcampUnitPricing(config, now = new Date(), session = null) {
   const targetPlanId = sanitizeText(session?.planId || config.bootcampPlanId);
+  const fallbackPricing = () => ({
+    plan: null,
+    priceSource: "fallback_usd",
+    currency: FALLBACK_CURRENCY,
+    planId: targetPlanId || null,
+    planName: null,
+    basePricePerPerson: FALLBACK_PRICE_PER_PERSON,
+    pricePerPerson: FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON,
+    planDiscountPercentage: EARLY_PAYMENT_DISCOUNT_PERCENTAGE,
+  });
+
+  if (!config.useRemoteBootcampPricing) {
+    return fallbackPricing();
+  }
+
   const plan = await fetchBootcampBasePlan(config, targetPlanId);
 
   if (!plan) {
-    return {
-      plan: null,
-      priceSource: "fallback",
-      currency: "COP",
-      planId: targetPlanId || null,
-      planName: null,
-      basePricePerPerson: FALLBACK_PRICE_PER_PERSON,
-      pricePerPerson: FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON,
-      planDiscountPercentage: EARLY_PAYMENT_DISCOUNT_PERCENTAGE,
-    };
+    return fallbackPricing();
   }
 
-  const basePricePerPerson = Math.round(Number(plan.price_cents || 0) / 100);
+  const basePricePerPerson = roundMoney(Number(plan.price_cents || 0) / 100);
   const planDiscountPercentage = getActivePlanDiscountPercentage(plan, now);
-  const pricePerPerson = Math.round(getPlanFinalPriceCents(plan, now) / 100);
+  const pricePerPerson = roundMoney(getPlanFinalPriceCents(plan, now) / 100);
 
   if (!Number.isFinite(basePricePerPerson) || basePricePerPerson <= 0) {
     throw new PaymentError("El precio base del plan Bootcamp IA es inválido en i365.", 502, plan);
@@ -245,7 +254,7 @@ async function resolveBootcampUnitPricing(config, now = new Date(), session = nu
   return {
     plan,
     priceSource: "i365_plan",
-    currency: sanitizeText(plan.currency, "COP"),
+    currency: sanitizeText(plan.currency, FALLBACK_CURRENCY),
     planId: sanitizeText(plan.id) || null,
     planName: sanitizeText(plan.name) || null,
     basePricePerPerson,
@@ -260,12 +269,12 @@ export async function getBootcampQuote(peopleInput, options = {}) {
   const session = resolveSession(options.sessionId);
   const unitPricing = await resolveBootcampUnitPricing(config, options.now || new Date(), session);
 
-  const baseSubtotal = unitPricing.basePricePerPerson * people;
-  const subtotal = unitPricing.pricePerPerson * people;
+  const baseSubtotal = roundMoney(unitPricing.basePricePerPerson * people);
+  const subtotal = roundMoney(unitPricing.pricePerPerson * people);
   const planDiscountValue = Math.max(baseSubtotal - subtotal, 0);
   const groupDiscountPercentage = people >= 5 ? Math.round(TEAM_DISCOUNT * 100) : 0;
-  const groupDiscountValue = groupDiscountPercentage > 0 ? Math.round(subtotal * TEAM_DISCOUNT) : 0;
-  const total = Math.max(subtotal - groupDiscountValue, 0);
+  const groupDiscountValue = groupDiscountPercentage > 0 ? roundMoney(subtotal * TEAM_DISCOUNT) : 0;
+  const total = roundMoney(Math.max(subtotal - groupDiscountValue, 0));
 
   return {
     people,
@@ -279,10 +288,10 @@ export async function getBootcampQuote(peopleInput, options = {}) {
     baseSubtotal,
     subtotal,
     planDiscountPercentage: unitPricing.planDiscountPercentage,
-    planDiscountValue,
+    planDiscountValue: roundMoney(planDiscountValue),
     groupDiscountPercentage,
     groupDiscountValue,
-    totalDiscountValue: planDiscountValue + groupDiscountValue,
+    totalDiscountValue: roundMoney(planDiscountValue + groupDiscountValue),
     total,
     amountInCents: Math.round(total * 100),
   };
@@ -298,9 +307,14 @@ export async function createBootcampPayment(body, options = {}) {
 
   const session = resolveSession(body.sessionId);
   const quote = await getBootcampQuote(body.people, { ...options, sessionId: session.id });
-  const company = sanitizeText(body.company, "Cliente Bootcamp IA");
+  const clientType = sanitizeText(body.clientType || body.client_type, "company") === "person" ? "person" : "company";
+  const rawContactName = sanitizeText(body.contactName || body.contact_name);
+  const company = sanitizeText(
+    body.company,
+    clientType === "person" ? rawContactName || "Persona natural Bootcamp IA" : "Cliente Bootcamp IA",
+  );
   const nit = sanitizeText(body.nit, "N/A");
-  const contactName = sanitizeText(body.contactName, company);
+  const contactName = rawContactName || company;
   const contactRole = sanitizeText(body.contactRole);
   const phone = sanitizeText(body.phone);
   const identityAnchor = nit !== "N/A" ? nit : company;
@@ -310,6 +324,7 @@ export async function createBootcampPayment(body, options = {}) {
   const companyId = sanitizeText(body.companyId || body.company_id, fallbackCompanyId);
   const city = sanitizeText(body.city, session.city);
   const customerLegalId = nit !== "N/A" ? nit : undefined;
+  const customerLegalIdType = customerLegalId ? (clientType === "company" ? "NIT" : "CC") : undefined;
   const redirectUrl =
     config.env.BOOTCAMP_PAYMENT_REDIRECT_URL ||
     (options.origin ? `${options.origin}/bootcamp-ia?payment=return#cotizador` : undefined);
@@ -322,14 +337,17 @@ export async function createBootcampPayment(body, options = {}) {
       user_id: userId,
       company_id: companyId,
       precio_centavos: quote.amountInCents,
+      currency: quote.currency,
+      moneda: quote.currency,
       email,
       customer_name: contactName,
       customer_legal_id: customerLegalId,
-      customer_legal_id_type: customerLegalId ? "NIT" : undefined,
+      customer_legal_id_type: customerLegalIdType,
       datos_curso: {
         nombre: "Bootcamp de Inteligencia Artificial - Crea Academy by i365",
         id: "bootcamp-ia-crea-academy",
         tipo: "bootcamp_ia",
+        tipo_cliente: clientType === "company" ? "empresa_persona_juridica" : "persona_natural",
         empresa: company,
         nit,
         contacto: contactName,
@@ -343,9 +361,11 @@ export async function createBootcampPayment(body, options = {}) {
         lugar: session.venue,
         direccion: session.address,
         participantes: quote.people,
+        moneda: quote.currency,
         precio_base_persona: quote.basePricePerPerson,
         precio_final_persona: quote.pricePerPerson,
-        valores_antes_de_iva: true,
+        valores_antes_de_iva: false,
+        iva_incluido: true,
         descuento_pronto_pago_porcentaje: quote.planDiscountPercentage,
         subtotal_base: quote.baseSubtotal,
         subtotal: quote.subtotal,
@@ -358,14 +378,16 @@ export async function createBootcampPayment(body, options = {}) {
       },
       metadata: {
         payment_context: "bootcamp_quote",
-        quote_scope: "company",
+        quote_scope: clientType,
+        currency: quote.currency,
         bootcamp_plan_id: quote.planId,
         bootcamp_plan_name: quote.planName,
         bootcamp_price_source: quote.priceSource,
         plan_discount_percentage: quote.planDiscountPercentage,
         group_discount_percentage: quote.groupDiscountPercentage,
         early_payment_discount_percentage: quote.planDiscountPercentage,
-        values_before_vat: true,
+        values_before_vat: false,
+        vat_included: true,
       },
       redirect_url: redirectUrl,
     }),
@@ -378,6 +400,25 @@ export async function createBootcampPayment(body, options = {}) {
     throw new PaymentError(
       payload?.error || payload?.message || "No se pudo crear el pago en el portal i365.",
       paymentResponse.status || 502,
+      payload,
+    );
+  }
+
+  const widgetCurrency = sanitizeText(datosWidget.currency).toUpperCase();
+  const widgetAmountInCents = Number(datosWidget.amountInCents);
+
+  if (widgetCurrency && widgetCurrency !== quote.currency) {
+    throw new PaymentError(
+      `La pasarela devolvió moneda ${widgetCurrency}, pero la cotización está en ${quote.currency}.`,
+      502,
+      payload,
+    );
+  }
+
+  if (Number.isFinite(widgetAmountInCents) && widgetAmountInCents !== quote.amountInCents) {
+    throw new PaymentError(
+      "La pasarela devolvió un monto distinto al total validado en servidor.",
+      502,
       payload,
     );
   }

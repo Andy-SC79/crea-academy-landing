@@ -581,7 +581,7 @@
       "payment_methods": "CREDIT CARDS / PAYPAL / WIRE",
       "tiers": {
         "free": {
-          "name": "Basic",
+          "name": "Free Plan",
           "kicker": "Crea Explorer",
           "subtitle": "Experience the future of learning without barriers.",
           "ctaLabel": "Start free",
@@ -599,7 +599,7 @@
         "creadores": {
           "name": "CREATORS",
           "kicker": "Elevate your Talent",
-          "subtitle": "Everything in Basic, plus...",
+          "subtitle": "Everything in Free Plan, plus...",
           "badge": "Recommended",
           "ctaLabel": "Elevate your talent",
           "features": [
@@ -610,9 +610,9 @@
             "Path Cloning: Duplicate and adapt global paths to your context."
           ],
           "price_currency": "USD",
-          "price_amount": "$27",
-          "price_period": "/mo",
-          "price_subtext": "or $22/mo billed annually",
+          "price_amount": "$23",
+          "price_period": "USD / mo",
+          "price_subtext": "VAT exempt.",
           "free_price": "Free",
           "free_subtext": "Forever. No credit card required."
         },
@@ -643,9 +643,9 @@
             "Schedule, modules and resources in a dedicated bootcamp page.",
             "Certificate and guidance to turn learning into implementation."
           ],
-          "price_amount": "$805,000",
-          "price_period": "COP / seat",
-          "price_subtext": "Early-payment price active. List price: COP $1,150,000 before VAT."
+          "price_amount": "$360",
+          "price_period": "USD / seat",
+          "price_subtext": "VAT included. 30% early-payment discount plus 10% more from 5 people."
         }
       },
       "headline_1": "Welcome to the ",
