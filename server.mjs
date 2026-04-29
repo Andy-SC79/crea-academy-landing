@@ -149,7 +149,7 @@ async function handleBootcampPayment(req, res) {
 async function handleBootcampPricing(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
-    sendJson(res, 405, { error: "MÃ©todo no permitido." });
+    sendJson(res, 405, { error: "Método no permitido." });
     return;
   }
 
@@ -170,7 +170,7 @@ async function handleBootcampPricing(req, res) {
     }
 
     sendJson(res, 500, {
-      error: error instanceof Error ? error.message : "No se pudo calcular la cotizaciÃ³n.",
+      error: error instanceof Error ? error.message : "No se pudo calcular la cotización.",
     });
   }
 }
@@ -178,7 +178,7 @@ async function handleBootcampPricing(req, res) {
 async function handleTrm(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
-    sendJson(res, 405, { error: "MÃ©todo no permitido." });
+    sendJson(res, 405, { error: "Método no permitido." });
     return;
   }
 

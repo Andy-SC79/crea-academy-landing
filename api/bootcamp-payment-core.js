@@ -159,6 +159,25 @@ function getPlanFinalPriceCents(plan, now = new Date()) {
   return Math.max(0, Math.round(basePriceCents * (1 - discountPercentage / 100)));
 }
 
+function readPositiveCents(...values) {
+  for (const value of values) {
+    const cents = Number(value ?? 0);
+    if (Number.isFinite(cents) && cents > 0) {
+      return Math.round(cents);
+    }
+  }
+
+  return 0;
+}
+
+function resolveDiscountPercentageFromPrices(basePriceCents, finalPriceCents, fallbackPercentage) {
+  if (basePriceCents > 0 && finalPriceCents > 0 && finalPriceCents < basePriceCents) {
+    return Math.round((1 - finalPriceCents / basePriceCents) * 100);
+  }
+
+  return fallbackPercentage;
+}
+
 function resolveSession(sessionId) {
   const session = BOOTCAMP_SESSIONS[sanitizeText(sessionId, DEFAULT_SESSION_ID)];
 
@@ -402,9 +421,22 @@ async function resolveBootcampUnitPricing(config, now = new Date(), session = nu
     return fallbackPricing();
   }
 
-  const basePricePerPerson = roundMoney(Number(plan.price_cents || 0) / 100);
-  const planDiscountPercentage = getActivePlanDiscountPercentage(plan, now);
-  const pricePerPerson = roundMoney(getPlanFinalPriceCents(plan, now) / 100);
+  const activeDiscountPercentage = getActivePlanDiscountPercentage(plan, now);
+  const basePriceCents = readPositiveCents(plan.configured_price_cents, plan.base_price_cents, plan.price_cents);
+  const finalPriceCents = readPositiveCents(
+    plan.total_price_cents,
+    plan.final_price_cents,
+    plan.discounted_price_cents,
+    plan.price_cents,
+    getPlanFinalPriceCents({ ...plan, price_cents: basePriceCents }, now),
+  );
+  const basePricePerPerson = roundMoney(basePriceCents / 100);
+  const pricePerPerson = roundMoney(finalPriceCents / 100);
+  const planDiscountPercentage = resolveDiscountPercentageFromPrices(
+    basePriceCents,
+    finalPriceCents,
+    activeDiscountPercentage,
+  );
 
   if (!Number.isFinite(basePricePerPerson) || basePricePerPerson <= 0) {
     throw new PaymentError("El precio base del plan Bootcamp IA es inválido en i365.", 502, plan);

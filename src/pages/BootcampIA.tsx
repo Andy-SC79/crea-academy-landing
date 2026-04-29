@@ -34,7 +34,6 @@ import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
-import { openI365PaymentWidget } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import "@/styles/tour-ambient.css";
 
@@ -44,9 +43,7 @@ const MAILTO_URL =
   "mailto:jeisonperez@ingenieria365.com?cc=eliza@ingenieria365.com,info@ingenieria365.com&subject=Cotizar%20Bootcamp%20de%20IA";
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
 const BOOTCAMP_PRICING_ENDPOINT = "/api/bootcamp-pricing";
-const I365_PAYMENT_APP_ID =
-  (import.meta.env.VITE_I365_PAYMENT_APP_ID as string | undefined) ||
-  "298f0727-6901-4d98-88e0-785576041b20";
+const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -247,6 +244,20 @@ type BootcampPricingResponse = {
   ok?: boolean;
   error?: string;
   quote?: BootcampQuote;
+};
+
+type BootcampPaymentResponse = {
+  ok?: boolean;
+  error?: string;
+  quote?: BootcampQuote;
+  datos_widget?: {
+    currency: string;
+    amountInCents: number;
+    reference: string;
+    publicKey: string;
+    signature: string;
+    redirectUrl?: string;
+  };
 };
 
 function getBootcampSession(sessionId: string): BootcampSession {
@@ -685,6 +696,25 @@ function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).toString();
 }
 
+async function parsePaymentResponse(response: Response) {
+  return (await response.json().catch(() => null)) as BootcampPaymentResponse | null;
+}
+
+function buildPaymentCheckoutUrl(widgetData: NonNullable<BootcampPaymentResponse["datos_widget"]>) {
+  const checkoutUrl = new URL("https://checkout.wompi.co/p/");
+  checkoutUrl.searchParams.set("public-key", widgetData.publicKey);
+  checkoutUrl.searchParams.set("currency", widgetData.currency);
+  checkoutUrl.searchParams.set("amount-in-cents", String(widgetData.amountInCents));
+  checkoutUrl.searchParams.set("reference", widgetData.reference);
+  checkoutUrl.searchParams.set("signature:integrity", widgetData.signature);
+
+  if (widgetData.redirectUrl) {
+    checkoutUrl.searchParams.set("redirect-url", widgetData.redirectUrl);
+  }
+
+  return checkoutUrl.toString();
+}
+
 function slugifyPaymentIdentityPart(value: string) {
   return value
     .trim()
@@ -958,7 +988,7 @@ function generateQuoteHtml({
           }
         </div>
         <p class="note" style="margin-top:14px">
-          Valores en pesos colombianos, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El pago se abre en el widget seguro de i365.
+          Valores en pesos colombianos, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El pago se abre en el checkout seguro de i365.
         </p>
       </section>
 
@@ -969,7 +999,7 @@ function generateQuoteHtml({
             <strong>Pago en línea con checkout seguro de i365</strong>
             <p>
               Para pagar esta cotización, ingresa al cotizador oficial y usa "Pagar ahora".
-              El pago se realiza desde el widget seguro de i365.
+              El pago se realiza desde el checkout seguro de i365.
             </p>
           </div>
           <a href="${paymentUrl}">Pagar en línea</a>
@@ -1029,7 +1059,6 @@ function CorporateQuoter() {
   const missingForDiscount = Math.max(TEAM_MIN_PEOPLE - people, 0);
   const selectedSession = getBootcampSession(form.sessionId);
   const canPaySelectedSession = selectedSession.status === "available";
-  const requiresQuoteForPayment = people > 1;
   const paymentIdentity = buildBootcampPaymentIdentity(form);
   const isCompanyFlow = quoteFlow === "company";
   const effectivePricing =
@@ -1079,16 +1108,6 @@ function CorporateQuoter() {
       sessionId: nextSession.id,
       city: nextSession.city,
     }));
-  };
-
-  const openCompanyQuotePanel = () => {
-    const nextPeople = Math.max(people, 2);
-    setQuoteFlow("company");
-    setShowQuotePanel(true);
-    setPaymentMessage("");
-    setSentMessage("");
-    setForm((current) => ({ ...current, people: String(nextPeople) }));
-    setPricing(buildLocalFallbackQuote(nextPeople, selectedSession));
   };
 
   useEffect(() => {
@@ -1142,12 +1161,6 @@ function CorporateQuoter() {
 
     if (people < 1) {
       setPaymentMessage("Agrega al menos una persona para iniciar el pago.");
-      return false;
-    }
-
-    if (requiresQuoteForPayment) {
-      setPaymentMessage("Para varios cupos usa cotización o factura. Así evitamos cobrar un solo cupo en el widget.");
-      openCompanyQuotePanel();
       return false;
     }
 
@@ -1282,34 +1295,50 @@ function CorporateQuoter() {
     if (!validatePaymentFields()) return;
 
     setPaymentMode("checkout");
-    setPaymentMessage("Abriendo el widget seguro de i365...");
+    setPaymentMessage("Validando el total en servidor...");
 
     try {
-      await openI365PaymentWidget({
-        appId: I365_PAYMENT_APP_ID,
-        userId: paymentIdentity.userId,
-        companyId: paymentIdentity.companyId,
-        userEmail: form.email.trim().toLowerCase(),
-        userName: form.contactName.trim() || form.company.trim() || "Cliente Bootcamp IA",
-        planId: selectedSession.planId,
-        onSuccess: (data) => {
-          const reference = data.reference ? ` Referencia: ${data.reference}.` : "";
-          setPaymentMessage(`Pago confirmado por i365.${reference}`);
-        },
-        onError: (error) => {
-          setPaymentMessage(error?.message || "No se pudo completar el pago en i365.");
-        },
-        onClose: () => {
-          setPaymentMessage("Widget de pago cerrado.");
-        },
+      const response = await fetch(BOOTCAMP_PAYMENT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          people,
+          sessionId: selectedSession.id,
+          clientType: quoteFlow,
+          company: form.company,
+          nit: form.nit,
+          contactName: form.contactName,
+          contactRole: form.contactRole,
+          phone: form.phone,
+          city: form.city,
+          userId: paymentIdentity.userId,
+          companyId: paymentIdentity.companyId,
+        }),
       });
+      const data = await parsePaymentResponse(response);
+      const widgetData = data?.datos_widget;
 
-      setPaymentMessage("Widget i365 abierto. Completa el pago en la ventana segura.");
+      if (!response.ok || !widgetData) {
+        throw new Error(data?.error || "No se pudo crear el pago seguro de i365.");
+      }
+
+      const expectedAmountInCents = Math.round(total * 100);
+      const widgetCurrency = widgetData.currency.toUpperCase();
+
+      if (widgetCurrency !== "COP" || widgetData.amountInCents !== expectedAmountInCents) {
+        throw new Error(
+          `El checkout devolvió ${formatCurrency(widgetData.amountInCents / 100, widgetCurrency)} y la reserva espera ${formatCurrency(total)}. No abrí el pago para evitar un cobro inconsistente.`,
+        );
+      }
+
+      setPaymentMessage("Total validado. Redirigiendo al checkout seguro...");
+      window.location.assign(buildPaymentCheckoutUrl(widgetData));
     } catch (error) {
       setPaymentMessage(
         error instanceof Error
           ? error.message
-          : "No se pudo abrir el widget seguro de i365.",
+          : "No se pudo abrir el pago seguro de i365.",
       );
     } finally {
       setPaymentMode(null);
@@ -1641,28 +1670,20 @@ function CorporateQuoter() {
                 Quiero pagar ahora
               </div>
               <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                {requiresQuoteForPayment
-                  ? "Para varios cupos abrimos cotización o factura y dejamos el pago validado por el equipo comercial."
-                  : "Abrimos el widget seguro de i365 con el plan del Bootcamp en pesos colombianos."}
+                Validamos el total en servidor y abrimos checkout seguro con el valor exacto en pesos colombianos.
               </p>
               <Button
                 type="button"
-                onClick={requiresQuoteForPayment ? openCompanyQuotePanel : handleSecurePayment}
-                disabled={paymentMode !== null || (!requiresQuoteForPayment && !canPaySelectedSession)}
+                onClick={handleSecurePayment}
+                disabled={paymentMode !== null || !canPaySelectedSession}
                 className="w-full rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {requiresQuoteForPayment ? (
-                  <FileText className="h-4 w-4" />
-                ) : paymentMode === "checkout" ? (
+                {paymentMode === "checkout" ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <CreditCard className="h-4 w-4" />
                 )}
-                {requiresQuoteForPayment
-                  ? "Cotizar varios cupos"
-                  : paymentMode === "checkout"
-                    ? "Abriendo..."
-                    : "Pagar cupo individual"}
+                {paymentMode === "checkout" ? "Abriendo..." : "Pagar ahora"}
               </Button>
               {paymentMessage ? (
                 <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">

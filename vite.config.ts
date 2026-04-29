@@ -140,7 +140,7 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use("/api/trm", async (req, res) => {
             if (req.method !== "GET") {
               res.setHeader("Allow", "GET");
-              sendJson(res, 405, { error: "MÃ©todo no permitido." });
+              sendJson(res, 405, { error: "Método no permitido." });
               return;
             }
 
