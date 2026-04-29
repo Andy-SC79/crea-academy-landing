@@ -200,6 +200,9 @@ type QuoteHtmlOptions = {
   subtotal: number;
   discountValue: number;
   total: number;
+  totalCop?: number | null;
+  exchangeRate?: number | null;
+  exchangeRateDate?: string | null;
   autoPrint?: boolean;
 };
 
@@ -222,6 +225,7 @@ type BootcampQuote = {
   people: number;
   sessionId?: string;
   currency?: string;
+  paymentCurrency?: string;
   planId?: string | null;
   planName?: string | null;
   priceSource?: string;
@@ -235,6 +239,15 @@ type BootcampQuote = {
   groupDiscountValue: number;
   totalDiscountValue: number;
   total: number;
+  exchangeRate?: number | null;
+  exchangeRatePair?: string | null;
+  exchangeRateSource?: string | null;
+  exchangeRateDate?: string | null;
+  exchangeRateValidTo?: string | null;
+  baseSubtotalCop?: number | null;
+  subtotalCop?: number | null;
+  totalDiscountCop?: number | null;
+  totalCop?: number | null;
   amountInCents: number;
 };
 
@@ -582,14 +595,38 @@ function TourRouteSection() {
 function formatCurrency(value: number, currency = BOOTCAMP_CURRENCY) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const hasDecimals = Math.abs(safeValue % 1) > 0;
-  const formatted = safeValue.toLocaleString("en-US", {
+  const isCop = currency.toUpperCase() === "COP";
+  const formatted = safeValue.toLocaleString(isCop ? "es-CO" : "en-US", {
     style: "currency",
     currency,
-    minimumFractionDigits: hasDecimals ? 2 : 0,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: isCop ? 0 : hasDecimals ? 2 : 0,
+    maximumFractionDigits: isCop ? 0 : 2,
   });
 
-  return currency === "USD" ? `${formatted} USD` : formatted;
+  if (currency.toUpperCase() === "USD") return `${formatted} USD`;
+  if (isCop) return `${formatted} COP`;
+  return formatted;
+}
+
+function formatExchangeRate(value?: number | null) {
+  if (!value || !Number.isFinite(value)) return null;
+
+  return value.toLocaleString("es-CO", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function formatTrmDate(value?: string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value.slice(0, 10);
+
+  return date.toLocaleDateString("es-CO", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function escapeHtml(value: string) {
@@ -680,6 +717,7 @@ function buildLocalFallbackQuote(
     people: safePeople,
     sessionId: session.id,
     currency: BOOTCAMP_CURRENCY,
+    paymentCurrency: "COP",
     planId: session.planId || null,
     planName: null,
     priceSource: "fallback",
@@ -693,6 +731,15 @@ function buildLocalFallbackQuote(
     groupDiscountValue,
     totalDiscountValue: roundMoney(planDiscountValue + groupDiscountValue),
     total,
+    exchangeRate: null,
+    exchangeRatePair: "USD/COP",
+    exchangeRateSource: null,
+    exchangeRateDate: null,
+    exchangeRateValidTo: null,
+    baseSubtotalCop: null,
+    subtotalCop: null,
+    totalDiscountCop: null,
+    totalCop: null,
     amountInCents: Math.round(total * 100),
   };
 }
@@ -705,6 +752,9 @@ function generateQuoteHtml({
   subtotal,
   discountValue,
   total,
+  totalCop,
+  exchangeRate,
+  exchangeRateDate,
   autoPrint = false,
 }: QuoteHtmlOptions) {
   const date = new Date().toLocaleDateString("es-CO", {
@@ -731,6 +781,8 @@ function generateQuoteHtml({
   const sessionCity = escapeHtml(selectedSession.city);
   const sessionVenue = escapeHtml(selectedSession.venue);
   const sessionAddress = escapeHtml(selectedSession.address);
+  const trmLabel = formatExchangeRate(exchangeRate);
+  const trmDateLabel = formatTrmDate(exchangeRateDate);
   const creaLogoUrl = absoluteAssetUrl(QUOTE_ASSETS.creaLogo);
   const i365LogoUrl = absoluteAssetUrl(QUOTE_ASSETS.i365Logo);
   const paymentUrl = absoluteAssetUrl("/bootcamp-ia#cotizador");
@@ -877,10 +929,20 @@ function generateQuoteHtml({
           <div class="row"><span>Subtotal</span><strong>${formatCurrency(subtotal)}</strong></div>
           <div class="row"><span>Descuentos aplicados</span><strong class="green">-${formatCurrency(discountValue)}</strong></div>
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
+          ${
+            totalCop
+              ? `<div class="row total"><span>Cobro Wompi en COP</span><strong class="green">${formatCurrency(totalCop, "COP")}</strong></div>`
+              : ""
+          }
+          ${
+            trmLabel
+              ? `<div class="row"><span>TRM aplicada</span><strong>${trmLabel} COP/USD${trmDateLabel ? ` - ${trmDateLabel}` : ""}</strong></div>`
+              : ""
+          }
         </div>
         <p class="note" style="margin-top:14px">
-          Valores en dólares estadounidenses, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Incluye descuento por pronto pago del 30%
-          y descuento adicional por equipo cuando aplique.
+          Valores comerciales en dolares estadounidenses, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El cobro en Colombia se genera
+          en pesos colombianos con TRM vigente antes de abrir Wompi.
         </p>
       </section>
 
@@ -944,7 +1006,8 @@ function CorporateQuoter() {
   const [isSendingQuote, setIsSendingQuote] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
   const [paymentMode, setPaymentMode] = useState<PaymentMode>(null);
-  const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(TEAM_MIN_PEOPLE));
+  const [showQuotePanel, setShowQuotePanel] = useState(false);
+  const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(1));
 
   const people = Math.max(Number.parseInt(form.people, 10) || 0, 0);
   const missingForDiscount = Math.max(TEAM_MIN_PEOPLE - people, 0);
@@ -959,6 +1022,10 @@ function CorporateQuoter() {
   const pricePerPerson = effectivePricing.pricePerPerson;
   const subtotal = effectivePricing.baseSubtotal;
   const total = effectivePricing.total;
+  const totalCop = effectivePricing.totalCop ?? null;
+  const paymentCurrency = effectivePricing.paymentCurrency || "COP";
+  const trmLabel = formatExchangeRate(effectivePricing.exchangeRate);
+  const trmDateLabel = formatTrmDate(effectivePricing.exchangeRateDate);
   const totalDiscountValue = effectivePricing.totalDiscountValue;
   const hasDiscount = totalDiscountValue > 0;
   const hasPlanDiscount = effectivePricing.planDiscountPercentage > 0;
@@ -1059,16 +1126,6 @@ function CorporateQuoter() {
       return false;
     }
 
-    if (isCompanyFlow && !form.company.trim()) {
-      setPaymentMessage("Agrega la razón social de la empresa para continuar.");
-      return false;
-    }
-
-    if (!isCompanyFlow && !form.contactName.trim()) {
-      setPaymentMessage("Agrega el nombre de la persona que asistirá al Bootcamp.");
-      return false;
-    }
-
     return true;
   };
 
@@ -1099,6 +1156,9 @@ function CorporateQuoter() {
         subtotal,
         discountValue: totalDiscountValue,
         total,
+        totalCop,
+        exchangeRate: effectivePricing.exchangeRate,
+        exchangeRateDate: effectivePricing.exchangeRateDate,
         autoPrint: true,
       }),
     );
@@ -1109,7 +1169,7 @@ function CorporateQuoter() {
     const clientName = isCompanyFlow ? form.company || "Empresa" : form.contactName || "Persona natural";
     const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${clientName}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal estimado (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal comercial (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}${totalCop ? `\nCobro estimado Wompi: ${formatCurrency(totalCop, "COP")}` : ""}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
@@ -1162,6 +1222,9 @@ function CorporateQuoter() {
       subtotal,
       discountValue: totalDiscountValue,
       total,
+      totalCop,
+      exchangeRate: effectivePricing.exchangeRate,
+      exchangeRateDate: effectivePricing.exchangeRateDate,
       autoPrint: false,
     });
 
@@ -1189,7 +1252,11 @@ function CorporateQuoter() {
             subtotal,
             discountValue: totalDiscountValue,
             total,
+            totalCop,
+            exchangeRate: effectivePricing.exchangeRate,
+            exchangeRateDate: effectivePricing.exchangeRateDate,
             currency: BOOTCAMP_CURRENCY,
+            paymentCurrency,
             taxLabel: BOOTCAMP_TAX_LABEL,
           },
           html: quoteHtml,
@@ -1242,10 +1309,10 @@ function CorporateQuoter() {
             Cotizador y pago
           </div>
           <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4.4rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-            Elige cómo quieres avanzar.
+            Reserva tu cupo sin enredarte.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Primero define si eres persona natural o empresa. Luego puedes cotizar en PDF/correo o pagar de inmediato con checkout seguro de Wompi.
+            Selecciona ciudad, participantes y correo. Cotización o factura quedan como opción secundaria para equipos que la necesiten.
           </p>
           <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
             <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
@@ -1261,6 +1328,7 @@ function CorporateQuoter() {
         </div>
 
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
+          {showQuotePanel ? (
           <div className="mb-5 grid gap-3 sm:grid-cols-2">
             <button
               type="button"
@@ -1301,9 +1369,11 @@ function CorporateQuoter() {
               </span>
             </button>
           </div>
+          ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {isCompanyFlow ? (
+            {showQuotePanel ? (
+            isCompanyFlow ? (
               <>
                 <label className="space-y-2">
                   <span className={FORM_LABEL_CLASS}>Empresa</span>
@@ -1363,7 +1433,7 @@ function CorporateQuoter() {
                   />
                 </label>
               </>
-            )}
+            )) : null}
             <label className="space-y-2 sm:col-span-2">
               <span className={FORM_LABEL_CLASS}>Fecha y lugar</span>
               <select
@@ -1416,6 +1486,7 @@ function CorporateQuoter() {
                   : "Fecha confirmada y disponible para reserva. La sede y dirección final se compartirán al cerrar el venue de la ciudad."}
               </p>
             </div>
+            {showQuotePanel ? (
             <label className="space-y-2">
               <span className={FORM_LABEL_CLASS}>Ciudad de contacto</span>
               <select
@@ -1428,6 +1499,7 @@ function CorporateQuoter() {
                 ))}
               </select>
             </label>
+            ) : null}
             <label className="space-y-2">
               <span className={FORM_LABEL_CLASS}>Número de personas</span>
               <input
@@ -1439,7 +1511,7 @@ function CorporateQuoter() {
               />
             </label>
             <label className="space-y-2 sm:col-span-2">
-              <span className={FORM_LABEL_CLASS}>Teléfono de contacto</span>
+              <span className={FORM_LABEL_CLASS}>WhatsApp (opcional)</span>
               <input
                 value={form.phone}
                 onChange={(event) => updateForm("phone", event.target.value)}
@@ -1448,7 +1520,7 @@ function CorporateQuoter() {
               />
             </label>
             <label className="space-y-2 sm:col-span-2">
-              <span className={FORM_LABEL_CLASS}>Correo para cotización y pago</span>
+              <span className={FORM_LABEL_CLASS}>Correo para confirmación de pago</span>
               <input
                 type="email"
                 value={form.email}
@@ -1460,7 +1532,7 @@ function CorporateQuoter() {
             </label>
           </div>
 
-          <div className="tour-quote-summary mt-6 grid gap-3 rounded-lg p-4 sm:grid-cols-3">
+          <div className="tour-quote-summary mt-6 grid gap-3 rounded-lg p-4 sm:grid-cols-2 xl:grid-cols-4">
             <div>
               <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Personas</p>
               <p className="mt-2 font-display text-3xl font-black">{people}</p>
@@ -1472,12 +1544,22 @@ function CorporateQuoter() {
               </p>
             </div>
             <div>
-              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total con IVA</p>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total USD</p>
               <p className="tour-readable-green mt-2 font-display text-2xl font-black">
                 {formatCurrency(total)}
               </p>
             </div>
+            <div>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Cobro Wompi</p>
+              <p className="tour-readable-green mt-2 font-display text-2xl font-black">
+                {totalCop ? formatCurrency(totalCop, paymentCurrency) : "TRM en curso"}
+              </p>
+            </div>
           </div>
+
+          <p className="mt-3 rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] px-4 py-3 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+            Precio comercial en USD con IVA incluido. {trmLabel ? `Wompi cobra en COP con TRM ${trmLabel} COP/USD${trmDateLabel ? ` (${trmDateLabel})` : ""}.` : "Estamos consultando la TRM vigente para mostrar el equivalente en COP."}
+          </p>
 
           {hasDiscount ? (
             <p className="tour-readable-green mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold">
@@ -1495,45 +1577,55 @@ function CorporateQuoter() {
             </p>
           )}
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
+          <div className="mt-6 grid gap-4">
+            <div className="order-2 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
               <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
                 <FileText className="tour-readable-cyan h-4 w-4" />
                 Quiero cotizar
               </div>
               <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                Genera una cotización formal para revisar internamente, pedir factura o reservar cupos por ciudad.
+                Abre este flujo solo si necesitas PDF, correo, factura u orden de compra.
               </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
-                  <Download className="h-4 w-4" />
-                  PDF
+              {showQuotePanel ? (
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
+                    <Download className="h-4 w-4" />
+                    PDF
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleEmailQuote}
+                    disabled={isSendingQuote}
+                    className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <Send className="h-4 w-4" />
+                    {isSendingQuote ? "Enviando..." : "Enviar"}
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setShowQuotePanel(false)} className="tour-secondary-button rounded-full">
+                    Ocultar
+                  </Button>
+                </div>
+              ) : (
+                <Button type="button" variant="outline" onClick={() => setShowQuotePanel(true)} className="tour-secondary-button w-full rounded-full">
+                  <FileText className="h-4 w-4" />
+                  Necesito cotización o factura
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleEmailQuote}
-                  disabled={isSendingQuote}
-                  className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  <Send className="h-4 w-4" />
-                  {isSendingQuote ? "Enviando..." : "Enviar"}
-                </Button>
-              </div>
-              {sentMessage ? (
+              )}
+              {showQuotePanel && sentMessage ? (
                 <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
                   {sentMessage}
                 </p>
               ) : null}
             </div>
 
-            <div className="rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
+            <div className="order-1 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
               <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
                 <CreditCard className="tour-readable-green h-4 w-4" />
                 Quiero pagar ahora
               </div>
               <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                Validamos el total en servidor y te llevamos al checkout seguro de Wompi para confirmar la reserva.
+                Validamos el total en servidor, convertimos a COP con TRM y abrimos checkout seguro de Wompi.
               </p>
               <Button
                 type="button"
@@ -1556,6 +1648,7 @@ function CorporateQuoter() {
             </div>
           </div>
 
+          {showQuotePanel ? (
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <Button asChild variant="outline" className="tour-secondary-button rounded-full">
               <a href={MAILTO_URL}>
@@ -1570,6 +1663,7 @@ function CorporateQuoter() {
               </a>
             </Button>
           </div>
+          ) : null}
         </div>
       </div>
     </section>

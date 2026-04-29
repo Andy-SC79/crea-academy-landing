@@ -1,7 +1,11 @@
+import { createHash, randomUUID } from "node:crypto";
+
 const FALLBACK_CURRENCY = "USD";
+const PAYMENT_CURRENCY = "COP";
 const FALLBACK_PRICE_PER_PERSON = 360;
 const EARLY_PAYMENT_DISCOUNT_PERCENTAGE = 30;
 const roundMoney = (value) => Number(Number(value || 0).toFixed(2));
+const roundCop = (value) => Math.max(0, Math.round(Number(value || 0)));
 const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = roundMoney(
   FALLBACK_PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT_PERCENTAGE / 100),
 );
@@ -11,6 +15,10 @@ const DEFAULT_PAYMENT_API_URL = "https://pagos.ingenieria365.com";
 const DEFAULT_PAYMENT_APP_ID = "298f0727-6901-4d98-88e0-785576041b20";
 const DEFAULT_BOOTCAMP_PLAN_ID = "79d33e26-5076-4057-8eb0-326c2b19a937";
 const DEFAULT_SESSION_ID = "medellin-2026-05-22";
+const DEFAULT_TRM_API_URL =
+  "https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciadesde%20DESC";
+const TRM_CACHE_TTL_MS = 1000 * 60 * 60 * 6;
+let trmCache = null;
 const BOOTCAMP_SESSIONS = {
   [DEFAULT_SESSION_ID]: {
     id: DEFAULT_SESSION_ID,
@@ -85,6 +93,25 @@ function sanitizeText(value, fallback = "") {
   return String(value ?? fallback).trim().slice(0, 180);
 }
 
+function sanitizeUrl(value, fallback = "") {
+  const text = sanitizeText(value, fallback);
+  if (!text) return "";
+
+  try {
+    return new URL(text).toString();
+  } catch {
+    return "";
+  }
+}
+
+function readPositiveNumber(value, fallback = 0) {
+  const normalized = String(value ?? "")
+    .replace(/\s/g, "")
+    .replace(",", ".");
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 function slugifyIdentifier(value) {
   return String(value ?? "")
     .trim()
@@ -99,6 +126,17 @@ function slugifyIdentifier(value) {
 function buildExternalId(prefix, ...parts) {
   const normalized = parts.map(slugifyIdentifier).filter(Boolean).join("-");
   return `${prefix}-${normalized || "cliente"}`.slice(0, 180);
+}
+
+function buildPaymentReference(session, email) {
+  const suffix = randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase();
+  return buildExternalId("bootcamp", session.id, email).slice(0, 42) + `-${suffix}`;
+}
+
+function signWompiCheckout({ reference, amountInCents, currency, integritySecret }) {
+  return createHash("sha256")
+    .update(`${reference}${amountInCents}${currency}${integritySecret}`)
+    .digest("hex");
 }
 
 function parseDiscountDate(value) {
@@ -144,22 +182,6 @@ function resolveSession(sessionId) {
   return session;
 }
 
-function normalizeWidgetData(widgetData) {
-  if (!widgetData || typeof widgetData !== "object") return null;
-
-  const signature =
-    typeof widgetData.signature === "string"
-      ? widgetData.signature
-      : widgetData.signature?.integrity;
-
-  if (!signature) return null;
-
-  return {
-    ...widgetData,
-    signature,
-  };
-}
-
 function parsePeople(peopleInput) {
   const people = Math.max(Number.parseInt(String(peopleInput ?? ""), 10) || 0, 0);
 
@@ -172,6 +194,7 @@ function parsePeople(peopleInput) {
 
 function resolvePaymentConfig(envInput = {}) {
   const env = envInput || {};
+  const redirectUrl = sanitizeUrl(env.WOMPI_REDIRECT_URL || env.BOOTCAMP_PAYMENT_REDIRECT_URL);
 
   return {
     env,
@@ -188,7 +211,108 @@ function resolvePaymentConfig(envInput = {}) {
       DEFAULT_BOOTCAMP_PLAN_ID,
     ),
     useRemoteBootcampPricing: env.I365_BOOTCAMP_USE_REMOTE_PRICING === "true",
+    wompiPublicKey: sanitizeText(env.WOMPI_PUBLIC_KEY || env.VITE_WOMPI_PUBLIC_KEY),
+    wompiIntegritySecret: sanitizeText(env.WOMPI_INTEGRITY_SECRET),
+    wompiRedirectUrl: redirectUrl,
+    trmApiUrl: sanitizeText(env.TRM_API_URL, DEFAULT_TRM_API_URL),
+    trmFallbackCopPerUsd: readPositiveNumber(env.TRM_FALLBACK_COP_PER_USD),
+    trmOverrideCopPerUsd: readPositiveNumber(env.TRM_OVERRIDE_COP_PER_USD),
   };
+}
+
+function parseTrmPayload(payload) {
+  const record = Array.isArray(payload) ? payload[0] : payload;
+  const value = readPositiveNumber(record?.valor || record?.valor_trm || record?.trm);
+
+  if (!value) {
+    throw new PaymentError("La respuesta de TRM no trajo un valor valido.", 502, payload);
+  }
+
+  return {
+    value,
+    currencyPair: "USD/COP",
+    source: "datos.gov.co/superfinanciera",
+    validFrom: sanitizeText(record?.vigenciadesde || record?.vigencia_desde || record?.fecha),
+    validTo: sanitizeText(record?.vigenciahasta || record?.vigencia_hasta),
+  };
+}
+
+async function fetchCurrentTrm(config, now = new Date()) {
+  if (config.trmOverrideCopPerUsd) {
+    return {
+      value: config.trmOverrideCopPerUsd,
+      currencyPair: "USD/COP",
+      source: "env_override",
+      validFrom: now.toISOString(),
+      validTo: "",
+    };
+  }
+
+  if (trmCache && now.getTime() - trmCache.cachedAt < TRM_CACHE_TTL_MS) {
+    return trmCache.trm;
+  }
+
+  try {
+    const response = await fetch(config.trmApiUrl, {
+      headers: { Accept: "application/json" },
+    });
+    const payload = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new PaymentError("No se pudo consultar la TRM publica.", response.status || 502, payload);
+    }
+
+    const trm = parseTrmPayload(payload);
+    trmCache = { cachedAt: now.getTime(), trm };
+    return trm;
+  } catch (error) {
+    if (config.trmFallbackCopPerUsd) {
+      return {
+        value: config.trmFallbackCopPerUsd,
+        currencyPair: "USD/COP",
+        source: "env_fallback",
+        validFrom: now.toISOString(),
+        validTo: "",
+      };
+    }
+
+    if (error instanceof PaymentError) {
+      throw error;
+    }
+
+    throw new PaymentError(
+      "No se pudo consultar la TRM para convertir el pago a pesos colombianos.",
+      502,
+      error instanceof Error ? error.message : error,
+    );
+  }
+}
+
+function withCopPaymentValues(quote, trm) {
+  const baseSubtotalCop = roundCop(quote.baseSubtotal * trm.value);
+  const subtotalCop = roundCop(quote.subtotal * trm.value);
+  const totalDiscountCop = roundCop(quote.totalDiscountValue * trm.value);
+  const totalCop = roundCop(quote.total * trm.value);
+
+  return {
+    ...quote,
+    paymentCurrency: PAYMENT_CURRENCY,
+    exchangeRate: trm.value,
+    exchangeRatePair: trm.currencyPair,
+    exchangeRateSource: trm.source,
+    exchangeRateDate: trm.validFrom || null,
+    exchangeRateValidTo: trm.validTo || null,
+    baseSubtotalCop,
+    subtotalCop,
+    totalDiscountCop,
+    totalCop,
+    amountInCents: totalCop * 100,
+  };
+}
+
+export async function getCurrentTrm(options = {}) {
+  const config = resolvePaymentConfig(options.env || process.env);
+  return fetchCurrentTrm(config, options.now || new Date());
 }
 
 async function fetchBootcampBasePlan(config, planId = config.bootcampPlanId) {
@@ -267,7 +391,16 @@ export async function getBootcampQuote(peopleInput, options = {}) {
   const config = resolvePaymentConfig(options.env || process.env);
   const people = parsePeople(peopleInput);
   const session = resolveSession(options.sessionId);
-  const unitPricing = await resolveBootcampUnitPricing(config, options.now || new Date(), session);
+  const now = options.now || new Date();
+  const unitPricing = await resolveBootcampUnitPricing(config, now, session);
+
+  if (sanitizeText(unitPricing.currency).toUpperCase() !== FALLBACK_CURRENCY) {
+    throw new PaymentError(
+      "El Bootcamp debe cotizarse en USD para convertirlo por TRM a COP.",
+      502,
+      unitPricing,
+    );
+  }
 
   const baseSubtotal = roundMoney(unitPricing.basePricePerPerson * people);
   const subtotal = roundMoney(unitPricing.pricePerPerson * people);
@@ -276,7 +409,7 @@ export async function getBootcampQuote(peopleInput, options = {}) {
   const groupDiscountValue = groupDiscountPercentage > 0 ? roundMoney(subtotal * TEAM_DISCOUNT) : 0;
   const total = roundMoney(Math.max(subtotal - groupDiscountValue, 0));
 
-  return {
+  const quote = {
     people,
     sessionId: session.id,
     currency: unitPricing.currency,
@@ -295,6 +428,9 @@ export async function getBootcampQuote(peopleInput, options = {}) {
     total,
     amountInCents: Math.round(total * 100),
   };
+
+  const trm = await fetchCurrentTrm(config, now);
+  return withCopPaymentValues(quote, trm);
 }
 
 export async function createBootcampPayment(body, options = {}) {
@@ -303,6 +439,13 @@ export async function createBootcampPayment(body, options = {}) {
 
   if (!isValidEmail(email)) {
     throw new PaymentError("Correo de cliente inválido.", 400);
+  }
+
+  if (!config.wompiPublicKey || !config.wompiIntegritySecret) {
+    throw new PaymentError(
+      "Falta configurar WOMPI_PUBLIC_KEY y WOMPI_INTEGRITY_SECRET para abrir pagos directos de Wompi.",
+      503,
+    );
   }
 
   const session = resolveSession(body.sessionId);
@@ -323,111 +466,80 @@ export async function createBootcampPayment(body, options = {}) {
   const userId = sanitizeText(body.userId || body.user_id, fallbackUserId);
   const companyId = sanitizeText(body.companyId || body.company_id, fallbackCompanyId);
   const city = sanitizeText(body.city, session.city);
-  const customerLegalId = nit !== "N/A" ? nit : undefined;
-  const customerLegalIdType = customerLegalId ? (clientType === "company" ? "NIT" : "CC") : undefined;
   const redirectUrl =
-    config.env.BOOTCAMP_PAYMENT_REDIRECT_URL ||
+    config.wompiRedirectUrl ||
     (options.origin ? `${options.origin}/bootcamp-ia?payment=return#cotizador` : undefined);
 
-  const paymentResponse = await fetch(`${config.paymentApiBaseUrl}/api/crear-pago`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const reference = buildPaymentReference(session, email);
+  const paymentCurrency = quote.paymentCurrency || PAYMENT_CURRENCY;
+  const signature = signWompiCheckout({
+    reference,
+    amountInCents: quote.amountInCents,
+    currency: paymentCurrency,
+    integritySecret: config.wompiIntegritySecret,
+  });
+  const datosWidget = {
+    publicKey: config.wompiPublicKey,
+    currency: paymentCurrency,
+    amountInCents: quote.amountInCents,
+    reference,
+    signature,
+    redirectUrl,
+  };
+  const payment = {
+    provider: "wompi",
+    reference,
+    currency: paymentCurrency,
+    amountInCents: quote.amountInCents,
+    amountCop: quote.totalCop,
+    amountUsd: quote.total,
+    redirectUrl,
+    customer: {
+      email,
+      name: contactName,
+      phone,
+      legalId: nit !== "N/A" ? nit : null,
+      legalIdType: nit !== "N/A" ? (clientType === "company" ? "NIT" : "CC") : null,
+    },
+    metadata: {
       app_id: config.appId,
       user_id: userId,
       company_id: companyId,
-      precio_centavos: quote.amountInCents,
+      payment_context: "bootcamp_direct_wompi",
+      quote_scope: clientType,
+      bootcamp_plan_id: quote.planId,
+      bootcamp_plan_name: quote.planName,
+      bootcamp_price_source: quote.priceSource,
       currency: quote.currency,
-      moneda: quote.currency,
-      email,
-      customer_name: contactName,
-      customer_legal_id: customerLegalId,
-      customer_legal_id_type: customerLegalIdType,
-      datos_curso: {
-        nombre: "Bootcamp de Inteligencia Artificial - Crea Academy by i365",
-        id: "bootcamp-ia-crea-academy",
-        tipo: "bootcamp_ia",
-        tipo_cliente: clientType === "company" ? "empresa_persona_juridica" : "persona_natural",
-        empresa: company,
-        nit,
-        contacto: contactName,
-        cargo: contactRole,
-        telefono: phone,
-        ciudad: city,
-        session_id: session.id,
-        fecha: session.dateLabel,
-        horario: session.timeLabel,
-        ciudad_bootcamp: session.city,
-        lugar: session.venue,
-        direccion: session.address,
-        participantes: quote.people,
-        moneda: quote.currency,
-        precio_base_persona: quote.basePricePerPerson,
-        precio_final_persona: quote.pricePerPerson,
-        valores_antes_de_iva: false,
-        iva_incluido: true,
-        descuento_pronto_pago_porcentaje: quote.planDiscountPercentage,
-        subtotal_base: quote.baseSubtotal,
-        subtotal: quote.subtotal,
-        descuento_plan_porcentaje: quote.planDiscountPercentage,
-        descuento_plan_valor: quote.planDiscountValue,
-        descuento_grupal_porcentaje: quote.groupDiscountPercentage,
-        descuento_grupal_valor: quote.groupDiscountValue,
-        descuento_total: quote.totalDiscountValue,
-        total: quote.total,
-      },
-      metadata: {
-        payment_context: "bootcamp_quote",
-        quote_scope: clientType,
-        currency: quote.currency,
-        bootcamp_plan_id: quote.planId,
-        bootcamp_plan_name: quote.planName,
-        bootcamp_price_source: quote.priceSource,
-        plan_discount_percentage: quote.planDiscountPercentage,
-        group_discount_percentage: quote.groupDiscountPercentage,
-        early_payment_discount_percentage: quote.planDiscountPercentage,
-        values_before_vat: false,
-        vat_included: true,
-      },
-      redirect_url: redirectUrl,
-    }),
-  });
-
-  const payload = await paymentResponse.json().catch(() => ({}));
-  const datosWidget = normalizeWidgetData(payload?.datos_widget);
-
-  if (!paymentResponse.ok || payload?.ok === false || !datosWidget) {
-    throw new PaymentError(
-      payload?.error || payload?.message || "No se pudo crear el pago en el portal i365.",
-      paymentResponse.status || 502,
-      payload,
-    );
-  }
-
-  const widgetCurrency = sanitizeText(datosWidget.currency).toUpperCase();
-  const widgetAmountInCents = Number(datosWidget.amountInCents);
-
-  if (widgetCurrency && widgetCurrency !== quote.currency) {
-    throw new PaymentError(
-      `La pasarela devolvió moneda ${widgetCurrency}, pero la cotización está en ${quote.currency}.`,
-      502,
-      payload,
-    );
-  }
-
-  if (Number.isFinite(widgetAmountInCents) && widgetAmountInCents !== quote.amountInCents) {
-    throw new PaymentError(
-      "La pasarela devolvió un monto distinto al total validado en servidor.",
-      502,
-      payload,
-    );
-  }
-
+      payment_currency: paymentCurrency,
+      amount_usd: quote.total,
+      amount_cop: quote.totalCop,
+      exchange_rate: quote.exchangeRate,
+      exchange_rate_source: quote.exchangeRateSource,
+      exchange_rate_date: quote.exchangeRateDate,
+      plan_discount_percentage: quote.planDiscountPercentage,
+      group_discount_percentage: quote.groupDiscountPercentage,
+      vat_included: true,
+      client_type: clientType,
+      company,
+      nit,
+      contact_name: contactName,
+      contact_role: contactRole,
+      phone,
+      city,
+      session_id: session.id,
+      session_date: session.dateLabel,
+      session_time: session.timeLabel,
+      session_city: session.city,
+      session_venue: session.venue,
+      participants: quote.people,
+    },
+  };
   return {
     ok: true,
     quote,
     session,
-    payment: payload,
+    payment,
     datos_widget: datosWidget,
   };
 }

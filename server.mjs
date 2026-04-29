@@ -3,7 +3,12 @@ import { readFile, stat } from "node:fs/promises";
 import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { createBootcampPayment, PaymentError } from "./api/bootcamp-payment-core.js";
+import {
+  createBootcampPayment,
+  getBootcampQuote,
+  getCurrentTrm,
+  PaymentError,
+} from "./api/bootcamp-payment-core.js";
 import { QuoteEmailError, sendQuoteEmail } from "./api/send-quote.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -141,6 +146,60 @@ async function handleBootcampPayment(req, res) {
   }
 }
 
+async function handleBootcampPricing(req, res) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    sendJson(res, 405, { error: "MÃ©todo no permitido." });
+    return;
+  }
+
+  try {
+    const body = await readJsonBody(req);
+    const quote = await getBootcampQuote(body.people, {
+      env: process.env,
+      sessionId: body.sessionId,
+    });
+    sendJson(res, 200, { ok: true, quote });
+  } catch (error) {
+    if (error instanceof PaymentError) {
+      sendJson(res, error.status, {
+        error: error.message,
+        details: error.details,
+      });
+      return;
+    }
+
+    sendJson(res, 500, {
+      error: error instanceof Error ? error.message : "No se pudo calcular la cotizaciÃ³n.",
+    });
+  }
+}
+
+async function handleTrm(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    sendJson(res, 405, { error: "MÃ©todo no permitido." });
+    return;
+  }
+
+  try {
+    const trm = await getCurrentTrm({ env: process.env });
+    sendJson(res, 200, { ok: true, trm });
+  } catch (error) {
+    if (error instanceof PaymentError) {
+      sendJson(res, error.status, {
+        error: error.message,
+        details: error.details,
+      });
+      return;
+    }
+
+    sendJson(res, 500, {
+      error: error instanceof Error ? error.message : "No se pudo consultar la TRM.",
+    });
+  }
+}
+
 async function handleQuoteEmail(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -171,8 +230,18 @@ const server = createServer(async (req, res) => {
   const url = new URL(req.url || "/", "http://localhost");
 
   try {
+    if (url.pathname === "/api/bootcamp-pricing") {
+      await handleBootcampPricing(req, res);
+      return;
+    }
+
     if (url.pathname === "/api/create-bootcamp-payment") {
       await handleBootcampPayment(req, res);
+      return;
+    }
+
+    if (url.pathname === "/api/trm") {
+      await handleTrm(req, res);
       return;
     }
 

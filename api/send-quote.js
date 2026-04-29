@@ -46,6 +46,9 @@ function buildTextSummary(quote = {}) {
   const people = quote.people || 0;
   const currency = quote.currency || "USD";
   const total = money(quote.total, currency);
+  const paymentCurrency = quote.paymentCurrency || "COP";
+  const totalCop = quote.totalCop ? money(quote.totalCop, paymentCurrency) : "";
+  const trm = quote.exchangeRate ? Number(quote.exchangeRate).toLocaleString("es-CO") : "";
   const clientType =
     quote.clientType === "person" ? "Persona natural" : "Empresa / persona jurídica";
 
@@ -64,7 +67,9 @@ function buildTextSummary(quote = {}) {
     `Dirección: ${sessionAddress}`,
     `Ciudad de cotización: ${city}`,
     `Participantes: ${people}`,
-    `Total estimado: ${total} (${quote.taxLabel || "IVA incluido"})`,
+    `Total comercial: ${total} (${quote.taxLabel || "IVA incluido"})`,
+    totalCop ? `Cobro Wompi: ${totalCop}` : "",
+    trm ? `TRM aplicada: ${trm} COP/USD` : "",
     "",
     "Proveedor: Ingeniería 365",
     "NIT: 901290421-9",

@@ -4,6 +4,7 @@ import path from "path";
 import {
   createBootcampPayment,
   getBootcampQuote,
+  getCurrentTrm,
   PaymentError,
 } from "./api/bootcamp-payment-core.js";
 import { QuoteEmailError, sendQuoteEmail } from "./api/send-quote.js";
@@ -132,6 +133,31 @@ export default defineConfig(({ mode }) => {
 
               sendJson(res, 500, {
                 error: error instanceof Error ? error.message : "No se pudo crear el pago.",
+              });
+            }
+          });
+
+          server.middlewares.use("/api/trm", async (req, res) => {
+            if (req.method !== "GET") {
+              res.setHeader("Allow", "GET");
+              sendJson(res, 405, { error: "MÃ©todo no permitido." });
+              return;
+            }
+
+            try {
+              const trm = await getCurrentTrm({ env });
+              sendJson(res, 200, { ok: true, trm });
+            } catch (error) {
+              if (error instanceof PaymentError) {
+                sendJson(res, error.status, {
+                  error: error.message,
+                  details: error.details,
+                });
+                return;
+              }
+
+              sendJson(res, 500, {
+                error: error instanceof Error ? error.message : "No se pudo consultar la TRM.",
               });
             }
           });
