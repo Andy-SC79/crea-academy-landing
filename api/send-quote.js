@@ -24,7 +24,7 @@ function getRequestBody(req) {
   return req.body;
 }
 
-function money(value, currency = "USD") {
+function money(value, currency = "COP") {
   return Number(value || 0).toLocaleString("es-CO", {
     style: "currency",
     currency,
@@ -44,10 +44,9 @@ function buildTextSummary(quote = {}) {
   const sessionVenue = quote.sessionVenue || "N/A";
   const sessionAddress = quote.sessionAddress || "N/A";
   const people = quote.people || 0;
-  const currency = quote.currency || "USD";
+  const currency = quote.currency || "COP";
   const total = money(quote.total, currency);
-  const paymentCurrency = quote.paymentCurrency || "COP";
-  const totalCop = quote.totalCop ? money(quote.totalCop, paymentCurrency) : "";
+  const totalCop = quote.totalCop ? money(quote.totalCop, "COP") : "";
   const trm = quote.exchangeRate ? Number(quote.exchangeRate).toLocaleString("es-CO") : "";
   const clientType =
     quote.clientType === "person" ? "Persona natural" : "Empresa / persona jurídica";
@@ -68,7 +67,7 @@ function buildTextSummary(quote = {}) {
     `Ciudad de cotización: ${city}`,
     `Participantes: ${people}`,
     `Total comercial: ${total} (${quote.taxLabel || "IVA incluido"})`,
-    totalCop ? `Cobro Wompi: ${totalCop}` : "",
+    totalCop ? `Equivalente estimado en COP: ${totalCop}` : "",
     trm ? `TRM aplicada: ${trm} COP/USD` : "",
     "",
     "Proveedor: Ingeniería 365",

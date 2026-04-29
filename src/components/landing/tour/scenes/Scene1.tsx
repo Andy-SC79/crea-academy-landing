@@ -1,8 +1,5 @@
-import { useRef } from "react";
-import { useInView } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-import creaLogoVideo from "@/assets/infinite-power-transformation-crea.mp4";
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import TextSequence from "@/components/landing/tour/TextSequence";
 import { cn } from "@/lib/utils";
@@ -15,9 +12,9 @@ import {
   TOUR_FRAME_CLASS,
 } from "./shared";
 
+const HERO_VIDEO_EMBED_URL = "https://www.youtube-nocookie.com/embed/RrFXANjDm0g?rel=0&modestbranding=1&playsinline=1";
+
 export default function Scene1() {
-  const videoRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(videoRef, { once: true, margin: "200px" });
   const { t } = useTranslation("landing");
   const heroSequence = [
     {
@@ -58,20 +55,15 @@ export default function Scene1() {
 
       <div className="relative flex w-full min-w-0 items-center justify-center lg:h-full">
         <div className={cn(TOUR_FRAME_CLASS, "w-full max-w-[48rem] p-[1px] aspect-video")}>
-          <div ref={videoRef} className="relative h-full w-full overflow-hidden rounded-[31px] bg-slate-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
-            {isInView ? (
-              <video
-                src={creaLogoVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                controls={false}
-                preload="metadata"
-                disablePictureInPicture
-                className="absolute inset-0 h-full w-full object-cover scale-105 pointer-events-none opacity-90"
-              />
-            ) : null}
+          <div className="relative h-full w-full overflow-hidden rounded-[31px] bg-slate-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
+            <iframe
+              src={HERO_VIDEO_EMBED_URL}
+              title="Crea Academy"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full border-0"
+            />
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(4,255,141,0.15)] rounded-[31px]" />
           </div>
         </div>

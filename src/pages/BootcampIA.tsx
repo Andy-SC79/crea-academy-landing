@@ -34,6 +34,7 @@ import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
+import { openI365PaymentWidget } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import "@/styles/tour-ambient.css";
 
@@ -43,7 +44,9 @@ const MAILTO_URL =
   "mailto:jeisonperez@ingenieria365.com?cc=eliza@ingenieria365.com,info@ingenieria365.com&subject=Cotizar%20Bootcamp%20de%20IA";
 const QUOTE_EMAIL_ENDPOINT = "/api/send-quote";
 const BOOTCAMP_PRICING_ENDPOINT = "/api/bootcamp-pricing";
-const BOOTCAMP_PAYMENT_ENDPOINT = "/api/create-bootcamp-payment";
+const I365_PAYMENT_APP_ID =
+  (import.meta.env.VITE_I365_PAYMENT_APP_ID as string | undefined) ||
+  "298f0727-6901-4d98-88e0-785576041b20";
 const QUOTE_ASSETS = {
   creaLogo: "/crea-academy-logo.png",
   i365Logo: "/i365-plus-logo.png",
@@ -69,9 +72,9 @@ const EXECUTIVE_CONTACTS = [
   },
 ];
 const CITIES = ["Medellín", "Bogotá", "Cali", "Barranquilla", "Cartagena", "Bucaramanga"];
-const BOOTCAMP_CURRENCY = "USD";
+const BOOTCAMP_CURRENCY = "COP";
 const BOOTCAMP_TAX_LABEL = "IVA incluido";
-const PRICE_PER_PERSON = 360;
+const PRICE_PER_PERSON = 1_308_600;
 const EARLY_PAYMENT_DISCOUNT = 0.3;
 const TEAM_DISCOUNT = 0.1;
 const TEAM_MIN_PEOPLE = 5;
@@ -82,6 +85,7 @@ const TEAM_BASE_TOTAL = roundMoney(PRICE_PER_PERSON * TEAM_MIN_PEOPLE);
 const TEAM_TOTAL = roundMoney(TEAM_PRICE_PER_PERSON * TEAM_MIN_PEOPLE);
 const TEAM_SAVINGS = roundMoney(TEAM_BASE_TOTAL - TEAM_TOTAL);
 const BOOTCAMP_SESSION_SELECT_EVENT = "bootcamp-session-select";
+const BOOTCAMP_ROUTE_VIDEO_URL = "https://www.youtube-nocookie.com/embed/fa6WnQCYJVY?rel=0&modestbranding=1&playsinline=1";
 const BOOTCAMP_SESSIONS = [
   {
     id: "medellin-2026-05-22",
@@ -208,19 +212,6 @@ type QuoteHtmlOptions = {
 
 type PaymentMode = "checkout" | null;
 
-type BootcampPaymentResponse = {
-  ok?: boolean;
-  error?: string;
-  datos_widget?: {
-    currency: string;
-    amountInCents: number;
-    reference: string;
-    publicKey: string;
-    signature: string;
-    redirectUrl?: string;
-  };
-};
-
 type BootcampQuote = {
   people: number;
   sessionId?: string;
@@ -244,6 +235,7 @@ type BootcampQuote = {
   exchangeRateSource?: string | null;
   exchangeRateDate?: string | null;
   exchangeRateValidTo?: string | null;
+  copCurrency?: string | null;
   baseSubtotalCop?: number | null;
   subtotalCop?: number | null;
   totalDiscountCop?: number | null;
@@ -532,7 +524,50 @@ function TourRouteSection() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid gap-5 rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(4,255,141,0.10),rgba(0,210,255,0.08),rgba(7,18,37,0.78))] p-5 shadow-[var(--tour-shadow-soft)] lg:grid-cols-[minmax(0,0.92fr)_minmax(22rem,1.08fr)] lg:items-center">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+              <Sparkles className="h-3.5 w-3.5" />
+              Mensaje para equipos
+            </div>
+            <h3 className="mt-4 font-display text-[clamp(1.7rem,3vw,3rem)] font-black leading-tight text-[color:var(--tour-text-strong)]">
+              No venimos a hablar de IA. Venimos a instalar capacidad real en cada ciudad.
+            </h3>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
+              Este Bootcamp est&aacute; dise&ntilde;ado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
+              La gira conecta estrategia, pr&aacute;ctica y acompa&ntilde;amiento para que la adopci&oacute;n no dependa de una moda, sino de resultados medibles.
+            </p>
+            <div className="mt-5 grid gap-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/72 sm:grid-cols-3">
+              <span className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
+                Casos reales
+              </span>
+              <span className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
+                Equipos en acci&oacute;n
+              </span>
+              <span className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
+                Pago por ciudad
+              </span>
+            </div>
+          </div>
+
+          <div className="relative aspect-video w-full rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(4,255,141,0.34),rgba(0,210,255,0.24),rgba(157,0,255,0.24))] p-[1px] shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+            <div className="relative h-full w-full overflow-hidden rounded-[7px] bg-slate-950 shadow-[inset_0_0_28px_rgba(0,0,0,0.72)]">
+              <iframe
+                src={BOOTCAMP_ROUTE_VIDEO_URL}
+                title="Mensaje Bootcamp IA Gira Colombia"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {BOOTCAMP_SESSIONS.map((session, index) => (
             <article
               key={session.id}
@@ -650,25 +685,6 @@ function absoluteAssetUrl(path: string) {
   return new URL(path, baseUrl).toString();
 }
 
-async function parsePaymentResponse(response: Response) {
-  return (await response.json().catch(() => null)) as BootcampPaymentResponse | null;
-}
-
-function buildPaymentCheckoutUrl(widgetData: NonNullable<BootcampPaymentResponse["datos_widget"]>) {
-  const checkoutUrl = new URL("https://checkout.wompi.co/p/");
-  checkoutUrl.searchParams.set("public-key", widgetData.publicKey);
-  checkoutUrl.searchParams.set("currency", widgetData.currency);
-  checkoutUrl.searchParams.set("amount-in-cents", String(widgetData.amountInCents));
-  checkoutUrl.searchParams.set("reference", widgetData.reference);
-  checkoutUrl.searchParams.set("signature:integrity", widgetData.signature);
-
-  if (widgetData.redirectUrl) {
-    checkoutUrl.searchParams.set("redirect-url", widgetData.redirectUrl);
-  }
-
-  return checkoutUrl.toString();
-}
-
 function slugifyPaymentIdentityPart(value: string) {
   return value
     .trim()
@@ -717,7 +733,8 @@ function buildLocalFallbackQuote(
     people: safePeople,
     sessionId: session.id,
     currency: BOOTCAMP_CURRENCY,
-    paymentCurrency: "COP",
+    paymentCurrency: BOOTCAMP_CURRENCY,
+    copCurrency: "COP",
     planId: session.planId || null,
     planName: null,
     priceSource: "fallback",
@@ -931,7 +948,7 @@ function generateQuoteHtml({
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
           ${
             totalCop
-              ? `<div class="row total"><span>Cobro Wompi en COP</span><strong class="green">${formatCurrency(totalCop, "COP")}</strong></div>`
+              ? `<div class="row total"><span>Equivalente estimado en COP</span><strong class="green">${formatCurrency(totalCop, "COP")}</strong></div>`
               : ""
           }
           ${
@@ -941,8 +958,7 @@ function generateQuoteHtml({
           }
         </div>
         <p class="note" style="margin-top:14px">
-          Valores comerciales en dolares estadounidenses, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El cobro en Colombia se genera
-          en pesos colombianos con TRM vigente antes de abrir Wompi.
+          Valores en pesos colombianos, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El pago se abre en el widget seguro de i365.
         </p>
       </section>
 
@@ -950,10 +966,10 @@ function generateQuoteHtml({
         <p class="label">Pago seguro</p>
         <div class="payment-box">
           <div>
-            <strong>Pago en línea con checkout seguro de Wompi</strong>
+            <strong>Pago en línea con checkout seguro de i365</strong>
             <p>
               Para pagar esta cotización, ingresa al cotizador oficial y usa "Pagar ahora".
-              El monto se recalcula en servidor antes de abrir el checkout seguro de Wompi.
+              El pago se realiza desde el widget seguro de i365.
             </p>
           </div>
           <a href="${paymentUrl}">Pagar en línea</a>
@@ -972,9 +988,9 @@ function generateQuoteHtml({
 
       <section class="section">
         <div class="note">
-          Esta cotización tiene validez de 15 días calendario. Los valores están expresados en dólares estadounidenses
-          e incluyen IVA. Pueden formalizarse mediante factura electrónica, orden de compra o confirmación comercial. La reserva
-          de cupos se confirma con el acuerdo de pago aprobado por Ingeniería 365.
+          Esta cotizaci&oacute;n tiene validez de 15 d&iacute;as calendario. Los valores est&aacute;n expresados en pesos colombianos
+          e incluyen IVA. Pueden formalizarse mediante factura electr&oacute;nica, orden de compra o confirmaci&oacute;n comercial. La reserva
+          de cupos se confirma con el acuerdo de pago aprobado por Ingenier&iacute;a 365.
         </div>
       </section>
 
@@ -1013,20 +1029,23 @@ function CorporateQuoter() {
   const missingForDiscount = Math.max(TEAM_MIN_PEOPLE - people, 0);
   const selectedSession = getBootcampSession(form.sessionId);
   const canPaySelectedSession = selectedSession.status === "available";
+  const requiresQuoteForPayment = people > 1;
   const paymentIdentity = buildBootcampPaymentIdentity(form);
   const isCompanyFlow = quoteFlow === "company";
   const effectivePricing =
     pricing.people === people && pricing.sessionId === selectedSession.id
       ? pricing
       : buildLocalFallbackQuote(people, selectedSession);
-  const pricePerPerson = effectivePricing.pricePerPerson;
-  const subtotal = effectivePricing.baseSubtotal;
-  const total = effectivePricing.total;
-  const totalCop = effectivePricing.totalCop ?? null;
-  const paymentCurrency = effectivePricing.paymentCurrency || "COP";
+  const pricePerPerson =
+    effectivePricing.subtotalCop && people > 0
+      ? roundMoney(effectivePricing.subtotalCop / people)
+      : effectivePricing.pricePerPerson;
+  const subtotal = effectivePricing.baseSubtotalCop ?? effectivePricing.baseSubtotal;
+  const total = effectivePricing.totalCop ?? effectivePricing.total;
+  const totalCop = null;
   const trmLabel = formatExchangeRate(effectivePricing.exchangeRate);
   const trmDateLabel = formatTrmDate(effectivePricing.exchangeRateDate);
-  const totalDiscountValue = effectivePricing.totalDiscountValue;
+  const totalDiscountValue = effectivePricing.totalDiscountCop ?? effectivePricing.totalDiscountValue;
   const hasDiscount = totalDiscountValue > 0;
   const hasPlanDiscount = effectivePricing.planDiscountPercentage > 0;
   const hasGroupDiscount = effectivePricing.groupDiscountPercentage > 0;
@@ -1034,7 +1053,7 @@ function CorporateQuoter() {
   const updateQuoteFlow = (nextFlow: QuoteFlow) => {
     if (nextFlow === quoteFlow) return;
 
-    const nextPeople = nextFlow === "company" ? Math.max(people, TEAM_MIN_PEOPLE) : 1;
+    const nextPeople = nextFlow === "company" ? Math.max(people, 2) : 1;
     setQuoteFlow(nextFlow);
     setPaymentMessage("");
     setSentMessage("");
@@ -1062,6 +1081,16 @@ function CorporateQuoter() {
     }));
   };
 
+  const openCompanyQuotePanel = () => {
+    const nextPeople = Math.max(people, 2);
+    setQuoteFlow("company");
+    setShowQuotePanel(true);
+    setPaymentMessage("");
+    setSentMessage("");
+    setForm((current) => ({ ...current, people: String(nextPeople) }));
+    setPricing(buildLocalFallbackQuote(nextPeople, selectedSession));
+  };
+
   useEffect(() => {
     const pricingSession = getBootcampSession(form.sessionId);
     const fallbackQuote = buildLocalFallbackQuote(people, pricingSession);
@@ -1080,7 +1109,7 @@ function CorporateQuoter() {
         const data = (await response.json().catch(() => null)) as BootcampPricingResponse | null;
 
         if (!response.ok || !data?.quote) {
-          throw new Error(data?.error || "No se pudo sincronizar el precio internacional del Bootcamp.");
+          throw new Error(data?.error || "No se pudo sincronizar el precio en COP del Bootcamp.");
         }
 
         setPricing(data.quote);
@@ -1113,6 +1142,12 @@ function CorporateQuoter() {
 
     if (people < 1) {
       setPaymentMessage("Agrega al menos una persona para iniciar el pago.");
+      return false;
+    }
+
+    if (requiresQuoteForPayment) {
+      setPaymentMessage("Para varios cupos usa cotización o factura. Así evitamos cobrar un solo cupo en el widget.");
+      openCompanyQuotePanel();
       return false;
     }
 
@@ -1169,43 +1204,10 @@ function CorporateQuoter() {
     const clientName = isCompanyFlow ? form.company || "Empresa" : form.contactName || "Persona natural";
     const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${clientName}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal comercial (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}${totalCop ? `\nCobro estimado Wompi: ${formatCurrency(totalCop, "COP")}` : ""}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal comercial (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
-  };
-
-  const createPaymentIntent = async () => {
-    const response = await fetch(BOOTCAMP_PAYMENT_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        company: form.company,
-        nit: form.nit,
-        contactName: form.contactName,
-        contactRole: form.contactRole,
-        phone: form.phone,
-        city: form.city,
-        sessionId: selectedSession.id,
-        sessionDate: selectedSession.dateLabel,
-        sessionTime: selectedSession.timeLabel,
-        sessionVenue: selectedSession.venue,
-        sessionAddress: selectedSession.address,
-        people,
-        clientType: quoteFlow,
-        currency: BOOTCAMP_CURRENCY,
-        email: form.email.trim(),
-        userId: paymentIdentity.userId,
-        companyId: paymentIdentity.companyId,
-      }),
-    });
-    const data = await parsePaymentResponse(response);
-
-    if (response.ok && data?.datos_widget) {
-      return data;
-    }
-
-    throw new Error(data?.error || "No se pudo crear el pago en Wompi.");
   };
 
   const handleEmailQuote = async () => {
@@ -1256,7 +1258,7 @@ function CorporateQuoter() {
             exchangeRate: effectivePricing.exchangeRate,
             exchangeRateDate: effectivePricing.exchangeRateDate,
             currency: BOOTCAMP_CURRENCY,
-            paymentCurrency,
+            paymentCurrency: "COP",
             taxLabel: BOOTCAMP_TAX_LABEL,
           },
           html: quoteHtml,
@@ -1280,20 +1282,34 @@ function CorporateQuoter() {
     if (!validatePaymentFields()) return;
 
     setPaymentMode("checkout");
-    setPaymentMessage("Preparando el checkout seguro de Wompi...");
+    setPaymentMessage("Abriendo el widget seguro de i365...");
 
     try {
-      const data = await createPaymentIntent();
-      const widgetData = data.datos_widget;
-      const checkoutUrl = buildPaymentCheckoutUrl(widgetData);
+      await openI365PaymentWidget({
+        appId: I365_PAYMENT_APP_ID,
+        userId: paymentIdentity.userId,
+        companyId: paymentIdentity.companyId,
+        userEmail: form.email.trim().toLowerCase(),
+        userName: form.contactName.trim() || form.company.trim() || "Cliente Bootcamp IA",
+        planId: selectedSession.planId,
+        onSuccess: (data) => {
+          const reference = data.reference ? ` Referencia: ${data.reference}.` : "";
+          setPaymentMessage(`Pago confirmado por i365.${reference}`);
+        },
+        onError: (error) => {
+          setPaymentMessage(error?.message || "No se pudo completar el pago en i365.");
+        },
+        onClose: () => {
+          setPaymentMessage("Widget de pago cerrado.");
+        },
+      });
 
-      setPaymentMessage(`Referencia ${widgetData.reference} lista. Abriendo Wompi...`);
-      window.location.assign(checkoutUrl);
+      setPaymentMessage("Widget i365 abierto. Completa el pago en la ventana segura.");
     } catch (error) {
       setPaymentMessage(
         error instanceof Error
           ? error.message
-          : "No se pudo iniciar el checkout seguro de Wompi.",
+          : "No se pudo abrir el widget seguro de i365.",
       );
     } finally {
       setPaymentMode(null);
@@ -1444,7 +1460,7 @@ function CorporateQuoter() {
                 {BOOTCAMP_SESSIONS.map((session) => (
                   <option key={session.id} value={session.id} disabled={session.status !== "available"}>
                     {session.selectLabel}
-                    {session.status !== "available" ? " · aún no disponible" : ""}
+                    {session.status !== "available" ? " - aún no disponible" : ""}
                   </option>
                 ))}
               </select>
@@ -1544,21 +1560,21 @@ function CorporateQuoter() {
               </p>
             </div>
             <div>
-              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total USD</p>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Ahorro</p>
               <p className="tour-readable-green mt-2 font-display text-2xl font-black">
-                {formatCurrency(total)}
+                {formatCurrency(totalDiscountValue)}
               </p>
             </div>
             <div>
-              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Cobro Wompi</p>
+              <p className="tour-quote-summary-muted text-xs font-black uppercase tracking-[0.14em]">Total COP</p>
               <p className="tour-readable-green mt-2 font-display text-2xl font-black">
-                {totalCop ? formatCurrency(totalCop, paymentCurrency) : "TRM en curso"}
+                {formatCurrency(total)}
               </p>
             </div>
           </div>
 
           <p className="mt-3 rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] px-4 py-3 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
-            Precio comercial en USD con IVA incluido. {trmLabel ? `Wompi cobra en COP con TRM ${trmLabel} COP/USD${trmDateLabel ? ` (${trmDateLabel})` : ""}.` : "Estamos consultando la TRM vigente para mostrar el equivalente en COP."}
+            Precio y pago en COP con IVA incluido. {trmLabel ? `Referencia TRM ${trmLabel} COP/USD${trmDateLabel ? ` (${trmDateLabel})` : ""}.` : "Los valores se muestran en pesos colombianos."}
           </p>
 
           {hasDiscount ? (
@@ -1625,20 +1641,28 @@ function CorporateQuoter() {
                 Quiero pagar ahora
               </div>
               <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                Validamos el total en servidor, convertimos a COP con TRM y abrimos checkout seguro de Wompi.
+                {requiresQuoteForPayment
+                  ? "Para varios cupos abrimos cotización o factura y dejamos el pago validado por el equipo comercial."
+                  : "Abrimos el widget seguro de i365 con el plan del Bootcamp en pesos colombianos."}
               </p>
               <Button
                 type="button"
-                onClick={handleSecurePayment}
-                disabled={paymentMode !== null || !canPaySelectedSession}
+                onClick={requiresQuoteForPayment ? openCompanyQuotePanel : handleSecurePayment}
+                disabled={paymentMode !== null || (!requiresQuoteForPayment && !canPaySelectedSession)}
                 className="w-full rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {paymentMode === "checkout" ? (
+                {requiresQuoteForPayment ? (
+                  <FileText className="h-4 w-4" />
+                ) : paymentMode === "checkout" ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <CreditCard className="h-4 w-4" />
                 )}
-                {paymentMode === "checkout" ? "Abriendo..." : "Pagar con Wompi"}
+                {requiresQuoteForPayment
+                  ? "Cotizar varios cupos"
+                  : paymentMode === "checkout"
+                    ? "Abriendo..."
+                    : "Pagar cupo individual"}
               </Button>
               {paymentMessage ? (
                 <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
@@ -1867,7 +1891,7 @@ export default function BootcampIA() {
             <SectionHeader
               eyebrow="Inversión"
               title={`Bootcamp IA: ${formatCurrency(PRICE_PER_PERSON)} por cupo.`}
-              description={`Valor internacional con ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Se mantiene ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
+              description={`Valor en pesos colombianos con ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Se mantiene ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
               centered
             />
             <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
@@ -1964,7 +1988,7 @@ export default function BootcampIA() {
               </p>
               <p className="flex gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                Valores en USD con IVA incluido; algunas sedes siguen en cierre de dirección.
+                Valores en COP con IVA incluido; algunas sedes siguen en cierre de dirección.
               </p>
             </div>
           </div>

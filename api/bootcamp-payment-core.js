@@ -1,12 +1,10 @@
-import { createHash, randomUUID } from "node:crypto";
-
-const FALLBACK_CURRENCY = "USD";
+const FALLBACK_CURRENCY = "COP";
 const PAYMENT_CURRENCY = "COP";
-const FALLBACK_PRICE_PER_PERSON = 360;
+const FALLBACK_PRICE_PER_PERSON = 1_308_600;
 const EARLY_PAYMENT_DISCOUNT_PERCENTAGE = 30;
 const roundMoney = (value) => Number(Number(value || 0).toFixed(2));
 const roundCop = (value) => Math.max(0, Math.round(Number(value || 0)));
-const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = roundMoney(
+const FALLBACK_EARLY_PAYMENT_PRICE_PER_PERSON = roundCop(
   FALLBACK_PRICE_PER_PERSON * (1 - EARLY_PAYMENT_DISCOUNT_PERCENTAGE / 100),
 );
 const TEAM_DISCOUNT = 0.1;
@@ -128,17 +126,6 @@ function buildExternalId(prefix, ...parts) {
   return `${prefix}-${normalized || "cliente"}`.slice(0, 180);
 }
 
-function buildPaymentReference(session, email) {
-  const suffix = randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase();
-  return buildExternalId("bootcamp", session.id, email).slice(0, 42) + `-${suffix}`;
-}
-
-function signWompiCheckout({ reference, amountInCents, currency, integritySecret }) {
-  return createHash("sha256")
-    .update(`${reference}${amountInCents}${currency}${integritySecret}`)
-    .digest("hex");
-}
-
 function parseDiscountDate(value) {
   if (!value) return null;
   const date = new Date(value);
@@ -182,6 +169,31 @@ function resolveSession(sessionId) {
   return session;
 }
 
+function normalizeWidgetData(widgetData) {
+  if (!widgetData || typeof widgetData !== "object") return null;
+
+  const publicKey = sanitizeText(widgetData.publicKey || widgetData.public_key);
+  const currency = sanitizeText(widgetData.currency || widgetData.moneda, PAYMENT_CURRENCY).toUpperCase();
+  const amountInCents = Number(widgetData.amountInCents ?? widgetData.amount_in_cents);
+  const reference = sanitizeText(widgetData.reference || widgetData.referencia);
+  const signature =
+    typeof widgetData.signature === "string"
+      ? widgetData.signature
+      : widgetData.signature?.integrity || widgetData.signature_integrity || widgetData.integrity;
+
+  if (!publicKey || !currency || !Number.isFinite(amountInCents) || !reference || !signature) return null;
+
+  return {
+    ...widgetData,
+    publicKey,
+    currency,
+    amountInCents,
+    reference,
+    signature,
+    redirectUrl: sanitizeUrl(widgetData.redirectUrl || widgetData.redirect_url),
+  };
+}
+
 function parsePeople(peopleInput) {
   const people = Math.max(Number.parseInt(String(peopleInput ?? ""), 10) || 0, 0);
 
@@ -194,7 +206,7 @@ function parsePeople(peopleInput) {
 
 function resolvePaymentConfig(envInput = {}) {
   const env = envInput || {};
-  const redirectUrl = sanitizeUrl(env.WOMPI_REDIRECT_URL || env.BOOTCAMP_PAYMENT_REDIRECT_URL);
+  const redirectUrl = sanitizeUrl(env.I365_PAYMENT_REDIRECT_URL || env.BOOTCAMP_PAYMENT_REDIRECT_URL);
 
   return {
     env,
@@ -211,9 +223,7 @@ function resolvePaymentConfig(envInput = {}) {
       DEFAULT_BOOTCAMP_PLAN_ID,
     ),
     useRemoteBootcampPricing: env.I365_BOOTCAMP_USE_REMOTE_PRICING === "true",
-    wompiPublicKey: sanitizeText(env.WOMPI_PUBLIC_KEY || env.VITE_WOMPI_PUBLIC_KEY),
-    wompiIntegritySecret: sanitizeText(env.WOMPI_INTEGRITY_SECRET),
-    wompiRedirectUrl: redirectUrl,
+    paymentRedirectUrl: redirectUrl,
     trmApiUrl: sanitizeText(env.TRM_API_URL, DEFAULT_TRM_API_URL),
     trmFallbackCopPerUsd: readPositiveNumber(env.TRM_FALLBACK_COP_PER_USD),
     trmOverrideCopPerUsd: readPositiveNumber(env.TRM_OVERRIDE_COP_PER_USD),
@@ -297,6 +307,7 @@ function withCopPaymentValues(quote, trm) {
   return {
     ...quote,
     paymentCurrency: PAYMENT_CURRENCY,
+    copCurrency: PAYMENT_CURRENCY,
     exchangeRate: trm.value,
     exchangeRatePair: trm.currencyPair,
     exchangeRateSource: trm.source,
@@ -306,7 +317,31 @@ function withCopPaymentValues(quote, trm) {
     subtotalCop,
     totalDiscountCop,
     totalCop,
+    amountCopInCents: totalCop * 100,
+  };
+}
+
+function withNativeCopPaymentValues(quote) {
+  const baseSubtotalCop = roundCop(quote.baseSubtotal);
+  const subtotalCop = roundCop(quote.subtotal);
+  const totalDiscountCop = roundCop(quote.totalDiscountValue);
+  const totalCop = roundCop(quote.total);
+
+  return {
+    ...quote,
+    paymentCurrency: PAYMENT_CURRENCY,
+    copCurrency: PAYMENT_CURRENCY,
+    exchangeRate: null,
+    exchangeRatePair: null,
+    exchangeRateSource: "native_cop",
+    exchangeRateDate: null,
+    exchangeRateValidTo: null,
+    baseSubtotalCop,
+    subtotalCop,
+    totalDiscountCop,
+    totalCop,
     amountInCents: totalCop * 100,
+    amountCopInCents: totalCop * 100,
   };
 }
 
@@ -348,7 +383,7 @@ async function resolveBootcampUnitPricing(config, now = new Date(), session = nu
   const targetPlanId = sanitizeText(session?.planId || config.bootcampPlanId);
   const fallbackPricing = () => ({
     plan: null,
-    priceSource: "fallback_usd",
+    priceSource: "fallback_cop",
     currency: FALLBACK_CURRENCY,
     planId: targetPlanId || null,
     planName: null,
@@ -394,14 +429,6 @@ export async function getBootcampQuote(peopleInput, options = {}) {
   const now = options.now || new Date();
   const unitPricing = await resolveBootcampUnitPricing(config, now, session);
 
-  if (sanitizeText(unitPricing.currency).toUpperCase() !== FALLBACK_CURRENCY) {
-    throw new PaymentError(
-      "El Bootcamp debe cotizarse en USD para convertirlo por TRM a COP.",
-      502,
-      unitPricing,
-    );
-  }
-
   const baseSubtotal = roundMoney(unitPricing.basePricePerPerson * people);
   const subtotal = roundMoney(unitPricing.pricePerPerson * people);
   const planDiscountValue = Math.max(baseSubtotal - subtotal, 0);
@@ -429,6 +456,19 @@ export async function getBootcampQuote(peopleInput, options = {}) {
     amountInCents: Math.round(total * 100),
   };
 
+  const quoteCurrency = sanitizeText(unitPricing.currency).toUpperCase();
+  if (quoteCurrency === PAYMENT_CURRENCY) {
+    return withNativeCopPaymentValues(quote);
+  }
+
+  if (quoteCurrency !== "USD") {
+    throw new PaymentError(
+      "El Bootcamp debe cotizarse en COP o en USD convertible por TRM.",
+      502,
+      unitPricing,
+    );
+  }
+
   const trm = await fetchCurrentTrm(config, now);
   return withCopPaymentValues(quote, trm);
 }
@@ -439,13 +479,6 @@ export async function createBootcampPayment(body, options = {}) {
 
   if (!isValidEmail(email)) {
     throw new PaymentError("Correo de cliente inválido.", 400);
-  }
-
-  if (!config.wompiPublicKey || !config.wompiIntegritySecret) {
-    throw new PaymentError(
-      "Falta configurar WOMPI_PUBLIC_KEY y WOMPI_INTEGRITY_SECRET para abrir pagos directos de Wompi.",
-      503,
-    );
   }
 
   const session = resolveSession(body.sessionId);
@@ -466,80 +499,122 @@ export async function createBootcampPayment(body, options = {}) {
   const userId = sanitizeText(body.userId || body.user_id, fallbackUserId);
   const companyId = sanitizeText(body.companyId || body.company_id, fallbackCompanyId);
   const city = sanitizeText(body.city, session.city);
+  const paymentCurrency = PAYMENT_CURRENCY;
+  const paymentAmountInCents = quote.amountCopInCents || quote.amountInCents;
+  const customerLegalId = nit !== "N/A" ? nit : undefined;
+  const customerLegalIdType = customerLegalId ? (clientType === "company" ? "NIT" : "CC") : undefined;
   const redirectUrl =
-    config.wompiRedirectUrl ||
+    config.paymentRedirectUrl ||
     (options.origin ? `${options.origin}/bootcamp-ia?payment=return#cotizador` : undefined);
 
-  const reference = buildPaymentReference(session, email);
-  const paymentCurrency = quote.paymentCurrency || PAYMENT_CURRENCY;
-  const signature = signWompiCheckout({
-    reference,
-    amountInCents: quote.amountInCents,
-    currency: paymentCurrency,
-    integritySecret: config.wompiIntegritySecret,
-  });
-  const datosWidget = {
-    publicKey: config.wompiPublicKey,
-    currency: paymentCurrency,
-    amountInCents: quote.amountInCents,
-    reference,
-    signature,
-    redirectUrl,
-  };
-  const payment = {
-    provider: "wompi",
-    reference,
-    currency: paymentCurrency,
-    amountInCents: quote.amountInCents,
-    amountCop: quote.totalCop,
-    amountUsd: quote.total,
-    redirectUrl,
-    customer: {
-      email,
-      name: contactName,
-      phone,
-      legalId: nit !== "N/A" ? nit : null,
-      legalIdType: nit !== "N/A" ? (clientType === "company" ? "NIT" : "CC") : null,
-    },
-    metadata: {
+  const paymentResponse = await fetch(`${config.paymentApiBaseUrl}/api/crear-pago`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
       app_id: config.appId,
       user_id: userId,
       company_id: companyId,
-      payment_context: "bootcamp_direct_wompi",
-      quote_scope: clientType,
-      bootcamp_plan_id: quote.planId,
-      bootcamp_plan_name: quote.planName,
-      bootcamp_price_source: quote.priceSource,
-      currency: quote.currency,
-      payment_currency: paymentCurrency,
-      amount_usd: quote.total,
-      amount_cop: quote.totalCop,
-      exchange_rate: quote.exchangeRate,
-      exchange_rate_source: quote.exchangeRateSource,
-      exchange_rate_date: quote.exchangeRateDate,
-      plan_discount_percentage: quote.planDiscountPercentage,
-      group_discount_percentage: quote.groupDiscountPercentage,
-      vat_included: true,
-      client_type: clientType,
-      company,
-      nit,
-      contact_name: contactName,
-      contact_role: contactRole,
-      phone,
-      city,
-      session_id: session.id,
-      session_date: session.dateLabel,
-      session_time: session.timeLabel,
-      session_city: session.city,
-      session_venue: session.venue,
-      participants: quote.people,
-    },
-  };
+      plan_id: quote.planId,
+      planId: quote.planId,
+      precio_centavos: paymentAmountInCents,
+      amount_in_cents: paymentAmountInCents,
+      currency: paymentCurrency,
+      moneda: paymentCurrency,
+      cantidad: quote.people,
+      quantity: quote.people,
+      email,
+      customer_name: contactName,
+      customer_legal_id: customerLegalId,
+      customer_legal_id_type: customerLegalIdType,
+      datos_curso: {
+        nombre: "Bootcamp de Inteligencia Artificial - Crea Academy by i365",
+        id: "bootcamp-ia-crea-academy",
+        tipo: "bootcamp_ia",
+        tipo_cliente: clientType === "company" ? "empresa_persona_juridica" : "persona_natural",
+        empresa: company,
+        nit,
+        contacto: contactName,
+        cargo: contactRole,
+        telefono: phone,
+        ciudad: city,
+        session_id: session.id,
+        fecha: session.dateLabel,
+        horario: session.timeLabel,
+        ciudad_bootcamp: session.city,
+        lugar: session.venue,
+        direccion: session.address,
+        participantes: quote.people,
+        moneda_comercial: quote.currency,
+        moneda_pago: paymentCurrency,
+        precio_base_persona: quote.basePricePerPerson,
+        precio_final_persona: quote.pricePerPerson,
+        total_comercial: quote.total,
+        total_cop: quote.totalCop,
+        total_cop_centavos: quote.amountCopInCents,
+        trm: quote.exchangeRate,
+        trm_fuente: quote.exchangeRateSource,
+        trm_fecha: quote.exchangeRateDate,
+        iva_incluido: true,
+        descuento_pronto_pago_porcentaje: quote.planDiscountPercentage,
+        descuento_grupal_porcentaje: quote.groupDiscountPercentage,
+        descuento_total_comercial: quote.totalDiscountValue,
+        descuento_total_cop: quote.totalDiscountCop,
+      },
+      metadata: {
+        payment_context: "bootcamp_i365_widget",
+        quote_scope: clientType,
+        bootcamp_plan_id: quote.planId,
+        bootcamp_plan_name: quote.planName,
+        bootcamp_price_source: quote.priceSource,
+        commercial_currency: quote.currency,
+        payment_currency: paymentCurrency,
+        amount_commercial: quote.total,
+        amount_cop: quote.totalCop,
+        exchange_rate: quote.exchangeRate,
+        exchange_rate_source: quote.exchangeRateSource,
+        exchange_rate_date: quote.exchangeRateDate,
+        plan_discount_percentage: quote.planDiscountPercentage,
+        group_discount_percentage: quote.groupDiscountPercentage,
+        vat_included: true,
+      },
+      redirect_url: redirectUrl,
+    }),
+  });
+  const paymentPayload = await paymentResponse.json().catch(() => ({}));
+  const datosWidget = normalizeWidgetData(paymentPayload?.datos_widget);
+
+  if (!paymentResponse.ok || paymentPayload?.ok === false || !datosWidget) {
+    throw new PaymentError(
+      paymentPayload?.error || paymentPayload?.message || "No se pudo crear el pago en i365.",
+      paymentResponse.status || 502,
+      paymentPayload,
+    );
+  }
+
+  const widgetCurrency = sanitizeText(datosWidget.currency).toUpperCase();
+  const widgetAmountInCents = Number(datosWidget.amountInCents);
+
+  if (widgetCurrency && widgetCurrency !== paymentCurrency) {
+    throw new PaymentError(
+      `i365 devolvio moneda ${widgetCurrency}, pero el pago validado esta en ${paymentCurrency}.`,
+      502,
+      paymentPayload,
+    );
+  }
+
+  if (Number.isFinite(widgetAmountInCents) && widgetAmountInCents !== paymentAmountInCents) {
+    throw new PaymentError(
+      "i365 devolvio un monto distinto al total validado en servidor.",
+      502,
+      paymentPayload,
+    );
+  }
+
   return {
     ok: true,
     quote,
     session,
-    payment,
+    payment: paymentPayload,
     datos_widget: datosWidget,
   };
 }
