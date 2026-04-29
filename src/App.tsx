@@ -67,8 +67,8 @@ const BOOTCAMP_SEO: SeoConfig = {
     },
     offers: {
       "@type": "Offer",
-      price: "360",
-      priceCurrency: "USD",
+      price: "1308600",
+      priceCurrency: "COP",
       availability: "https://schema.org/InStock",
       url: `${SITE_URL}/bootcamp-ia#cotizador`,
     },
