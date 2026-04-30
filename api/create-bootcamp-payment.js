@@ -9,7 +9,11 @@ function parseBody(req) {
 function resolveOrigin(req) {
   const host = req.headers.host;
   if (!host) return "";
-  const proto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "").split(",")[0].trim();
+  const normalizedHost = String(host).toLowerCase();
+  const proto =
+    forwardedProto ||
+    (/^(localhost|127\.0\.0\.1|\[::1\])(?::|$)/.test(normalizedHost) ? "http" : "https");
   return `${proto}://${host}`;
 }
 

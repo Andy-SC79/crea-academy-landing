@@ -643,9 +643,13 @@
             "Schedule, modules and resources in a dedicated bootcamp page.",
             "Certificate and guidance to turn learning into implementation."
           ],
-          "price_amount": "$1,308,600",
+          "price_amount": "$916,020",
           "price_period": "COP / seat",
-          "price_subtext": "VAT included. With 30% early payment it becomes $916,020 COP; teams from 5 people receive 10% extra."
+          "price_subtext": "Final early-payment price, VAT included. Teams from 5 people receive 10% extra.",
+          "price_original": "$1,308,600",
+          "price_original_label": "Before",
+          "price_badge": "30% applied",
+          "price_savings": "Save $392,580 per seat"
         }
       },
       "headline_1": "Welcome to the ",

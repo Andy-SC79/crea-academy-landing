@@ -193,31 +193,6 @@ function resolveSession(sessionId) {
   return session;
 }
 
-function normalizeWidgetData(widgetData) {
-  if (!widgetData || typeof widgetData !== "object") return null;
-
-  const publicKey = sanitizeText(widgetData.publicKey || widgetData.public_key);
-  const currency = sanitizeText(widgetData.currency || widgetData.moneda, PAYMENT_CURRENCY).toUpperCase();
-  const amountInCents = Number(widgetData.amountInCents ?? widgetData.amount_in_cents);
-  const reference = sanitizeText(widgetData.reference || widgetData.referencia);
-  const signature =
-    typeof widgetData.signature === "string"
-      ? widgetData.signature
-      : widgetData.signature?.integrity || widgetData.signature_integrity || widgetData.integrity;
-
-  if (!publicKey || !currency || !Number.isFinite(amountInCents) || !reference || !signature) return null;
-
-  return {
-    ...widgetData,
-    publicKey,
-    currency,
-    amountInCents,
-    reference,
-    signature,
-    redirectUrl: sanitizeUrl(widgetData.redirectUrl || widgetData.redirect_url),
-  };
-}
-
 function parsePeople(peopleInput) {
   const people = Math.max(Number.parseInt(String(peopleInput ?? ""), 10) || 0, 0);
 
@@ -550,130 +525,32 @@ export async function createBootcampPayment(body, options = {}) {
   );
   const nit = sanitizeText(body.nit, "N/A");
   const contactName = rawContactName || company;
-  const contactRole = sanitizeText(body.contactRole);
-  const phone = sanitizeText(body.phone);
   const identityAnchor = nit !== "N/A" ? nit : company;
   const fallbackCompanyId = buildExternalId("bootcamp-company", identityAnchor);
   const fallbackUserId = buildExternalId("bootcamp-user", email, contactName, identityAnchor);
   const userId = sanitizeText(body.userId || body.user_id, fallbackUserId);
   const companyId = sanitizeText(body.companyId || body.company_id, fallbackCompanyId);
-  const city = sanitizeText(body.city, session.city);
-  const paymentCurrency = PAYMENT_CURRENCY;
-  const paymentAmountInCents = quote.amountCopInCents || quote.amountInCents;
-  const customerLegalId = nit !== "N/A" ? nit : undefined;
-  const customerLegalIdType = customerLegalId ? (clientType === "company" ? "NIT" : "CC") : undefined;
   const redirectUrl =
     config.paymentRedirectUrl ||
     (options.origin ? `${options.origin}/bootcamp-ia?payment=return#cotizador` : undefined);
-
-  const paymentResponse = await fetch(`${config.paymentApiBaseUrl}/api/crear-pago`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      app_id: config.appId,
-      user_id: userId,
-      company_id: companyId,
-      plan_id: quote.planId,
-      planId: quote.planId,
-      precio_centavos: paymentAmountInCents,
-      amount_in_cents: paymentAmountInCents,
-      currency: paymentCurrency,
-      moneda: paymentCurrency,
-      cantidad: quote.people,
-      quantity: quote.people,
-      email,
-      customer_name: contactName,
-      customer_legal_id: customerLegalId,
-      customer_legal_id_type: customerLegalIdType,
-      datos_curso: {
-        nombre: "Bootcamp de Inteligencia Artificial - Crea Academy by i365",
-        id: "bootcamp-ia-crea-academy",
-        tipo: "bootcamp_ia",
-        tipo_cliente: clientType === "company" ? "empresa_persona_juridica" : "persona_natural",
-        empresa: company,
-        nit,
-        contacto: contactName,
-        cargo: contactRole,
-        telefono: phone,
-        ciudad: city,
-        session_id: session.id,
-        fecha: session.dateLabel,
-        horario: session.timeLabel,
-        ciudad_bootcamp: session.city,
-        lugar: session.venue,
-        direccion: session.address,
-        participantes: quote.people,
-        moneda_comercial: quote.currency,
-        moneda_pago: paymentCurrency,
-        precio_base_persona: quote.basePricePerPerson,
-        precio_final_persona: quote.pricePerPerson,
-        total_comercial: quote.total,
-        total_cop: quote.totalCop,
-        total_cop_centavos: quote.amountCopInCents,
-        trm: quote.exchangeRate,
-        trm_fuente: quote.exchangeRateSource,
-        trm_fecha: quote.exchangeRateDate,
-        iva_incluido: true,
-        descuento_pronto_pago_porcentaje: quote.planDiscountPercentage,
-        descuento_grupal_porcentaje: quote.groupDiscountPercentage,
-        descuento_total_comercial: quote.totalDiscountValue,
-        descuento_total_cop: quote.totalDiscountCop,
-      },
-      metadata: {
-        payment_context: "bootcamp_i365_widget",
-        quote_scope: clientType,
-        bootcamp_plan_id: quote.planId,
-        bootcamp_plan_name: quote.planName || sanitizeText(paymentPlan.name) || null,
-        bootcamp_price_source: quote.priceSource,
-        commercial_currency: quote.currency,
-        payment_currency: paymentCurrency,
-        amount_commercial: quote.total,
-        amount_cop: quote.totalCop,
-        exchange_rate: quote.exchangeRate,
-        exchange_rate_source: quote.exchangeRateSource,
-        exchange_rate_date: quote.exchangeRateDate,
-        plan_discount_percentage: quote.planDiscountPercentage,
-        group_discount_percentage: quote.groupDiscountPercentage,
-        vat_included: true,
-      },
-      redirect_url: redirectUrl,
-    }),
-  });
-  const paymentPayload = await paymentResponse.json().catch(() => ({}));
-  const datosWidget = normalizeWidgetData(paymentPayload?.datos_widget);
-
-  if (!paymentResponse.ok || paymentPayload?.ok === false || !datosWidget) {
-    throw new PaymentError(
-      paymentPayload?.error || paymentPayload?.message || "No se pudo crear el pago en i365.",
-      paymentResponse.status || 502,
-      paymentPayload,
-    );
-  }
-
-  const widgetCurrency = sanitizeText(datosWidget.currency).toUpperCase();
-  const widgetAmountInCents = Number(datosWidget.amountInCents);
-
-  if (widgetCurrency && widgetCurrency !== paymentCurrency) {
-    throw new PaymentError(
-      `i365 devolvio moneda ${widgetCurrency}, pero el pago validado esta en ${paymentCurrency}.`,
-      502,
-      paymentPayload,
-    );
-  }
-
-  if (Number.isFinite(widgetAmountInCents) && widgetAmountInCents !== paymentAmountInCents) {
-    throw new PaymentError(
-      "i365 devolvio un monto distinto al total validado en servidor.",
-      502,
-      paymentPayload,
-    );
-  }
+  const quoteWithPlan = {
+    ...quote,
+    planName: quote.planName || sanitizeText(paymentPlan?.name) || null,
+  };
 
   return {
     ok: true,
-    quote,
+    quote: quoteWithPlan,
     session,
-    payment: paymentPayload,
-    datos_widget: datosWidget,
+    widget_config: {
+      appId: config.appId,
+      userId,
+      companyId,
+      userEmail: email,
+      userName: contactName,
+      role: "usuario",
+      planId: quote.planId,
+      redirectUrl,
+    },
   };
 }

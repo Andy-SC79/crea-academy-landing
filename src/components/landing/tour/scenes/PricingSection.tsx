@@ -42,6 +42,10 @@ type PricingTier = {
   priceAmount: string;
   pricePeriod: string;
   priceSubtext: string;
+  priceOriginal?: string;
+  priceOriginalLabel?: string;
+  priceBadge?: string;
+  priceSavings?: string;
 };
 
 const cardVariants = {
@@ -159,8 +163,28 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         </p>
 
         <div className="my-6">
+          {tier.priceBadge || tier.priceOriginal ? (
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              {tier.priceBadge ? (
+                <span className="tour-meta-chip inline-flex rounded-full border-brand-neon/30 bg-brand-neon/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] text-[#057a52] dark:border-brand-neon/45 dark:text-brand-neon">
+                  {tier.priceBadge}
+                </span>
+              ) : null}
+              {tier.priceOriginal ? (
+                <span className="tour-text-muted text-sm font-bold dark:text-white/55">
+                  {tier.priceOriginalLabel ? <span className="mr-1">{tier.priceOriginalLabel}</span> : null}
+                  <span className="line-through decoration-2">{tier.priceOriginal}</span>
+                </span>
+              ) : null}
+            </div>
+          ) : null}
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="max-w-full break-words font-display text-[clamp(1.55rem,7vw,2.25rem)] font-bold tracking-tight text-slate-900 dark:text-white">
+            <span
+              className={cn(
+                "max-w-full break-words font-display text-[clamp(1.55rem,7vw,2.25rem)] font-bold tracking-tight text-slate-900 dark:text-white",
+                tier.priceBadge && "text-[#057a52] dark:text-brand-neon",
+              )}
+            >
               {tier.priceAmount}
             </span>
             {tier.pricePeriod && (
@@ -169,6 +193,11 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               </span>
             )}
           </div>
+          {tier.priceSavings ? (
+            <p className="mt-2 inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black text-[#057a52] dark:text-brand-neon">
+              {tier.priceSavings}
+            </p>
+          ) : null}
           <p className="tour-text-muted mt-1 text-[13px] dark:text-white/50">
             {tier.priceSubtext}
           </p>
@@ -323,6 +352,10 @@ const PricingSection = () => {
       priceAmount: t("tour.pricing.tiers.bootcampIA.price_amount"),
       pricePeriod: t("tour.pricing.tiers.bootcampIA.price_period"),
       priceSubtext: t("tour.pricing.tiers.bootcampIA.price_subtext"),
+      priceOriginal: t("tour.pricing.tiers.bootcampIA.price_original"),
+      priceOriginalLabel: t("tour.pricing.tiers.bootcampIA.price_original_label"),
+      priceBadge: t("tour.pricing.tiers.bootcampIA.price_badge"),
+      priceSavings: t("tour.pricing.tiers.bootcampIA.price_savings"),
       features: [
         t("tour.pricing.tiers.bootcampIA.features.0"),
         t("tour.pricing.tiers.bootcampIA.features.1"),

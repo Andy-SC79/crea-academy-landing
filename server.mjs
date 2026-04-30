@@ -39,8 +39,15 @@ function sendJson(res, statusCode, payload) {
 }
 
 function getOrigin(req) {
-  const protocol = req.headers["x-forwarded-proto"] || "https";
   const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const forwardedProtocol = String(req.headers["x-forwarded-proto"] || "")
+    .split(",")[0]
+    .trim();
+  const normalizedHost = String(host || "").toLowerCase();
+  const protocol =
+    forwardedProtocol ||
+    (/^(localhost|127\.0\.0\.1|\[::1\])(?::|$)/.test(normalizedHost) ? "http" : "https");
+
   return host ? `${protocol}://${host}` : undefined;
 }
 

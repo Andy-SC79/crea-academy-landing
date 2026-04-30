@@ -642,9 +642,13 @@
             "Agenda, módulos e recursos do bootcamp em uma página dedicada.",
             "Certificado e acompanhamento para transformar aprendizado em implementação."
           ],
-          "price_amount": "$1.308.600",
+          "price_amount": "$916.020",
           "price_period": "COP / vaga",
-          "price_subtext": "IVA incluído. Com 30% de pronto pagamento fica em $916.020 COP; equipes a partir de 5 pessoas recebem 10% adicional."
+          "price_subtext": "Preço final com pronto pagamento e IVA incluído. Equipes a partir de 5 pessoas recebem 10% adicional.",
+          "price_original": "$1.308.600",
+          "price_original_label": "Antes",
+          "price_badge": "30% aplicado",
+          "price_savings": "Economize $392.580 por vaga"
         }
       },
       "headline_1": "Bem-vindo ao ",

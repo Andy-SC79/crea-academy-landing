@@ -9,7 +9,7 @@ export type I365WidgetSuccessPayload = {
   reference?: string;
   status?: string;
   transaction?: Record<string, unknown>;
-  wompiResult?: Record<string, unknown>;
+  providerResult?: Record<string, unknown>;
 };
 
 export type I365WidgetConfig = {
