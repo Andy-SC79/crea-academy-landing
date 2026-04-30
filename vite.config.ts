@@ -94,6 +94,7 @@ export default defineConfig(({ mode }) => {
               if (error instanceof PaymentError) {
                 sendJson(res, error.status, {
                   error: error.message,
+                  code: error.code,
                   details: error.details,
                 });
                 return;
@@ -126,6 +127,7 @@ export default defineConfig(({ mode }) => {
               if (error instanceof PaymentError) {
                 sendJson(res, error.status, {
                   error: error.message,
+                  code: error.code,
                   details: error.details,
                 });
                 return;
@@ -151,6 +153,7 @@ export default defineConfig(({ mode }) => {
               if (error instanceof PaymentError) {
                 sendJson(res, error.status, {
                   error: error.message,
+                  code: error.code,
                   details: error.details,
                 });
                 return;

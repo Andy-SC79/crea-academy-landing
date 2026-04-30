@@ -135,6 +135,7 @@ async function handleBootcampPayment(req, res) {
     if (error instanceof PaymentError) {
       sendJson(res, error.status, {
         error: error.message,
+        code: error.code,
         details: error.details,
       });
       return;
@@ -164,6 +165,7 @@ async function handleBootcampPricing(req, res) {
     if (error instanceof PaymentError) {
       sendJson(res, error.status, {
         error: error.message,
+        code: error.code,
         details: error.details,
       });
       return;
@@ -189,6 +191,7 @@ async function handleTrm(req, res) {
     if (error instanceof PaymentError) {
       sendJson(res, error.status, {
         error: error.message,
+        code: error.code,
         details: error.details,
       });
       return;

@@ -30,6 +30,7 @@ export default async function handler(req, res) {
     if (error instanceof PaymentError) {
       return res.status(error.status).json({
         error: error.message,
+        code: error.code,
         details: error.details,
       });
     }

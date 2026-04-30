@@ -243,12 +243,15 @@ type BootcampQuote = {
 type BootcampPricingResponse = {
   ok?: boolean;
   error?: string;
+  code?: string;
   quote?: BootcampQuote;
 };
 
 type BootcampPaymentResponse = {
   ok?: boolean;
   error?: string;
+  code?: string;
+  details?: unknown;
   quote?: BootcampQuote;
   datos_widget?: {
     currency: string;
@@ -265,10 +268,33 @@ function getBootcampSession(sessionId: string): BootcampSession {
 }
 
 const STATS = [
-  { value: "+6.000", label: "profesionales formados" },
-  { value: "6", label: "ciudades confirmadas" },
-  { value: "mayo-julio", label: "gira Colombia 2026" },
-  { value: "1 día", label: "experiencia presencial" },
+  { value: "60+", label: "eventos realizados" },
+  { value: "6.000+", label: "personas formadas" },
+  { value: "99,6%", label: "ve aplicacion real" },
+  { value: "90,0%", label: "sale seguro para replicar" },
+];
+
+const IMPACT_RESULTS = [
+  {
+    value: "99,6%",
+    label: "aplicabilidad",
+    description: "Personas que conectan lo aprendido con procesos reales de su empresa o trabajo.",
+  },
+  {
+    value: "90,0%",
+    label: "confianza",
+    description: "Participantes seguros o muy seguros de replicar lo aprendido despues del Bootcamp.",
+  },
+  {
+    value: "408 h",
+    label: "tiempo liberable",
+    description: "Estimacion semanal conservadora reportada en la submuestra de impacto profundo 2026.",
+  },
+  {
+    value: "9,49/10",
+    label: "recomendacion",
+    description: "Promedio de recomendacion en la medicion consolidada de experiencia.",
+  },
 ];
 
 const PROBLEMS: Feature[] = [
@@ -373,8 +399,8 @@ const INCLUDED = [
 ];
 
 const FORM_LABEL_CLASS =
-  "text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-default)]";
-const FORM_FIELD_CLASS = "tour-form-field h-12 w-full rounded-lg px-4 text-sm outline-none";
+  "text-[0.82rem] font-black uppercase leading-5 tracking-[0.08em] text-[color:var(--tour-text-default)]";
+const FORM_FIELD_CLASS = "tour-form-field h-12 w-full rounded-lg px-4 text-base font-semibold outline-none";
 
 function SectionHeader({
   eyebrow,
@@ -638,6 +664,69 @@ function TourRouteSection() {
   );
 }
 
+function StudyImpactSection() {
+  return (
+    <section id="resultados-impacto" className="px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <SectionHeader
+              eyebrow="Resultados reales"
+              title="Van porque ya hay evidencia de impacto."
+              description="El estudio consolidado de Ingenieria 365 muestra que el Bootcamp no se queda en inspiracion: la gente entiende, aplica y sale con confianza para mover procesos reales."
+            />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="xl"
+                className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
+              >
+                <a href="#cotizador">
+                  Elegir ciudad
+                  <CalendarDays className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="xl"
+                variant="outline"
+                className="tour-secondary-button rounded-full px-7 text-base font-black"
+              >
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  Hablar con i365
+                  <MessageCircle className="h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+            <p className="mt-5 text-xs font-bold leading-6 text-[color:var(--tour-text-muted)] dark:text-white/50">
+              Base del estudio: 1.656 respuestas validas entre 2024-08-22 y 2026-04-29. Productividad y bienestar corresponden a la submuestra de impacto profundo 2026.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {IMPACT_RESULTS.map((result) => (
+              <article
+                key={result.label}
+                className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-6 shadow-[var(--tour-shadow-soft)]"
+              >
+                <p className="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-black leading-none text-[color:var(--tour-text-strong)]">
+                  {result.value}
+                </p>
+                <h3 className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                  {result.label}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                  {result.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function formatCurrency(value: number, currency = BOOTCAMP_CURRENCY) {
   const safeValue = Number.isFinite(value) ? value : 0;
   const hasDecimals = Math.abs(safeValue % 1) > 0;
@@ -698,6 +787,21 @@ function absoluteAssetUrl(path: string) {
 
 async function parsePaymentResponse(response: Response) {
   return (await response.json().catch(() => null)) as BootcampPaymentResponse | null;
+}
+
+const BOOTCAMP_PAYMENT_ERROR_MESSAGES: Record<string, string> = {
+  BOOTCAMP_PLAN_APP_MISMATCH:
+    "No pudimos abrir el pago porque esta fecha necesita un ajuste de configuracion. No se hizo ningun cobro. Escribenos por WhatsApp y te ayudamos a reservar el cupo.",
+  BOOTCAMP_PLAN_LOOKUP_FAILED:
+    "No pudimos validar el plan de pago en este momento. Intenta de nuevo en unos minutos o escribenos por WhatsApp para reservar el cupo.",
+};
+
+function getBootcampPaymentErrorMessage(data: BootcampPaymentResponse | null) {
+  if (data?.code && BOOTCAMP_PAYMENT_ERROR_MESSAGES[data.code]) {
+    return BOOTCAMP_PAYMENT_ERROR_MESSAGES[data.code];
+  }
+
+  return data?.error || "No se pudo crear el pago seguro de i365.";
 }
 
 function buildPaymentCheckoutUrl(widgetData: NonNullable<BootcampPaymentResponse["datos_widget"]>) {
@@ -1103,6 +1207,7 @@ function CorporateQuoter() {
 
   const updateSession = (sessionId: string) => {
     const nextSession = getBootcampSession(sessionId);
+    setPaymentMessage("");
     setForm((current) => ({
       ...current,
       sessionId: nextSession.id,
@@ -1320,7 +1425,7 @@ function CorporateQuoter() {
       const widgetData = data?.datos_widget;
 
       if (!response.ok || !widgetData) {
-        throw new Error(data?.error || "No se pudo crear el pago seguro de i365.");
+        throw new Error(getBootcampPaymentErrorMessage(data));
       }
 
       const expectedAmountInCents = Math.round(total * 100);
@@ -1357,17 +1462,23 @@ function CorporateQuoter() {
             Reserva tu cupo sin enredarte.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Selecciona ciudad, participantes y correo. Cotización o factura quedan como opción secundaria para equipos que la necesiten.
+            Primero elige tu ciudad. Luego revisa fecha y lugar, define participantes y deja tu correo. Cotización o factura quedan como opción secundaria para equipos que la necesiten.
           </p>
           <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
             <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
-              Cohorte seleccionada
+              Tu selección actual
             </p>
             <p className="mt-3 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
-              {selectedSession.dateLabel} · {selectedSession.city}
+              {selectedSession.city}
+            </p>
+            <p className="mt-2 text-sm font-black text-[color:var(--tour-text-strong)]">
+              {selectedSession.dateLabel}
             </p>
             <p className="mt-2 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
               {selectedSession.venue}. {selectedSession.address}.
+            </p>
+            <p className="mt-3 text-xs font-black uppercase tracking-[0.08em] text-[color:var(--tour-text-default)] dark:text-white/70">
+              {selectedSession.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
             </p>
           </div>
         </div>
@@ -1479,22 +1590,91 @@ function CorporateQuoter() {
                 </label>
               </>
             )) : null}
-            <label className="space-y-2 sm:col-span-2">
-              <span className={FORM_LABEL_CLASS}>Fecha y lugar</span>
-              <select
-                value={form.sessionId}
-                onChange={(event) => updateSession(event.target.value)}
-                className={FORM_FIELD_CLASS}
-              >
-                {BOOTCAMP_SESSIONS.map((session) => (
-                  <option key={session.id} value={session.id} disabled={session.status !== "available"}>
-                    {session.selectLabel}
-                    {session.status !== "available" ? " - aún no disponible" : ""}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="space-y-3 sm:col-span-2">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <span className={FORM_LABEL_CLASS}>1. Elige tu ciudad</span>
+                  <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/80">
+                    Primero toca una ciudad. Enseguida te mostramos la fecha y la sede de esa parada.
+                  </p>
+                </div>
+                <span className="text-xs font-bold uppercase tracking-[0.08em] text-[color:var(--tour-text-muted)] dark:text-white/70">
+                  {BOOTCAMP_SESSIONS.length} ciudades disponibles
+                </span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {BOOTCAMP_SESSIONS.map((session) => {
+                  const isSelected = session.id === selectedSession.id;
+
+                  return (
+                    <button
+                      key={session.id}
+                      type="button"
+                      onClick={() => updateSession(session.id)}
+                      aria-pressed={isSelected}
+                      className={cn(
+                        "rounded-lg border p-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tour-surface-elevated)]",
+                        isSelected
+                          ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)] shadow-[0_0_0_1px_rgba(4,255,141,0.08)]"
+                          : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35 hover:bg-[var(--tour-surface-elevated)]",
+                      )}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="font-display text-lg font-black text-[color:var(--tour-text-strong)]">
+                            {session.city}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/82">
+                            {session.shortLabel}
+                          </p>
+                        </div>
+                        {isSelected ? (
+                          <Check className="h-5 w-5 shrink-0 text-brand-neon" />
+                        ) : (
+                          <MapPin className="h-5 w-5 shrink-0 text-brand-cyan" />
+                        )}
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                        <p
+                          className={cn(
+                            "text-xs font-black uppercase tracking-[0.08em]",
+                            session.venueConfirmed
+                              ? "tour-readable-green"
+                              : "text-[color:var(--tour-text-muted)] dark:text-white/70",
+                          )}
+                        >
+                          {session.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
+                        </p>
+                        <span
+                          className={cn(
+                            "text-xs font-black uppercase tracking-[0.08em]",
+                            isSelected
+                              ? "text-brand-neon"
+                              : "text-[color:var(--tour-text-muted)] dark:text-white/65",
+                          )}
+                        >
+                          {isSelected ? "Seleccionada" : "Toca para elegir"}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
+              <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.08em] text-[color:var(--tour-text-strong)]">
+                    2. Revisa fecha y lugar
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/80">
+                    Así queda tu reserva para {selectedSession.city}.
+                  </p>
+                </div>
+                <span className="rounded-full border border-brand-cyan/25 bg-[var(--tour-surface-soft)] px-3 py-1 text-xs font-black text-[color:var(--tour-text-strong)]">
+                  {selectedSession.shortLabel}
+                </span>
+              </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="flex gap-3">
                   <CalendarDays className="tour-readable-cyan mt-0.5 h-5 w-5 shrink-0" />
@@ -1533,7 +1713,7 @@ function CorporateQuoter() {
             </div>
             {showQuotePanel ? (
             <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>Ciudad de contacto</span>
+              <span className={FORM_LABEL_CLASS}>Ciudad de contacto / facturacion</span>
               <select
                 value={form.city}
                 onChange={(event) => updateForm("city", event.target.value)}
@@ -1806,7 +1986,7 @@ export default function BootcampIA() {
                   <p className="font-display text-lg font-black">Medellín · Bogotá · Cali · Barranquilla · Cartagena · Bucaramanga</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                  Seis paradas confirmadas con pago por ciudad. Medellín tiene auditorio cerrado y las demás sedes se publicarán en cuanto quede definida la dirección.
+                  Más de 60 eventos y más de 6.000 personas ya han vivido esta experiencia. Ahora la gira 2026 abre seis paradas con pago por ciudad. Medellín tiene auditorio cerrado y las demás sedes se publicarán en cuanto quede definida la dirección.
                 </p>
               </div>
             </div>
@@ -1814,6 +1994,8 @@ export default function BootcampIA() {
         </section>
 
         <TourRouteSection />
+
+        <StudyImpactSection />
 
         <section className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">

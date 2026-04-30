@@ -17,6 +17,10 @@ const DEFAULT_TRM_API_URL =
   "https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciadesde%20DESC";
 const TRM_CACHE_TTL_MS = 1000 * 60 * 60 * 6;
 let trmCache = null;
+export const PAYMENT_ERROR_CODES = {
+  BOOTCAMP_PLAN_APP_MISMATCH: "BOOTCAMP_PLAN_APP_MISMATCH",
+  BOOTCAMP_PLAN_LOOKUP_FAILED: "BOOTCAMP_PLAN_LOOKUP_FAILED",
+};
 const BOOTCAMP_SESSIONS = {
   [DEFAULT_SESSION_ID]: {
     id: DEFAULT_SESSION_ID,
@@ -75,11 +79,12 @@ const BOOTCAMP_SESSIONS = {
 };
 
 export class PaymentError extends Error {
-  constructor(message, status = 500, details = null) {
+  constructor(message, status = 500, details = null, code = undefined) {
     super(message);
     this.name = "PaymentError";
     this.status = status;
     this.details = details;
+    this.code = code;
   }
 }
 
@@ -382,6 +387,7 @@ async function fetchBootcampBasePlan(config, planId = config.bootcampPlanId) {
       payload?.error || "No se pudo consultar el plan base del Bootcamp en i365.",
       response.status || 502,
       payload,
+      PAYMENT_ERROR_CODES.BOOTCAMP_PLAN_LOOKUP_FAILED,
     );
   }
 
@@ -389,13 +395,33 @@ async function fetchBootcampBasePlan(config, planId = config.bootcampPlanId) {
 
   if (!plan) {
     throw new PaymentError(
-      `No se encontró el plan base del Bootcamp en i365 (${targetPlanId}).`,
+      `El plan Bootcamp configurado (${targetPlanId}) no pertenece a la app de pagos ${config.appId}.`,
       502,
-      payload,
+      {
+        appId: config.appId,
+        planId: targetPlanId,
+        availablePlanIds: payload.plans.map((item) => sanitizeText(item?.id)).filter(Boolean),
+      },
+      PAYMENT_ERROR_CODES.BOOTCAMP_PLAN_APP_MISMATCH,
     );
   }
 
   return plan;
+}
+
+async function assertBootcampPaymentPlanBelongsToApp(config, quote) {
+  const targetPlanId = sanitizeText(quote?.planId);
+
+  if (!targetPlanId) {
+    throw new PaymentError(
+      "El plan de pago del Bootcamp no esta configurado.",
+      500,
+      { appId: config.appId },
+      PAYMENT_ERROR_CODES.BOOTCAMP_PLAN_APP_MISMATCH,
+    );
+  }
+
+  return fetchBootcampBasePlan(config, targetPlanId);
 }
 
 async function resolveBootcampUnitPricing(config, now = new Date(), session = null) {
@@ -515,6 +541,7 @@ export async function createBootcampPayment(body, options = {}) {
 
   const session = resolveSession(body.sessionId);
   const quote = await getBootcampQuote(body.people, { ...options, sessionId: session.id });
+  const paymentPlan = await assertBootcampPaymentPlanBelongsToApp(config, quote);
   const clientType = sanitizeText(body.clientType || body.client_type, "company") === "person" ? "person" : "company";
   const rawContactName = sanitizeText(body.contactName || body.contact_name);
   const company = sanitizeText(
@@ -596,7 +623,7 @@ export async function createBootcampPayment(body, options = {}) {
         payment_context: "bootcamp_i365_widget",
         quote_scope: clientType,
         bootcamp_plan_id: quote.planId,
-        bootcamp_plan_name: quote.planName,
+        bootcamp_plan_name: quote.planName || sanitizeText(paymentPlan.name) || null,
         bootcamp_price_source: quote.priceSource,
         commercial_currency: quote.currency,
         payment_currency: paymentCurrency,
