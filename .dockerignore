@@ -6,6 +6,8 @@ dist-ssr
 .vscode
 .idea
 *.log
+.env
+.env.*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -15,6 +15,10 @@ const DEFAULT_BOOTCAMP_PLAN_ID = "79d33e26-5076-4057-8eb0-326c2b19a937";
 const DEFAULT_SESSION_ID = "medellin-2026-05-22";
 const DEFAULT_TRM_API_URL =
   "https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciadesde%20DESC";
+const LEGACY_PAYMENT_APP_IDS = new Set(["6015d948-0a6d-4c66-b94d-830eeeb441bb"]);
+const LEGACY_PAYMENT_API_URLS = new Set([
+  "https://widget-i365-pagos-574077189410.us-central1.run.app",
+]);
 const TRM_CACHE_TTL_MS = 1000 * 60 * 60 * 6;
 let trmCache = null;
 export const PAYMENT_ERROR_CODES = {
@@ -115,6 +119,26 @@ function readPositiveNumber(value, fallback = 0) {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+function resolveBootcampPaymentApiUrl(env) {
+  const configured = sanitizeText(
+    env.I365_PAYMENT_API_URL || env.VITE_I365_WIDGET_URL || DEFAULT_PAYMENT_API_URL,
+    DEFAULT_PAYMENT_API_URL,
+  )
+    .replace(/\/widget\.js$/, "")
+    .replace(/\/$/, "");
+
+  return LEGACY_PAYMENT_API_URLS.has(configured) ? DEFAULT_PAYMENT_API_URL : configured;
+}
+
+function resolveBootcampPaymentAppId(env) {
+  const configured = sanitizeText(
+    env.I365_PAYMENT_APP_ID || env.VITE_I365_PAYMENT_APP_ID,
+    DEFAULT_PAYMENT_APP_ID,
+  );
+
+  return LEGACY_PAYMENT_APP_IDS.has(configured) ? DEFAULT_PAYMENT_APP_ID : configured;
+}
+
 function slugifyIdentifier(value) {
   return String(value ?? "")
     .trim()
@@ -209,14 +233,8 @@ function resolvePaymentConfig(envInput = {}) {
 
   return {
     env,
-    paymentApiBaseUrl: sanitizeText(
-      env.I365_PAYMENT_API_URL || env.VITE_I365_WIDGET_URL || DEFAULT_PAYMENT_API_URL,
-      DEFAULT_PAYMENT_API_URL,
-    ).replace(/\/widget\.js$/, "").replace(/\/$/, ""),
-    appId: sanitizeText(
-      env.I365_PAYMENT_APP_ID || env.VITE_I365_PAYMENT_APP_ID,
-      DEFAULT_PAYMENT_APP_ID,
-    ),
+    paymentApiBaseUrl: resolveBootcampPaymentApiUrl(env),
+    appId: resolveBootcampPaymentAppId(env),
     bootcampPlanId: sanitizeText(
       env.I365_BOOTCAMP_PLAN_ID || env.VITE_I365_BOOTCAMP_PLAN_ID,
       DEFAULT_BOOTCAMP_PLAN_ID,
