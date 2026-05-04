@@ -36,7 +36,12 @@ export default function Header() {
     event: MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    if (!href.includes("#")) return;
+    if (!href.includes("#")) {
+      event.preventDefault();
+      setIsMobileMenuOpen(false);
+      navigate(href);
+      return;
+    }
 
     event.preventDefault();
     setIsMobileMenuOpen(false);
@@ -57,7 +62,7 @@ export default function Header() {
   const navLinks = [
     { href: sectionHref("#scene-hero"), label: t("nav.home", { ns: "common" }) },
     { href: sectionHref("#scene-platform-demo"), label: t("nav.platform", { ns: "common" }) },
-    { href: sectionHref("#scene-testimonies"), label: t("nav.bootcamps", { ns: "common" }) },
+    { href: "/bootcamp-ia", label: t("nav.bootcamps", { ns: "common" }) },
     { href: sectionHref(PRICING_SECTION_HASH), label: t("nav.plans", { ns: "common" }) },
   ];
 

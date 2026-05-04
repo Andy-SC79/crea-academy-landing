@@ -15,9 +15,19 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["'Inter'", "sans-serif"],
-        display: ["'TypoRound'", "'Plus Jakarta Sans'", "'Inter'", "sans-serif"],
-        "round-bold": ["'Plus Jakarta Sans'", "'Inter'", "sans-serif"],
+        sans: ["'TypoRound'", "sans-serif"],
+        display: ["'TypoRound'", "sans-serif"],
+        "round-bold": ["'TypoRound'", "sans-serif"],
+      },
+      fontSize: {
+        xs: "var(--text-xs)",
+        sm: "var(--text-sm)",
+        base: "var(--text-body)",
+        lg: "var(--text-h4)",
+        xl: "var(--text-h3)",
+        "2xl": "var(--text-h2)",
+        "3xl": "var(--text-h1)",
+        "4xl": "var(--text-hero)",
       },
       colors: {
         "brand-neon": "#04FF8D",

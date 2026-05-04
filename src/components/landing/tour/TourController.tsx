@@ -26,7 +26,7 @@ export default function TourController({ integrationSlot }: TourControllerProps)
   });
 
   return (
-    <div className="tour-ambient-shell relative flex w-full flex-col overflow-x-hidden text-[90%] text-slate-900 transition-colors duration-500 dark:text-white md:text-[100%]">
+    <div className="tour-ambient-shell relative flex w-full flex-col overflow-x-hidden text-slate-900 transition-colors duration-500 dark:text-white">
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="tour-ambient-base absolute inset-0" />
         <div className="tour-ambient-glow neon absolute left-[10%] top-[8%] h-[28rem] w-[28rem]" />

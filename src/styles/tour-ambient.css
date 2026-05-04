@@ -26,56 +26,56 @@
 
 .tour-ambient-shell {
   background-color: var(--tour-bg-start);
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
-  font-weight: 500;
+  font-family: "TypoRound", sans-serif;
+  font-weight: 300;
   letter-spacing: 0;
   font-kerning: normal;
 }
 
 .tour-ambient-shell :is(h1, h2) {
-  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
   font-weight: 900;
   letter-spacing: 0;
 }
 
 .tour-ambient-shell :is(h3, h4, h5, h6) {
-  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .tour-ambient-shell :is(p, li) {
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
-  font-weight: 500;
+  font-family: "TypoRound", sans-serif;
+  font-weight: 300;
   letter-spacing: 0;
 }
 
 .tour-ambient-shell :is(a, button, [role="button"]) {
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
   font-weight: 800;
   line-height: 1.25;
 }
 
 .tour-ambient-shell .tour-kicker,
 .tour-ambient-shell .tour-meta-chip {
-  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
   font-weight: 700;
 }
 
 .tour-ambient-shell .font-display {
-  font-family: "TypoRound", "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
 }
 
 .tour-ambient-shell .font-sans {
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
 }
 
 .tour-ambient-shell :is(input, select, textarea, label) {
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "TypoRound", sans-serif;
 }
 
 .tour-ambient-shell :is(a, button, [role="button"], .tour-secondary-button) {
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
+  font-family: "TypoRound", sans-serif !important;
 }
 
 .tour-ambient-shell :is(button, [role="button"], a[class*="rounded-full"]) {
@@ -89,12 +89,12 @@
 }
 
 .tour-ambient-shell .text-xs {
-  font-size: 0.8125rem;
+  font-size: var(--text-xs);
   line-height: 1.25rem;
 }
 
 .tour-ambient-shell .text-sm {
-  font-size: 0.9375rem;
+  font-size: var(--text-sm);
   line-height: 1.55rem;
 }
 

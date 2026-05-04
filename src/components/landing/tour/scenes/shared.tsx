@@ -14,22 +14,22 @@ export const SCENE_CONTAINER_CLASS =
   "mx-auto grid w-full min-w-0 max-w-[min(100%,104rem)] content-start items-center gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-8 md:gap-8 md:px-10 md:py-10 mt-0 lg:mt-4 xl:gap-10 xl:px-14 2xl:px-16 2xl:py-12";
 
 export const HERO_HEADLINE_CLASS =
-  "max-w-[min(100%,14ch)] break-words font-display text-[clamp(1.35rem,5vw,6.25rem)] font-black leading-[0.96] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
+  "max-w-[min(100%,14ch)] break-words font-display text-[var(--text-hero)] font-black leading-[0.96] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SCENE_HEADING_CLASS =
-  "max-w-[min(100%,15ch)] break-words font-display text-[clamp(1.72rem,4.8vw+0.65rem,4rem)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
+  "max-w-[min(100%,15ch)] break-words font-display text-[var(--text-h1)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
 
 export const LEAD_COPY_CLASS =
-  "max-w-[38rem] font-display text-[clamp(0.98rem,0.75rem+0.95vw,1.22rem)] font-normal leading-[1.72] tracking-normal text-[color:var(--tour-text-default)] dark:text-slate-100/90 sm:max-w-[42rem] sm:text-[clamp(1.02rem,0.88rem+0.62vw,1.32rem)] sm:leading-[1.68]";
+  "max-w-[38rem] font-display text-[clamp(0.98rem,0.75rem+0.95vw,1.22rem)] font-light leading-[1.72] tracking-normal text-[color:var(--tour-text-default)] dark:text-slate-100/90 sm:max-w-[42rem] sm:text-[clamp(1.02rem,0.88rem+0.62vw,1.32rem)] sm:leading-[1.68]";
 
 export const SURFACE_TITLE_CLASS =
-  "mt-4 font-display text-[clamp(1.28rem,1rem+1.2vw,3rem)] font-bold leading-[1.08] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
+  "mt-4 font-display text-[var(--text-h2)] font-bold leading-[1.08] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SURFACE_COPY_CLASS =
-  "mt-4 font-display text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-[color:var(--tour-text-default)] font-normal dark:text-white/60";
+  "mt-4 font-display text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-[color:var(--tour-text-default)] font-light dark:text-white/60";
 
 export const METRIC_VALUE_CLASS =
-  "mt-3 font-display text-[clamp(1.1rem,0.95rem+1.4vw,3.5rem)] font-bold leading-none text-[color:var(--tour-text-strong)] dark:text-white pb-3";
+  "mt-3 font-display text-[var(--text-h2)] font-bold leading-none text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const TOUR_FRAME_CLASS =
   "tour-frame-shell relative w-full rounded-[32px] p-[1px]";
@@ -185,7 +185,7 @@ export function SceneEyebrow({
           {icon ?? <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />}
         </div>
         <div className="h-4 sm:h-5 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
-        <span className="min-w-0 truncate pt-1 font-display text-[0.7rem] font-black uppercase tracking-[0.18em] text-[color:var(--tour-text-default)] dark:text-white dark:drop-shadow-sm sm:text-[0.8rem] sm:tracking-[0.25em]">
+        <span className="min-w-0 truncate pt-1 font-display text-[var(--text-xs)] font-black uppercase tracking-[0.18em] text-[color:var(--tour-text-default)] dark:text-white dark:drop-shadow-sm sm:text-[var(--text-sm)] sm:tracking-[0.25em]">
           {animatedChildren}
         </span>
       </div>

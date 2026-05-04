@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 
 import Magnetic from "@/components/landing/Magnetic";
 import VolumetricBrandField from "@/components/landing/VolumetricBrandField";
-import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
-import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import { Button } from "@/components/ui/button";
 import { APP_AUTH_URL, BOOTCAMP_IA_PATH } from "@/lib/external-links";
 import "@/styles/singularity.css";
@@ -92,25 +90,10 @@ export default function SceneHero() {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="flex w-full flex-col items-center"
               >
-                <div className="mb-8 flex justify-center">
-                  <div className="tour-pill-shell group relative inline-flex max-w-full items-center justify-center overflow-hidden rounded-full px-4 py-2.5 transition-all duration-500 hover:scale-105 sm:px-5">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-cyan/20 via-brand-purple/20 to-brand-orange/20 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
-                    <div className="relative flex items-center gap-3 sm:gap-4">
-                      <div className="flex items-center">
-                        <img src={creaLogoBlack} alt="Crea Academy" className="h-6 sm:h-8 w-auto object-contain block dark:hidden" />
-                        <img src={creaLogoWhite} alt="Crea Academy" className="h-6 sm:h-8 w-auto object-contain hidden dark:block" />
-                      </div>
-                      <div className="h-5 sm:h-6 w-[2px] rounded-full bg-[color:var(--tour-border-strong)] dark:bg-white/20" />
-                      <span className="pt-1 font-display text-[0.82rem] font-black uppercase tracking-[0.18em] text-[color:var(--tour-text-default)] dark:text-white dark:drop-shadow-sm sm:text-[1.05rem] sm:tracking-[0.25em]">
-                        Academy
-                      </span>
-                    </div>
-                  </div>
-                </div>
                 <SceneHeadline
                   as="h1"
                   variant="hero"
-                  className="mx-auto max-w-[min(100%,18ch)] text-center text-[clamp(2.35rem,8.5vw,7.5rem)] leading-[0.98] tracking-normal sm:leading-[0.95]"
+                  className="mx-auto max-w-[min(100%,18ch)] text-center text-[var(--text-hero)] leading-[0.98] tracking-normal sm:leading-[0.95]"
                   delay={34}
                   parts={headlineParts}
                 />
@@ -128,7 +111,7 @@ export default function SceneHero() {
                 <Button
                   asChild
                   size="xl"
-                  className="singularity-cta min-h-[3.5rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight text-black hover:bg-brand-neon/90 sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
+                  className="singularity-cta min-h-[3.5rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 text-center font-display text-base font-black leading-tight tracking-tight text-black hover:bg-brand-neon/90 sm:px-8"
                 >
                   <Link to={BOOTCAMP_IA_PATH}>Bootcamp IA</Link>
                 </Button>
@@ -138,7 +121,7 @@ export default function SceneHero() {
                   asChild
                   size="xl"
                   variant="outline"
-                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
+                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-base font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8"
                 >
                   <a href={APP_AUTH_URL}>{t("nav.signIn", { ns: "common" })}</a>
                 </Button>
@@ -148,7 +131,7 @@ export default function SceneHero() {
                   asChild
                   size="xl"
                   variant="outline"
-                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8 sm:text-[1.1rem] lg:text-[1.2rem]"
+                  className="tour-secondary-button min-h-[3.5rem] w-full whitespace-normal rounded-full px-4 text-center font-display text-base font-black leading-tight tracking-tight dark:border-white/14 dark:bg-white/[0.05] dark:text-white dark:hover:border-white/24 dark:hover:bg-white/[0.08] sm:px-8"
                 >
                   <a href="#pricing-section">{t("tour.sceneHero.createAccount", { ns: "landing" })}</a>
                 </Button>

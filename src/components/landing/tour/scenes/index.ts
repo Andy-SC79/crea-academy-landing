@@ -29,6 +29,5 @@ export const TOUR_SCENES: TourSceneDefinition[] = [
   { id: "scene-4", Component: Scene4 },
   { id: "scene-5", Component: Scene5 },
   { id: "scene-platform-demo", Component: ScenePlatformDemo },
-  { id: "scene-testimonies", Component: SceneTestimonies },
   { id: "pricing-section", Component: PricingSection },
 ];

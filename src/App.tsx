@@ -178,12 +178,12 @@ export default function App() {
   const { t } = useTranslation("common");
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <BrowserRouter>
         <SeoTags />
         <Suspense
           fallback={
-            <div className="bg-black min-h-screen text-white flex justify-center items-center">
+            <div className="bg-background min-h-screen text-foreground flex justify-center items-center">
               {t("actions.loading")}
             </div>
           }

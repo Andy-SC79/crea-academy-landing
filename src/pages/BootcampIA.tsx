@@ -36,6 +36,7 @@ import Header from "@/components/landing/tour/Header";
 import { Button } from "@/components/ui/button";
 import { openI365PaymentWidget, type I365WidgetConfig } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
+import SceneTestimonies from "@/components/landing/tour/scenes/SceneTestimonies";
 import "@/styles/tour-ambient.css";
 
 const WHATSAPP_URL =
@@ -396,7 +397,7 @@ const INCLUDED = [
 ];
 
 const FORM_LABEL_CLASS =
-  "text-[0.82rem] font-black uppercase leading-5 tracking-[0.08em] text-[color:var(--tour-text-default)]";
+  "text-[var(--text-xs)] font-black uppercase leading-5 tracking-[0.08em] text-[color:var(--tour-text-default)]";
 const FORM_FIELD_CLASS = "tour-form-field h-12 w-full rounded-lg px-4 text-base font-semibold outline-none";
 
 function SectionHeader({
@@ -415,7 +416,7 @@ function SectionHeader({
       <p className="mb-3 inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
         {eyebrow}
       </p>
-      <h2 className="font-display text-[clamp(2rem,5vw,4.6rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
+      <h2 className="font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
         {title}
       </h2>
       {description ? (
@@ -469,13 +470,13 @@ function TourRouteSection() {
             />
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-4">
-                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">6</p>
+                <p className="font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">6</p>
                 <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
                   ciudades
                 </p>
               </div>
               <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-4">
-                <p className="font-display text-3xl font-black text-[color:var(--tour-text-strong)]">1</p>
+                <p className="font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">1</p>
                 <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
                   día intensivo
                 </p>
@@ -564,7 +565,7 @@ function TourRouteSection() {
               <Sparkles className="h-3.5 w-3.5" />
               Mensaje para equipos
             </div>
-            <h3 className="mt-4 font-display text-[clamp(1.7rem,3vw,3rem)] font-black leading-tight text-[color:var(--tour-text-strong)]">
+            <h3 className="mt-4 font-display text-[var(--text-h2)] font-black leading-tight text-[color:var(--tour-text-strong)]">
               No venimos a hablar de IA. Venimos a instalar capacidad real en cada ciudad.
             </h3>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
@@ -612,7 +613,7 @@ function TourRouteSection() {
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
                     Parada {index + 1}
                   </p>
-                  <h3 className="mt-2 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
+                  <h3 className="mt-2 font-display text-[var(--text-h3)] font-black text-[color:var(--tour-text-strong)]">
                     {session.city}
                   </h3>
                 </div>
@@ -706,7 +707,7 @@ function StudyImpactSection() {
                 key={result.label}
                 className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-6 shadow-[var(--tour-shadow-soft)]"
               >
-                <p className="font-display text-[clamp(2.2rem,6vw,4.5rem)] font-black leading-none text-[color:var(--tour-text-strong)]">
+                <p className="font-display text-[var(--text-h1)] font-black leading-none text-[color:var(--tour-text-strong)]">
                   {result.value}
                 </p>
                 <h3 className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
@@ -1478,7 +1479,7 @@ function CorporateQuoter() {
             <Calculator className="h-3.5 w-3.5" />
             Cotizador y pago
           </div>
-          <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4.4rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
+          <h2 className="mt-5 font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
             Reserva tu cupo sin enredarte.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
@@ -1488,7 +1489,7 @@ function CorporateQuoter() {
             <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
               Tu selección actual
             </p>
-            <p className="mt-3 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
+            <p className="mt-3 font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">
               {selectedSession.city}
             </p>
             <p className="mt-2 text-sm font-black text-[color:var(--tour-text-strong)]">
@@ -1961,7 +1962,7 @@ export default function BootcampIA() {
                 <span className="h-1 w-1 rounded-full bg-current" />
                 <span>1 día intensivo</span>
               </div>
-              <h1 className="max-w-5xl font-display text-[clamp(2.8rem,8vw,7.6rem)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]">
+              <h1 className="max-w-5xl font-display text-[var(--text-hero)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]">
                 Bootcamp IA para equipos que quieren implementar, ciudad por ciudad.
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
@@ -2024,6 +2025,8 @@ export default function BootcampIA() {
         <TourRouteSection />
 
         <StudyImpactSection />
+
+        <SceneTestimonies />
 
         <section className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
