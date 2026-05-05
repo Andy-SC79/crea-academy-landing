@@ -1021,16 +1021,14 @@ function generateQuoteHtml({
           <div class="row"><span>Subtotal</span><strong>${formatCurrency(subtotal)}</strong></div>
           <div class="row"><span>Descuentos aplicados</span><strong class="green">-${formatCurrency(discountValue)}</strong></div>
           <div class="row total"><span>Total estimado</span><strong class="green">${formatCurrency(total)}</strong></div>
-          ${
-            totalCop
-              ? `<div class="row total"><span>Equivalente estimado en COP</span><strong class="green">${formatCurrency(totalCop, "COP")}</strong></div>`
-              : ""
-          }
-          ${
-            trmLabel
-              ? `<div class="row"><span>TRM aplicada</span><strong>${trmLabel} COP/USD${trmDateLabel ? ` - ${trmDateLabel}` : ""}</strong></div>`
-              : ""
-          }
+          ${totalCop
+      ? `<div class="row total"><span>Equivalente estimado en COP</span><strong class="green">${formatCurrency(totalCop, "COP")}</strong></div>`
+      : ""
+    }
+          ${trmLabel
+      ? `<div class="row"><span>TRM aplicada</span><strong>${trmLabel} COP/USD${trmDateLabel ? ` - ${trmDateLabel}` : ""}</strong></div>`
+      : ""
+    }
         </div>
         <p class="note" style="margin-top:14px">
           Valores en pesos colombianos, ${BOOTCAMP_TAX_LABEL.toLowerCase()}. El pago se abre en el checkout seguro de i365.
@@ -1612,18 +1610,18 @@ function CorporateQuoter({
               </p>
             </div>
             {showQuotePanel ? (
-            <label className="space-y-2">
-              <span className={FORM_LABEL_CLASS}>Ciudad de contacto / facturacion</span>
-              <select
-                value={form.city}
-                onChange={(event) => updateForm("city", event.target.value)}
-                className={FORM_FIELD_CLASS}
-              >
-                {CITIES.map((city) => (
-                  <option key={city}>{city}</option>
-                ))}
-              </select>
-            </label>
+              <label className="space-y-2">
+                <span className={FORM_LABEL_CLASS}>Ciudad de contacto / facturacion</span>
+                <select
+                  value={form.city}
+                  onChange={(event) => updateForm("city", event.target.value)}
+                  className={FORM_FIELD_CLASS}
+                >
+                  {CITIES.map((city) => (
+                    <option key={city}>{city}</option>
+                  ))}
+                </select>
+              </label>
             ) : null}
             <label className="space-y-2">
               <span className={FORM_LABEL_CLASS}>Número de personas</span>
@@ -1705,74 +1703,68 @@ function CorporateQuoter({
 
           <div className="mt-6 grid gap-4">
             {isInHouseFlow && (
-            <div className="order-2 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
-              <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-                <FileText className="tour-readable-cyan h-4 w-4" />
-                Quiero cotizar
-              </div>
-              <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                Abre este flujo solo si necesitas PDF, correo, factura u orden de compra.
-              </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
-                  <Download className="h-4 w-4" />
-                  PDF
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleEmailQuote}
-                  disabled={isSendingQuote}
-                  className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  <Send className="h-4 w-4" />
-                  {isSendingQuote ? "Enviando..." : "Enviar"}
-                </Button>
-              </div>
-              {sentMessage ? (
-                <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
-                  {sentMessage}
+              <div className="order-2 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
+                <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
+                  <FileText className="tour-readable-cyan h-4 w-4" />
+                  Quiero cotizar
+                </div>
+                <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                  Abre este flujo solo si necesitas PDF, correo, factura u orden de compra.
                 </p>
-              ) : null}
-            </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
+                    <Download className="h-4 w-4" />
+                    PDF
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleEmailQuote}
+                    disabled={isSendingQuote}
+                    className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <Send className="h-4 w-4" />
+                    {isSendingQuote ? "Enviando..." : "Enviar"}
+                  </Button>
+                </div>
+                {sentMessage ? (
+                  <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+                    {sentMessage}
+                  </p>
+                ) : null}
+              </div>
             )}
 
             {!isInHouseFlow && (
-            <div className="order-1 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
-              <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-                <CreditCard className="tour-readable-green h-4 w-4" />
-                Quiero pagar ahora
-              </div>
-              <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                {requiresQuoteForPayment
-                  ? "Para varios cupos abrimos cotización o factura y el equipo comercial valida la reserva."
-                  : "Validamos el plan en servidor y abrimos el widget seguro de i365 en pesos colombianos."}
-              </p>
-              <Button
-                type="button"
-                onClick={requiresQuoteForPayment ? openCompanyQuotePanel : handleSecurePayment}
-                disabled={paymentMode !== null || (!requiresQuoteForPayment && !canPaySelectedSession)}
-                className="w-full rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {requiresQuoteForPayment ? (
-                  <FileText className="h-4 w-4" />
-                ) : paymentMode === "checkout" ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <CreditCard className="h-4 w-4" />
-                )}
-                {requiresQuoteForPayment
-                  ? "Cotizar varios cupos"
-                  : paymentMode === "checkout"
-                    ? "Abriendo..."
-                    : "Pagar cupo individual"}
-              </Button>
-              {paymentMessage ? (
-                <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
-                  {paymentMessage}
+              <div className="order-1 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
+                <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
+                  <CreditCard className="tour-readable-green h-4 w-4" />
+                  Quiero pagar ahora
+                </div>
+                <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                  {requiresQuoteForPayment
+                    ? "Para varios cupos abrimos cotización o factura y el equipo comercial valida la reserva."
+                    : "Validamos el plan en servidor y abrimos el widget seguro de i365 en pesos colombianos."}
                 </p>
-              ) : null}
-            </div>
+                <Button
+                  type="button"
+                  onClick={requiresQuoteForPayment ? openCompanyQuotePanel : handleSecurePayment}
+                  disabled={paymentMode !== null || (!requiresQuoteForPayment && !canPaySelectedSession)}
+                  className="w-full rounded-full bg-brand-neon px-7 font-black text-black hover:bg-brand-neon/90 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {paymentMode === "checkout" ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <CreditCard className="h-4 w-4" />
+                  )}
+                  {paymentMode === "checkout" ? "Abriendo..." : "Pagar cupo individual"}
+                </Button>
+                {paymentMessage ? (
+                  <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
+                    {paymentMessage}
+                  </p>
+                ) : null}
+              </div>
             )}
           </div>
 
@@ -1932,7 +1924,7 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
           </p>
           <div className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
             <span className="font-display text-4xl font-black text-[color:var(--tour-text-strong)]">
-              Bajo pedido
+              Cotización
             </span>
           </div>
         </div>
@@ -1952,8 +1944,8 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
 
         <div className="mt-auto pt-7">
           <Button onClick={() => onPagarClick?.("inhouse")} className="w-full rounded-full border border-brand-cyan/25 bg-brand-cyan/10 font-black text-brand-cyan hover:bg-brand-cyan/20">
-              Solicitar cotización
-              <ArrowRight className="h-4 w-4" />
+            Solicitar cotización
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </article>
@@ -2299,9 +2291,9 @@ export default function BootcampIA() {
               ) : (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <div className="mb-8">
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => setModalView("plans")} 
+                    <Button
+                      variant="ghost"
+                      onClick={() => setModalView("plans")}
                       className="flex items-center gap-2 hover:bg-white/5"
                     >
                       <ArrowLeft className="h-4 w-4" />

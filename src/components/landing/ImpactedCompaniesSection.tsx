@@ -1,4 +1,6 @@
-import { Building2, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Building2, ExternalLink, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 import { SceneEyebrow, SceneHeadline, parseHeadline } from "@/components/landing/tour/scenes/shared";
@@ -75,33 +77,71 @@ export default function ImpactedCompaniesSection({
 
           <div className={cn("grid min-w-0 gap-4", compact ? "md:grid-cols-2" : "xl:grid-cols-2")}>
             {IMPACTED_COMPANY_GROUPS.map((group) => (
-              <article
-                key={group.range}
-                className="min-w-0 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-soft)]"
-              >
-                <div className="mb-4 flex items-center justify-between gap-3 border-b border-[color:var(--tour-border-subtle)] pb-3">
-                  <h3 className="font-display text-lg font-black text-[color:var(--tour-text-strong)]">
-                    {group.range}
-                  </h3>
-                  <span className="rounded-full border border-[color:var(--tour-border-standard)] px-2.5 py-1 text-[11px] font-black text-[color:var(--tour-text-muted)]">
-                    {group.companies.length}
-                  </span>
-                </div>
-                <ul className="columns-1 gap-6 space-y-2 sm:columns-2">
-                  {group.companies.map((company) => (
-                    <li
-                      key={company}
-                      className="break-inside-avoid break-words text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72"
-                    >
-                      {company}
-                    </li>
-                  ))}
-                </ul>
-              </article>
+              <CompanyAccordionItem key={group.range} group={group} />
             ))}
           </div>
         </div>
       </div>
     </section>
+  );
+}
+function CompanyAccordionItem({ group }: { group: (typeof IMPACTED_COMPANY_GROUPS)[0] }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <article
+      className={cn(
+        "group/item min-w-0 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] transition-all duration-300",
+        isOpen ? "shadow-[var(--tour-shadow-elevated)] ring-1 ring-brand-cyan/20" : "shadow-[var(--tour-shadow-soft)]"
+      )}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between gap-3 p-5 text-left transition-colors hover:bg-white/5 dark:hover:bg-white/[0.02]"
+        aria-expanded={isOpen}
+      >
+        <div className="flex items-center gap-3">
+          <h3 className="font-display text-lg font-black text-[color:var(--tour-text-strong)]">
+            {group.range}
+          </h3>
+          <span className="rounded-full border border-[color:var(--tour-border-standard)] px-2.5 py-1 text-[11px] font-black text-[color:var(--tour-text-muted)]">
+            {group.companies.length}
+          </span>
+        </div>
+        <div
+          className={cn(
+            "flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] transition-transform duration-300",
+            isOpen && "rotate-180 border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan"
+          )}
+        >
+          <ChevronDown className="h-4 w-4" />
+        </div>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="border-t border-[color:var(--tour-border-subtle)] p-5 pt-4">
+              <ul className="columns-1 gap-6 space-y-2 sm:columns-2">
+                {group.companies.map((company) => (
+                  <li
+                    key={company}
+                    className="break-inside-avoid break-words text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72 transition-colors hover:text-[color:var(--tour-text-strong)]"
+                  >
+                    {company}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </article>
   );
 }

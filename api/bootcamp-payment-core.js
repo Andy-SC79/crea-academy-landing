@@ -12,7 +12,7 @@ const MIN_PEOPLE = 1;
 const DEFAULT_PAYMENT_API_URL = "https://pagos.ingenieria365.com";
 const DEFAULT_PAYMENT_APP_ID = "298f0727-6901-4d98-88e0-785576041b20";
 const DEFAULT_BOOTCAMP_PLAN_ID = "79d33e26-5076-4057-8eb0-326c2b19a937";
-const DEFAULT_SESSION_ID = "medellin-2026-05-22";
+const DEFAULT_SESSION_ID = "medellin-2026-06-05";
 const DEFAULT_TRM_API_URL =
   "https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciadesde%20DESC";
 const LEGACY_PAYMENT_APP_IDS = new Set(["6015d948-0a6d-4c66-b94d-830eeeb441bb"]);
@@ -29,56 +29,56 @@ const BOOTCAMP_SESSIONS = {
   [DEFAULT_SESSION_ID]: {
     id: DEFAULT_SESSION_ID,
     planId: "79d33e26-5076-4057-8eb0-326c2b19a937",
-    dateLabel: "Viernes 22 de mayo de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    dateLabel: "Viernes 05 de junio de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Medellín",
     venue: "Auditorio del Centro Comercial San Diego",
     address: "Centro Comercial San Diego, Medellín",
   },
-  "bogota-2026-05-29": {
-    id: "bogota-2026-05-29",
+  "bogota-2026-07-24": {
+    id: "bogota-2026-07-24",
     planId: "810ee2d2-720f-44b3-8377-4dfa2f689b1b",
-    dateLabel: "Viernes 29 de mayo de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
-    city: "Bogot\u00e1",
+    dateLabel: "Viernes 24 de julio de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
+    city: "Bogotá",
     venue: "Sede por confirmar",
-    address: "Direcci\u00f3n por confirmar",
+    address: "Dirección por confirmar",
   },
-  "cali-2026-06-12": {
-    id: "cali-2026-06-12",
+  "cali-2026-08-28": {
+    id: "cali-2026-08-28",
     planId: "baa0c7c8-b226-4f55-92e6-37aedb4c598b",
-    dateLabel: "Viernes 12 de junio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    dateLabel: "Viernes 28 de agosto de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Cali",
     venue: "Sede por confirmar",
-    address: "Direcci\u00f3n por confirmar",
+    address: "Dirección por confirmar",
   },
-  "barranquilla-2026-07-10": {
-    id: "barranquilla-2026-07-10",
+  "barranquilla-2026-09-25": {
+    id: "barranquilla-2026-09-25",
     planId: "252ac806-8779-4cbf-9f5b-07f493e8e9ef",
-    dateLabel: "Viernes 10 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    dateLabel: "Viernes 25 de septiembre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Barranquilla",
     venue: "Sede por confirmar",
-    address: "Direcci\u00f3n por confirmar",
+    address: "Dirección por confirmar",
   },
-  "cartagena-2026-07-17": {
-    id: "cartagena-2026-07-17",
+  "cartagena-2026-10-23": {
+    id: "cartagena-2026-10-23",
     planId: "d5ba71a2-b12d-4434-b67d-5b6cd28f4784",
-    dateLabel: "Viernes 17 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    dateLabel: "Viernes 23 de octubre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Cartagena",
     venue: "Sede por confirmar",
-    address: "Direcci\u00f3n por confirmar",
+    address: "Dirección por confirmar",
   },
-  "bucaramanga-2026-07-24": {
-    id: "bucaramanga-2026-07-24",
+  "bucaramanga-2026-11-27": {
+    id: "bucaramanga-2026-11-27",
     planId: "2d9990b7-b1d3-4997-b6f4-98a4cb8e460e",
-    dateLabel: "Viernes 24 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    dateLabel: "Viernes 27 de noviembre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Bucaramanga",
     venue: "Sede por confirmar",
-    address: "Direcci\u00f3n por confirmar",
+    address: "Dirección por confirmar",
   },
 };
 
