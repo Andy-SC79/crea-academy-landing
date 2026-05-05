@@ -9,6 +9,7 @@ import {
   CalendarDays,
   Calculator,
   Check,
+  ChevronDown,
   Clock3,
   Code2,
   CreditCard,
@@ -25,8 +26,10 @@ import {
   Sparkles,
   UserRound,
   Workflow,
+  X,
   type LucideIcon,
 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import infinitePrism from "@/assets/infinite-prism-dark.webp";
 import ImpactedCompaniesSection from "@/components/landing/ImpactedCompaniesSection";
@@ -37,6 +40,7 @@ import { Button } from "@/components/ui/button";
 import { openI365PaymentWidget, type I365WidgetConfig } from "@/lib/i365-widget";
 import { cn } from "@/lib/utils";
 import SceneTestimonies from "@/components/landing/tour/scenes/SceneTestimonies";
+import { SceneHeadline, type SceneHeadlinePart, parseHeadline } from "@/components/landing/tour/scenes/shared";
 import "@/styles/tour-ambient.css";
 
 const WHATSAPP_URL =
@@ -90,87 +94,87 @@ const BOOTCAMP_SESSION_SELECT_EVENT = "bootcamp-session-select";
 const BOOTCAMP_ROUTE_VIDEO_URL = "https://www.youtube-nocookie.com/embed/fa6WnQCYJVY?rel=0&modestbranding=1&playsinline=1";
 const BOOTCAMP_SESSIONS = [
   {
-    id: "medellin-2026-05-22",
+    id: "medellin-2026-06-05",
     status: "available",
     planId: "79d33e26-5076-4057-8eb0-326c2b19a937",
-    shortLabel: "22 de mayo de 2026",
-    dateLabel: "Viernes 22 de mayo de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "05 de junio de 2026",
+    dateLabel: "Viernes 05 de junio de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Medellín",
     venue: "Auditorio del Centro Comercial San Diego",
     address: "Centro Comercial San Diego, Medellín",
     venueConfirmed: true,
-    selectLabel: "22 de mayo de 2026 · Medellín · Centro Comercial San Diego",
+    selectLabel: "05 de junio de 2026 · Medellín · Centro Comercial San Diego",
     map: { x: 81.3, y: 139.8, labelX: -10, labelY: 4, anchor: "end" },
   },
   {
-    id: "bogota-2026-05-29",
+    id: "bogota-2026-07-24",
     status: "available",
     planId: "810ee2d2-720f-44b3-8377-4dfa2f689b1b",
-    shortLabel: "29 de mayo de 2026",
-    dateLabel: "Viernes 29 de mayo de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "24 de julio de 2026",
+    dateLabel: "Viernes 24 de julio de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Bogotá",
     venue: "Sede por confirmar",
     address: "Dirección por confirmar",
     venueConfirmed: false,
-    selectLabel: "29 de mayo de 2026 · Bogotá · sede por confirmar",
+    selectLabel: "24 de julio de 2026 · Bogotá · sede por confirmar",
     map: { x: 108.9, y: 168.1, labelX: 10, labelY: 2, anchor: "start" },
   },
   {
-    id: "cali-2026-06-12",
+    id: "cali-2026-08-28",
     status: "available",
     planId: "baa0c7c8-b226-4f55-92e6-37aedb4c598b",
-    shortLabel: "12 de junio de 2026",
-    dateLabel: "Viernes 12 de junio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "28 de agosto de 2026",
+    dateLabel: "Viernes 28 de agosto de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Cali",
     venue: "Sede por confirmar",
     address: "Dirección por confirmar",
     venueConfirmed: false,
-    selectLabel: "12 de junio de 2026 · Cali · sede por confirmar",
+    selectLabel: "28 de agosto de 2026 · Cali · sede por confirmar",
     map: { x: 63.5, y: 191.4, labelX: -10, labelY: 8, anchor: "end" },
   },
   {
-    id: "barranquilla-2026-07-10",
+    id: "barranquilla-2026-09-25",
     status: "available",
     planId: "252ac806-8779-4cbf-9f5b-07f493e8e9ef",
-    shortLabel: "10 de julio de 2026",
-    dateLabel: "Viernes 10 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "25 de septiembre de 2026",
+    dateLabel: "Viernes 25 de septiembre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Barranquilla",
     venue: "Sede por confirmar",
     address: "Dirección por confirmar",
     venueConfirmed: false,
-    selectLabel: "10 de julio de 2026 · Barranquilla · sede por confirmar",
+    selectLabel: "25 de septiembre de 2026 · Barranquilla · sede por confirmar",
     map: { x: 95.4, y: 52.5, labelX: 10, labelY: -8, anchor: "start" },
   },
   {
-    id: "cartagena-2026-07-17",
+    id: "cartagena-2026-10-23",
     status: "available",
     planId: "d5ba71a2-b12d-4434-b67d-5b6cd28f4784",
-    shortLabel: "17 de julio de 2026",
-    dateLabel: "Viernes 17 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "23 de octubre de 2026",
+    dateLabel: "Viernes 23 de octubre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Cartagena",
     venue: "Sede por confirmar",
     address: "Dirección por confirmar",
     venueConfirmed: false,
-    selectLabel: "17 de julio de 2026 · Cartagena · sede por confirmar",
+    selectLabel: "23 de octubre de 2026 · Cartagena · sede por confirmar",
     map: { x: 82.9, y: 63.1, labelX: -10, labelY: 3, anchor: "end" },
   },
   {
-    id: "bucaramanga-2026-07-24",
+    id: "bucaramanga-2026-11-27",
     status: "available",
     planId: "2d9990b7-b1d3-4997-b6f4-98a4cb8e460e",
-    shortLabel: "24 de julio de 2026",
-    dateLabel: "Viernes 24 de julio de 2026",
-    timeLabel: "8:00 AM a 6:00 PM",
+    shortLabel: "27 de noviembre de 2026",
+    dateLabel: "Viernes 27 de noviembre de 2026",
+    timeLabel: "8:00 AM a 4:00 PM",
     city: "Bucaramanga",
     venue: "Sede por confirmar",
     address: "Dirección por confirmar",
     venueConfirmed: false,
-    selectLabel: "24 de julio de 2026 · Bucaramanga · sede por confirmar",
+    selectLabel: "27 de noviembre de 2026 · Bucaramanga · sede por confirmar",
     map: { x: 126.6, y: 123.5, labelX: 10, labelY: 0, anchor: "start" },
   },
 ] as const;
@@ -196,7 +200,7 @@ type QuoteForm = {
   email: string;
 };
 
-type QuoteFlow = "person" | "company";
+type QuoteFlow = "person" | "company" | "inhouse";
 
 type QuoteHtmlOptions = {
   form: QuoteForm;
@@ -295,23 +299,7 @@ const IMPACT_RESULTS = [
   },
 ];
 
-const PROBLEMS: Feature[] = [
-  {
-    icon: Clock3,
-    title: "El equipo no tiene tiempo",
-    description: "La adopción de IA se queda en charlas inspiradoras y nunca llega al proceso real.",
-  },
-  {
-    icon: Workflow,
-    title: "Los procesos siguen manuales",
-    description: "Reportes, aprobaciones y seguimiento se repiten cada semana sin automatización.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Hay ideas, pero no prototipos",
-    description: "El Bootcamp lleva cada caso a una solución usable, visible y validable el mismo día.",
-  },
-];
+
 
 const PHASES = [
   {
@@ -380,9 +368,9 @@ const AGENDA = [
   { time: "8:00 AM", title: "Networking", description: "Conexión entre líderes y equipos participantes." },
   { time: "9:00 AM", title: "Fundamentos aplicados", description: "IA generativa y oportunidades reales de productividad." },
   { time: "11:00 AM", title: "Retos del negocio", description: "Trabajo sobre casos propios con acompañamiento experto." },
-  { time: "2:00 PM", title: "Construcción", description: "Automatizaciones, asistentes y prototipos funcionales." },
-  { time: "5:00 PM", title: "Demo Day", description: "Presentación de soluciones, feedback y próximos pasos." },
-  { time: "6:00 PM", title: "Cierre", description: "Certificación y ruta de continuidad para el equipo." },
+  { time: "1:30 PM", title: "Construcción", description: "Automatizaciones, asistentes y prototipos funcionales." },
+  { time: "3:00 PM", title: "Demo Day", description: "Presentación de soluciones, feedback y próximos pasos." },
+  { time: "4:00 PM", title: "Cierre", description: "Certificación y ruta de continuidad para el equipo." },
 ];
 
 const INCLUDED = [
@@ -406,19 +394,30 @@ function SectionHeader({
   description,
   centered = false,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description?: string;
   centered?: boolean;
 }) {
+  const parts = parseHeadline(title);
+
   return (
     <div className={cn("mb-10 max-w-3xl", centered && "mx-auto text-center")}>
-      <p className="mb-3 inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-        {eyebrow}
-      </p>
-      <h2 className="font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-        {title}
-      </h2>
+      {eyebrow && (
+        <p className="mb-3 inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+          {eyebrow}
+        </p>
+      )}
+      <SceneHeadline
+        as="h2"
+        variant="section"
+        typewriter={false}
+        parts={parts}
+        className={cn(
+          "font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]",
+          centered && "justify-center"
+        )}
+      />
       {description ? (
         <p className="mt-5 text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70 sm:text-lg">
           {description}
@@ -452,7 +451,6 @@ function scrollToBootcampSession(sessionId: string) {
       detail: { sessionId },
     }),
   );
-  document.getElementById("cotizador")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function TourRouteSection() {
@@ -465,23 +463,10 @@ function TourRouteSection() {
           <div>
             <SectionHeader
               eyebrow="Gira Colombia 2026"
-              title="Seis ciudades para llevar la IA del discurso a la operación."
+              title="Seis ciudades para llevar la {IA} del discurso a la [operación]."
               description="La ruta combina formación presencial, casos reales y pago por fecha. Medellín ya tiene auditorio confirmado; las demás ciudades quedan abiertas para reservar mientras cerramos sede."
             />
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-4">
-                <p className="font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">6</p>
-                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[#0d8b5c] dark:text-brand-neon">
-                  ciudades
-                </p>
-              </div>
-              <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-4">
-                <p className="font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">1</p>
-                <p className="mt-1 text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                  día intensivo
-                </p>
-              </div>
-            </div>
+
           </div>
 
           <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-[color:var(--tour-border-standard)] bg-[linear-gradient(145deg,rgba(2,5,13,0.94),rgba(7,18,37,0.9))] p-5 shadow-[var(--tour-shadow-elevated)]">
@@ -559,49 +544,6 @@ function TourRouteSection() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-5 rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(4,255,141,0.10),rgba(0,210,255,0.08),rgba(7,18,37,0.78))] p-5 shadow-[var(--tour-shadow-soft)] lg:grid-cols-[minmax(0,0.92fr)_minmax(22rem,1.08fr)] lg:items-center">
-          <div className="min-w-0">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-              <Sparkles className="h-3.5 w-3.5" />
-              Mensaje para equipos
-            </div>
-            <h3 className="mt-4 font-display text-[var(--text-h2)] font-black leading-tight text-[color:var(--tour-text-strong)]">
-              No venimos a hablar de IA. Venimos a instalar capacidad real en cada ciudad.
-            </h3>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
-              Este Bootcamp est&aacute; dise&ntilde;ado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
-              La gira conecta estrategia, pr&aacute;ctica y acompa&ntilde;amiento para que la adopci&oacute;n no dependa de una moda, sino de resultados medibles.
-            </p>
-            <div className="mt-5 grid gap-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/72 sm:grid-cols-3">
-              <span className="flex items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
-                Casos reales
-              </span>
-              <span className="flex items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
-                Equipos en acci&oacute;n
-              </span>
-              <span className="flex items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-brand-neon" />
-                Pago por ciudad
-              </span>
-            </div>
-          </div>
-
-          <div className="relative aspect-video w-full rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(4,255,141,0.34),rgba(0,210,255,0.24),rgba(157,0,255,0.24))] p-[1px] shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
-            <div className="relative h-full w-full overflow-hidden rounded-[7px] bg-slate-950 shadow-[inset_0_0_28px_rgba(0,0,0,0.72)]">
-              <iframe
-                src={BOOTCAMP_ROUTE_VIDEO_URL}
-                title="Mensaje Bootcamp IA Gira Colombia"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full border-0"
-              />
-            </div>
-          </div>
-        </div>
-
         <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {BOOTCAMP_SESSIONS.map((session, index) => (
             <article
@@ -609,24 +551,9 @@ function TourRouteSection() {
               className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-soft)]"
             >
               <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
-                    Parada {index + 1}
-                  </p>
-                  <h3 className="mt-2 font-display text-[var(--text-h3)] font-black text-[color:var(--tour-text-strong)]">
-                    {session.city}
-                  </h3>
-                </div>
-                <span
-                  className={cn(
-                    "rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em]",
-                    session.venueConfirmed
-                      ? "border-brand-neon/25 bg-brand-neon/10 text-[#0d8b5c] dark:text-brand-neon"
-                      : "border-amber-400/30 bg-amber-400/10 text-amber-700 dark:text-amber-200",
-                  )}
-                >
-                  {session.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
-                </span>
+                <h3 className="font-display text-[var(--text-h3)] font-black text-[color:var(--tour-text-strong)]">
+                  {session.city}
+                </h3>
               </div>
               <div className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
                 <p className="flex gap-3">
@@ -657,6 +584,39 @@ function TourRouteSection() {
             </article>
           ))}
         </div>
+
+        <div className="mt-8 grid gap-5 rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(4,255,141,0.10),rgba(0,210,255,0.08),rgba(7,18,37,0.78))] p-5 shadow-[var(--tour-shadow-soft)] lg:grid-cols-[minmax(0,0.92fr)_minmax(22rem,1.08fr)] lg:items-center">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+              <Sparkles className="h-3.5 w-3.5" />
+              Mensaje para equipos
+            </div>
+            <SceneHeadline
+              as="h3"
+              variant="section"
+              typewriter={false}
+              parts={parseHeadline("No venimos a hablar de {IA}. Venimos a instalar [capacidad real] en cada ciudad.")}
+              className="mt-4 font-display text-[var(--text-h2)] font-black leading-tight text-[color:var(--tour-text-strong)]"
+            />
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
+              Este Bootcamp est&aacute; dise&ntilde;ado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
+              La gira conecta estrategia, pr&aacute;ctica y acompa&ntilde;amiento para que la adopci&oacute;n no dependa de una moda, sino de resultados medibles.
+            </p>
+          </div>
+
+          <div className="relative aspect-video w-full rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(4,255,141,0.34),rgba(0,210,255,0.24),rgba(157,0,255,0.24))] p-[1px] shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+            <div className="relative h-full w-full overflow-hidden rounded-[7px] bg-slate-950 shadow-[inset_0_0_28px_rgba(0,0,0,0.72)]">
+              <iframe
+                src={BOOTCAMP_ROUTE_VIDEO_URL}
+                title="Mensaje Bootcamp IA Gira Colombia"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -670,19 +630,17 @@ function StudyImpactSection() {
           <div>
             <SectionHeader
               eyebrow="Resultados reales"
-              title="Van porque ya hay evidencia de impacto."
+              title="Van porque ya hay {evidencia de impacto}."
               description="El estudio consolidado de Ingenieria 365 muestra que el Bootcamp no se queda en inspiracion: la gente entiende, aplica y sale con confianza para mover procesos reales."
             />
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
-                asChild
+                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent(BOOTCAMP_SESSION_SELECT_EVENT)); }}
                 size="xl"
                 className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
               >
-                <a href="#cotizador">
-                  Elegir ciudad
-                  <CalendarDays className="h-4 w-4" />
-                </a>
+                Elegir ciudad
+                <CalendarDays className="h-4 w-4" />
               </Button>
               <Button
                 asChild
@@ -696,7 +654,7 @@ function StudyImpactSection() {
                 </a>
               </Button>
             </div>
-            <p className="mt-5 text-xs font-bold leading-6 text-[color:var(--tour-text-muted)] dark:text-white/50">
+            <p className="mt-5 text-xs font-bold leading-6 text-[color:var(--tour-text-muted)] dark:text-white/75">
               Base del estudio: 1.656 respuestas validas entre 2024-08-22 y 2026-04-29. Productividad y bienestar corresponden a la submuestra de impacto profundo 2026.
             </p>
           </div>
@@ -1122,19 +1080,34 @@ function generateQuoteHtml({
 </html>`;
 }
 
-function CorporateQuoter() {
-  const [quoteFlow, setQuoteFlow] = useState<QuoteFlow>("person");
+function CorporateQuoter({
+  initialSessionId,
+  initialFlow = "person",
+}: {
+  initialSessionId?: string;
+  initialFlow?: QuoteFlow;
+}) {
+  const isBajoPedidoMode = initialFlow === "inhouse";
+  const initialSession = getBootcampSession(initialSessionId || ACTIVE_BOOTCAMP_SESSION.id);
+  const [quoteFlow, setQuoteFlow] = useState<QuoteFlow>(isBajoPedidoMode ? "company" : initialFlow);
   const [form, setForm] = useState<QuoteForm>({
     company: "",
     nit: "",
     contactName: "",
     contactRole: "",
     phone: "",
-    city: ACTIVE_BOOTCAMP_SESSION.city,
-    sessionId: ACTIVE_BOOTCAMP_SESSION.id,
+    city: initialSession.city,
+    sessionId: initialSession.id,
     people: "1",
     email: "",
   });
+
+  useEffect(() => {
+    if (initialSessionId && initialSessionId !== form.sessionId) {
+      updateSession(initialSessionId);
+    }
+  }, [initialSessionId]);
+
   const [sentMessage, setSentMessage] = useState("");
   const [isSendingQuote, setIsSendingQuote] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
@@ -1188,6 +1161,8 @@ function CorporateQuoter() {
     }
     setForm((current) => ({ ...current, [field]: value }));
   };
+
+  const isInHouseFlow = isBajoPedidoMode;
 
   const updateSession = (sessionId: string) => {
     const nextSession = getBootcampSession(sessionId);
@@ -1322,7 +1297,7 @@ function CorporateQuoter() {
     const clientName = isCompanyFlow ? form.company || "Empresa" : form.contactName || "Persona natural";
     const subject = encodeURIComponent(`Cotización Bootcamp de IA - ${clientName}`);
     const body = encodeURIComponent(
-      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal comercial (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}\nNota: aplica 30% por pronto pago y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
+      `Hola, quiero recibir la cotización del Bootcamp de IA.\n\nTipo de cliente: ${isCompanyFlow ? "Empresa / persona jurídica" : "Persona natural"}\nEmpresa: ${form.company || "N/A"}\nNIT/documento: ${form.nit || "N/A"}\nContacto: ${form.contactName || "N/A"}\nRol: ${form.contactRole || "N/A"}\nFecha: ${selectedSession.dateLabel}\nLugar: ${selectedSession.venue}, ${selectedSession.city}\nCiudad de cotización: ${form.city}\nParticipantes: ${people}\nTotal comercial (${BOOTCAMP_TAX_LABEL}): ${formatCurrency(total)}\nNota: aplica 30% por pronto pago (aplica 5 días calendario antes del evento) y 10% adicional para equipos desde ${TEAM_MIN_PEOPLE} personas.`,
     );
 
     window.location.href = `mailto:${form.email}?cc=jeisonperez@ingenieria365.com,eliza@ingenieria365.com&subject=${subject}&body=${body}`;
@@ -1472,48 +1447,17 @@ function CorporateQuoter() {
   };
 
   return (
-    <section id="cotizador" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-        <div>
-          <div className="tour-readable-cyan inline-flex items-center gap-2 rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em]">
-            <Calculator className="h-3.5 w-3.5" />
-            Cotizador y pago
-          </div>
-          <h2 className="mt-5 font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]">
-            Reserva tu cupo sin enredarte.
-          </h2>
-          <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70">
-            Primero elige tu ciudad. Luego revisa fecha y lugar, define participantes y deja tu correo. Cotización o factura quedan como opción secundaria para equipos que la necesiten.
-          </p>
-          <div className="mt-6 max-w-xl rounded-lg border border-brand-neon/25 bg-brand-neon/10 p-5">
-            <p className="tour-readable-green text-xs font-black uppercase tracking-[0.16em]">
-              Tu selección actual
-            </p>
-            <p className="mt-3 font-display text-[var(--text-h2)] font-black text-[color:var(--tour-text-strong)]">
-              {selectedSession.city}
-            </p>
-            <p className="mt-2 text-sm font-black text-[color:var(--tour-text-strong)]">
-              {selectedSession.dateLabel}
-            </p>
-            <p className="mt-2 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-              {selectedSession.venue}. {selectedSession.address}.
-            </p>
-            <p className="mt-3 text-xs font-black uppercase tracking-[0.08em] text-[color:var(--tour-text-default)] dark:text-white/70">
-              {selectedSession.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
-            </p>
-          </div>
-        </div>
-
+    <section id="cotizador" className="px-4 py-8 dark:border-white/10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl">
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
-          {showQuotePanel ? (
           <div className="mb-5 grid gap-3 sm:grid-cols-2">
             <button
               type="button"
-              aria-pressed={!isCompanyFlow}
+              aria-pressed={quoteFlow === "person"}
               onClick={() => updateQuoteFlow("person")}
               className={cn(
                 "flex items-start gap-3 rounded-lg border p-4 text-left transition-colors",
-                !isCompanyFlow
+                quoteFlow === "person"
                   ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)]"
                   : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35",
               )}
@@ -1528,11 +1472,11 @@ function CorporateQuoter() {
             </button>
             <button
               type="button"
-              aria-pressed={isCompanyFlow}
+              aria-pressed={quoteFlow === "company"}
               onClick={() => updateQuoteFlow("company")}
               className={cn(
                 "flex items-start gap-3 rounded-lg border p-4 text-left transition-colors",
-                isCompanyFlow
+                quoteFlow === "company"
                   ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)]"
                   : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35",
               )}
@@ -1546,11 +1490,9 @@ function CorporateQuoter() {
               </span>
             </button>
           </div>
-          ) : null}
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {showQuotePanel ? (
-            isCompanyFlow ? (
+            {quoteFlow === "company" || quoteFlow === "inhouse" ? (
               <>
                 <label className="space-y-2">
                   <span className={FORM_LABEL_CLASS}>Empresa</span>
@@ -1610,98 +1552,35 @@ function CorporateQuoter() {
                   />
                 </label>
               </>
-            )) : null}
-            <div className="space-y-3 sm:col-span-2">
-              <div className="flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <span className={FORM_LABEL_CLASS}>1. Elige tu ciudad</span>
-                  <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/80">
-                    Primero toca una ciudad. Enseguida te mostramos la fecha y la sede de esa parada.
-                  </p>
-                </div>
-                <span className="text-xs font-bold uppercase tracking-[0.08em] text-[color:var(--tour-text-muted)] dark:text-white/70">
-                  {BOOTCAMP_SESSIONS.length} ciudades disponibles
-                </span>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                {BOOTCAMP_SESSIONS.map((session) => {
-                  const isSelected = session.id === selectedSession.id;
-
-                  return (
-                    <button
-                      key={session.id}
-                      type="button"
-                      onClick={() => updateSession(session.id)}
-                      aria-pressed={isSelected}
-                      className={cn(
-                        "rounded-lg border p-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--tour-surface-elevated)]",
-                        isSelected
-                          ? "border-brand-neon/45 bg-brand-neon/10 text-[color:var(--tour-text-strong)] shadow-[0_0_0_1px_rgba(4,255,141,0.08)]"
-                          : "border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] text-[color:var(--tour-text-default)] hover:border-brand-neon/35 hover:bg-[var(--tour-surface-elevated)]",
-                      )}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="font-display text-lg font-black text-[color:var(--tour-text-strong)]">
-                            {session.city}
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/82">
-                            {session.shortLabel}
-                          </p>
-                        </div>
-                        {isSelected ? (
-                          <Check className="h-5 w-5 shrink-0 text-brand-neon" />
-                        ) : (
-                          <MapPin className="h-5 w-5 shrink-0 text-brand-cyan" />
-                        )}
-                      </div>
-                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                        <p
-                          className={cn(
-                            "text-xs font-black uppercase tracking-[0.08em]",
-                            session.venueConfirmed
-                              ? "tour-readable-green"
-                              : "text-[color:var(--tour-text-muted)] dark:text-white/70",
-                          )}
-                        >
-                          {session.venueConfirmed ? "Sede confirmada" : "Sede por confirmar"}
-                        </p>
-                        <span
-                          className={cn(
-                            "text-xs font-black uppercase tracking-[0.08em]",
-                            isSelected
-                              ? "text-brand-neon"
-                              : "text-[color:var(--tour-text-muted)] dark:text-white/65",
-                          )}
-                        >
-                          {isSelected ? "Seleccionada" : "Toca para elegir"}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-4">
+            )}
+            <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
               <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.08em] text-[color:var(--tour-text-strong)]">
-                    2. Revisa fecha y lugar
+                    Detalles de tu reserva
                   </p>
                   <p className="mt-1 text-sm font-semibold text-[color:var(--tour-text-default)] dark:text-white/80">
-                    Así queda tu reserva para {selectedSession.city}.
+                    Información de la parada seleccionada en {selectedSession.city}.
                   </p>
                 </div>
-                <span className="rounded-full border border-brand-cyan/25 bg-[var(--tour-surface-soft)] px-3 py-1 text-xs font-black text-[color:var(--tour-text-strong)]">
-                  {selectedSession.shortLabel}
-                </span>
+                <select
+                  value={form.sessionId}
+                  onChange={(e) => updateSession(e.target.value)}
+                  className="rounded-full border border-brand-cyan/25 bg-[var(--tour-surface-soft)] px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-strong)] hover:bg-brand-cyan/10 transition-colors cursor-pointer outline-none focus:ring-2 focus:ring-brand-cyan/20 dark:bg-[#071225]"
+                >
+                  {BOOTCAMP_SESSIONS.map((session) => (
+                    <option key={session.id} value={session.id} className="bg-[var(--tour-surface-elevated)] text-sm">
+                      {session.city} · {session.shortLabel}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="flex gap-3">
                   <CalendarDays className="tour-readable-cyan mt-0.5 h-5 w-5 shrink-0" />
                   <div>
                     <p className="tour-readable-cyan text-xs font-black uppercase tracking-[0.14em]">
-                      Fecha disponible
+                      Fecha confirmada
                     </p>
                     <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
                       {selectedSession.dateLabel}
@@ -1715,7 +1594,7 @@ function CorporateQuoter() {
                   <MapPin className="tour-readable-green mt-0.5 h-5 w-5 shrink-0" />
                   <div>
                     <p className="tour-readable-green text-xs font-black uppercase tracking-[0.14em]">
-                      Lugar
+                      Sede del evento
                     </p>
                     <p className="mt-1 text-sm font-black text-[color:var(--tour-text-strong)]">
                       {selectedSession.venue}
@@ -1726,10 +1605,10 @@ function CorporateQuoter() {
                   </div>
                 </div>
               </div>
-              <p className="mt-3 rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
+              <p className="mt-4 rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] px-3 py-2 text-xs font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
                 {selectedSession.venueConfirmed
                   ? "Sede confirmada. Puedes reservar cupo individual o cotizar varios participantes ahora."
-                  : "Fecha confirmada y disponible para reserva. La sede y dirección final se compartirán al cerrar el venue de la ciudad."}
+                  : "Fecha confirmada y disponible para reserva. La sede final se compartirá al cerrar el venue."}
               </p>
             </div>
             {showQuotePanel ? (
@@ -1753,6 +1632,7 @@ function CorporateQuoter() {
                 min="1"
                 value={form.people}
                 onChange={(event) => updateForm("people", event.target.value)}
+                onWheel={(e) => (e.target as HTMLInputElement).blur()}
                 className={FORM_FIELD_CLASS}
               />
             </label>
@@ -1810,20 +1690,21 @@ function CorporateQuoter() {
           {hasDiscount ? (
             <p className="tour-readable-green mt-3 rounded-lg border border-brand-neon/25 bg-brand-neon/10 px-4 py-3 text-sm font-bold">
               {hasPlanDiscount && hasGroupDiscount
-                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. ${BOOTCAMP_TAX_LABEL}.`
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% (aplica 5 días calendario antes del evento) y descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicados automáticamente. ${BOOTCAMP_TAX_LABEL}.`
                 : hasPlanDiscount
-                  ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% aplicado automáticamente. ${BOOTCAMP_TAX_LABEL}.`
+                  ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% (aplica 5 días calendario antes del evento) aplicado automáticamente. ${BOOTCAMP_TAX_LABEL}.`
                   : `Descuento de equipo del ${effectivePricing.groupDiscountPercentage}% aplicado automáticamente. ${BOOTCAMP_TAX_LABEL}.`}
             </p>
           ) : (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm font-bold text-amber-700 dark:text-amber-200">
               {hasPlanDiscount
-                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. ${BOOTCAMP_TAX_LABEL}.`
+                ? `Descuento por pronto pago del ${effectivePricing.planDiscountPercentage}% (aplica 5 días calendario antes del evento) activo. Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. ${BOOTCAMP_TAX_LABEL}.`
                 : `Agrega ${missingForDiscount} persona${missingForDiscount === 1 ? "" : "s"} más para activar el ${Math.round(TEAM_DISCOUNT * 100)}% de descuento de equipo. ${BOOTCAMP_TAX_LABEL}.`}
             </p>
           )}
 
           <div className="mt-6 grid gap-4">
+            {isInHouseFlow && (
             <div className="order-2 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-5">
               <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
                 <FileText className="tour-readable-cyan h-4 w-4" />
@@ -1832,39 +1713,31 @@ function CorporateQuoter() {
               <p className="mb-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
                 Abre este flujo solo si necesitas PDF, correo, factura u orden de compra.
               </p>
-              {showQuotePanel ? (
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
-                    <Download className="h-4 w-4" />
-                    PDF
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleEmailQuote}
-                    disabled={isSendingQuote}
-                    className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    <Send className="h-4 w-4" />
-                    {isSendingQuote ? "Enviando..." : "Enviar"}
-                  </Button>
-                  <Button type="button" variant="outline" onClick={() => setShowQuotePanel(false)} className="tour-secondary-button rounded-full">
-                    Ocultar
-                  </Button>
-                </div>
-              ) : (
-                <Button type="button" variant="outline" onClick={() => setShowQuotePanel(true)} className="tour-secondary-button w-full rounded-full">
-                  <FileText className="h-4 w-4" />
-                  Necesito cotización o factura
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Button type="button" variant="outline" onClick={handleDownloadQuote} className="tour-secondary-button rounded-full">
+                  <Download className="h-4 w-4" />
+                  PDF
                 </Button>
-              )}
-              {showQuotePanel && sentMessage ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleEmailQuote}
+                  disabled={isSendingQuote}
+                  className="tour-secondary-button rounded-full disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <Send className="h-4 w-4" />
+                  {isSendingQuote ? "Enviando..." : "Enviar"}
+                </Button>
+              </div>
+              {sentMessage ? (
                 <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/70">
                   {sentMessage}
                 </p>
               ) : null}
             </div>
+            )}
 
+            {!isInHouseFlow && (
             <div className="order-1 rounded-lg border border-brand-neon/35 bg-brand-neon/10 p-5">
               <div className="mb-3 flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-strong)]">
                 <CreditCard className="tour-readable-green h-4 w-4" />
@@ -1900,34 +1773,236 @@ function CorporateQuoter() {
                 </p>
               ) : null}
             </div>
+            )}
           </div>
 
-          {showQuotePanel ? (
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <Button asChild variant="outline" className="tour-secondary-button rounded-full">
-              <a href={MAILTO_URL}>
-                <Mail className="h-4 w-4" />
-                Factura
-              </a>
-            </Button>
-            <Button asChild variant="outline" className="tour-secondary-button rounded-full">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-4 w-4" />
-                Ayuda
-              </a>
-            </Button>
-          </div>
-          ) : null}
+
         </div>
       </div>
     </section>
   );
 }
 
+function PricingAccordion({ benefits, title }: { benefits: string[]; title: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="mt-4 border-t border-[color:var(--tour-border-subtle)] pt-4">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] hover:text-[color:var(--tour-text-strong)] transition-colors"
+      >
+        <span>{title}</span>
+        <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300", isOpen && "rotate-180")} />
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <ul className="mt-3 space-y-2 pb-1 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+              {benefits.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <Check className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => void }) {
+  return (
+    <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
+      <article className="flex flex-col rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="tour-readable-cyan inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
+            Cupo individual
+          </p>
+          <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em]">
+            30% pronto pago (5 días antes)
+          </span>
+        </div>
+        <p className="mt-5 text-sm font-bold text-[color:var(--tour-text-muted)]">
+          Precio base: <span className="line-through">{formatCurrency(PRICE_PER_PERSON)}</span>
+        </p>
+        <div className="mt-4 flex items-end gap-1">
+          <span className="font-display text-4xl font-black text-[color:var(--tour-text-strong)]">
+            {formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)}
+          </span>
+          <span className="pb-1 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}</span>
+        </div>
+        <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+          valor con pronto pago (5 días antes)
+        </p>
+
+        <PricingAccordion
+          title="Ver beneficios"
+          benefits={[
+            "Pago directo por ciudad",
+            "Bootcamp presencial de 8:00 AM a 6:00 PM",
+            "Material, comunidad y certificado incluidos",
+          ]}
+        />
+
+        <div className="mt-auto pt-7">
+          <Button onClick={() => onPagarClick?.("person")} className="w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
+            Pagar
+            <CreditCard className="h-4 w-4" />
+          </Button>
+        </div>
+      </article>
+
+      <article className="flex flex-col rounded-lg border border-brand-neon/45 bg-[linear-gradient(180deg,rgba(236,253,245,0.72),rgba(240,253,250,0.54))] p-7 shadow-[0_24px_60px_rgba(4,255,141,0.10)] dark:bg-none dark:bg-brand-neon/10">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="tour-readable-green inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
+            Equipo empresa
+          </p>
+          <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] dark:bg-[#071225]">
+            Ahorras {formatCurrency(TEAM_SAVINGS)} vs. lista
+          </span>
+        </div>
+        <div className="mt-5">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+            Desde {TEAM_MIN_PEOPLE} personas
+          </p>
+          <div className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
+            <span className="font-display text-4xl font-black text-[color:var(--tour-text-strong)]">
+              {formatCurrency(TEAM_PRICE_PER_PERSON)}
+            </span>
+            <span className="pb-1 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}/persona</span>
+          </div>
+        </div>
+        <div className="mt-5 border-y border-brand-neon/25 py-4 text-sm">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-[color:var(--tour-text-muted)]">Lista por {TEAM_MIN_PEOPLE} cupos</span>
+            <span className="font-bold text-[color:var(--tour-text-muted)] line-through">
+              {formatCurrency(TEAM_BASE_TOTAL)}
+            </span>
+          </div>
+          <div className="mt-2 flex items-center justify-between gap-4">
+            <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo con IVA</span>
+            <span className="tour-readable-green font-display text-2xl font-black">
+              {formatCurrency(TEAM_TOTAL)}
+            </span>
+          </div>
+        </div>
+        <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+          Incluye 30% de pronto pago (aplica 5 días calendario antes del evento), 10% adicional por equipo, diagnóstico previo, factura electrónica y reserva de cupos en la ciudad seleccionada.
+        </p>
+
+        <PricingAccordion
+          title="Ver beneficios"
+          benefits={[
+            "Todo lo del plan individual",
+            "10% descuento grupal",
+            "Factura electrónica",
+            "Sesión de diagnóstico previo",
+          ]}
+        />
+
+        <div className="mt-auto pt-7">
+          <Button onClick={() => onPagarClick?.("company")} className="w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
+            Pagar
+            <CreditCard className="h-4 w-4" />
+          </Button>
+        </div>
+      </article>
+
+      <article className="flex flex-col rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="tour-readable-cyan inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
+            Sesión In-house
+          </p>
+          <span className="tour-readable-cyan rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em]">
+            Personalizado
+          </span>
+        </div>
+        <div className="mt-5">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+            Para equipos y empresas
+          </p>
+          <div className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
+            <span className="font-display text-4xl font-black text-[color:var(--tour-text-strong)]">
+              Bajo pedido
+            </span>
+          </div>
+        </div>
+        <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
+          Cotización a medida
+        </p>
+
+        <PricingAccordion
+          title="Ver beneficios"
+          benefits={[
+            "Enfoque 100% en tus procesos y retos",
+            "Fecha y lugar a convenir (toda Colombia)",
+            "Diagnóstico previo de impacto",
+            "Seguimiento y soporte post-bootcamp",
+          ]}
+        />
+
+        <div className="mt-auto pt-7">
+          <Button onClick={() => onPagarClick?.("inhouse")} className="w-full rounded-full border border-brand-cyan/25 bg-brand-cyan/10 font-black text-brand-cyan hover:bg-brand-cyan/20">
+              Solicitar cotización
+              <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </article>
+    </div>
+  );
+}
+
+function PricingFooter() {
+  return (
+    <div className="mx-auto mt-4 grid max-w-7xl gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
+      <p className="flex gap-3">
+        <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
+        Todos los planes muestran precio con 30% de pronto pago (aplica 5 días calendario antes del evento).
+      </p>
+      <p className="flex gap-3">
+        <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
+        Equipos desde {TEAM_MIN_PEOPLE} participantes reciben 10% adicional.
+      </p>
+      <p className="flex gap-3">
+        <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
+        Valores en COP con IVA incluido; algunas sedes siguen en cierre de dirección.
+      </p>
+    </div>
+  );
+}
+
 export default function BootcampIA() {
+  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [modalView, setModalView] = useState<"plans" | "checkout">("plans");
+
+  const [selectedSessionId, setSelectedSessionId] = useState<string>(ACTIVE_BOOTCAMP_SESSION.id);
+
+  const [selectedFlow, setSelectedFlow] = useState<QuoteFlow>("person");
+
   useEffect(() => {
     document.title = "Bootcamp IA Gira Colombia 2026 | Ingeniería 365";
     window.scrollTo({ top: 0, behavior: "instant" });
+
+    const handleSessionSelect = (event: Event) => {
+      const nextSessionId = (event as CustomEvent<{ sessionId?: string }>).detail?.sessionId;
+      if (nextSessionId) {
+        setSelectedSessionId(nextSessionId);
+      }
+      setShowPricingModal(true);
+      setModalView("plans");
+    };
+
+    window.addEventListener(BOOTCAMP_SESSION_SELECT_EVENT, handleSessionSelect);
+    return () => window.removeEventListener(BOOTCAMP_SESSION_SELECT_EVENT, handleSessionSelect);
   }, []);
 
   return (
@@ -1940,6 +2015,8 @@ export default function BootcampIA() {
       <Header />
 
       <main className="relative z-10 pt-[72px]">
+        <TourRouteSection />
+
         <section className="relative isolate min-h-[calc(100dvh-72px)] overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
           <img
             src={infinitePrism}
@@ -1962,11 +2039,15 @@ export default function BootcampIA() {
                 <span className="h-1 w-1 rounded-full bg-current" />
                 <span>1 día intensivo</span>
               </div>
-              <h1 className="max-w-5xl font-display text-[var(--text-hero)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]">
-                Bootcamp IA para equipos que quieren implementar, ciudad por ciudad.
-              </h1>
+              <SceneHeadline
+                as="h1"
+                variant="hero"
+                typewriter={false}
+                parts={parseHeadline("Bootcamp {IA} para equipos que quieren implementar, ciudad por [ciudad].")}
+                className="max-w-5xl font-display text-[var(--text-hero)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]"
+              />
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
-                De mayo a julio recorremos Colombia con una experiencia presencial para aprender IA aplicada, construir soluciones reales y salir con un prototipo que el equipo puede seguir mejorando.
+                De junio a noviembre recorremos Colombia con una experiencia presencial para aprender IA aplicada, construir soluciones reales y salir con un prototipo que el equipo puede seguir mejorando.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -1974,9 +2055,9 @@ export default function BootcampIA() {
                   size="xl"
                   className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
                 >
-                  <a href="#cotizador">
-                    Ver fechas y pagar
-                    <CreditCard className="h-4 w-4" />
+                  <a href="#gira-colombia">
+                    Ver ciudades y fechas
+                    <CalendarDays className="h-4 w-4" />
                   </a>
                 </Button>
                 <Button
@@ -1994,20 +2075,31 @@ export default function BootcampIA() {
             </div>
 
             <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-5 shadow-[var(--tour-shadow-elevated)] backdrop-blur-xl">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {STATS.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-lg border border-[color:var(--tour-border-subtle)] bg-[var(--tour-surface-soft)] p-5"
-                  >
-                    <p className="font-display text-4xl font-black text-[color:var(--tour-text-strong)]">
-                      {stat.value}
-                    </p>
-                    <p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
+              <div className="mb-4 grid grid-cols-2 gap-3">
+                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-neon/30">
+                  <p className="font-display text-3xl font-black text-brand-neon">60+</p>
+                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)]">
+                    Eventos realizados
+                  </p>
+                </div>
+                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-neon/30">
+                  <p className="font-display text-3xl font-black text-brand-neon">6.000+</p>
+                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)]">
+                    Personas formadas
+                  </p>
+                </div>
+                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-cyan/30">
+                  <p className="font-display text-3xl font-black text-brand-cyan">99,6%</p>
+                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
+                    Ven aplicación real
+                  </p>
+                </div>
+                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-cyan/30">
+                  <p className="font-display text-3xl font-black text-brand-cyan">90,0%</p>
+                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
+                    Salen seguras para replicar
+                  </p>
+                </div>
               </div>
               <div className="mt-4 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
                 <div className="flex items-center gap-3 text-brand-cyan">
@@ -2022,26 +2114,7 @@ export default function BootcampIA() {
           </div>
         </section>
 
-        <TourRouteSection />
 
-        <StudyImpactSection />
-
-        <SceneTestimonies />
-
-        <section className="px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeader
-              eyebrow="El problema"
-              title="El reto no es conocer herramientas. Es convertirlas en trabajo real."
-              description="La formación está diseñada para que personas no técnicas puedan automatizar, prototipar y tomar mejores decisiones con IA desde el primer día."
-            />
-            <div className="grid gap-4 md:grid-cols-3">
-              {PROBLEMS.map((feature) => (
-                <FeatureCard key={feature.title} feature={feature} />
-              ))}
-            </div>
-          </div>
-        </section>
 
         <section id="metodologia" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
@@ -2083,7 +2156,7 @@ export default function BootcampIA() {
           <div className="mx-auto max-w-7xl">
             <SectionHeader
               eyebrow="Módulos"
-              title="Cinco módulos, un MVP y cero relleno."
+              title="Cinco módulos, un {MVP} y cero relleno."
               description="Cada bloque está conectado con una habilidad práctica que el equipo puede aplicar al salir de la sala."
             />
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -2098,7 +2171,7 @@ export default function BootcampIA() {
           <div className="mx-auto max-w-7xl">
             <SectionHeader
               eyebrow="Agenda"
-              title="Un día diseñado para transformar."
+              title="Un día diseñado para [transformar]."
               description="Cada momento tiene un propósito: aprender lo necesario, construir con acompañamiento y cerrar con una solución demostrable."
             />
             <div className="grid gap-3 lg:grid-cols-6">
@@ -2120,115 +2193,9 @@ export default function BootcampIA() {
           </div>
         </section>
 
-        <section id="precios" className="px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeader
-              eyebrow="Inversión"
-              title={`Bootcamp IA: ${formatCurrency(PRICE_PER_PERSON)} por cupo.`}
-              description={`Valor en pesos colombianos con ${BOOTCAMP_TAX_LABEL.toLowerCase()}. Se mantiene ${Math.round(EARLY_PAYMENT_DISCOUNT * 100)}% de descuento por pronto pago; para equipos desde ${TEAM_MIN_PEOPLE} personas se suma ${Math.round(TEAM_DISCOUNT * 100)}% adicional.`}
-              centered
-            />
-            <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
-              <article className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="tour-readable-cyan inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
-                    Cupo individual
-                  </p>
-                  <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em]">
-                    30% pronto pago
-                  </span>
-                </div>
-                <p className="mt-5 text-sm font-bold text-[color:var(--tour-text-muted)]">
-                  Precio base: <span className="line-through">{formatCurrency(PRICE_PER_PERSON)}</span>
-                </p>
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
-                    {formatCurrency(EARLY_PAYMENT_PRICE_PER_PERSON)}
-                  </span>
-                  <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}</span>
-                </div>
-                <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                  valor con pronto pago
-                </p>
-                <ul className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                  {["Pago directo por ciudad", "Bootcamp presencial de 8:00 AM a 6:00 PM", "Material, comunidad y certificado incluidos"].map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
-                  <a href="#cotizador">
-                    Elegir ciudad y pagar
-                    <CreditCard className="h-4 w-4" />
-                  </a>
-                </Button>
-              </article>
+        <StudyImpactSection />
 
-              <article className="rounded-lg border border-brand-neon/45 bg-[linear-gradient(180deg,rgba(236,253,245,0.72),rgba(240,253,250,0.54))] p-7 shadow-[0_24px_60px_rgba(4,255,141,0.10)] dark:bg-none dark:bg-brand-neon/10">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="tour-readable-green inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
-                    Equipo empresa
-                  </p>
-                  <span className="tour-readable-green rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] dark:bg-[#071225]">
-                    Ahorras {formatCurrency(TEAM_SAVINGS)} vs. lista
-                  </span>
-                </div>
-                <div className="mt-5">
-                  <p className="text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-                    Desde {TEAM_MIN_PEOPLE} personas
-                  </p>
-                  <div className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1">
-                    <span className="font-display text-5xl font-black text-[color:var(--tour-text-strong)]">
-                      {formatCurrency(TEAM_PRICE_PER_PERSON)}
-                    </span>
-                    <span className="pb-2 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}/persona</span>
-                  </div>
-                </div>
-                <div className="mt-5 border-y border-brand-neon/25 py-4 text-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-[color:var(--tour-text-muted)]">Lista por {TEAM_MIN_PEOPLE} cupos</span>
-                    <span className="font-bold text-[color:var(--tour-text-muted)] line-through">
-                      {formatCurrency(TEAM_BASE_TOTAL)}
-                    </span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between gap-4">
-                    <span className="font-black text-[color:var(--tour-text-strong)]">Total equipo con IVA</span>
-                    <span className="tour-readable-green font-display text-2xl font-black">
-                      {formatCurrency(TEAM_TOTAL)}
-                    </span>
-                  </div>
-                </div>
-                <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                  Incluye 30% de pronto pago, 10% adicional por equipo, diagnóstico previo, factura electrónica y reserva de cupos en la ciudad seleccionada.
-                </p>
-                <Button asChild className="mt-7 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90">
-                  <a href="#cotizador">
-                    Cotizar equipo
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                </Button>
-              </article>
-            </div>
-            <div className="mx-auto mt-4 grid max-w-6xl gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
-              <p className="flex gap-3">
-                <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
-                Todos los planes muestran precio con 30% de pronto pago.
-              </p>
-              <p className="flex gap-3">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
-                Equipos desde {TEAM_MIN_PEOPLE} participantes reciben 10% adicional.
-              </p>
-              <p className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                Valores en COP con IVA incluido; algunas sedes siguen en cierre de dirección.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <CorporateQuoter />
+        <SceneTestimonies />
 
         <section className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
@@ -2256,9 +2223,14 @@ export default function BootcampIA() {
         <section className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-5xl rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(0,210,255,0.14),rgba(4,255,141,0.10),rgba(123,44,191,0.12))] p-8 text-center shadow-[var(--tour-shadow-elevated)] sm:p-12">
             <FileText className="mx-auto h-10 w-10 text-brand-cyan" />
-            <h2 className="mt-5 font-display text-[clamp(2rem,5vw,4rem)] font-black leading-[1.02] text-[color:var(--tour-text-strong)]">
-              Este no es un curso. Es una transformación operativa.
-            </h2>
+            <SceneHeadline
+              as="h2"
+              variant="section"
+              typewriter={false}
+              parts={parseHeadline("Este no es un curso. Es una {transformación operativa}.")}
+              className="mt-5 font-display text-[clamp(2rem,5vw,4rem)] font-black leading-[1.02] text-[color:var(--tour-text-strong)]"
+              wrapperClassName="justify-center flex flex-wrap"
+            />
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/72">
               Agenda una conversación y armamos la cohorte ideal para tu equipo, tu ciudad y tus retos de negocio.
             </p>
@@ -2282,6 +2254,67 @@ export default function BootcampIA() {
 
       <Footer />
       <WhatsAppWidget phoneNumber="573106014893" message="Hola, vengo del sitio web de Crea Academy y quiero información del Bootcamp de IA." />
+
+      <AnimatePresence>
+        {showPricingModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => {
+                setShowPricingModal(false);
+                setTimeout(() => setModalView("plans"), 300);
+              }}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-md dark:bg-slate-950/80"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 40 }}
+              className="relative z-10 w-full max-w-7xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-canvas)] p-6 shadow-[var(--tour-shadow-elevated)] sm:p-10 lg:p-12 dark:bg-[#070c1a]"
+            >
+              <button
+                onClick={() => {
+                  setShowPricingModal(false);
+                  setTimeout(() => setModalView("plans"), 300);
+                }}
+                className="absolute right-6 top-6 rounded-full border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] p-2 text-[color:var(--tour-text-muted)] transition-colors hover:bg-[var(--tour-surface-elevated)] hover:text-[color:var(--tour-text-strong)]"
+              >
+                <X className="h-6 w-6" />
+              </button>
+              {modalView === "plans" ? (
+                <>
+                  <div className="mb-10">
+                    <SectionHeader
+                      title="Selecciona el plan ideal"
+                      centered
+                    />
+                  </div>
+                  <PricingCards onPagarClick={(flow) => {
+                    setSelectedFlow(flow);
+                    setModalView("checkout");
+                  }} />
+                </>
+              ) : (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="mb-8">
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => setModalView("plans")} 
+                      className="flex items-center gap-2 hover:bg-white/5"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      Volver a planes
+                    </Button>
+                  </div>
+                  <CorporateQuoter initialSessionId={selectedSessionId} initialFlow={selectedFlow} />
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

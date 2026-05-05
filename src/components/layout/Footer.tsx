@@ -8,7 +8,7 @@ const Footer = () => {
   const { t } = useTranslation("common");
 
   return (
-    <footer className="relative z-20 w-full border-t border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] shadow-[0_-18px_40px_rgba(15,23,42,0.04)] dark:border-white/10 dark:bg-[#02050d] dark:shadow-none">
+    <footer className="relative z-20 w-full border-t border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] shadow-[0_-18px_40px_rgba(15,23,42,0.04)] dark:border-white/10 dark:bg-background dark:shadow-none">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div>
@@ -26,7 +26,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="mb-4 text-[color:var(--tour-text-default)] dark:text-white/60">
+            <p className="mb-4 text-[color:var(--tour-text-default)] dark:text-white/85">
               {t('footer.tagline')}
             </p>
             <a 
@@ -41,7 +41,7 @@ const Footer = () => {
 
           <div>
             <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.contact')}</h3>
-            <ul className="space-y-3 text-[color:var(--tour-text-default)] dark:text-white/60 text-sm">
+            <ul className="space-y-3 text-[color:var(--tour-text-default)] dark:text-white/85 text-sm">
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <a href="mailto:info@ingenieria365.com" className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">
@@ -68,7 +68,7 @@ const Footer = () => {
 
           <div>
             <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.legal')}</h3>
-            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/60">
+            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/85">
               <li>
                 <a 
                   href="https://ingenieria365.com/terminos-condiciones" 
@@ -104,7 +104,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-[color:var(--tour-border-subtle)] pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[color:var(--tour-text-muted)] dark:text-white/50">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[color:var(--tour-text-muted)] dark:text-white/75">
             <p>&copy; {t('footer.copyright')}</p>
           </div>
         </div>

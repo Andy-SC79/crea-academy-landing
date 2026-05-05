@@ -107,7 +107,7 @@ function InteractiveGenerator() {
 
           <div className="mt-2 flex w-full flex-col items-center gap-2 border-t border-slate-200 pt-4 text-center dark:border-white/10 sm:flex-row sm:justify-between sm:text-left">
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-[0.16em] text-[color:var(--tour-text-muted)] dark:text-white/50">
+              <span className="text-xs uppercase tracking-[0.16em] text-[color:var(--tour-text-muted)] dark:text-white/75">
                 {t("tour.scene4.reward_label")}
               </span>
             </div>
@@ -182,7 +182,7 @@ export default function Scene4() {
               key={item.label}
               className="flex flex-col pt-4 opacity-90 transition-opacity hover:opacity-100 first:pl-0 first:pt-0 sm:pl-6 sm:pt-0"
             >
-              <p className="text-xs font-display uppercase tracking-[0.18em] text-[color:var(--tour-text-muted)] dark:text-white/50">
+              <p className="text-xs font-display uppercase tracking-[0.18em] text-[color:var(--tour-text-muted)] dark:text-white/75">
                 {item.label}
               </p>
               <p className={METRIC_VALUE_CLASS}>{item.value}</p>

@@ -52,7 +52,7 @@ function AnimatedNumber({ value, label }: { value: number; label: string }) {
           </motion.span>
         </AnimatePresence>
       </div>
-      <p className="mt-1 sm:mt-2 text-[6.5px] sm:text-[11px] font-bold uppercase tracking-normal sm:tracking-[0.05em] text-slate-500 dark:text-white/50">
+      <p className="mt-1 sm:mt-2 text-[6.5px] sm:text-[11px] font-bold uppercase tracking-normal sm:tracking-[0.05em] text-slate-500 dark:text-white/75">
         {label}
       </p>
     </div>

@@ -132,14 +132,14 @@
 
   .dark {
     /* Dark variant: soft slate keeps contrast comfortable without going pure black. */
-    --background: 220 23% 16%;
-    --foreground: 0 0% 94%;
+    --background: 220 23% 20%;
+    --foreground: 0 0% 98%;
 
-    --card: 220 22% 20%;
-    --card-foreground: 0 0% 94%;
+    --card: 220 22% 24%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 220 22% 20%;
-    --popover-foreground: 0 0% 94%;
+    --popover: 220 22% 24%;
+    --popover-foreground: 0 0% 98%;
 
     /* Primary: accessible green tuned for dark surfaces. */
     --primary: 153 69% 54%;
@@ -154,14 +154,14 @@
     --accent: 216 100% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --muted: 220 20% 25%;
-    --muted-foreground: 220 12% 78%;
+    --muted: 220 20% 30%;
+    --muted-foreground: 220 12% 85%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 16% 34%;
-    --input: 220 16% 34%;
+    --border: 220 16% 40%;
+    --input: 220 16% 40%;
     --ring: 153 69% 54%;
 
     --radius: 1rem;
@@ -182,17 +182,17 @@
     --shadow-purple-glow: 0 0 40px rgba(157, 0, 255, 0.3);
 
     /* Tour dark semantic tokens */
-    --tour-canvas: #02050d;
-    --tour-canvas-mid: #050816;
-    --tour-canvas-strong: #091223;
-    --tour-surface-elevated: rgba(9, 18, 35, 0.94);
-    --tour-surface-soft: rgba(9, 18, 35, 0.82);
-    --tour-surface-muted: rgba(12, 23, 43, 0.92);
-    --tour-panel-gradient: linear-gradient(180deg, rgba(9, 18, 35, 0.96) 0%, rgba(7, 13, 27, 0.94) 100%);
+    --tour-canvas: #0a0f1d;
+    --tour-canvas-mid: #10162a;
+    --tour-canvas-strong: #16203a;
+    --tour-surface-elevated: rgba(22, 32, 58, 0.94);
+    --tour-surface-soft: rgba(22, 32, 58, 0.82);
+    --tour-surface-muted: rgba(25, 38, 68, 0.92);
+    --tour-panel-gradient: linear-gradient(180deg, rgba(22, 32, 58, 0.96) 0%, rgba(16, 26, 48, 0.94) 100%);
     --tour-frame-gradient: linear-gradient(135deg, rgba(0, 229, 255, 0.28) 0%, rgba(123, 44, 191, 0.24) 40%, rgba(255, 77, 77, 0.2) 100%);
     --tour-text-strong: #ffffff;
-    --tour-text-default: rgba(255, 255, 255, 0.9);
-    --tour-text-muted: rgba(255, 255, 255, 0.72);
+    --tour-text-default: rgba(255, 255, 255, 0.95);
+    --tour-text-muted: rgba(255, 255, 255, 0.8);
     --tour-border-subtle: rgba(255, 255, 255, 0.08);
     --tour-border-standard: rgba(22, 36, 60, 1);
     --tour-border-strong: rgba(4, 255, 141, 0.22);

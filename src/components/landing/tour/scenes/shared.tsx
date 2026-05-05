@@ -26,7 +26,7 @@ export const SURFACE_TITLE_CLASS =
   "mt-4 font-display text-[var(--text-h2)] font-bold leading-[1.08] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SURFACE_COPY_CLASS =
-  "mt-4 font-display text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-[color:var(--tour-text-default)] font-light dark:text-white/60";
+  "mt-4 font-display text-[clamp(0.85rem,0.8rem+0.2vw,1.1rem)] leading-[1.8] text-[color:var(--tour-text-default)] font-light dark:text-white/85";
 
 export const METRIC_VALUE_CLASS =
   "mt-3 font-display text-[var(--text-h2)] font-bold leading-none text-[color:var(--tour-text-strong)] dark:text-white pb-3";
@@ -89,6 +89,40 @@ function buildHeadlineMarkup(parts: SceneHeadlinePart[]) {
       return `${part.breakBefore ? "<br />" : ""}${content}`;
     })
     .join("");
+}
+
+export function parseHeadline(title: string): SceneHeadlinePart[] {
+  const parts: SceneHeadlinePart[] = [];
+  let current = "";
+
+  for (let i = 0; i < title.length; i++) {
+    if (title[i] === "{") {
+      if (current) parts.push({ text: current });
+      current = "";
+      i++;
+      while (i < title.length && title[i] !== "}") {
+        current += title[i];
+        i++;
+      }
+      parts.push({ text: current, accent: "prisma" });
+      current = "";
+    } else if (title[i] === "[") {
+      if (current) parts.push({ text: current });
+      current = "";
+      i++;
+      while (i < title.length && title[i] !== "]") {
+        current += title[i];
+        i++;
+      }
+      parts.push({ text: current, accent: "neon" });
+      current = "";
+    } else {
+      current += title[i];
+    }
+  }
+
+  if (current) parts.push({ text: current });
+  return parts;
 }
 
 export function SceneHeadline<T extends ElementType = "h2">({

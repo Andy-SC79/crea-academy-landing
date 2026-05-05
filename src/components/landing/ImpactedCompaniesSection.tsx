@@ -1,7 +1,7 @@
 import { Building2, ExternalLink } from "lucide-react";
 
 import AnimatedText from "@/components/landing/tour/AnimatedText";
-import { SceneEyebrow } from "@/components/landing/tour/scenes/shared";
+import { SceneEyebrow, SceneHeadline, parseHeadline } from "@/components/landing/tour/scenes/shared";
 import {
   IMPACTED_COMPANY_COUNT,
   IMPACTED_COMPANY_GROUPS,
@@ -33,17 +33,13 @@ export default function ImpactedCompaniesSection({
                 <AnimatedText text="Impacto empresarial" />
               </SceneEyebrow>
             </div>
-            <h2 className="mx-auto mt-5 max-w-[min(100%,42rem)] break-words font-display text-[clamp(2rem,5vw,4.2rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)] lg:mx-0">
-              Empresas que ha impactado{" "}
-              <a
-                href="https://www.ingenieria365.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-brand-neon underline decoration-brand-neon/40 underline-offset-8 transition-colors hover:text-brand-cyan"
-              >
-                i365
-              </a>
-            </h2>
+            <SceneHeadline
+              as="h2"
+              variant="section"
+              typewriter={false}
+              parts={parseHeadline("Empresas que ha impactado {i365}")}
+              className="mx-auto mt-5 max-w-[min(100%,42rem)] break-words font-display text-[clamp(2rem,5vw,4.2rem)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)] lg:mx-0"
+            />
             <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/70 lg:mx-0">
               Organizaciones de múltiples industrias han participado en los bootcamps y procesos de adopción de IA liderados por Ingeniería 365.
             </p>

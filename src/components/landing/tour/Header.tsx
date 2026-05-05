@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { MouseEvent } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,16 +10,32 @@ import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { APP_AUTH_URL } from "@/lib/external-links";
+import { cn } from "@/lib/utils";
 
 const PRICING_SECTION_HASH = "#pricing-section";
 
 export default function Header() {
   const { t } = useTranslation(["landing", "common"]);
-  const { pathname } = useLocation();
+  const { pathname, hash: currentHash } = useLocation();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isHomePage = pathname === "/";
   const sectionHref = (hash: string) => (isHomePage ? hash : `/${hash}`);
+
+  const isActive = (itemHref: string) => {
+    if (itemHref === "/bootcamp-ia") {
+      return pathname === "/bootcamp-ia";
+    }
+    if (itemHref.includes("#")) {
+      const targetHash = `#${itemHref.split("#")[1]}`;
+      if (isHomePage) {
+        if (!currentHash && targetHash === "#scene-hero") return true;
+        return currentHash === targetHash;
+      }
+      return false;
+    }
+    return pathname === itemHref;
+  };
 
   const scrollToHash = (hash: string, attempt = 0) => {
     const target = document.querySelector(hash);
@@ -88,16 +105,30 @@ export default function Header() {
           </a>
 
           <div className="hidden items-center gap-8 md:flex">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(event) => handleSectionClick(event, item.href)}
-                className="text-[0.9rem] font-display font-black tracking-tight text-[color:var(--tour-text-default)] transition-colors hover:text-[color:var(--tour-text-strong)] dark:text-white/80 dark:hover:text-[#04FF8D]"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navLinks.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(event) => handleSectionClick(event, item.href)}
+                  className={cn(
+                    "relative py-2 text-[0.9rem] font-display font-black tracking-tight transition-colors",
+                    active
+                      ? "text-brand-neon"
+                      : "text-[color:var(--tour-text-default)] hover:text-[color:var(--tour-text-strong)] dark:text-white/80 dark:hover:text-[#04FF8D]"
+                  )}
+                >
+                  {item.label}
+                  {active && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-neon"
+                    />
+                  )}
+                </a>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -141,19 +172,27 @@ export default function Header() {
       {isMobileMenuOpen ? (
         <div
           id="mobile-tour-menu"
-          className="absolute right-3 top-[calc(100%+0.5rem)] z-50 w-[min(18rem,calc(100vw-1.5rem))] overflow-hidden rounded-3xl border border-[color:var(--tour-border-standard)] bg-white/95 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-[#071120]/95"
+          className="absolute right-3 top-[calc(100%+0.5rem)] z-50 w-[min(18rem,calc(100vw-1.5rem))] overflow-hidden rounded-3xl border border-[color:var(--tour-border-standard)] bg-white/95 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-background/95"
         >
           <div className="flex flex-col">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(event) => handleSectionClick(event, item.href)}
-                className="rounded-2xl px-4 py-3 text-sm font-display font-black tracking-tight text-[color:var(--tour-text-default)] transition-colors hover:bg-brand-neon/10 hover:text-[color:var(--tour-text-strong)] dark:text-white/85 dark:hover:text-brand-neon"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navLinks.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(event) => handleSectionClick(event, item.href)}
+                  className={cn(
+                    "rounded-2xl px-4 py-3 text-sm font-display font-black tracking-tight transition-colors",
+                    active
+                      ? "bg-brand-neon/15 text-brand-neon"
+                      : "text-[color:var(--tour-text-default)] hover:bg-brand-neon/10 hover:text-[color:var(--tour-text-strong)] dark:text-white/85 dark:hover:text-brand-neon"
+                  )}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
             <div className="my-2 h-px bg-[color:var(--tour-border-subtle)] dark:bg-white/10" />
             <a
               href={APP_AUTH_URL}

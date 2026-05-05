@@ -104,7 +104,7 @@ export default function Scene5() {
               key={item.label}
               className="flex flex-col pt-4 opacity-90 transition-opacity hover:opacity-100 first:pl-0 first:pt-0 sm:pl-6 sm:pt-0"
             >
-              <p className="text-xs font-display uppercase tracking-[0.18em] text-[color:var(--tour-text-muted)] dark:text-white/50">
+              <p className="text-xs font-display uppercase tracking-[0.18em] text-[color:var(--tour-text-muted)] dark:text-white/75">
                 {item.label}
               </p>
               <p className={METRIC_VALUE_CLASS}>{item.value}</p>
@@ -118,7 +118,7 @@ export default function Scene5() {
           <CardContent className="space-y-6 p-5 md:p-6 xl:p-7">
             <div className="flex flex-col gap-3 md:p-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="tour-kicker text-xs font-display uppercase tracking-[0.18em] dark:text-white/50">
+                <p className="tour-kicker text-xs font-display uppercase tracking-[0.18em] dark:text-white/75">
                   {t("tour.scene5.card.dashboard_tag")}
                 </p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-slate-900 dark:text-white md:text-2xl lg:text-3xl">
@@ -156,7 +156,7 @@ export default function Scene5() {
                 viewport={{ once: true, margin: "-50px" }}
                 className="flex flex-col"
               >
-                <p className="tour-kicker border-b border-[color:var(--tour-border-subtle)] pb-3 text-xs font-display uppercase tracking-[0.18em] dark:border-white/5 dark:text-white/50">
+                <p className="tour-kicker border-b border-[color:var(--tour-border-subtle)] pb-3 text-xs font-display uppercase tracking-[0.18em] dark:border-white/5 dark:text-white/75">
                   {t("tour.scene5.card.top_students")}
                 </p>
                 <div className="pt-2 space-y-4">

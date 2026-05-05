@@ -158,7 +158,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
           ) : null}
         </div>
 
-        <p className="tour-text-default mt-6 min-h-[56px] text-sm leading-6 dark:text-white/70">
+        <p className="tour-text-default mt-6 min-h-[56px] text-sm leading-6 dark:text-white/85">
           {tier.subtitle}
         </p>
 
@@ -171,7 +171,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
                 </span>
               ) : null}
               {tier.priceOriginal ? (
-                <span className="tour-text-muted text-sm font-bold dark:text-white/55">
+                <span className="tour-text-muted text-sm font-bold dark:text-white/75">
                   {tier.priceOriginalLabel ? <span className="mr-1">{tier.priceOriginalLabel}</span> : null}
                   <span className="line-through decoration-2">{tier.priceOriginal}</span>
                 </span>
@@ -188,7 +188,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               {tier.priceAmount}
             </span>
             {tier.pricePeriod && (
-              <span className="tour-text-muted text-sm font-semibold dark:text-white/50">
+              <span className="tour-text-muted text-sm font-semibold dark:text-white/75">
                 {tier.pricePeriod}
               </span>
             )}
@@ -198,7 +198,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
               {tier.priceSavings}
             </p>
           ) : null}
-          <p className="tour-text-muted mt-1 text-[13px] dark:text-white/50">
+          <p className="tour-text-muted mt-1 text-[13px] dark:text-white/75">
             {tier.priceSubtext}
           </p>
         </div>
@@ -395,7 +395,7 @@ const PricingSection = () => {
                     { text: t("tour.pricing.headline_4"), accent: "neon" },
                   ]}
                 />
-                <p className="tour-text-default max-w-2xl text-base leading-7 dark:text-white/70 sm:text-[1.05rem]">
+                <p className="tour-text-default max-w-2xl text-base leading-7 dark:text-white/85 sm:text-[1.05rem]">
                   {t("tour.pricing.description")}
                 </p>
               </div>
@@ -413,10 +413,10 @@ const PricingSection = () => {
               <p className="tour-text-default mt-2 text-sm font-bold leading-6 dark:font-medium dark:text-white/90">
                 {t("tour.pricing.no_card")}
               </p>
-              <div className="tour-text-default mt-4 flex flex-wrap items-center gap-3 dark:text-white/60">
+              <div className="tour-text-default mt-4 flex flex-wrap items-center gap-3 dark:text-white/80">
                 <span
                   className={cn(
-                    "tour-meta-chip inline-flex max-w-full items-center rounded-full px-3 py-1.5 text-center text-[10px] font-bold uppercase leading-tight tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60",
+                    "tour-meta-chip inline-flex max-w-full items-center rounded-full px-3 py-1.5 text-center text-[10px] font-bold uppercase leading-tight tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/80",
                   )}
                 >
                   {t("tour.pricing.payment_methods")}
