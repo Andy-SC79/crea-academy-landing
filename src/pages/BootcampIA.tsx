@@ -1450,7 +1450,7 @@ function CorporateQuoter({
 
   return (
     <section id="cotizador" className="px-4 py-8 dark:border-white/10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-6xl">
         <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-elevated)] sm:p-7">
           <div className="mb-5 grid gap-3 sm:grid-cols-2">
             <button
@@ -1815,7 +1815,7 @@ function PricingAccordion({ benefits, title }: { benefits: string[]; title: stri
 
 function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => void }) {
   return (
-    <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
+    <div className="mx-auto grid max-w-none gap-4 md:grid-cols-3">
       <article className="flex flex-col rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-7 shadow-[var(--tour-shadow-soft)]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="tour-readable-cyan inline-flex rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
@@ -1957,7 +1957,7 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
 
 function PricingFooter() {
   return (
-    <div className="mx-auto mt-4 grid max-w-7xl gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
+    <div className="mx-auto mt-4 grid max-w-none gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] shadow-[var(--tour-shadow-soft)] md:grid-cols-3">
       <p className="flex gap-3">
         <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-brand-neon" />
         Todos los planes muestran precio con 30% de pronto pago (aplica 5 días calendario antes del evento).
@@ -2266,7 +2266,7 @@ export default function BootcampIA() {
               initial={{ opacity: 0, scale: 0.9, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 40 }}
-              className="relative z-10 w-full max-w-7xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-canvas)] p-6 shadow-[var(--tour-shadow-elevated)] sm:p-10 lg:p-12 dark:bg-[#070c1a]"
+              className="relative z-10 w-full max-w-screen-2xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-canvas)] p-6 shadow-[var(--tour-shadow-elevated)] sm:p-10 lg:p-12 dark:bg-[#070c1a]"
             >
               <button
                 onClick={() => {
