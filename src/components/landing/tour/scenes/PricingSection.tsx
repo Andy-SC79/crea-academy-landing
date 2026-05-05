@@ -34,7 +34,9 @@ type PricingTier = {
   highlighted?: boolean;
   icon: LucideIcon;
   ctaLabel: string;
-  ctaHref: string;
+  ctaHref?: string;
+  onClick?: () => void;
+  isLoading?: boolean;
   ctaIcon?: LucideIcon;
   ctaStyle: "ghost" | "solid";
   featureTone: "muted" | "brand";
@@ -95,7 +97,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
         : "rgba(4,255,141,0.08)";
   const borderGlow = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, ${glowColor}, transparent 80%)`;
   const innerGlow = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${innerGlowColor}, transparent 80%)`;
-  const isInternalCta = tier.ctaHref.startsWith("/");
+  const isInternalCta = tier.ctaHref?.startsWith("/");
 
   return (
     <motion.article
@@ -225,14 +227,27 @@ function PricingCard({ tier }: { tier: PricingTier }) {
 
         <div className="mt-8 pt-6">
           <Magnetic strength={tier.highlighted ? 0.28 : 0.22} className="w-full">
-            {tier.ctaStyle === "ghost" ? (
+            {tier.onClick ? (
+              <Button
+                onClick={tier.onClick}
+                disabled={tier.isLoading}
+                variant={tier.ctaStyle === "ghost" ? "ghost" : "default"}
+                className={tier.ctaStyle === "ghost"
+                  ? PRICING_GHOST_BUTTON_CLASS
+                  : "h-auto min-h-[3rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 py-3 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight text-black shadow-none transition-all duration-300 hover:bg-brand-neon/90 hover:shadow-none sm:px-6 sm:text-[1.05rem] disabled:opacity-70 disabled:cursor-not-allowed"
+                }
+              >
+                {tier.isLoading ? "Cargando..." : tier.ctaLabel}
+                {CtaIcon && !tier.isLoading ? <CtaIcon className="h-4 w-4" /> : null}
+              </Button>
+            ) : tier.ctaStyle === "ghost" ? (
               isInternalCta ? (
-                <Link to={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                <Link to={tier.ctaHref!} className={PRICING_GHOST_BUTTON_CLASS}>
                   <span>{tier.ctaLabel}</span>
                   {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                 </Link>
               ) : (
-                <a href={tier.ctaHref} className={PRICING_GHOST_BUTTON_CLASS}>
+                <a href={tier.ctaHref!} className={PRICING_GHOST_BUTTON_CLASS}>
                   <span>{tier.ctaLabel}</span>
                   {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                 </a>
@@ -245,12 +260,12 @@ function PricingCard({ tier }: { tier: PricingTier }) {
                 className="h-auto min-h-[3rem] w-full whitespace-normal rounded-full bg-brand-neon px-4 py-3 text-center font-display text-[0.98rem] font-black leading-tight tracking-tight text-black shadow-none transition-all duration-300 hover:bg-brand-neon/90 hover:shadow-none sm:px-6 sm:text-[1.05rem]"
               >
                 {isInternalCta ? (
-                  <Link to={tier.ctaHref}>
+                  <Link to={tier.ctaHref!}>
                     {tier.ctaLabel}
                     {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                   </Link>
                 ) : (
-                  <a href={tier.ctaHref}>
+                  <a href={tier.ctaHref!}>
                     {tier.ctaLabel}
                     {CtaIcon ? <CtaIcon className="h-4 w-4" /> : null}
                   </a>
@@ -269,6 +284,41 @@ const PricingSection = () => {
   const { t } = useTranslation("landing");
   const { resolvedTheme } = useTheme();
 
+  const [loadingPlan, setLoadingPlan] = React.useState<"free" | "creadores" | null>(null);
+
+  async function handleSelectPlan(plan: "free" | "creadores") {
+    try {
+      setLoadingPlan(plan);
+      
+      const appUrl = (import.meta as any).env?.VITE_PUBLIC_APP_URL || "https://app.crea.academy";
+      const loginUrl = (import.meta as any).env?.VITE_PUBLIC_LOGIN_PATH || "https://app.crea.academy/auth";
+
+      if (!appUrl) {
+        throw new Error("La URL de la app no está configurada");
+      }
+
+      const response = await fetch(`${appUrl}/api/auth/plan-intent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ plan }),
+      });
+
+      if (!response.ok) {
+        throw new Error("No se pudo guardar la intención del plan");
+      }
+
+      window.location.href = loginUrl;
+    } catch (error) {
+      console.error(error);
+      alert("No pudimos iniciar el proceso. Intenta nuevamente.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
+
   const pricingTiers: PricingTier[] = [
     {
       id: "free",
@@ -277,7 +327,8 @@ const PricingSection = () => {
       subtitle: t("tour.pricing.tiers.free.subtitle"),
       icon: Sparkles,
       ctaLabel: t("tour.pricing.tiers.free.ctaLabel"),
-      ctaHref: APP_AUTH_URL,
+      onClick: () => handleSelectPlan("free"),
+      isLoading: loadingPlan === "free",
       ctaIcon: ArrowRight,
       ctaStyle: "ghost",
       featureTone: "brand",
@@ -301,7 +352,8 @@ const PricingSection = () => {
       highlighted: true,
       icon: Rocket,
       ctaLabel: t("tour.pricing.tiers.creadores.ctaLabel"),
-      ctaHref: APP_AUTH_URL,
+      onClick: () => handleSelectPlan("creadores"),
+      isLoading: loadingPlan === "creadores",
       ctaIcon: Zap,
       ctaStyle: "solid",
       featureTone: "brand",
