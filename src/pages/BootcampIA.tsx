@@ -270,32 +270,32 @@ function getBootcampSession(sessionId: string): BootcampSession {
 }
 
 const STATS = [
-  { value: "60+", label: "eventos realizados" },
-  { value: "6.000+", label: "personas formadas" },
-  { value: "99,6%", label: "ve aplicacion real" },
-  { value: "90,0%", label: "sale seguro para replicar" },
+  { value: "60+", label: "Eventos realizados" },
+  { value: "6.000+", label: "Personas formadas" },
+  { value: "99,6%", label: "Ve aplicación real" },
+  { value: "90,0%", label: "Sale seguro para replicar" },
 ];
 
 const IMPACT_RESULTS = [
   {
     value: "99,6%",
-    label: "aplicabilidad",
+    label: "Aplicabilidad",
     description: "Personas que conectan lo aprendido con procesos reales de su empresa o trabajo.",
   },
   {
     value: "90,0%",
-    label: "confianza",
-    description: "Participantes seguros o muy seguros de replicar lo aprendido despues del Bootcamp.",
+    label: "Confianza",
+    description: "Participantes seguros o muy seguros de replicar lo aprendido después del Bootcamp.",
   },
   {
     value: "408 h",
-    label: "tiempo liberable",
-    description: "Estimacion semanal conservadora reportada en la submuestra de impacto profundo 2026.",
+    label: "Tiempo liberable",
+    description: "Estimación semanal conservadora reportada en la submuestra de impacto profundo 2026.",
   },
   {
     value: "9,49/10",
-    label: "recomendacion",
-    description: "Promedio de recomendacion en la medicion consolidada de experiencia.",
+    label: "Recomendación",
+    description: "Promedio de recomendación en la medición consolidada de experiencia.",
   },
 ];
 
@@ -393,16 +393,20 @@ function SectionHeader({
   title,
   description,
   centered = false,
+  className,
+  titleClassName,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   centered?: boolean;
+  className?: string;
+  titleClassName?: string;
 }) {
   const parts = parseHeadline(title);
 
   return (
-    <div className={cn("mb-10 max-w-3xl", centered && "mx-auto text-center")}>
+    <div className={cn("mb-10 max-w-3xl", centered && "mx-auto text-center", className)}>
       {eyebrow && (
         <p className="mb-3 inline-flex rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
           {eyebrow}
@@ -414,8 +418,10 @@ function SectionHeader({
         typewriter={false}
         parts={parts}
         className={cn(
+          "max-w-none",
           "font-display text-[var(--text-h1)] font-black leading-[1.02] tracking-tight text-[color:var(--tour-text-strong)]",
-          centered && "justify-center"
+          centered && "justify-center",
+          titleClassName
         )}
       />
       {description ? (
@@ -599,8 +605,8 @@ function TourRouteSection() {
               className="mt-4 font-display text-[var(--text-h2)] font-black leading-tight text-[color:var(--tour-text-strong)]"
             />
             <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
-              Este Bootcamp est&aacute; dise&ntilde;ado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
-              La gira conecta estrategia, pr&aacute;ctica y acompa&ntilde;amiento para que la adopci&oacute;n no dependa de una moda, sino de resultados medibles.
+              Este Bootcamp está diseñado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
+              La gira conecta estrategia, práctica y acompañamiento para que la adopción no dependa de una moda, sino de resultados medibles.
             </p>
           </div>
 
@@ -631,7 +637,7 @@ function StudyImpactSection() {
             <SectionHeader
               eyebrow="Resultados reales"
               title="Van porque ya hay {evidencia de impacto}."
-              description="El estudio consolidado de Ingenieria 365 muestra que el Bootcamp no se queda en inspiracion: la gente entiende, aplica y sale con confianza para mover procesos reales."
+              description="El estudio consolidado de Ingeniería 365 muestra que el Bootcamp no se queda en inspiración: la gente entiende, aplica y sale con confianza para mover procesos reales."
             />
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
@@ -655,7 +661,7 @@ function StudyImpactSection() {
               </Button>
             </div>
             <p className="mt-5 text-xs font-bold leading-6 text-[color:var(--tour-text-muted)] dark:text-white/75">
-              Base del estudio: 1.656 respuestas validas entre 2024-08-22 y 2026-04-29. Productividad y bienestar corresponden a la submuestra de impacto profundo 2026.
+              Base del estudio: 1.656 respuestas válidas entre 2024-08-22 y 2026-04-29. Productividad y bienestar corresponden a la submuestra de impacto profundo 2026.
             </p>
           </div>
 
@@ -747,9 +753,9 @@ async function parsePaymentResponse(response: Response) {
 
 const BOOTCAMP_PAYMENT_ERROR_MESSAGES: Record<string, string> = {
   BOOTCAMP_PLAN_APP_MISMATCH:
-    "No pudimos abrir el pago porque esta fecha necesita un ajuste de configuracion. No se hizo ningun cobro. Escribenos por WhatsApp y te ayudamos a reservar el cupo.",
+    "No pudimos abrir el pago porque esta fecha necesita un ajuste de configuración. No se hizo ningún cobro. Escríbenos por WhatsApp y te ayudamos a reservar el cupo.",
   BOOTCAMP_PLAN_LOOKUP_FAILED:
-    "No pudimos validar el plan de pago en este momento. Intenta de nuevo en unos minutos o escribenos por WhatsApp para reservar el cupo.",
+    "No pudimos validar el plan de pago en este momento. Intenta de nuevo en unos minutos o escríbenos por WhatsApp para reservar el cupo.",
 };
 
 function getBootcampPaymentErrorMessage(data: BootcampPaymentResponse | null) {
@@ -1110,7 +1116,6 @@ function CorporateQuoter({
   const [isSendingQuote, setIsSendingQuote] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
   const [paymentMode, setPaymentMode] = useState<PaymentMode>(null);
-  const [showQuotePanel, setShowQuotePanel] = useState(false);
   const [pricing, setPricing] = useState<BootcampQuote>(() => buildLocalFallbackQuote(1));
 
   const people = Math.max(Number.parseInt(form.people, 10) || 0, 0);
@@ -1175,7 +1180,6 @@ function CorporateQuoter({
   const openCompanyQuotePanel = () => {
     const nextPeople = Math.max(people, 2);
     setQuoteFlow("company");
-    setShowQuotePanel(true);
     setPaymentMessage("");
     setSentMessage("");
     setForm((current) => ({ ...current, people: String(nextPeople) }));
@@ -1489,10 +1493,10 @@ function CorporateQuoter({
             </button>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-5">
             {quoteFlow === "company" || quoteFlow === "inhouse" ? (
               <>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>Empresa</span>
                   <input
                     value={form.company}
@@ -1501,7 +1505,7 @@ function CorporateQuoter({
                     className={FORM_FIELD_CLASS}
                   />
                 </label>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>NIT</span>
                   <input
                     value={form.nit}
@@ -1510,7 +1514,7 @@ function CorporateQuoter({
                     className={FORM_FIELD_CLASS}
                   />
                 </label>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>Contacto</span>
                   <input
                     value={form.contactName}
@@ -1519,7 +1523,7 @@ function CorporateQuoter({
                     className={FORM_FIELD_CLASS}
                   />
                 </label>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>Cargo</span>
                   <input
                     value={form.contactRole}
@@ -1531,7 +1535,7 @@ function CorporateQuoter({
               </>
             ) : (
               <>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>Nombre completo</span>
                   <input
                     value={form.contactName}
@@ -1540,7 +1544,7 @@ function CorporateQuoter({
                     className={FORM_FIELD_CLASS}
                   />
                 </label>
-                <label className="space-y-2">
+                <label className="block w-full space-y-2">
                   <span className={FORM_LABEL_CLASS}>Documento (opcional)</span>
                   <input
                     value={form.nit}
@@ -1551,7 +1555,7 @@ function CorporateQuoter({
                 </label>
               </>
             )}
-            <div className="sm:col-span-2 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
+            <div className="rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
               <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.08em] text-[color:var(--tour-text-strong)]">
@@ -1609,21 +1613,19 @@ function CorporateQuoter({
                   : "Fecha confirmada y disponible para reserva. La sede final se compartirá al cerrar el venue."}
               </p>
             </div>
-            {showQuotePanel ? (
-              <label className="space-y-2">
-                <span className={FORM_LABEL_CLASS}>Ciudad de contacto / facturacion</span>
-                <select
-                  value={form.city}
-                  onChange={(event) => updateForm("city", event.target.value)}
-                  className={FORM_FIELD_CLASS}
-                >
-                  {CITIES.map((city) => (
-                    <option key={city}>{city}</option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            <label className="space-y-2">
+            <label className="block w-full space-y-2">
+              <span className={FORM_LABEL_CLASS}>Ciudad de contacto / facturación</span>
+              <select
+                value={form.city}
+                onChange={(event) => updateForm("city", event.target.value)}
+                className={FORM_FIELD_CLASS}
+              >
+                {CITIES.map((city) => (
+                  <option key={city}>{city}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block w-full space-y-2">
               <span className={FORM_LABEL_CLASS}>Número de personas</span>
               <input
                 type="number"
@@ -1634,7 +1636,7 @@ function CorporateQuoter({
                 className={FORM_FIELD_CLASS}
               />
             </label>
-            <label className="space-y-2 sm:col-span-2">
+            <label className="block w-full space-y-2">
               <span className={FORM_LABEL_CLASS}>WhatsApp (opcional)</span>
               <input
                 value={form.phone}
@@ -1643,7 +1645,7 @@ function CorporateQuoter({
                 className={FORM_FIELD_CLASS}
               />
             </label>
-            <label className="space-y-2 sm:col-span-2">
+            <label className="block w-full space-y-2">
               <span className={FORM_LABEL_CLASS}>Correo para confirmación de pago</span>
               <input
                 type="email"
@@ -1757,7 +1759,7 @@ function CorporateQuoter({
                   ) : (
                     <CreditCard className="h-4 w-4" />
                   )}
-                  {paymentMode === "checkout" ? "Abriendo..." : "Pagar cupo individual"}
+                  {paymentMode === "checkout" ? "Abriendo..." : "Pagar"}
                 </Button>
                 {paymentMessage ? (
                   <p className="mt-3 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/75">
@@ -1833,7 +1835,7 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
           <span className="pb-1 text-sm font-bold text-[color:var(--tour-text-muted)]">{BOOTCAMP_TAX_LABEL}</span>
         </div>
         <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-[color:var(--tour-text-muted)]">
-          valor con pronto pago (5 días antes)
+          Valor con pronto pago (5 días antes)
         </p>
 
         <PricingAccordion
@@ -2099,7 +2101,7 @@ export default function BootcampIA() {
                   <p className="font-display text-lg font-black">Medellín · Bogotá · Cali · Barranquilla · Cartagena · Bucaramanga</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                  Más de 60 eventos y más de 6.000 personas ya han vivido esta experiencia. Ahora la gira 2026 abre seis paradas con pago por ciudad. Medellín tiene auditorio cerrado y las demás sedes se publicarán en cuanto quede definida la dirección.
+                  Más de 60 eventos y más de 6.000 personas ya han vivido esta experiencia. Ahora la gira 2026 abre seis paradas con pago por ciudad. Medellín tiene auditorio confirmado y las demás sedes se publicarán en cuanto quede definida la dirección.
                 </p>
               </div>
             </div>
@@ -2281,6 +2283,8 @@ export default function BootcampIA() {
                     <SectionHeader
                       title="Selecciona el plan ideal"
                       centered
+                      className="max-w-none"
+                      titleClassName="whitespace-nowrap"
                     />
                   </div>
                   <PricingCards onPagarClick={(flow) => {

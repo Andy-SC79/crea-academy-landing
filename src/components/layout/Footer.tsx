@@ -105,7 +105,7 @@ const Footer = () => {
 
         <div className="border-t border-[color:var(--tour-border-subtle)] pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[color:var(--tour-text-muted)] dark:text-white/75">
-            <p>&copy; {t('footer.copyright')}</p>
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </div>

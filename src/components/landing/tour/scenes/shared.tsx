@@ -17,7 +17,7 @@ export const HERO_HEADLINE_CLASS =
   "max-w-[min(100%,14ch)] break-words font-display text-[var(--text-hero)] font-black leading-[0.96] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-3";
 
 export const SCENE_HEADING_CLASS =
-  "max-w-[min(100%,15ch)] break-words font-display text-[var(--text-h1)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
+  "max-w-[min(100%,40ch)] break-words font-display text-[var(--text-h1)] font-extrabold leading-[1.02] sm:leading-[0.98] tracking-normal text-[color:var(--tour-text-strong)] dark:text-white pb-2 sm:pb-3";
 
 export const LEAD_COPY_CLASS =
   "max-w-[38rem] font-display text-[clamp(0.98rem,0.75rem+0.95vw,1.22rem)] font-light leading-[1.72] tracking-normal text-[color:var(--tour-text-default)] dark:text-slate-100/90 sm:max-w-[42rem] sm:text-[clamp(1.02rem,0.88rem+0.62vw,1.32rem)] sm:leading-[1.68]";
