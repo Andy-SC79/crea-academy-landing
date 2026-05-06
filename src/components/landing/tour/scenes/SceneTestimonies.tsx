@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { AnimatePresence, motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { Play, Loader2 } from "lucide-react";
+import { Play, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import AnimatedText from "@/components/landing/tour/AnimatedText";
 
 import { cn } from "@/lib/utils";
@@ -189,6 +189,17 @@ export default function SceneTestimonies() {
     element.scrollLeft = scrollLeft - walk;
   };
 
+  const scroll = (direction: "left" | "right") => {
+    const container = window.innerWidth < 768 ? scrollRef.current : scrollRefDesktop.current;
+    if (container) {
+      const scrollAmount = window.innerWidth < 768 ? container.clientWidth * 0.8 : 450;
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="relative flex w-full flex-col items-center overflow-hidden py-20 md:py-24">
       <motion.div
@@ -215,47 +226,69 @@ export default function SceneTestimonies() {
         />
       </motion.div>
 
-      <div className="w-full md:hidden">
-        <div
-          ref={scrollRef}
-          onMouseDown={onMouseDown}
-          onMouseLeave={onMouseLeave}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
-          className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
-        >
-          {TESTIMONIES.map((testimony, index) => (
-            <div key={`mobile-${testimony.id}`} className="snap-center shrink-0">
-              <TestimonyCard
-                testimony={testimony}
-                index={index}
-                activeVideoId={activeVideoId}
-                setActiveVideoId={setActiveVideoId}
-              />
-            </div>
-          ))}
+      <div className="relative w-full">
+        <div className="w-full md:hidden">
+          <div
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseLeave={onMouseLeave}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+            className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
+          >
+            {TESTIMONIES.map((testimony, index) => (
+              <div key={`mobile-${testimony.id}`} className="snap-center shrink-0">
+                <TestimonyCard
+                  testimony={testimony}
+                  index={index}
+                  activeVideoId={activeVideoId}
+                  setActiveVideoId={setActiveVideoId}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="hidden w-full md:flex">
-        <div
-          ref={scrollRefDesktop}
-          onMouseDown={onMouseDown}
-          onMouseLeave={onMouseLeave}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
-          className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-12 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
-        >
-          {TESTIMONIES.map((testimony, index) => (
-            <div key={`desktop-${testimony.id}`} className="snap-center shrink-0">
-              <TestimonyCard
-                testimony={testimony}
-                index={index}
-                activeVideoId={activeVideoId}
-                setActiveVideoId={setActiveVideoId}
-              />
-            </div>
-          ))}
+        <div className="hidden w-full md:flex">
+          <div
+            ref={scrollRefDesktop}
+            onMouseDown={onMouseDown}
+            onMouseLeave={onMouseLeave}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+            className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-12 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
+          >
+            {TESTIMONIES.map((testimony, index) => (
+              <div key={`desktop-${testimony.id}`} className="snap-center shrink-0">
+                <TestimonyCard
+                  testimony={testimony}
+                  index={index}
+                  activeVideoId={activeVideoId}
+                  setActiveVideoId={setActiveVideoId}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Buttons - Centered relative to videos */}
+        <div className="absolute inset-y-0 left-0 z-30 flex items-center pl-2 pointer-events-none md:pl-6">
+          <button
+            onClick={() => scroll("left")}
+            className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-brand-neon/40 bg-slate-900/80 text-brand-neon shadow-[0_0_20px_rgba(4,255,141,0.2)] backdrop-blur-md transition-all hover:bg-slate-900 hover:scale-110 active:scale-95 md:h-16 md:w-16"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-8 w-8 md:h-10 md:w-10" />
+          </button>
+        </div>
+        <div className="absolute inset-y-0 right-0 z-30 flex items-center pr-2 pointer-events-none md:pr-6">
+          <button
+            onClick={() => scroll("right")}
+            className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-brand-neon/40 bg-slate-900/80 text-brand-neon shadow-[0_0_20px_rgba(4,255,141,0.2)] backdrop-blur-md transition-all hover:bg-slate-900 hover:scale-110 active:scale-95 md:h-16 md:w-16"
+            aria-label="Siguiente"
+          >
+            <ChevronRight className="h-8 w-8 md:h-10 md:w-10" />
+          </button>
         </div>
       </div>
     </div>

@@ -324,31 +324,31 @@ const WHY_EXECUTION_FEATURES: Feature[] = [
   {
     icon: Target,
     title: "Tu reto, desde el día 1",
-    description: "No trabajamos casos de estudio. Trabajamos el problema real de tu organización y todo el bootcamp gira en torno a resolverlo con IA.",
+    description: "Trabajamos casos de estudio. Trabajamos el problema real de tu organización y todo el bootcamp gira en torno a resolverlo con IA.",
   },
   {
     icon: Zap,
     title: "Sales con algo funcionando",
-    description: "Una solución funcional real construido y validado el mismo día. No solo conocimiento: una solución que tu equipo puede empezar a escalar mañana.",
+    description: "Una solución funcional real construida y validada el mismo día. No solo conocimiento: una solución que puedes empezar a escalar mañana.",
   },
   {
     icon: Wrench,
     title: "En tu ecosistema, no en uno ajeno",
-    description: "Microsoft 365 + Copilot o Google Workspace + Gemini. Trabajamos con las herramientas que ya tienes, sin licencias adicionales.",
+    description: "Para resolver los retos priorizamos tus herramientas corporativas.",
   },
   {
     icon: Sprout,
-    title: "Embajadores que escalan hacia adentro",
+    title: "Replicadores del conocimiento",
     description: "Los participantes se convierten en ciudadanos desarrolladores que replican y escalan soluciones sin depender de externos.",
   },
   {
     icon: BarChart3,
-    title: "Impacto medido, no prometido",
+    title: "Impacto medido",
     description: "Evaluamos antes y después con métricas reales de productividad. Hay evidencia tangible del progreso individual y colectivo.",
   },
   {
     icon: Heart,
-    title: "No te dejamos solo al terminar",
+    title: "Acompañamiento post-Bootcamp",
     description: "2 horas de seguimiento virtual incluidas 1-2 semanas después para resolver dudas y ajustar el plan de implementación.",
   },
 ];
@@ -369,14 +369,14 @@ const BOOTCAMP_DETAILED_MODULES = [
   {
     id: "03",
     time: "60 min",
-    title: "Copilot o Gemini en tu trabajo diario",
-    description: "IA integrada en Word, Excel, Gmail, Teams y Calendar. Sin cambiar el entorno. Adopción inmediata donde el equipo ya trabaja.",
+    title: "Herramientas usadas en tu entorno corporativo",
+    description: "Aplicación práctica de IA dentro de los flujos reales de trabajo del equipo. Los participantes aprenden a intervenir procesos internos mediante asistentes inteligentes, automatización de tareas repetitivas, análisis de información y generación acelerada de contenido operativo y ejecutivo.",
   },
   {
     id: "04",
     time: "45 min",
-    title: "IA multimodal — documentos, voz e imagen",
-    description: "Analiza contratos e informes en minutos. Genera reportes ejecutivos y presentaciones automáticamente con voz, imagen y datos.",
+    title: "Contenido audiovisual",
+    description: "Uso práctico de IA para crear, transformar y acelerar contenido audiovisual dentro de los procesos de la organización.",
   },
   {
     id: "05",
@@ -384,15 +384,21 @@ const BOOTCAMP_DETAILED_MODULES = [
     title: "Ruta práctica a elegir — diferencial exclusivo",
     description: "El equipo elige el enfoque más útil para su contexto y nivel de madurez digital.",
     options: [
-      { label: "Agentes de IA", desc: "Tu primer empleado digital con Copilot Studio o Dialogflow. Tareas autónomas 24/7." },
+      { label: "Agentes de IA", desc: "Tu primer empleado digital. Tareas autónomas 24/7." },
       { label: "Vibe Coding", desc: "Apps, dashboards y flujos funcionales sin saber programar. No-code con IA." },
     ],
   },
   {
     id: "06",
-    time: "90 min",
-    title: "Hackathon de cierre — solución funcional en vivo",
-    description: "Los equipos construyen y presentan una solución real. Retroalimentación experta + hoja de ruta de escalamiento. Sales con algo que funciona.",
+    time: "80 min",
+    title: "Construcción del reto real — en vivo",
+    description: "Los equipos trabajan sobre un desafío real de la organización y construyen una solución funcional durante el bootcamp.Cada grupo es acompañado por expertos durante todo el proceso de diseño, validación y construcción del MVP.",
+  },
+  {
+    id: "07",
+    time: "10 min",
+    title: "Presentación de soluciones y retroalimentación experta",
+    description: "Cada equipo presenta su solución mínima viable frente a los facilitadores y recibe retroalimentación estratégica, técnica y operativa para su escalamiento dentro de la organización.",
   },
   {
     id: "+",
@@ -421,8 +427,8 @@ const FORMAT_FEATURES = [
   "1 día intensivo — 8 horas presenciales en vivo",
   "2 horas virtuales de seguimiento (1–2 semanas después)",
   "7 módulos prácticos + Hackathon de cierre",
-  "Adaptado a Microsoft 365 o Google Workspace",
-  "Sesión previa de alineación estratégica incluida",
+  "Priorización de entornos corporativos",
+  "Cuando el bootcamp es contratado para una sola organización, realizamos una sesión previa de alineación para asegurar una experiencia totalmente personalizada y enfocada en su realidad.",
 ];
 
 const FORM_LABEL_CLASS =
@@ -523,8 +529,9 @@ function TourRouteSection() {
           <div>
             <SectionHeader
               eyebrow="Gira Colombia 2026"
-              title="Seis ciudades para llevar la {IA} del discurso a la [operación]."
-              description="La ruta combina formación presencial, casos reales y pago por fecha. Medellín ya tiene auditorio confirmado; las demás ciudades quedan abiertas para reservar mientras cerramos sede."
+              title="La {ventaja} ahora está en quién [aprende a implementar] {IA} primero."
+              description="Bootcamp práctico donde equipos y profesionales construyen soluciones reales sobre retos de su organización.
+Ahora llevaremos esta experiencia por diferentes ciudades de Colombia para acelerar la adopción real de IA en empresas y equipos de todo el país."
             />
 
           </div>
@@ -684,22 +691,50 @@ function TourRouteSection() {
           ))}
         </div>
 
-        <div className="mt-8 grid gap-5 rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(4,255,141,0.10),rgba(0,210,255,0.08),rgba(7,18,37,0.78))] p-5 shadow-[var(--tour-shadow-soft)] lg:grid-cols-[minmax(0,0.92fr)_minmax(22rem,1.08fr)] lg:items-center">
+        <div className="mt-14 flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="group relative w-full overflow-hidden rounded-[28px] p-[2px] shadow-[0_20px_60px_-15px_rgba(4,255,141,0.2)]"
+          >
+            {/* Animated Multicolor Border */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,#04ff8d,#00d2ff,#7b2cbf,#04ff8d)]"
+            />
+            
+            {/* Inner Content Container */}
+            <div className="relative z-10 flex w-full flex-row items-center justify-center gap-6 overflow-hidden rounded-[26px] bg-white px-8 py-10 dark:bg-white sm:gap-10 sm:px-12">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(4,255,141,0.1),transparent_40%),radial-gradient(circle_at_100%_100%,rgba(0,210,255,0.1),transparent_40%)]" />
+              
+              <div className="relative z-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-neon/10 text-brand-neon shadow-[0_0_20px_rgba(4,255,141,0.25)] sm:h-16 sm:w-16">
+                <Sparkles className="h-8 w-8 animate-pulse sm:h-10 sm:w-10" />
+              </div>
+              
+              <p className="relative z-20 font-display text-lg font-black leading-tight text-[color:var(--tour-text-strong)] sm:text-2xl lg:text-3xl">
+                Los <span className="bg-gradient-to-r from-brand-neon via-brand-cyan to-purple-500 bg-clip-text text-transparent">cupos son limitados</span> para garantizar una experiencia intensiva y personalizada.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="mt-24 grid gap-5 rounded-lg border border-brand-cyan/25 bg-[linear-gradient(135deg,rgba(4,255,141,0.10),rgba(0,210,255,0.08),rgba(7,18,37,0.78))] p-5 shadow-[var(--tour-shadow-soft)] lg:grid-cols-[minmax(0,0.92fr)_minmax(22rem,1.08fr)] lg:items-center">
           <div className="min-w-0">
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
               <Sparkles className="h-3.5 w-3.5" />
-              Mensaje para equipos
+
             </div>
             <SceneHeadline
               as="h3"
               variant="section"
               typewriter={false}
-              parts={parseHeadline("No venimos a hablar de {IA}. Venimos a instalar [capacidad real] en cada ciudad.")}
+              parts={parseHeadline("{Networking} estratégico y conexiones de [valor].")}
               className="mt-4 font-display text-[var(--text-h2)] font-black leading-tight text-[color:var(--tour-text-strong)]"
             />
             <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--tour-text-default)] dark:text-white/74">
-              Este Bootcamp está diseñado para que cada participante salga con criterios, flujos y casos aplicables a su trabajo.
-              La gira conecta estrategia, práctica y acompañamiento para que la adopción no dependa de una moda, sino de resultados medibles.
+              Durante todo el bootcamp se generan espacios de conexión entre participantes para compartir experiencias, mostrar proyectos, crear alianzas estratégicas y generar oportunidades reales de colaboración y negocio alrededor de IA y transformación digital.
             </p>
           </div>
 
@@ -734,7 +769,11 @@ function StudyImpactSection() {
             />
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
-                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent(BOOTCAMP_SESSION_SELECT_EVENT)); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById("gira-colombia");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
                 size="xl"
                 className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
               >
@@ -753,7 +792,7 @@ function StudyImpactSection() {
                 </a>
               </Button>
             </div>
-            <p className="mt-5 text-xs font-bold leading-6 text-[color:var(--tour-text-muted)] dark:text-white/75">
+            <p className="mt-5 text-sm font-bold leading-7 text-[color:var(--tour-text-muted)] dark:text-white/75">
               Base del estudio: 1.656 respuestas válidas entre 2024-08-22 y 2026-04-29. Productividad y bienestar corresponden a la submuestra de impacto profundo 2026.
             </p>
           </div>
@@ -772,7 +811,7 @@ function StudyImpactSection() {
                 <p className="font-display text-5xl font-black leading-none tracking-tight text-[color:var(--tour-text-strong)] transition-colors group-hover:text-brand-neon sm:text-6xl">
                   {result.value}
                 </p>
-                <h3 className="mt-5 text-[10px] font-black uppercase tracking-[0.2em] text-brand-cyan">
+                <h3 className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-brand-neon">
                   {result.label}
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--tour-text-default)] dark:text-white/70">
@@ -2049,79 +2088,7 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
   );
 }
 
-function CorporateIntroSection() {
-  return (
-    <section className="relative px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 inline-flex flex-wrap items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-          <span className="h-1.5 w-1.5 rounded-full bg-current" />
-          <span>Bootcamp de IA</span>
-          <span className="h-1 w-1 rounded-full bg-current/30" />
-          <span>Programa intensivo empresarial</span>
-        </div>
 
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <SceneHeadline
-              as="h2"
-              variant="section"
-              typewriter={false}
-              parts={parseHeadline("De aprender {IA} a construir soluciones {reales en 1 día}.")}
-              className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[1] tracking-tight text-[color:var(--tour-text-strong)]"
-            />
-
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
-              Trabajamos el reto real de tu organización. No teoría, no casos genéricos.
-              Tu equipo sale con un <span className="font-bold text-[color:var(--tour-text-strong)]">solución funcionando</span> y un plan de escalamiento.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center">
-              <Button
-                asChild
-                size="xl"
-                className="rounded-full bg-brand-neon px-8 text-base font-black text-black hover:bg-brand-neon/90"
-              >
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  Llevar este bootcamp a mi equipo
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
-
-              <div className="flex flex-col gap-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-[color:var(--tour-text-muted)]">
-                <span>Sin conocimiento técnico</span>
-                <span>En tu ecosistema real</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { val: "1", label: "día intensivo presencial", color: "text-brand-neon" },
-              { val: "7", label: "módulos de alto impacto", color: "text-brand-neon" },
-              { val: "40", label: "participantes máx.", color: "text-brand-cyan" },
-              { val: "10h", label: "total con seguimiento", color: "text-brand-cyan" },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -5, scale: 1.03 }}
-                className="rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.1)]"
-              >
-                <p className={cn("font-display text-4xl font-black", stat.color)}>{stat.val}</p>
-                <p className="mt-1 text-xs font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function WhyExecutionSection() {
   return (
@@ -2208,7 +2175,7 @@ function ModulesDetailSection() {
               className="max-w-none"
             />
             <div className="mt-8 flex flex-wrap gap-2">
-              {["Microsoft 365", "Google Workspace", "Copilot", "Gemini", "Vibe Coding", "Agentes IA"].map((tag) => (
+              {[].map((tag) => (
                 <span
                   key={tag}
                   className="inline-flex rounded-full border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60"
@@ -2281,8 +2248,8 @@ function DeliverablesSection() {
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           eyebrow="Entregables"
-          title="Sales con esto, no solo con {conocimiento}."
-          description="Recursos entregados para continuar implementando IA después del bootcamp."
+          title="Recursos [entregados] para continuar implementando IA después del {bootcamp}."
+          description="Sales con esto, no solo con conocimiento"
           centered
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -2440,7 +2407,7 @@ export default function BootcampIA() {
       <main className="relative z-10 pt-[72px]">
         <TourRouteSection />
 
-        <CorporateIntroSection />
+        <FormatSection />
 
         <WhyExecutionSection />
 
@@ -2449,10 +2416,6 @@ export default function BootcampIA() {
         <ModulesDetailSection />
 
         <DeliverablesSection />
-
-        <FormatSection />
-
-
 
         <StudyImpactSection />
 
