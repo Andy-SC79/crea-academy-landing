@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BadgeCheck,
+  BarChart3,
   Bot,
   Building2,
   CalendarDays,
@@ -15,6 +16,7 @@ import {
   CreditCard,
   Download,
   FileText,
+  Heart,
   Lightbulb,
   Loader2,
   Mail,
@@ -24,14 +26,23 @@ import {
   Rocket,
   Send,
   Sparkles,
+  Sprout,
+  Target,
   UserRound,
   Workflow,
+  Wrench,
   X,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import infinitePrism from "@/assets/infinite-prism-dark.webp";
+import resultAutomation from "@/assets/results/automation.png";
+import resultProductivity from "@/assets/results/productivity.png";
+import resultSolution from "@/assets/results/solution.png";
+import resultOpportunities from "@/assets/results/opportunities.png";
+import resultScaling from "@/assets/results/scaling.png";
 import ImpactedCompaniesSection from "@/components/landing/ImpactedCompaniesSection";
 import WhatsAppWidget from "@/components/landing/WhatsAppButton";
 import Footer from "@/components/layout/Footer";
@@ -301,87 +312,117 @@ const IMPACT_RESULTS = [
 
 
 
-const PHASES = [
+const RESULT_ITEMS = [
+  { id: "01", text: "Automatizar tareas reales desde el día 1", image: resultAutomation },
+  { id: "02", text: "Multiplicar productividad desde la primera hora", image: resultProductivity },
+  { id: "03", text: "Construir una solución funcional con IA", image: resultSolution },
+  { id: "04", text: "Identificar y priorizar oportunidades de automatización", image: resultOpportunities },
+  { id: "05", text: "Definir cómo escalar IA en toda la organización", image: resultScaling },
+];
+
+const WHY_EXECUTION_FEATURES: Feature[] = [
   {
-    label: "Antes",
-    title: "Diagnóstico y foco",
-    items: [
-      "Levantamos retos reales del equipo.",
-      "Priorizamos casos con impacto visible.",
-      "Preparamos ejemplos y herramientas para la jornada.",
-    ],
+    icon: Target,
+    title: "Tu reto, desde el día 1",
+    description: "No trabajamos casos de estudio. Trabajamos el problema real de tu organización y todo el bootcamp gira en torno a resolverlo con IA.",
   },
   {
-    label: "Durante",
-    title: "Bootcamp presencial",
-    items: [
-      "Aprendizaje guiado con expertos de i365.",
-      "Retos aplicados a procesos de la empresa.",
-      "Construcción de prototipos con IA, low-code y automatización.",
-    ],
+    icon: Zap,
+    title: "Sales con algo funcionando",
+    description: "Una solución funcional real construido y validado el mismo día. No solo conocimiento: una solución que tu equipo puede empezar a escalar mañana.",
   },
   {
-    label: "Después",
-    title: "Impacto continuo",
-    items: [
-      "Material digital y comunidad de aprendizaje.",
-      "Rutas de profundización para equipos.",
-      "Certificado de participación emitido por Ingeniería 365.",
-    ],
+    icon: Wrench,
+    title: "En tu ecosistema, no en uno ajeno",
+    description: "Microsoft 365 + Copilot o Google Workspace + Gemini. Trabajamos con las herramientas que ya tienes, sin licencias adicionales.",
+  },
+  {
+    icon: Sprout,
+    title: "Embajadores que escalan hacia adentro",
+    description: "Los participantes se convierten en ciudadanos desarrolladores que replican y escalan soluciones sin depender de externos.",
+  },
+  {
+    icon: BarChart3,
+    title: "Impacto medido, no prometido",
+    description: "Evaluamos antes y después con métricas reales de productividad. Hay evidencia tangible del progreso individual y colectivo.",
+  },
+  {
+    icon: Heart,
+    title: "No te dejamos solo al terminar",
+    description: "2 horas de seguimiento virtual incluidas 1-2 semanas después para resolver dudas y ajustar el plan de implementación.",
   },
 ];
 
-const MODULES: Feature[] = [
+const BOOTCAMP_DETAILED_MODULES = [
   {
-    icon: Sparkles,
-    title: "Prompt Engineering",
-    description: "Comunicación efectiva con IA para producir respuestas útiles, verificables y accionables.",
+    id: "01",
+    time: "45 min",
+    title: "Panorama de IA 2026",
+    description: "Qué es real, qué es ruido y cómo elegir la herramienta correcta. Límites reales de la IA, gobernanza y el rol humano como decisor final.",
   },
   {
-    icon: Code2,
-    title: "Vibe Coding",
-    description: "Creación de aplicaciones y herramientas internas sin partir de código tradicional.",
+    id: "02",
+    time: "60 min",
+    title: "Prompts estratégicos",
+    description: "Instrucciones que multiplican resultados. Estructura por rol, plantillas reutilizables y aplicación inmediata al trabajo real de cada participante.",
   },
   {
-    icon: Workflow,
-    title: "Automatización con IA",
-    description: "Flujos para reducir tareas repetitivas, seguimiento manual y fricción operativa.",
+    id: "03",
+    time: "60 min",
+    title: "Copilot o Gemini en tu trabajo diario",
+    description: "IA integrada en Word, Excel, Gmail, Teams y Calendar. Sin cambiar el entorno. Adopción inmediata donde el equipo ya trabaja.",
   },
   {
-    icon: Presentation,
-    title: "Analítica asistida",
-    description: "Lectura de datos, generación de insights y toma de decisiones con apoyo de IA.",
+    id: "04",
+    time: "45 min",
+    title: "IA multimodal — documentos, voz e imagen",
+    description: "Analiza contratos e informes en minutos. Genera reportes ejecutivos y presentaciones automáticamente con voz, imagen y datos.",
   },
   {
-    icon: Bot,
-    title: "Agentes de IA",
-    description: "Diseño de asistentes que ejecutan tareas específicas dentro del contexto del negocio.",
+    id: "05",
+    time: "60 min",
+    title: "Ruta práctica a elegir — diferencial exclusivo",
+    description: "El equipo elige el enfoque más útil para su contexto y nivel de madurez digital.",
+    options: [
+      { label: "Agentes de IA", desc: "Tu primer empleado digital con Copilot Studio o Dialogflow. Tareas autónomas 24/7." },
+      { label: "Vibe Coding", desc: "Apps, dashboards y flujos funcionales sin saber programar. No-code con IA." },
+    ],
   },
   {
-    icon: Rocket,
-    title: "MVP en producción",
-    description: "Cierre con una solución demostrable, no con una presentación que nadie vuelve a abrir.",
+    id: "06",
+    time: "90 min",
+    title: "Hackathon de cierre — solución funcional en vivo",
+    description: "Los equipos construyen y presentan una solución real. Retroalimentación experta + hoja de ruta de escalamiento. Sales con algo que funciona.",
+  },
+  {
+    id: "+",
+    time: "2h virtual",
+    title: "Seguimiento virtual post-bootcamp",
+    description: "Revisión de avances y resolución de dudas reales 1–2 semanas después. Incluido, sin costo adicional.",
+    isBonus: true,
   },
 ];
 
-const AGENDA = [
-  { time: "8:00 AM", title: "Networking", description: "Conexión entre líderes y equipos participantes." },
-  { time: "9:00 AM", title: "Fundamentos aplicados", description: "IA generativa y oportunidades reales de productividad." },
-  { time: "11:00 AM", title: "Retos del negocio", description: "Trabajo sobre casos propios con acompañamiento experto." },
-  { time: "1:30 PM", title: "Construcción", description: "Automatizaciones, asistentes y prototipos funcionales." },
-  { time: "3:00 PM", title: "Demo Day", description: "Presentación de soluciones, feedback y próximos pasos." },
-  { time: "4:00 PM", title: "Cierre", description: "Certificación y ruta de continuidad para el equipo." },
+
+
+const DELIVERABLES = [
+  "Solución funcional construido durante el bootcamp",
+  "Plantillas, prompts y guías listas para usar",
+  "Certificación digital verificable",
+  "Grabación del bootcamp",
+  "Acceso a CREA Academy con licencia Creadores por un mes",
+  "Diagnóstico de impacto antes/después",
+  "Guía rápida de uso de herramientas de IA",
+  "Retroalimentación experta de soluciones presentadas",
+  "Política de uso de IA adaptada a la empresa",
 ];
 
-const INCLUDED = [
-  "Todos los módulos prácticos",
-  "Material digital exclusivo",
-  "Acceso a comunidad i365",
-  "Certificado de participación",
-  "Sesión de diagnóstico previo para empresas",
-  "Factura electrónica disponible",
-  "Networking con líderes del sector",
-  "Soporte post-bootcamp",
+const FORMAT_FEATURES = [
+  "1 día intensivo — 8 horas presenciales en vivo",
+  "2 horas virtuales de seguimiento (1–2 semanas después)",
+  "7 módulos prácticos + Hackathon de cierre",
+  "Adaptado a Microsoft 365 o Google Workspace",
+  "Sesión previa de alineación estratégica incluida",
 ];
 
 const FORM_LABEL_CLASS =
@@ -437,8 +478,21 @@ function FeatureCard({ feature }: { feature: Feature }) {
   const Icon = feature.icon;
 
   return (
-    <article className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-6 shadow-[var(--tour-shadow-soft)]">
-      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 text-brand-cyan">
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{
+        y: -5,
+        scale: 1.02,
+        boxShadow: "0 20px 40px -15px rgba(0,0,0,0.1)"
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group relative overflow-hidden rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.12)]"
+    >
+      <div className="absolute top-0 left-0 h-[3px] w-full scale-x-0 bg-gradient-to-r from-brand-neon via-brand-cyan to-purple-500 transition-transform duration-500 origin-left group-hover:scale-x-100" />
+
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 text-brand-cyan transition-transform group-hover:scale-110">
         <Icon className="h-5 w-5" />
       </div>
       <h3 className="font-display text-xl font-black text-[color:var(--tour-text-strong)]">
@@ -447,7 +501,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
       <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
         {feature.description}
       </p>
-    </article>
+    </motion.article>
   );
 }
 
@@ -550,44 +604,83 @@ function TourRouteSection() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {BOOTCAMP_SESSIONS.map((session, index) => (
-            <article
+        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {BOOTCAMP_SESSIONS.map((session, i) => (
+            <motion.div
               key={session.id}
-              className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5 shadow-[var(--tour-shadow-soft)]"
+              initial="initial"
+              whileHover="hover"
+              whileInView="visible"
+              viewport={{ once: true }}
+              onClick={() => scrollToBootcampSession(session.id)}
+              className="relative group overflow-hidden rounded-[24px] p-[2px] transition-all cursor-pointer"
             >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="font-display text-[var(--text-h3)] font-black text-[color:var(--tour-text-strong)]">
-                  {session.city}
-                </h3>
-              </div>
-              <div className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                <p className="flex gap-3">
-                  <CalendarDays className="mt-1 h-4 w-4 shrink-0 text-brand-cyan" />
-                  <span>
-                    <strong className="text-[color:var(--tour-text-strong)]">{session.shortLabel}</strong>
-                    <br />
-                    {session.timeLabel}
-                  </span>
-                </p>
-                <p className="flex gap-3">
-                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
-                  <span>
-                    <strong className="text-[color:var(--tour-text-strong)]">{session.venue}</strong>
-                    <br />
-                    {session.address}
-                  </span>
-                </p>
-              </div>
-              <Button
-                type="button"
-                onClick={() => scrollToBootcampSession(session.id)}
-                className="mt-5 w-full rounded-full bg-brand-neon font-black text-black hover:bg-brand-neon/90"
+              {/* Animated Border Wrapper - Only visible on hover */}
+              <motion.div
+                variants={{
+                  initial: { opacity: 0, scale: 1 },
+                  hover: { opacity: 1, scale: 1.02 }
+                }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 z-0"
               >
-                Reservar esta ciudad
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </article>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,#00d2ff,#9d00ff,#ff0055,#00d2ff)]"
+                />
+              </motion.div>
+
+              {/* Entrance Animation Wrapper */}
+              <motion.div
+                variants={{
+                  initial: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                transition={{ delay: i * 0.1 }}
+                className="relative h-full"
+              >
+                {/* Card Content */}
+                <article className="relative flex h-full flex-col rounded-[22px] bg-white/95 p-6 backdrop-blur-xl dark:bg-slate-950/95 z-10 border border-transparent group-hover:border-transparent transition-colors shadow-sm">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="font-display text-3xl font-black tracking-tight text-[color:var(--tour-text-strong)] dark:text-white">
+                      {session.city}
+                    </h3>
+                    <div className="rounded-full bg-brand-neon/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-brand-neon">
+                      Parada {i + 1}
+                    </div>
+                  </div>
+                  <div className="mt-6 flex-grow space-y-4 text-sm leading-relaxed text-[color:var(--tour-text-default)] dark:text-white/70">
+                    <p className="flex gap-4">
+                      <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-brand-cyan" />
+                      <span>
+                        <strong className="block text-base font-black text-[color:var(--tour-text-strong)] dark:text-white">
+                          {session.shortLabel}
+                        </strong>
+                        <span className="text-xs font-bold uppercase tracking-wider">{session.timeLabel}</span>
+                      </span>
+                    </p>
+                    <p className="flex gap-4">
+                      <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-neon" />
+                      <span>
+                        <strong className="block text-base font-black text-[color:var(--tour-text-strong)] dark:text-white">
+                          {session.venue}
+                        </strong>
+                        <span className="text-xs font-medium leading-relaxed">{session.address}</span>
+                      </span>
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={() => scrollToBootcampSession(session.id)}
+                    className="mt-8 w-full rounded-full bg-brand-neon py-6 text-sm font-black text-black hover:bg-brand-neon/90 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-brand-neon/20"
+                  >
+                    Reservar esta ciudad
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </article>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
 
@@ -666,21 +759,26 @@ function StudyImpactSection() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            {IMPACT_RESULTS.map((result) => (
-              <article
+            {IMPACT_RESULTS.map((result, i) => (
+              <motion.article
                 key={result.label}
-                className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-6 shadow-[var(--tour-shadow-soft)]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -10, scale: 1.05 }}
+                className="group rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.12)]"
               >
-                <p className="font-display text-[var(--text-h1)] font-black leading-none text-[color:var(--tour-text-strong)]">
+                <p className="font-display text-5xl font-black leading-none tracking-tight text-[color:var(--tour-text-strong)] transition-colors group-hover:text-brand-neon sm:text-6xl">
                   {result.value}
                 </p>
-                <h3 className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-brand-cyan">
+                <h3 className="mt-5 text-[10px] font-black uppercase tracking-[0.2em] text-brand-cyan">
                   {result.label}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
+                <p className="mt-4 text-sm leading-relaxed text-[color:var(--tour-text-default)] dark:text-white/70">
                   {result.description}
                 </p>
-              </article>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -1841,9 +1939,12 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
         <PricingAccordion
           title="Ver beneficios"
           benefits={[
-            "Pago directo por ciudad",
-            "Bootcamp presencial de 8:00 AM a 6:00 PM",
-            "Material, comunidad y certificado incluidos",
+            "Acompañamiento personalizado por expertos",
+            "Certificado digital de participación",
+            "Refrigerio y almuerzo incluidos",
+            "Espacios de networking y conexión profesional",
+            "Entrega de recursos digitales complementarios",
+            "Acceso durante un mes a Crea Academy",
           ]}
         />
 
@@ -1890,16 +1991,18 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
           </div>
         </div>
         <p className="mt-4 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-          Incluye 30% de pronto pago (aplica 5 días calendario antes del evento), 10% adicional por equipo, diagnóstico previo, factura electrónica y reserva de cupos en la ciudad seleccionada.
+          Incluye 30% de pronto pago (aplica 5 días calendario antes del evento) y reserva de cupos en la ciudad seleccionada.
         </p>
 
         <PricingAccordion
           title="Ver beneficios"
           benefits={[
-            "Todo lo del plan individual",
-            "10% descuento grupal",
-            "Factura electrónica",
-            "Sesión de diagnóstico previo",
+            "Acompañamiento personalizado por expertos",
+            "Certificado digital de participación",
+            "Refrigerio y almuerzo incluidos",
+            "Espacios de networking y conexión profesional",
+            "Entrega de recursos digitales complementarios",
+            "Acceso durante un mes a Crea Academy",
           ]}
         />
 
@@ -1934,15 +2037,6 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
           Cotización a medida
         </p>
 
-        <PricingAccordion
-          title="Ver beneficios"
-          benefits={[
-            "Enfoque 100% en tus procesos y retos",
-            "Fecha y lugar a convenir (toda Colombia)",
-            "Diagnóstico previo de impacto",
-            "Seguimiento y soporte post-bootcamp",
-          ]}
-        />
 
         <div className="mt-auto pt-7">
           <Button onClick={() => onPagarClick?.("inhouse")} className="w-full rounded-full border border-brand-cyan/25 bg-brand-cyan/10 font-black text-brand-cyan hover:bg-brand-cyan/20">
@@ -1952,6 +2046,341 @@ function PricingCards({ onPagarClick }: { onPagarClick?: (flow: QuoteFlow) => vo
         </div>
       </article>
     </div>
+  );
+}
+
+function CorporateIntroSection() {
+  return (
+    <section className="relative px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 inline-flex flex-wrap items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
+          <span className="h-1.5 w-1.5 rounded-full bg-current" />
+          <span>Bootcamp de IA</span>
+          <span className="h-1 w-1 rounded-full bg-current/30" />
+          <span>Programa intensivo empresarial</span>
+        </div>
+
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <SceneHeadline
+              as="h2"
+              variant="section"
+              typewriter={false}
+              parts={parseHeadline("De aprender {IA} a construir soluciones {reales en 1 día}.")}
+              className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[1] tracking-tight text-[color:var(--tour-text-strong)]"
+            />
+
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
+              Trabajamos el reto real de tu organización. No teoría, no casos genéricos.
+              Tu equipo sale con un <span className="font-bold text-[color:var(--tour-text-strong)]">solución funcionando</span> y un plan de escalamiento.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center">
+              <Button
+                asChild
+                size="xl"
+                className="rounded-full bg-brand-neon px-8 text-base font-black text-black hover:bg-brand-neon/90"
+              >
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  Llevar este bootcamp a mi equipo
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </Button>
+
+              <div className="flex flex-col gap-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-[color:var(--tour-text-muted)]">
+                <span>Sin conocimiento técnico</span>
+                <span>En tu ecosistema real</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { val: "1", label: "día intensivo presencial", color: "text-brand-neon" },
+              { val: "7", label: "módulos de alto impacto", color: "text-brand-neon" },
+              { val: "40", label: "participantes máx.", color: "text-brand-cyan" },
+              { val: "10h", label: "total con seguimiento", color: "text-brand-cyan" },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -5, scale: 1.03 }}
+                className="rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.1)]"
+              >
+                <p className={cn("font-display text-4xl font-black", stat.color)}>{stat.val}</p>
+                <p className="mt-1 text-xs font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyExecutionSection() {
+  return (
+    <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeader
+          eyebrow="Por qué este Bootcamp"
+          title="Esto no es un curso. Es {ejecución real}."
+          description="El bootcamp está diseñado para que cada persona aprenda, construya y valide una solución aplicable a su entorno desde el primer día."
+        />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {WHY_EXECUTION_FEATURES.map((feature) => (
+            <FeatureCard key={feature.title} feature={feature} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ResultSection() {
+  return (
+    <section className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeader
+          eyebrow="Resultado"
+          title="Lo que tu equipo logra en {1 día}."
+          description="Una experiencia diseñada para activar capacidades internas y acelerar la adopción real de inteligencia artificial en la organización."
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {RESULT_ITEMS.map((item, i) => (
+            <motion.article
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+              }}
+              className="group relative h-[380px] overflow-hidden rounded-[32px] border border-[color:var(--tour-border-standard)] bg-slate-900 shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all hover:border-brand-neon/40 hover:shadow-[0_30px_60px_-12px_rgba(4,255,141,0.2)]"
+            >
+              {/* Multicolored Line */}
+              <div className="absolute top-0 left-0 z-20 h-[4px] w-full scale-x-0 bg-gradient-to-r from-brand-neon via-brand-cyan to-purple-500 transition-transform duration-500 origin-left group-hover:scale-x-100" />
+
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
+                <img
+                  src={item.image}
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50 group-hover:opacity-70"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10 flex h-full flex-col justify-end p-6">
+                <span className="font-display text-5xl font-black text-white/10 transition-all duration-500 group-hover:bg-gradient-to-r group-hover:from-brand-neon group-hover:via-brand-cyan group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent">
+                  {item.id}
+                </span>
+                <p className="mt-2 text-lg font-black leading-tight text-white">
+                  {item.text}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ModulesDetailSection() {
+  return (
+    <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="lg:sticky lg:top-24 lg:h-fit">
+            <SectionHeader
+              eyebrow="Contenido"
+              title="7 módulos de alto impacto en {1 día}."
+              description="Módulos prácticos para entender, aplicar y construir con IA en contextos reales de trabajo."
+              className="max-w-none"
+            />
+            <div className="mt-8 flex flex-wrap gap-2">
+              {["Microsoft 365", "Google Workspace", "Copilot", "Gemini", "Vibe Coding", "Agentes IA"].map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex rounded-full border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {BOOTCAMP_DETAILED_MODULES.map((module, i) => (
+              <motion.article
+                key={module.id}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ x: 10 }}
+                className={cn(
+                  "relative rounded-3xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.08)]",
+                  module.isBonus && "border-dashed bg-white/40 dark:bg-white/10"
+                )}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <span className={cn(
+                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-display text-lg font-black",
+                      module.isBonus ? "bg-brand-cyan/10 text-brand-cyan" : "bg-brand-neon/10 text-brand-neon"
+                    )}>
+                      {module.id}
+                    </span>
+                    <h3 className="font-display text-lg font-black text-[color:var(--tour-text-strong)]">
+                      {module.title}
+                    </h3>
+                  </div>
+                  <span className="inline-flex rounded-full bg-black/5 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[color:var(--tour-text-muted)] dark:bg-white/5 dark:text-white/60">
+                    {module.time}
+                  </span>
+                </div>
+
+                <p className="mt-4 text-sm leading-relaxed text-[color:var(--tour-text-default)] dark:text-white/70">
+                  {module.description}
+                </p>
+
+                {module.options && (
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {module.options.map((opt) => (
+                      <div key={opt.label} className="rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/80 p-4 shadow-sm dark:bg-white/10">
+                        <p className="text-sm font-black text-[color:var(--tour-text-strong)]">{opt.label}</p>
+                        <p className="mt-2 text-xs leading-relaxed text-[color:var(--tour-text-muted)] dark:text-white/60">
+                          {opt.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DeliverablesSection() {
+  return (
+    <section className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeader
+          eyebrow="Entregables"
+          title="Sales con esto, no solo con {conocimiento}."
+          description="Recursos entregados para continuar implementando IA después del bootcamp."
+          centered
+        />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {DELIVERABLES.map((item, i) => (
+            <motion.div
+              key={item}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{
+                scale: 1.03,
+                backgroundColor: "rgba(255,255,255,0.05)"
+              }}
+              className="group relative overflow-hidden flex items-center gap-4 rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.12)]"
+            >
+              <div className="absolute top-0 left-0 h-[3px] w-full scale-x-0 bg-gradient-to-r from-brand-neon via-brand-cyan to-purple-500 transition-transform duration-500 origin-left group-hover:scale-x-100" />
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-neon/10 text-brand-neon">
+                <Check className="h-5 w-5" />
+              </div>
+              <p className="text-sm font-bold leading-snug text-[color:var(--tour-text-strong)] dark:text-white/90">
+                {item}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FormatSection() {
+  return (
+    <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mx-auto max-w-7xl"
+      >
+        <div className="overflow-hidden rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] shadow-[var(--tour-shadow-elevated)]">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
+            {/* Left side: Accent */}
+            <motion.div
+              initial={{ x: -20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="relative flex flex-col justify-center overflow-hidden bg-slate-950 p-8 sm:p-12 lg:p-16"
+            >
+              <img
+                src="https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/images/22349fcf-7049-f111-bec7-000d3ac04e45?ts=639136852327272094"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover opacity-50"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+
+              <div className="relative z-10">
+                <span className="text-xs font-black uppercase tracking-[0.2em] text-brand-neon">
+                  Experiencia
+                </span>
+                <h2 className="mt-4 font-display text-[clamp(3.5rem,8vw,6rem)] font-black leading-[0.8] tracking-tighter text-white">
+                  8+2
+                </h2>
+                <p className="mt-6 font-display text-2xl font-black leading-tight text-white sm:text-3xl">
+                  horas de experiencia práctica
+                </p>
+                <p className="mt-6 text-sm font-bold leading-relaxed text-white/80 sm:text-base">
+                  Un día intensivo presencial seguido de una sesión virtual de seguimiento para asegurar avance real en tu organización.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Right side: Content */}
+            <div className="flex flex-col justify-center bg-[var(--tour-panel-gradient)] p-8 sm:p-12 lg:p-16">
+              <SectionHeader
+                eyebrow="Formato"
+                title="Diseñado para aprender {haciendo}."
+                className="mb-8 max-w-none"
+              />
+              <ul className="space-y-4">
+                {FORMAT_FEATURES.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-center gap-4 rounded-2xl border border-[color:var(--tour-border-standard)] bg-white/50 p-4 shadow-sm transition-all hover:border-brand-neon/30 hover:bg-white/80 dark:bg-white/5 dark:hover:bg-white/10"
+                  >
+                    <div className="h-2 w-2 shrink-0 rounded-full bg-brand-neon" />
+                    <p className="text-sm font-bold text-[color:var(--tour-text-strong)] dark:text-white/90">
+                      {feature}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
   );
 }
 
@@ -2011,199 +2440,23 @@ export default function BootcampIA() {
       <main className="relative z-10 pt-[72px]">
         <TourRouteSection />
 
-        <section className="relative isolate min-h-[calc(100dvh-72px)] overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
-          <img
-            src={infinitePrism}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-22 mix-blend-luminosity dark:opacity-34"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.86)_45%,rgba(248,250,252,0.98))] dark:bg-[linear-gradient(180deg,rgba(2,5,13,0.76),rgba(2,5,13,0.9)_48%,rgba(2,5,13,0.98))]" />
+        <CorporateIntroSection />
 
-          <div className="relative mx-auto grid min-h-[calc(100dvh-160px)] max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <div className="mb-6 inline-flex flex-wrap items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
-                <span>Gira Colombia 2026</span>
-                <span className="h-1 w-1 rounded-full bg-current" />
-                <span>1 día intensivo</span>
-              </div>
-              <SceneHeadline
-                as="h1"
-                variant="hero"
-                typewriter={false}
-                parts={parseHeadline("Bootcamp {IA} para equipos que quieren implementar, ciudad por [ciudad].")}
-                className="max-w-5xl font-display text-[var(--text-hero)] font-black leading-[0.94] tracking-tight text-[color:var(--tour-text-strong)]"
-              />
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-[color:var(--tour-text-default)] dark:text-white/72">
-                De junio a noviembre recorremos Colombia con una experiencia presencial para aprender IA aplicada, construir soluciones reales y salir con un prototipo que el equipo puede seguir mejorando.
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  asChild
-                  size="xl"
-                  className="rounded-full bg-brand-neon px-7 text-base font-black text-black hover:bg-brand-neon/90"
-                >
-                  <a href="#gira-colombia">
-                    Ver ciudades y fechas
-                    <CalendarDays className="h-4 w-4" />
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  size="xl"
-                  variant="outline"
-                  className="tour-secondary-button rounded-full px-7 text-base font-black"
-                >
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                    WhatsApp
-                    <MessageCircle className="h-4 w-4" />
-                  </a>
-                </Button>
-              </div>
-            </div>
+        <WhyExecutionSection />
 
-            <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] p-5 shadow-[var(--tour-shadow-elevated)] backdrop-blur-xl">
-              <div className="mb-4 grid grid-cols-2 gap-3">
-                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-neon/30">
-                  <p className="font-display text-3xl font-black text-brand-neon">60+</p>
-                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)]">
-                    Eventos realizados
-                  </p>
-                </div>
-                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-neon/30">
-                  <p className="font-display text-3xl font-black text-brand-neon">6.000+</p>
-                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)]">
-                    Personas formadas
-                  </p>
-                </div>
-                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-cyan/30">
-                  <p className="font-display text-3xl font-black text-brand-cyan">99,6%</p>
-                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
-                    Ven aplicación real
-                  </p>
-                </div>
-                <div className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)]/50 p-4 transition-colors hover:border-brand-cyan/30">
-                  <p className="font-display text-3xl font-black text-brand-cyan">90,0%</p>
-                  <p className="mt-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] leading-tight">
-                    Salen seguras para replicar
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 rounded-lg border border-brand-cyan/25 bg-brand-cyan/10 p-5">
-                <div className="flex items-center gap-3 text-brand-cyan">
-                  <MapPin className="h-5 w-5" />
-                  <p className="font-display text-lg font-black">Medellín · Bogotá · Cali · Barranquilla · Cartagena · Bucaramanga</p>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                  Más de 60 eventos y más de 6.000 personas ya han vivido esta experiencia. Ahora la gira 2026 abre seis paradas con pago por ciudad. Medellín tiene auditorio confirmado y las demás sedes se publicarán en cuanto quede definida la dirección.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ResultSection />
+
+        <ModulesDetailSection />
+
+        <DeliverablesSection />
+
+        <FormatSection />
 
 
-
-        <section id="metodologia" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeader
-              eyebrow="Metodología"
-              title="Antes, durante y después del Bootcamp."
-              description="La jornada no vive aislada. Se prepara con foco, se ejecuta con práctica y continúa con recursos para sostener la adopción."
-            />
-            <div className="grid overflow-hidden rounded-lg border border-[color:var(--tour-border-standard)] md:grid-cols-3">
-              {PHASES.map((phase, index) => (
-                <article
-                  key={phase.label}
-                  className={cn(
-                    "bg-[var(--tour-panel-gradient)] p-7",
-                    index > 0 && "border-t border-[color:var(--tour-border-standard)] md:border-l md:border-t-0",
-                  )}
-                >
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-cyan">
-                    {phase.label}
-                  </p>
-                  <h3 className="mt-4 font-display text-2xl font-black text-[color:var(--tour-text-strong)]">
-                    {phase.title}
-                  </h3>
-                  <ul className="mt-6 space-y-4">
-                    {phase.items.map((item) => (
-                      <li key={item} className="flex gap-3 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/72">
-                        <Check className="mt-1 h-4 w-4 shrink-0 text-brand-neon" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="modulos" className="px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeader
-              eyebrow="Módulos"
-              title="Cinco módulos, un {MVP} y cero relleno."
-              description="Cada bloque está conectado con una habilidad práctica que el equipo puede aplicar al salir de la sala."
-            />
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {MODULES.map((feature) => (
-                <FeatureCard key={feature.title} feature={feature} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeader
-              eyebrow="Agenda"
-              title="Un día diseñado para [transformar]."
-              description="Cada momento tiene un propósito: aprender lo necesario, construir con acompañamiento y cerrar con una solución demostrable."
-            />
-            <div className="grid gap-3 lg:grid-cols-6">
-              {AGENDA.map((step) => (
-                <article
-                  key={step.time}
-                  className="rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-5"
-                >
-                  <p className="text-sm font-black text-brand-cyan">{step.time}</p>
-                  <h3 className="mt-3 font-display text-lg font-black text-[color:var(--tour-text-strong)]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-[color:var(--tour-text-default)] dark:text-white/70">
-                    {step.description}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <StudyImpactSection />
 
         <SceneTestimonies />
-
-        <section className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <SectionHeader
-              eyebrow="Recursos"
-              title="Todo lo necesario para seguir avanzando."
-              description="El Bootcamp deja materiales, acceso y soporte para que la adopción no se apague al día siguiente."
-            />
-            <div className="grid gap-3 sm:grid-cols-2">
-              {INCLUDED.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-lg border border-[color:var(--tour-border-standard)] bg-[var(--tour-panel-gradient)] p-4 text-sm font-bold text-[color:var(--tour-text-default)] dark:text-white/72"
-                >
-                  <BadgeCheck className="h-5 w-5 shrink-0 text-brand-neon" />
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <ImpactedCompaniesSection compact className="border-t-0" />
 
@@ -2259,7 +2512,7 @@ export default function BootcampIA() {
               initial={{ opacity: 0, scale: 0.9, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 40 }}
-              className="relative z-10 w-full max-w-screen-2xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-canvas)] p-6 shadow-[var(--tour-shadow-elevated)] sm:p-10 lg:p-12 dark:bg-[#070c1a]"
+              className="relative z-10 w-full max-w-screen-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto rounded-[32px] border border-[color:var(--tour-border-standard)] bg-[var(--tour-canvas)] p-6 shadow-[var(--tour-shadow-elevated)] sm:p-10 lg:p-12 dark:bg-[#070c1a] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-brand-neon/20 hover:[&::-webkit-scrollbar-thumb]:bg-brand-neon/40"
             >
               <button
                 onClick={() => {

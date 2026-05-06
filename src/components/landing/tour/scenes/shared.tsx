@@ -69,7 +69,7 @@ function escapeHtml(value: string) {
 
 function getAccentClass(accent: HeadlineAccent = "none") {
   if (accent === "prisma") {
-    return "bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-orange bg-clip-text text-transparent";
+    return "bg-gradient-to-r from-[#00d2ff] via-[#9d00ff] to-[#ff0055] bg-clip-text text-transparent";
   }
 
   if (accent === "neon") {
