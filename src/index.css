@@ -636,4 +636,40 @@
   .tour-text-muted {
     color: var(--tour-text-muted);
   }
+
+  /* 
+     ============================================================
+     OVERRIDE: i365 Payment Widget (Wompi Checkout)
+     Organización de scrolls y adaptación a pantalla completa.
+     ============================================================
+  */
+  [data-i365-overlay] {
+    padding: 0 !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(8px);
+  }
+
+  [data-i365-modal] {
+    max-width: 100% !important;
+    max-height: 100dvh !important;
+    height: 100dvh !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Asegura que el iframe ocupe todo el espacio sin scrolls externos */
+  [data-i365-modal] iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    display: block !important;
+  }
+
+  /* Previene el scroll del body cuando la pasarela está abierta */
+  body:has([data-i365-overlay]) {
+    overflow: hidden !important;
+  }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import {
   ArrowLeft,
   ArrowRight,
@@ -2021,13 +2021,6 @@ export default function BootcampIA() {
 
           <div className="relative mx-auto grid min-h-[calc(100dvh-160px)] max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
-              <Link
-                to="/"
-                className="mb-8 inline-flex items-center gap-2 text-sm font-black text-[color:var(--tour-text-default)] transition-colors hover:text-brand-neon"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Volver a Crea Academy
-              </Link>
               <div className="mb-6 inline-flex flex-wrap items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d8b5c] dark:text-brand-neon">
                 <span>Gira Colombia 2026</span>
                 <span className="h-1 w-1 rounded-full bg-current" />

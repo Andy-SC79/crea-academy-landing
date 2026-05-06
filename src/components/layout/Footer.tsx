@@ -1,7 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import creaLogoWhite from "@/assets/crea-logo-white-v2.png";
 import creaLogoBlack from "@/assets/crea-logo-black-v2.png";
-import i365Logo from "@/assets/i365-logo-color.png";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
@@ -14,34 +13,26 @@ const Footer = () => {
           <div>
             <div className="mb-4">
               <div className="flex items-center">
-                <img 
-                  src={creaLogoBlack} 
-                  alt="Crea Academy" 
-                  className="h-12 w-auto object-contain block dark:hidden transition-opacity duration-300" 
+                <img
+                  src={creaLogoBlack}
+                  alt="Crea Academy"
+                  className="h-12 w-auto object-contain block dark:hidden transition-opacity duration-300"
                 />
-                <img 
-                  src={creaLogoWhite} 
-                  alt="Crea Academy" 
-                  className="h-12 w-auto object-contain hidden dark:block transition-opacity duration-300" 
+                <img
+                  src={creaLogoWhite}
+                  alt="Crea Academy"
+                  className="h-12 w-auto object-contain hidden dark:block transition-opacity duration-300"
                 />
               </div>
             </div>
             <p className="mb-4 text-[color:var(--tour-text-default)] dark:text-white/85">
               {t('footer.tagline')}
             </p>
-            <a 
-              href="https://ingenieria365.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block hover:opacity-80 transition-opacity"
-            >
-              <img src={i365Logo} alt="Ingeniería 365" className="h-10" />
-            </a>
           </div>
 
           <div>
-            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.contact')}</h3>
-            <ul className="space-y-3 text-[color:var(--tour-text-default)] dark:text-white/85 text-sm">
+            <h3 className="mb-3 text-xs font-normal uppercase tracking-widest text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.contact')}</h3>
+            <ul className="space-y-3 text-[color:var(--tour-text-default)] dark:text-white/85 text-sm font-normal">
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <a href="mailto:info@ingenieria365.com" className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]">
@@ -61,40 +52,40 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>Carrera 42 Nº 3 Sur 81<br />Torre 1 Piso 15<br />Medellín, Antioquia</span>
+                <span>Carrera 42 Nº 3 Sur 81 Torre 1 Piso 15<br />Medellín, Antioquia</span>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="mb-4 font-bold text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.legal')}</h3>
-            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/85">
+            <h3 className="mb-3 text-xs font-normal uppercase tracking-widest text-[color:var(--tour-text-strong)] dark:text-white">{t('footer.legal')}</h3>
+            <ul className="space-y-2 text-[color:var(--tour-text-default)] dark:text-white/85 text-sm font-normal">
               <li>
-                <a 
-                  href="https://ingenieria365.com/terminos-condiciones" 
-                  target="_blank" 
+                <a
+                  href="https://ingenieria365.com/terminos-condiciones"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
+                  className="underline transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.terms')}
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://ingenieria365.com/politica-datos" 
-                  target="_blank" 
+                <a
+                  href="https://ingenieria365.com/politica-datos"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
+                  className="underline transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.dataPolicy')}
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://ingenieria365.com/aviso-privacidad" 
-                  target="_blank" 
+                <a
+                  href="https://ingenieria365.com/aviso-privacidad"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
+                  className="underline transition-colors hover:text-[color:var(--tour-text-strong)] dark:hover:text-[#04FF8D]"
                 >
                   {t('footer.privacyNotice')}
                 </a>
