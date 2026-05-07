@@ -657,15 +657,16 @@
     border-radius: 0 !important;
     margin: 0 !important;
     transform: none !important;
-    transition: none !important;
+    transition: opacity 0.3s ease !important;
+    z-index: 9999 !important;
+    background: white !important;
   }
 
-  /* Asegura que el iframe ocupe todo el espacio sin scrolls externos */
+  /* Solo ajustamos el tamaño del iframe, dejando que Wompi controle su visibilidad */
   [data-i365-modal] iframe {
     width: 100% !important;
     height: 100% !important;
     border: none !important;
-    display: block !important;
   }
 
   /* Previene el scroll del body cuando la pasarela está abierta */

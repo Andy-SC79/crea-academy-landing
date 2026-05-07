@@ -396,7 +396,7 @@ const BOOTCAMP_DETAILED_MODULES = [
   },
   {
     id: "07",
-    time: "10 min",
+    time: "70 min",
     title: "Presentación de soluciones y retroalimentación experta",
     description: "Cada equipo presenta su solución mínima viable frente a los facilitadores y recibe retroalimentación estratégica, técnica y operativa para su escalamiento dentro de la organización.",
   },
@@ -525,7 +525,7 @@ function TourRouteSection() {
   return (
     <section id="gira-colombia" className="border-y border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-elevated)] px-4 py-16 dark:border-white/10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <SectionHeader
               eyebrow="Gira Colombia 2026"
@@ -536,78 +536,16 @@ Ahora llevaremos esta experiencia por diferentes ciudades de Colombia para acele
 
           </div>
 
-          <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-[color:var(--tour-border-standard)] bg-[linear-gradient(145deg,rgba(2,5,13,0.94),rgba(7,18,37,0.9))] p-5 shadow-[var(--tour-shadow-elevated)]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(4,255,141,0.18),transparent_34%),radial-gradient(circle_at_82%_22%,rgba(0,210,255,0.18),transparent_32%),radial-gradient(circle_at_70%_82%,rgba(123,44,191,0.18),transparent_36%)]" />
-            <svg
-              viewBox="0 0 260 360"
-              role="img"
-              aria-label="Mapa de Colombia con la ruta del Bootcamp IA 2026"
-              className="relative mx-auto h-[390px] w-full max-w-[420px]"
-            >
-              <defs>
-                <linearGradient id="colombiaMapFill" x1="45" y1="20" x2="214" y2="342" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#10233f" />
-                  <stop offset="0.48" stopColor="#0d3554" />
-                  <stop offset="1" stopColor="#092018" />
-                </linearGradient>
-                <linearGradient id="tourRouteStroke" x1="90" y1="320" x2="155" y2="85" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#04FF8D" />
-                  <stop offset="0.5" stopColor="#00D2FF" />
-                  <stop offset="1" stopColor="#9D00FF" />
-                </linearGradient>
-                <filter id="pinGlow" x="-40%" y="-40%" width="180%" height="180%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <path
-                d="M84.9 258.1L77 253.7L67.9 247.6L62.6 250.5L47 247.9L42.4 240L39 240.3L20.5 229.7L18 224L24.9 222.6L24.1 213.3L28.4 206.6L37.6 205.4L45.4 193.8L52.5 184.1L45.6 179.7L49.1 168.9L45 152L48.9 147.2L46 131.5L38.5 121.7L40.9 112.7L46.8 114L50.3 108.5L46 97.6L48.3 94.9L57.8 95.5L71.7 82.6L79.3 80.6L79.5 74.5L82.9 58.9L93.5 50.3L105.2 50L106.6 46.1L121.1 47.7L135.7 38.3L142.9 34.2L151.8 25.3L158.4 26.4L163.2 31.3L159.6 37.5L147.7 40.6L143.1 49.8L135.9 55.1L130.5 62L128.3 75.2L123.1 86L132.7 87.3L135.1 95.8L139.1 99.8L140.6 107.3L138.4 114.1L139 118L143.6 119.5L148 126L171.8 124.2L182.5 126.5L195.5 142.5L203 140.5L216.3 141.5L226.9 139.4L233.4 142.5L230.1 152.5L225.9 158.7L224.5 172L228.2 184.3L233.5 189.7L234.1 193.9L224.7 203.1L231.4 207.2L236.4 213.6L242 232.1L238.5 234.4L234.9 223.4L229.8 217.6L223.7 224L187.6 223.5L187.9 235.1L198.7 237L198.1 244.1L194.4 242.2L184 245.2L183.9 258.7L192.1 265.4L195 276L194.5 284L186.2 334.7L177 324.9L171.4 324.5L183.4 305.6L169.2 297L158.1 298.6L151.4 295.4L141.2 300.3L127.5 297.9L116.6 278.6L108 273.8L102.1 265.1L89.8 256.3L84.9 258.1Z"
-                fill="url(#colombiaMapFill)"
-                stroke="rgba(255,255,255,0.16)"
-                strokeWidth="2"
-              />
-              <path
-                d="M80 59C93 80 91 104 81 130C69 162 57 192 76 224C92 252 125 276 164 300"
-                fill="none"
-                stroke="rgba(255,255,255,0.08)"
-                strokeWidth="1"
-                strokeDasharray="6 8"
-              />
-              <polyline
-                points={routePoints}
-                fill="none"
-                stroke="url(#tourRouteStroke)"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="3"
-                vectorEffect="non-scaling-stroke"
-              />
-              {BOOTCAMP_SESSIONS.map((session, index) => (
-                <g key={session.id} filter="url(#pinGlow)">
-                  <circle cx={session.map.x} cy={session.map.y} r="11" fill="#02050d" stroke="#04FF8D" strokeWidth="2" />
-                  <circle cx={session.map.x} cy={session.map.y} r="4" fill={session.venueConfirmed ? "#04FF8D" : "#00D2FF"} />
-                  <text
-                    x={session.map.x}
-                    y={session.map.y + 4}
-                    textAnchor="middle"
-                    className="fill-white text-[9px] font-black"
-                  >
-                    {index + 1}
-                  </text>
-                  <text
-                    x={session.map.x + session.map.labelX}
-                    y={session.map.y + session.map.labelY}
-                    textAnchor={session.map.anchor}
-                    className="fill-white text-[10px] font-black tracking-normal"
-                  >
-                    {session.city}
-                  </text>
-                </g>
-              ))}
-            </svg>
+          <div className="relative aspect-square max-h-[480px] overflow-hidden rounded-2xl border border-[color:var(--tour-border-standard)] bg-slate-950 shadow-[var(--tour-shadow-elevated)] lg:ml-auto">
+            <video
+              src="https://assets-sam.mkt.dynamics.com/2be9f283-e2e5-40bf-b6a6-d1e8356bf9a7/digitalassets/videos/f36e45be-3d4a-f111-bec7-000d3a88757b?ts=639137732490000000"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent" />
           </div>
         </div>
 
@@ -704,15 +642,15 @@ Ahora llevaremos esta experiencia por diferentes ciudades de Colombia para acele
               transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
               className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,#04ff8d,#00d2ff,#7b2cbf,#04ff8d)]"
             />
-            
+
             {/* Inner Content Container */}
             <div className="relative z-10 flex w-full flex-row items-center justify-center gap-6 overflow-hidden rounded-[26px] bg-white px-8 py-10 dark:bg-white sm:gap-10 sm:px-12">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(4,255,141,0.1),transparent_40%),radial-gradient(circle_at_100%_100%,rgba(0,210,255,0.1),transparent_40%)]" />
-              
+
               <div className="relative z-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-neon/10 text-brand-neon shadow-[0_0_20px_rgba(4,255,141,0.25)] sm:h-16 sm:w-16">
                 <Sparkles className="h-8 w-8 animate-pulse sm:h-10 sm:w-10" />
               </div>
-              
+
               <p className="relative z-20 font-display text-lg font-black leading-tight text-[color:var(--tour-text-strong)] sm:text-2xl lg:text-3xl">
                 Los <span className="bg-gradient-to-r from-brand-neon via-brand-cyan to-purple-500 bg-clip-text text-transparent">cupos son limitados</span> para garantizar una experiencia intensiva y personalizada.
               </p>
@@ -1551,6 +1489,12 @@ function CorporateQuoter({
       }
 
       setPaymentMessage("Plan validado. Abriendo el widget seguro de i365...");
+
+      // Cerramos nuestro modal para evitar conflictos visuales y de eventos con la pasarela
+      if (typeof (window as any).closeBootcampPricingModal === "function") {
+        (window as any).closeBootcampPricingModal();
+      }
+
       await openI365PaymentWidget({
         ...widgetConfig,
         appId: widgetConfig.appId || I365_PAYMENT_APP_ID,
@@ -2166,35 +2110,25 @@ function ModulesDetailSection() {
   return (
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="lg:sticky lg:top-24 lg:h-fit">
+        <div className="flex flex-col gap-12">
+          <div>
             <SectionHeader
               eyebrow="Contenido"
               title="7 módulos de alto impacto en {1 día}."
               description="Módulos prácticos para entender, aplicar y construir con IA en contextos reales de trabajo."
               className="max-w-none"
             />
-            <div className="mt-8 flex flex-wrap gap-2">
-              {[].map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex rounded-full border border-[color:var(--tour-border-standard)] bg-[var(--tour-surface-soft)] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--tour-text-muted)] dark:text-white/60"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             {BOOTCAMP_DETAILED_MODULES.map((module, i) => (
               <motion.article
                 key={module.id}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                whileHover={{ x: 10 }}
+                whileHover={{ y: -5 }}
                 className={cn(
                   "relative rounded-3xl border border-[color:var(--tour-border-standard)] bg-white/70 dark:bg-white/5 backdrop-blur-md p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:border-brand-neon/40 hover:shadow-[0_20px_50px_rgba(4,255,141,0.08)]",
                   module.isBonus && "border-dashed bg-white/40 dark:bg-white/10"
@@ -2372,6 +2306,13 @@ function PricingFooter() {
 
 export default function BootcampIA() {
   const [showPricingModal, setShowPricingModal] = useState(false);
+
+  // Exponemos la función de cerrar el modal globalmente para que CorporateQuoter pueda usarla
+  useEffect(() => {
+    (window as any).closeBootcampPricingModal = () => setShowPricingModal(false);
+    return () => { delete (window as any).closeBootcampPricingModal; };
+  }, []);
+
   const [modalView, setModalView] = useState<"plans" | "checkout">("plans");
 
   const [selectedSessionId, setSelectedSessionId] = useState<string>(ACTIVE_BOOTCAMP_SESSION.id);
@@ -2444,11 +2385,18 @@ export default function BootcampIA() {
                   <MessageCircle className="h-4 w-4" />
                 </a>
               </Button>
-              <Button asChild size="xl" variant="outline" className="tour-secondary-button rounded-full px-7 font-black">
-                <a href={MAILTO_URL}>
-                  Solicitar propuesta
-                  <CalendarDays className="h-4 w-4" />
-                </a>
+              <Button
+                size="xl"
+                variant="outline"
+                className="tour-secondary-button rounded-full px-7 font-black"
+                onClick={() => {
+                  setSelectedFlow("company");
+                  setModalView("checkout");
+                  setShowPricingModal(true);
+                }}
+              >
+                Solicitar propuesta
+                <CalendarDays className="h-4 w-4" />
               </Button>
             </div>
           </div>
