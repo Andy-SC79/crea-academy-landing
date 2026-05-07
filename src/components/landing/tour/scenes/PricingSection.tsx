@@ -293,8 +293,8 @@ const PricingSection = () => {
       //const appUrl = "https://dev-crea.academy"; // Temporarily forced for testing (was: (import.meta as any).env?.VITE_PUBLIC_APP_URL || "https://app.crea.academy")
       //const loginUrl = "https://dev-crea.academy/auth"; // Temporarily forced for testing (was: (import.meta as any).env?.VITE_PUBLIC_LOGIN_PATH || "https://app.crea.academy/auth")
 
-      const appUrl = (import.meta as any).env?.VITE_PUBLIC_APP_URL || "https://app.crea.academy";
-      const loginUrl = (import.meta as any).env?.VITE_PUBLIC_LOGIN_PATH || "https://app.crea.academy/auth";
+      const appUrl = (import.meta as any).env?.VITE_PUBLIC_APP_URL || "https://app-crea.academy";
+      const loginUrl = (import.meta as any).env?.VITE_PUBLIC_LOGIN_PATH || "https://app-crea.academy/auth";
       
       if (!appUrl) {
         throw new Error("La URL de la app no está configurada");
