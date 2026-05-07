@@ -123,17 +123,17 @@ function PricingCard({ tier }: { tier: PricingTier }) {
           padding: "2px",
         }}
       />
-      
+
       {/* Inner glow is separated so content remains readable above it. */}
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[30px] opacity-0 transition-opacity duration-500 group-hover:opacity-100 overflow-hidden z-0"
       >
-         <motion.div 
-            className="absolute inset-0"
-            style={{
-               background: innerGlow
-            }}
-         />
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: innerGlow
+          }}
+        />
       </motion.div>
 
       <div className="relative z-10 flex h-full min-w-0 flex-col p-5 sm:p-6 lg:p-8">
@@ -289,7 +289,7 @@ const PricingSection = () => {
   async function handleSelectPlan(plan: "free" | "creadores") {
     try {
       setLoadingPlan(plan);
-      
+
       const appUrl = "https://dev-crea.academy"; // Temporarily forced for testing (was: (import.meta as any).env?.VITE_PUBLIC_APP_URL || "https://app.crea.academy")
       const loginUrl = "https://dev-crea.academy/auth"; // Temporarily forced for testing (was: (import.meta as any).env?.VITE_PUBLIC_LOGIN_PATH || "https://app.crea.academy/auth")
 
